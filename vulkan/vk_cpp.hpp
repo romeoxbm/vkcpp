@@ -17051,4 +17051,4 @@ namespace vk
 
 } // namespace vk
 
-#endif
+#endif // VK_CPP_H_

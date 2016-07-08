@@ -28,18 +28,19 @@
 
 namespace vk
 {
-	int CppGenerator::generate( const std::string& filename )
+	int CppGenerator::generate( const Options& opt )
 	{
 		try
 		{
 			tinyxml2::XMLDocument doc;
-			std::cout << "Loading vk.xml from " << filename << std::endl;
+			std::cout << "Loading vk.xml from " << opt.inputFile << std::endl;
 			std::cout << "Writing vk_cpp.hpp to " << VK_CPP << std::endl;
 
-			tinyxml2::XMLError error = doc.LoadFile( filename.c_str() );
+			tinyxml2::XMLError error = doc.LoadFile( opt.inputFile.c_str() );
 			if( error != tinyxml2::XML_SUCCESS )
 			{
-				std::cerr << "VkGenerate: failed to load file " << filename << " . Error code: " << error << std::endl;
+				std::cerr << "VkGenerate: failed to load file " << opt.inputFile
+						  << " . Error code: " << error << std::endl;
 				return -1;
 			}
 
@@ -85,8 +86,8 @@ namespace vk
 				<< vkData.vulkanLicenseHeader << std::endl
 				<< std::endl
 				<< std::endl
-				<< "#ifndef VK_CPP_H_" << std::endl
-				<< "#define VK_CPP_H_" << std::endl
+				<< "#ifndef " << opt.includeGuard << std::endl
+				<< "#define " << opt.includeGuard << std::endl
 				<< std::endl
 				<< "#include <array>" << std::endl
 				<< "#include <cassert>" << std::endl
@@ -131,7 +132,7 @@ namespace vk
 
 			ofs << "} // namespace vk" << std::endl
 				<< std::endl
-				<< "#endif" << std::endl;
+				<< "#endif // " << opt.includeGuard << std::endl;
 		}
 		catch( const std::exception& e )
 		{

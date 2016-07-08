@@ -45,7 +45,13 @@ namespace vk
 	class CppGenerator
 	{
 	public:
-		int generate( const std::string& filename );
+		struct Options
+		{
+			std::string inputFile;
+			std::string includeGuard = "VK_CPP_H_";
+		};
+
+		int generate( const Options& opt );
 
 	private:
 		struct MemberData
