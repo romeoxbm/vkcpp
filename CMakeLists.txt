@@ -38,7 +38,7 @@ set( HEADERS
 )
 
 set( SOURCES
-	VkCppGenerator.cpp
+	src/VkCppGenerator.cpp
 )
 
 set( TINYXML2_SOURCES
