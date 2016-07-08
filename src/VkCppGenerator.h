@@ -58,8 +58,8 @@ namespace vk
 		struct CommandData
 		{
 			CommandData()
-			: handleCommand( false ),
-			  twoStep( false )
+				: handleCommand( false ),
+				twoStep( false )
 			{}
 
 			std::string					returnType;
@@ -86,8 +86,8 @@ namespace vk
 			};
 
 			DependencyData( Category c, std::string const& n )
-			: category( c ),
-			  name( n )
+				: category( c ),
+				name( n )
 			{}
 
 			Category				category;
@@ -110,7 +110,7 @@ namespace vk
 			std::string				protect;
 
 			void addEnum( std::string const& name, std::string const& tag,
-						  bool appendTag );
+				bool appendTag );
 		};
 
 		struct FlagData
@@ -131,7 +131,7 @@ namespace vk
 		struct StructData
 		{
 			StructData()
-			: returnedOnly( false )
+				: returnedOnly( false )
 			{}
 
 			bool					returnedOnly;
@@ -158,26 +158,26 @@ namespace vk
 		int parseFile( const std::string& filename );
 
 		void createDefaults( VkData const& vkData,
-							 std::map<std::string,std::string>& defaultValues );
+			std::map<std::string, std::string>& defaultValues );
 
 		std::string determineFunctionName( std::string const& name,
-										   CommandData const& commandData );
+			CommandData const& commandData );
 
 		std::string determineReturnType( CommandData const& commandData,
-										 size_t returnIndex, bool isVector = false );
+			size_t returnIndex, bool isVector = false );
 
 		void enterProtect( std::ofstream& ofs, std::string const& protect );
 
 		std::string extractTag( std::string const& name );
 
 		size_t findReturnIndex( CommandData const& commandData,
-								std::map<size_t,size_t> const& vectorParameters );
+			std::map<size_t, size_t> const& vectorParameters );
 
 		std::string findTag( std::string const& name,
-							 std::set<std::string> const& tags );
+			std::set<std::string> const& tags );
 
 		size_t findTemplateIndex( CommandData const& commandData,
-								  std::map<size_t, size_t> const& vectorParameters );
+			std::map<size_t, size_t> const& vectorParameters );
 
 		std::string generateEnumNameForFlags( std::string const& name );
 
@@ -186,18 +186,18 @@ namespace vk
 		bool hasPointerArguments( CommandData const& commandData );
 
 		bool isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters,
-									size_t idx );
+			size_t idx );
 		void leaveProtect( std::ofstream& ofs, std::string const& protect );
 
 		bool noDependencies( std::set<std::string> const& dependencies,
-							 std::set<std::string>& listedTypes );
+			std::set<std::string>& listedTypes );
 
 		bool readCommandParam( tinyxml2::XMLElement* element,
-							   DependencyData& typeData,
-							   std::vector<MemberData>& arguments );
+			DependencyData& typeData,
+			std::vector<MemberData>& arguments );
 
 		std::map<std::string, CommandData>::iterator readCommandProto(
-				tinyxml2::XMLElement* element, VkData& vkData );
+			tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readCommands( tinyxml2::XMLElement* element, VkData& vkData );
 
@@ -208,39 +208,39 @@ namespace vk
 		void readEnums( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readEnumsEnum( tinyxml2::XMLElement* element, EnumData& enumData,
-							std::string const& tag );
+			std::string const& tag );
 
 		void readExtensionRequire( tinyxml2::XMLElement* element, VkData& vkData,
-								   std::string const& protect,
-								   std::string const& tag );
+			std::string const& protect,
+			std::string const& tag );
 
 		void readExtensions( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readExtensionsExtension( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readTypeBasetype( tinyxml2::XMLElement* element,
-							   std::list<DependencyData>& dependencies );
+			std::list<DependencyData>& dependencies );
 
 		void readTypeBitmask( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readTypeDefine( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readTypeFuncpointer( tinyxml2::XMLElement* element,
-								  std::list<DependencyData>& dependencies );
+			std::list<DependencyData>& dependencies );
 
 		void readTypeHandle( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readTypeStruct( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readTypeStructMember( tinyxml2::XMLElement* element,
-								   std::vector<MemberData>& members,
-								   std::set<std::string>& dependencies );
+			std::vector<MemberData>& members,
+			std::set<std::string>& dependencies );
 
 		void readTypeUnion( tinyxml2::XMLElement* element, VkData& vkData );
 
 		void readTypeUnionMember( tinyxml2::XMLElement* element,
-								  std::vector<MemberData>& members,
-								  std::set<std::string>& dependencies );
+			std::vector<MemberData>& members,
+			std::set<std::string>& dependencies );
 
 		void readTags( tinyxml2::XMLElement* element, std::set<std::string>& tags );
 
@@ -251,7 +251,7 @@ namespace vk
 		std::string reduceName( std::string const& name );
 
 		static std::string strip( std::string const& value, std::string const& prefix,
-						   std::string const& tag = std::string() );
+			std::string const& tag = std::string() );
 
 		static std::string getEnumName( std::string const& name );
 
@@ -264,102 +264,102 @@ namespace vk
 		static std::string trimEnd( std::string const& input );
 
 		void writeCall( std::ofstream& ofs, std::string const& name,
-						size_t templateIndex,
-						CommandData const& commandData,
-						std::set<std::string> const& vkTypes,
-						std::map<size_t, size_t> const& vectorParameters,
-						size_t returnIndex, bool firstCall );
+			size_t templateIndex,
+			CommandData const& commandData,
+			std::set<std::string> const& vkTypes,
+			std::map<size_t, size_t> const& vectorParameters,
+			size_t returnIndex, bool firstCall );
 
 		void writeEnumsToString( std::ofstream& ofs, VkData const& vkData );
 
 		void writeEnumsToString( std::ofstream& ofs, DependencyData const& dependencyData,
-								 EnumData const& enumData );
+			EnumData const& enumData );
 
 		void writeFlagsToString( std::ofstream& ofs, DependencyData const& dependencyData,
-								 EnumData const& enumData );
+			EnumData const& enumData );
 
 		void writeExceptionCheck( std::ofstream& ofs, std::string const& indentation,
-								  std::string const& className,
-								  std::string const& functionName,
-								  std::vector<std::string> const& successCodes );
+			std::string const& className,
+			std::string const& functionName,
+			std::vector<std::string> const& successCodes );
 
 		void writeFunctionBody( std::ofstream& ofs,
-								std::string const& indentation,
-								std::string const& className,
-								std::string const& functionName,
-								std::string const& returnType,
-								size_t templateIndex,
-								DependencyData const& dependencyData,
-								CommandData const& commandData,
-								std::set<std::string> const& vkTypes,
-								size_t returnIndex,
-								std::map<size_t, size_t> const& vectorParameters );
+			std::string const& indentation,
+			std::string const& className,
+			std::string const& functionName,
+			std::string const& returnType,
+			size_t templateIndex,
+			DependencyData const& dependencyData,
+			CommandData const& commandData,
+			std::set<std::string> const& vkTypes,
+			size_t returnIndex,
+			std::map<size_t, size_t> const& vectorParameters );
 
 		void writeFunctionHeader( std::ofstream& ofs, VkData const& vkData,
-								  std::string const& indentation,
-								  std::string const& returnType,
-								  std::string const& name,
-								  CommandData const& commandData,
-								  size_t returnIndex,
-								  size_t templateIndex,
-								  std::map<size_t, size_t> const& vectorParameters );
+			std::string const& indentation,
+			std::string const& returnType,
+			std::string const& name,
+			CommandData const& commandData,
+			size_t returnIndex,
+			size_t templateIndex,
+			std::map<size_t, size_t> const& vectorParameters );
 
 		void writeMemberData( std::ofstream& ofs, MemberData const& memberData,
-							  std::set<std::string> const& vkTypes );
+			std::set<std::string> const& vkTypes );
 
 		void writeStructConstructor( std::ofstream& ofs,
-									 std::string const& name,
-									 StructData const& structData,
-									 std::set<std::string> const& vkTypes,
-									 std::map<std::string,std::string> const&
-									 defaultValues );
+			std::string const& name,
+			StructData const& structData,
+			std::set<std::string> const& vkTypes,
+			std::map<std::string, std::string> const&
+			defaultValues );
 
 		void writeStructSetter( std::ofstream& ofs, std::string const& name,
-								MemberData const& memberData,
-								std::set<std::string> const& vkTypes//,
-								/*std::map<std::string,StructData> const& structs*/ );
+			MemberData const& memberData,
+			std::set<std::string> const& vkTypes//,
+			/*std::map<std::string,StructData> const& structs*/ );
 
 		void writeTypeCommand( std::ofstream& ofs, VkData const& vkData,
-							   DependencyData const& dependencyData );
+			DependencyData const& dependencyData );
 
 		void writeTypeCommandEnhanced( std::ofstream& ofs, VkData const& vkData,
-									   std::string const& indentation,
-									   std::string const& className,
-									   std::string const& functionName,
-									   DependencyData const& dependencyData,
-									   CommandData const& commandData );
+			std::string const& indentation,
+			std::string const& className,
+			std::string const& functionName,
+			DependencyData const& dependencyData,
+			CommandData const& commandData );
 
 		void writeTypeCommandStandard( std::ofstream& ofs,
-									   std::string const& indentation,
-									   std::string const& functionName,
-									   DependencyData const& dependencyData,
-									   CommandData const& commandData,
-									   std::set<std::string> const& vkTypes );
+			std::string const& indentation,
+			std::string const& functionName,
+			DependencyData const& dependencyData,
+			CommandData const& commandData,
+			std::set<std::string> const& vkTypes );
 
 		void writeTypeEnum( std::ofstream& ofs, DependencyData const& dependencyData,
-							EnumData const& enumData );
+			EnumData const& enumData );
 
 		void writeTypeFlags( std::ofstream& ofs, DependencyData const& dependencyData,
-							 FlagData const& flagData );
+			FlagData const& flagData );
 
 		void writeTypeHandle( std::ofstream& ofs, VkData const& vkData,
-							 DependencyData const& dependencyData,
-							 HandleData const& handle,
-							 std::list<DependencyData> const& dependencies );
+			DependencyData const& dependencyData,
+			HandleData const& handle,
+			std::list<DependencyData> const& dependencies );
 
 		void writeTypeScalar( std::ofstream& ofs, DependencyData const& dependencyData );
 
 		void writeTypeStruct( std::ofstream& ofs, VkData const& vkData,
-							  DependencyData const& dependencyData,
-							  std::map<std::string,std::string> const& defaultValues );
+			DependencyData const& dependencyData,
+			std::map<std::string, std::string> const& defaultValues );
 
 		void writeTypeUnion( std::ofstream& ofs, VkData const& vkData,
-							 DependencyData const& dependencyData,
-							 StructData const& unionData,
-							 std::map<std::string,std::string> const& defaultValues );
+			DependencyData const& dependencyData,
+			StructData const& unionData,
+			std::map<std::string, std::string> const& defaultValues );
 
 		void writeTypes( std::ofstream& ofs, VkData const& vkData,
-						 std::map<std::string, std::string> const& defaultValues );
+			std::map<std::string, std::string> const& defaultValues );
 
 		void writeVersionCheck( std::ofstream& ofs, std::string const& version );
 
