@@ -40,6 +40,7 @@ set( HEADERS
 )
 
 set( SOURCES
+	src/main.cpp
 	src/VkCppGenerator.cpp
 )
 

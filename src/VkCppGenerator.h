@@ -44,6 +44,9 @@ namespace vk
 {
 	class CppGenerator
 	{
+	public:
+		int generate( const std::string& filename );
+
 	private:
 		struct MemberData
 		{
