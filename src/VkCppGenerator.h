@@ -42,7 +42,7 @@
 
 namespace vk
 {
-	class VkCppGenerator
+	class CppGenerator
 	{
 	private:
 		struct MemberData
@@ -109,7 +109,8 @@ namespace vk
 			std::vector<NameValue>	members;
 			std::string				protect;
 
-			void addEnum( std::string const& name, std::string const& tag, bool appendTag );
+			void addEnum( std::string const& name, std::string const& tag,
+						  bool appendTag );
 		};
 
 		struct FlagData
