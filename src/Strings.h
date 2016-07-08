@@ -26,8 +26,8 @@
 #ifndef STRINGS
 #define STRINGS
 
-//namespace vk
-//{
+namespace vk
+{
 	const std::string nvidiaLicenseHeader(
 		"// Copyright(c) 2015-2016, NVIDIA CORPORATION. All rights reserved.\n"
 		"//\n"
@@ -91,7 +91,7 @@
 	);
 
 	const std::string flagsHeader(
-		"  template <typename BitType, typename MaskType = VkFlags>\n"
+		"  template<typename BitType, typename MaskType = VkFlags>\n"
 		"  class Flags\n"
 		"  {\n"
 		"  public:\n"
@@ -181,19 +181,19 @@
 		"    MaskType  m_mask;\n"
 		"  };\n"
 		"  \n"
-		"  template <typename BitType>\n"
+		"  template<typename BitType>\n"
 		"  Flags<BitType> operator|( BitType bit, Flags<BitType> const& flags )\n"
 		"  {\n"
 		"    return flags | bit;\n"
 		"  }\n"
 		"  \n"
-		"  template <typename BitType>\n"
+		"  template<typename BitType>\n"
 		"  Flags<BitType> operator&( BitType bit, Flags<BitType> const& flags )\n"
 		"  {\n"
 		"    return flags & bit;\n"
 		"  }\n"
 		"  \n"
-		"  template <typename BitType>\n"
+		"  template<typename BitType>\n"
 		"  Flags<BitType> operator^( BitType bit, Flags<BitType> const& flags )\n"
 		"  {\n"
 		"    return flags ^ bit;\n"
@@ -202,7 +202,7 @@
 	);
 
 	std::string const optionalClassHeader = (
-		"  template <typename RefType>\n"
+		"  template<typename RefType>\n"
 		"  class Optional\n"
 		"  {\n"
 		"  public:\n"
@@ -220,7 +220,7 @@
 	);
 
 	std::string const arrayProxyHeader = (
-		"  template <typename T>\n"
+		"  template<typename T>\n"
 		"  class ArrayProxy\n"
 		"  {\n"
 		"  public:\n"
@@ -239,25 +239,25 @@
 		"      , m_ptr( ptr )\n"
 		"    {}\n"
 		"\n"
-		"    template <size_t N>\n"
+		"    template<size_t N>\n"
 		"    ArrayProxy( std::array<typename std::remove_const<T>::type, N>& data )\n"
 		"      : m_count( N )\n"
 		"      , m_ptr( data.data() )\n"
 		"    {}\n"
 		"\n"
-		"    template <size_t N>\n"
+		"    template<size_t N>\n"
 		"    ArrayProxy( std::array<typename std::remove_const<T>::type, N> const& data )\n"
 		"      : m_count( N )\n"
 		"      , m_ptr( data.data() )\n"
 		"    {}\n"
 		"\n"
-		"    template <class Allocator = std::allocator<typename std::remove_const<T>::type>>\n"
+		"    template<class Allocator = std::allocator<typename std::remove_const<T>::type>>\n"
 		"    ArrayProxy( std::vector<typename std::remove_const<T>::type, Allocator>& data )\n"
 		"      : m_count( static_cast<uint32_t>( data.size() ) )\n"
 		"      , m_ptr( data.data() )\n"
 		"    {}\n"
 		"\n"
-		"    template <class Allocator = std::allocator<typename std::remove_const<T>::type>>\n"
+		"    template<class Allocator = std::allocator<typename std::remove_const<T>::type>>\n"
 		"    ArrayProxy( std::vector<typename std::remove_const<T>::type, Allocator> const& data )\n"
 		"      : m_count( static_cast<uint32_t>( data.size() ) )\n"
 		"      , m_ptr( data.data() )\n"
@@ -306,7 +306,7 @@
 	);
 
 	std::string const resultValueHeader = (
-		"  template <typename T>\n"
+		"  template<typename T>\n"
 		"  struct ResultValue\n"
 		"  {\n"
 		"    ResultValue( Result r, T& v )\n"
@@ -318,7 +318,7 @@
 		"    T       value;\n"
 		"  };\n"
 		"\n"
-		"  template <typename T>\n"
+		"  template<typename T>\n"
 		"  struct ResultValueType\n"
 		"  {\n"
 		"#ifdef VK_CPP_NO_EXCEPTIONS\n"
@@ -328,7 +328,7 @@
 		"#endif\n"
 		"  };\n"
 		"\n"
-		"  template <>"
+		"  template<>\n"
 		"  struct ResultValueType<void>\n"
 		"  {\n"
 		"#ifdef VK_CPP_NO_EXCEPTIONS\n"
@@ -354,7 +354,7 @@
 		"#endif\n"
 		"  }\n"
 		"\n"
-		"  template <typename T>\n"
+		"  template<typename T>\n"
 		"  inline typename ResultValueType<T>::type createResultValue( Result result, T& data, char const* message )\n"
 		"  {\n"
 		"#ifdef VK_CPP_NO_EXCEPTIONS\n"
@@ -382,7 +382,7 @@
 		"    return result;\n"
 		"  }\n"
 		"\n"
-		"  template <typename T>\n"
+		"  template<typename T>\n"
 		"  inline ResultValue<T> createResultValue( Result result, T& data, char const* message, std::initializer_list<Result> successCodes )\n"
 		"  {\n"
 		"#ifdef VK_CPP_NO_EXCEPTIONS\n"
@@ -397,6 +397,15 @@
 		"  }\n"
 		"\n"
 	);
-//}
+
+	std::string const isErrorCode = (
+		"namespace std\n"
+		"{\n"
+		"  template<>\n"
+		"  struct is_error_code_enum<vk::Result> : public true_type\n"
+		"  {};\n"
+		"}\n"
+	);
+}
 
 #endif // STRINGS

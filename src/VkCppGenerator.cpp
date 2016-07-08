@@ -39,49 +39,40 @@ namespace vk
 			tinyxml2::XMLError error = doc.LoadFile( filename.c_str() );
 			if( error != tinyxml2::XML_SUCCESS )
 			{
-				std::cout << "VkGenerate: failed to load file " << filename << " . Error code: " << error << std::endl;
+				std::cerr << "VkGenerate: failed to load file " << filename << " . Error code: " << error << std::endl;
 				return -1;
 			}
 
-			tinyxml2::XMLElement * registryElement = doc.FirstChildElement();
+			tinyxml2::XMLElement* registryElement = doc.FirstChildElement();
 			assert( strcmp( registryElement->Value(), "registry" ) == 0 );
 			assert( !registryElement->NextSiblingElement() );
 
 			VkData vkData;
 
-			tinyxml2::XMLElement * child = registryElement->FirstChildElement();
+			tinyxml2::XMLElement* child = registryElement->FirstChildElement();
 			do
 			{
 				assert( child->Value() );
 				const std::string value = child->Value();
 				if( value == "commands" )
-				{
 					readCommands( child, vkData );
-				}
+
 				else if( value == "comment" )
-				{
 					readComment( child, vkData.vulkanLicenseHeader );
-				}
+
 				else if( value == "enums" )
-				{
 					readEnums( child, vkData );
-				}
+
 				else if( value == "extensions" )
-				{
 					readExtensions( child, vkData );
-				}
+
 				else if( value == "tags" )
-				{
 					readTags( child, vkData.tags );
-				}
+
 				else if( value == "types" )
-				{
 					readTypes( child, vkData );
-				}
 				else
-				{
 					assert( ( value == "feature" ) || ( value == "vendorids" ) );
-				}
 			} while( child = child->NextSiblingElement() );
 
 			sortDependencies( vkData.dependencies );
@@ -128,12 +119,7 @@ namespace vk
 
 			ofs << "} // namespace vk" << std::endl
 				<< std::endl
-				<< "namespace std" << std::endl
-				<< "{" << std::endl
-				<< "  template <>" << std::endl
-				<< "  struct is_error_code_enum<vk::Result> : public true_type" << std::endl
-				<< "  {};" << std::endl
-				<< "}" << std::endl
+				<< isErrorCode
 				<< std::endl
 				<< "namespace vk" << std::endl
 				<< "{" << std::endl
@@ -147,14 +133,18 @@ namespace vk
 				<< std::endl
 				<< "#endif" << std::endl;
 		}
-		catch( std::exception e )
+		catch( const std::exception& e )
 		{
-			std::cout << "caught exception: " << e.what() << std::endl;
+			std::cerr << "caught exception: " << e.what() << std::endl;
+			return -1;
 		}
 		catch( ... )
 		{
-			std::cout << "caught unknown exception" << std::endl;
+			std::cerr << "caught unknown exception" << std::endl;
+			return -1;
 		}
+
+		return 0;
 	}
 
 	// trim from end

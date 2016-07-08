@@ -90,7 +90,7 @@ static_assert( VK_HEADER_VERSION ==  13 , "Wrong VK_HEADER_VERSION!" );
 
 namespace vk
 {
-  template <typename BitType, typename MaskType = VkFlags>
+  template<typename BitType, typename MaskType = VkFlags>
   class Flags
   {
   public:
@@ -180,25 +180,25 @@ namespace vk
     MaskType  m_mask;
   };
   
-  template <typename BitType>
+  template<typename BitType>
   Flags<BitType> operator|( BitType bit, Flags<BitType> const& flags )
   {
     return flags | bit;
   }
   
-  template <typename BitType>
+  template<typename BitType>
   Flags<BitType> operator&( BitType bit, Flags<BitType> const& flags )
   {
     return flags & bit;
   }
   
-  template <typename BitType>
+  template<typename BitType>
   Flags<BitType> operator^( BitType bit, Flags<BitType> const& flags )
   {
     return flags ^ bit;
   }
 
-  template <typename RefType>
+  template<typename RefType>
   class Optional
   {
   public:
@@ -213,7 +213,7 @@ namespace vk
     RefType* m_ptr;
   };
 
-  template <typename T>
+  template<typename T>
   class ArrayProxy
   {
   public:
@@ -232,25 +232,25 @@ namespace vk
       , m_ptr( ptr )
     {}
 
-    template <size_t N>
+    template<size_t N>
     ArrayProxy( std::array<typename std::remove_const<T>::type, N>& data )
       : m_count( N )
       , m_ptr( data.data() )
     {}
 
-    template <size_t N>
+    template<size_t N>
     ArrayProxy( std::array<typename std::remove_const<T>::type, N> const& data )
       : m_count( N )
       , m_ptr( data.data() )
     {}
 
-    template <class Allocator = std::allocator<typename std::remove_const<T>::type>>
+    template<class Allocator = std::allocator<typename std::remove_const<T>::type>>
     ArrayProxy( std::vector<typename std::remove_const<T>::type, Allocator>& data )
       : m_count( static_cast<uint32_t>( data.size() ) )
       , m_ptr( data.data() )
     {}
 
-    template <class Allocator = std::allocator<typename std::remove_const<T>::type>>
+    template<class Allocator = std::allocator<typename std::remove_const<T>::type>>
     ArrayProxy( std::vector<typename std::remove_const<T>::type, Allocator> const& data )
       : m_count( static_cast<uint32_t>( data.size() ) )
       , m_ptr( data.data() )
@@ -371,14 +371,14 @@ namespace vk
 
 namespace std
 {
-  template <>
+  template<>
   struct is_error_code_enum<vk::Result> : public true_type
   {};
 }
 
 namespace vk
 {
-  template <typename T>
+  template<typename T>
   struct ResultValue
   {
     ResultValue( Result r, T& v )
@@ -390,7 +390,7 @@ namespace vk
     T       value;
   };
 
-  template <typename T>
+  template<typename T>
   struct ResultValueType
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
@@ -400,7 +400,8 @@ namespace vk
 #endif
   };
 
-  template <>  struct ResultValueType<void>
+  template<>
+  struct ResultValueType<void>
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
     typedef Result type;
@@ -422,7 +423,7 @@ namespace vk
 #endif
   }
 
-  template <typename T>
+  template<typename T>
   inline typename ResultValueType<T>::type createResultValue( Result result, T& data, char const* message )
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
@@ -450,7 +451,7 @@ namespace vk
     return result;
   }
 
-  template <typename T>
+  template<typename T>
   inline ResultValue<T> createResultValue( Result result, T& data, char const* message, std::initializer_list<Result> successCodes )
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
