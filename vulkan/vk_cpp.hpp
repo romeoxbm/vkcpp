@@ -71,17 +71,17 @@ static_assert( VK_HEADER_VERSION ==  13 , "Wrong VK_HEADER_VERSION!" );
 #define VK_CPP_TYPESAFE_CONVERSION 1
 #endif
 
-#if !defined(VK_CPP_HAS_UNRESTRICTED_UNIONS)
-# if defined(__clang__)
-#  if __has_feature(cxx_unrestricted_unions)
+#ifndef VK_CPP_HAS_UNRESTRICTED_UNIONS
+# ifdef __clang__
+#  if __has_feature( cxx_unrestricted_unions )
 #   define VK_CPP_HAS_UNRESTRICTED_UNIONS
 #  endif
-# elif defined(__GNUC__)
-#  define GCC_VERSION (__GNUC__ * 1000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+# elif defined( __GNUC__ )
+#  define GCC_VERSION ( __GNUC__ * 1000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__ )
 #  if 40600 <= GCC_VERSION
 #   define VK_CPP_HAS_UNRESTRICTED_UNIONS
 #  endif
-# elif defined(_MSC_VER)
+# elif defined( _MSC_VER )
 #  if 1900 <= _MSC_VER
 #   define VK_CPP_HAS_UNRESTRICTED_UNIONS
 #  endif
@@ -202,63 +202,63 @@ namespace vk
   class Optional
   {
   public:
-    Optional(RefType & reference) { m_ptr = &reference; }
-    Optional(std::nullptr_t) { m_ptr = nullptr; }
+    Optional( RefType& reference ) { m_ptr = &reference; }
+    Optional( std::nullptr_t ) { m_ptr = nullptr; }
 
     operator RefType*() const { return m_ptr; }
     RefType const* operator->() const { return m_ptr; }
     explicit operator bool() const { return !!m_ptr; }
 
   private:
-    RefType *m_ptr;
+    RefType* m_ptr;
   };
 
   template <typename T>
   class ArrayProxy
   {
   public:
-    ArrayProxy(std::nullptr_t)
-      : m_count(0)
-      , m_ptr(nullptr)
+    ArrayProxy( std::nullptr_t )
+      : m_count( 0 )
+      , m_ptr( nullptr )
     {}
 
-    ArrayProxy(T & ptr)
-      : m_count(1)
-      , m_ptr(&ptr)
+    ArrayProxy( T& ptr )
+      : m_count( 1 )
+      , m_ptr( &ptr )
     {}
 
-    ArrayProxy(uint32_t count, T * ptr)
-      : m_count(count)
-      , m_ptr(ptr)
-    {}
-
-    template <size_t N>
-    ArrayProxy(std::array<typename std::remove_const<T>::type, N> & data)
-      : m_count(N)
-      , m_ptr(data.data())
+    ArrayProxy( uint32_t count, T* ptr )
+      : m_count( count )
+      , m_ptr( ptr )
     {}
 
     template <size_t N>
-    ArrayProxy(std::array<typename std::remove_const<T>::type, N> const& data)
-      : m_count(N)
-      , m_ptr(data.data())
+    ArrayProxy( std::array<typename std::remove_const<T>::type, N>& data )
+      : m_count( N )
+      , m_ptr( data.data() )
+    {}
+
+    template <size_t N>
+    ArrayProxy( std::array<typename std::remove_const<T>::type, N> const& data )
+      : m_count( N )
+      , m_ptr( data.data() )
     {}
 
     template <class Allocator = std::allocator<typename std::remove_const<T>::type>>
-    ArrayProxy(std::vector<typename std::remove_const<T>::type, Allocator> & data)
-      : m_count(static_cast<uint32_t>(data.size()))
-      , m_ptr(data.data())
+    ArrayProxy( std::vector<typename std::remove_const<T>::type, Allocator>& data )
+      : m_count( static_cast<uint32_t>( data.size() ) )
+      , m_ptr( data.data() )
     {}
 
     template <class Allocator = std::allocator<typename std::remove_const<T>::type>>
-    ArrayProxy(std::vector<typename std::remove_const<T>::type, Allocator> const& data)
-      : m_count(static_cast<uint32_t>(data.size()))
-      , m_ptr(data.data())
+    ArrayProxy( std::vector<typename std::remove_const<T>::type, Allocator> const& data )
+      : m_count( static_cast<uint32_t>( data.size() ) )
+      , m_ptr( data.data() )
     {}
 
-    ArrayProxy(std::initializer_list<T> const& data)
-      : m_count(static_cast<uint32_t>(data.end() - data.begin()))
-      , m_ptr(data.begin())
+    ArrayProxy( std::initializer_list<T> const& data )
+      : m_count( static_cast<uint32_t>( data.end() - data.begin() ) )
+      , m_ptr( data.begin() )
     {}
 
     uint32_t size() const
@@ -266,14 +266,14 @@ namespace vk
       return m_count;
     }
 
-    T * data() const
+    T* data() const
     {
       return m_ptr;
     }
 
   private:
     uint32_t  m_count;
-    T *       m_ptr;
+    T*        m_ptr;
   };
 
   enum class Result
@@ -336,7 +336,7 @@ namespace vk
     }
   }
 
-#if defined(_MSC_VER) && (_MSC_VER == 1800)
+#if defined( _MSC_VER ) && ( _MSC_VER == 1800 )
 # define noexcept _NOEXCEPT
 #endif
 
@@ -344,10 +344,10 @@ namespace vk
   {
     public:
     virtual const char* name() const noexcept override { return "vk::Result"; }
-    virtual std::string message(int ev) const override { return to_string(static_cast<Result>(ev)); }
+    virtual std::string message( int ev ) const override { return to_string( static_cast<Result>( ev ) ); }
   };
 
-#if defined(_MSC_VER) && (_MSC_VER == 1800)
+#if defined( _MSC_VER ) && ( _MSC_VER == 1800 )
 # undef noexcept
 #endif
 
@@ -357,14 +357,14 @@ namespace vk
     return instance;
   }
 
-  inline std::error_code make_error_code(Result e)
+  inline std::error_code make_error_code( Result e )
   {
-    return std::error_code(static_cast<int>(e), errorCategory());
+    return std::error_code( static_cast<int>( e ), errorCategory() );
   }
 
-  inline std::error_condition make_error_condition(Result e)
+  inline std::error_condition make_error_condition( Result e )
   {
-    return std::error_condition(static_cast<int>(e), errorCategory());
+    return std::error_condition( static_cast<int>( e ), errorCategory() );
   }
 
 } // namespace vk
@@ -381,7 +381,7 @@ namespace vk
   template <typename T>
   struct ResultValue
   {
-    ResultValue( Result r, T & v )
+    ResultValue( Result r, T& v )
       : result( r )
       , value( v )
     {}
@@ -409,7 +409,7 @@ namespace vk
 #endif
   };
 
-  inline ResultValueType<void>::type createResultValue( Result result, char const * message )
+  inline ResultValueType<void>::type createResultValue( Result result, char const* message )
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
     assert( result == Result::eSuccess );
@@ -423,7 +423,7 @@ namespace vk
   }
 
   template <typename T>
-  inline typename ResultValueType<T>::type createResultValue( Result result, T & data, char const * message )
+  inline typename ResultValueType<T>::type createResultValue( Result result, T& data, char const* message )
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
     assert( result == Result::eSuccess );
@@ -437,7 +437,7 @@ namespace vk
 #endif
   }
 
-  inline Result createResultValue( Result result, char const * message, std::initializer_list<Result> successCodes )
+  inline Result createResultValue( Result result, char const* message, std::initializer_list<Result> successCodes )
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
     assert( std::find( successCodes.begin(), successCodes.end(), result ) != successCodes.end() );
@@ -451,7 +451,7 @@ namespace vk
   }
 
   template <typename T>
-  inline ResultValue<T> createResultValue( Result result, T & data, char const * message, std::initializer_list<Result> successCodes )
+  inline ResultValue<T> createResultValue( Result result, T& data, char const* message, std::initializer_list<Result> successCodes )
   {
 #ifdef VK_CPP_NO_EXCEPTIONS
     assert( std::find( successCodes.begin(), successCodes.end(), result ) != successCodes.end() );
