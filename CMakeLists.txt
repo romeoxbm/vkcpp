@@ -35,6 +35,7 @@ string( REPLACE "\\" "\\\\" vk_cpp ${vk_cpp} )
 add_definitions( -DVK_CPP="${vk_cpp}" )
 
 set( HEADERS
+	src/VkCppGenerator.h
 )
 
 set( SOURCES
