@@ -36,11 +36,13 @@ add_definitions( -DVK_CPP="${vk_cpp}" )
 
 set( HEADERS
 	src/Strings.h
+	src/StringsHelper.h
 	src/VkCppGenerator.h
 )
 
 set( SOURCES
 	src/main.cpp
+	src/StringsHelper.cpp
 	src/VkCppGenerator.cpp
 )
 

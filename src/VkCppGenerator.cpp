@@ -25,6 +25,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "VkCppGenerator.h"
 #include "Strings.h"
+#include "StringsHelper.h"
 
 namespace vk
 {
@@ -148,19 +149,11 @@ namespace vk
 		return 0;
 	}
 
-	// trim from end
-	std::string CppGenerator::trimEnd( std::string const& input )
-	{
-		std::string result = input;
-		result.erase( std::find_if( result.rbegin(), result.rend(), std::not1( std::ptr_fun<int, int>( std::isspace ) ) ).base(), result.end() );
-		return result;
-	}
-
 	void CppGenerator::EnumData::addEnum( std::string const & name, std::string const& tag, bool appendTag )
 	{
 		assert( tag.empty() || ( name.find( tag ) != std::string::npos ) );
 		members.push_back( NameValue() );
-		members.back().name = "e" + toCamelCase( strip( name, prefix, tag ) );
+		members.back().name = "e" + StringsHelper::toCamelCase( strip( name, prefix, tag ) );
 		members.back().value = name;
 		if( !postfix.empty() )
 		{
@@ -458,7 +451,7 @@ namespace vk
 		assert( child );
 		if( child->ToText() )
 		{
-			std::string value = trimEnd( child->Value() );
+			std::string value = StringsHelper::trimEnd( child->Value() );
 			assert( ( value == "const" ) || ( value == "struct" ) );
 			arg.type = value + " ";
 			child = child->NextSibling();
@@ -476,7 +469,7 @@ namespace vk
 		assert( child );
 		if( child->ToText() )
 		{
-			std::string value = trimEnd( child->Value() );
+			std::string value = StringsHelper::trimEnd( child->Value() );
 			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
 			arg.type += value;
 			child = child->NextSibling();
@@ -572,7 +565,7 @@ namespace vk
 				end = successCodes.find( ',', start );
 				std::string code = successCodes.substr( start, end - start );
 				std::string tag = findTag( code, vkData.tags );
-				it->second.successCodes.push_back( "e" + toCamelCase( strip( code, "VK_", tag ) ) + tag );
+				it->second.successCodes.push_back( "e" + StringsHelper::toCamelCase( strip( code, "VK_", tag ) ) + tag );
 				start = end + 1;
 			} while( end != std::string::npos );
 		}
@@ -666,12 +659,12 @@ namespace vk
 				{
 					size_t pos = name.find( "FlagBits" );
 					assert( pos != std::string::npos );
-					it->second.prefix = "VK" + toUpperCase( name.substr( 0, pos ) ) + "_";
+					it->second.prefix = "VK" + StringsHelper::toUpperCase( name.substr( 0, pos ) ) + "_";
 					it->second.postfix = "Bit";
 				}
 				else
 				{
-					it->second.prefix = "VK" + toUpperCase( name ) + "_";
+					it->second.prefix = "VK" + StringsHelper::toUpperCase( name ) + "_";
 				}
 
 				// if the enum name contains a tag remove it from the prefix to generate correct enum value names.
@@ -925,7 +918,7 @@ namespace vk
 		assert( child );
 		if( child->ToText() )
 		{
-			std::string value = trimEnd( child->Value() );
+			std::string value = StringsHelper::trimEnd( child->Value() );
 			assert( ( value == "const" ) || ( value == "struct" ) );
 			member.type = value + " ";
 			child = child->NextSibling();
@@ -943,7 +936,7 @@ namespace vk
 		assert( child );
 		if( child->ToText() )
 		{
-			std::string value = trimEnd( child->Value() );
+			std::string value = StringsHelper::trimEnd( child->Value() );
 			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
 			member.type += value;
 			child = child->NextSibling();
@@ -1251,45 +1244,6 @@ namespace vk
 		assert( isupper( stripped[ 0 ] ) );
 		stripped[ 0 ] = tolower( stripped[ 0 ] );
 		return stripped;
-	}
-
-	std::string CppGenerator::toCamelCase( std::string const& value )
-	{
-		assert( !value.empty() && ( isupper( value[ 0 ] ) || isdigit( value[ 0 ] ) ) );
-		std::string result;
-		result.reserve( value.size() );
-		result.push_back( value[ 0 ] );
-		for( size_t i = 1; i < value.size(); i++ )
-		{
-			if( value[ i ] != '_' )
-			{
-				if( ( value[ i - 1 ] == '_' ) || isdigit( value[ i - 1 ] ) )
-				{
-					result.push_back( value[ i ] );
-				}
-				else
-				{
-					result.push_back( tolower( value[ i ] ) );
-				}
-			}
-		}
-		return result;
-	}
-
-	std::string CppGenerator::toUpperCase( std::string const& name )
-	{
-		assert( isupper( name.front() ) );
-		std::string convertedName;
-
-		for( size_t i = 0; i < name.length(); i++ )
-		{
-			if( isupper( name[ i ] ) && ( ( i == 0 ) || islower( name[ i - 1 ] ) || isdigit( name[ i - 1 ] ) ) )
-			{
-				convertedName.push_back( '_' );
-			}
-			convertedName.push_back( toupper( name[ i ] ) );
-		}
-		return convertedName;
 	}
 
 	void CppGenerator::writeCall( std::ofstream & ofs, std::string const& name, size_t templateIndex, CommandData const& commandData, std::set<std::string> const& vkTypes, std::map<size_t, size_t> const& vectorParameters, size_t returnIndex, bool firstCall )
@@ -1767,11 +1721,11 @@ namespace vk
 							assert( commandData.arguments[ i ].type[ pos ] == '*' );
 							if( commandData.arguments[ i ].optional )
 							{
-								ofs << "Optional<" << trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) << "> " << reduceName( commandData.arguments[ i ].name ) << " = nullptr";
+								ofs << "Optional<" << StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) << "> " << reduceName( commandData.arguments[ i ].name ) << " = nullptr";
 							}
 							else if( commandData.arguments[ i ].type.find( "char" ) == std::string::npos )
 							{
-								ofs << trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) << " & " << reduceName( commandData.arguments[ i ].name );
+								ofs << StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) << " & " << reduceName( commandData.arguments[ i ].name );
 							}
 							else
 							{
@@ -1799,7 +1753,7 @@ namespace vk
 						{
 							assert( !optional );
 							bool isConst = ( commandData.arguments[ i ].type.find( "const" ) != std::string::npos );
-							ofs << "ArrayProxy<" << ( ( templateIndex == i ) ? ( isConst ? "const T" : "T" ) : trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) ) << "> " << reduceName( commandData.arguments[ i ].name );
+							ofs << "ArrayProxy<" << ( ( templateIndex == i ) ? ( isConst ? "const T" : "T" ) : StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) ) << "> " << reduceName( commandData.arguments[ i ].name );
 						}
 					}
 					argEncountered = true;

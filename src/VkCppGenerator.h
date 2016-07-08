@@ -266,12 +266,6 @@ namespace vk
 
 		static std::string stripCommand( std::string const& value );
 
-		static std::string toCamelCase( std::string const& value );
-
-		static std::string toUpperCase( std::string const& name );
-
-		static std::string trimEnd( std::string const& input );
-
 		void writeCall( std::ofstream& ofs, std::string const& name,
 			size_t templateIndex,
 			CommandData const& commandData,
