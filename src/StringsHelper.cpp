@@ -52,4 +52,21 @@ namespace vk
 		}
 		return convertedName;
 	}
+	//--------------------------------------------------------------------------
+	std::string StringsHelper::strip( std::string const& value,
+									  std::string const& prefix,
+									  std::string const& postfix )
+	{
+		std::string strippedValue = value;
+		if( strippedValue.find( prefix ) == 0 )
+			strippedValue.erase( 0, prefix.length() );
+
+		if( !postfix.empty() )
+		{
+			size_t pos = strippedValue.rfind( postfix );
+			assert( pos != std::string::npos );
+			strippedValue.erase( pos );
+		}
+		return strippedValue;
+	}
 }

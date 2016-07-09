@@ -14,6 +14,10 @@ namespace vk
 
 		static std::string toUpperCase( std::string const& name );
 
+		static std::string strip( std::string const& value,
+								  std::string const& prefix,
+								  std::string const& tag = "" );
+
 	private:
 		StringsHelper() {}
 		~StringsHelper() {}
