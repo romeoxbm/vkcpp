@@ -38,12 +38,14 @@ set( HEADERS
 	src/Strings.h
 	src/StringsHelper.h
 	src/VkCppGenerator.h
+	src/VkSpecParser.h
 )
 
 set( SOURCES
 	src/main.cpp
 	src/StringsHelper.cpp
 	src/VkCppGenerator.cpp
+	src/VkSpecParser.cpp
 )
 
 set( TINYXML2_SOURCES

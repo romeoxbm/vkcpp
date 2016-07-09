@@ -27,64 +27,33 @@
 #include "Strings.h"
 #include "StringsHelper.h"
 
+#include <iostream>
+#include <cassert>
+#include <exception>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <functional>
+
 namespace vk
 {
 	int CppGenerator::generate( const Options& opt )
 	{
+		SpecParser parser;
+		auto vkData = parser.parse( opt.inputFile );
+		assert( vkData );
+
 		try
 		{
-			tinyxml2::XMLDocument doc;
-			std::cout << "Loading vk.xml from " << opt.inputFile << std::endl;
 			std::cout << "Writing vk_cpp.hpp to " << VK_CPP << std::endl;
-
-			tinyxml2::XMLError error = doc.LoadFile( opt.inputFile.c_str() );
-			if( error != tinyxml2::XML_SUCCESS )
-			{
-				std::cerr << "VkGenerate: failed to load file " << opt.inputFile
-						  << " . Error code: " << error << std::endl;
-				return -1;
-			}
-
-			tinyxml2::XMLElement* registryElement = doc.FirstChildElement();
-			assert( strcmp( registryElement->Value(), "registry" ) == 0 );
-			assert( !registryElement->NextSiblingElement() );
-
-			VkData vkData;
-
-			tinyxml2::XMLElement* child = registryElement->FirstChildElement();
-			do
-			{
-				assert( child->Value() );
-				const std::string value = child->Value();
-				if( value == "commands" )
-					readCommands( child, vkData );
-
-				else if( value == "comment" )
-					readComment( child, vkData.vulkanLicenseHeader );
-
-				else if( value == "enums" )
-					readEnums( child, vkData );
-
-				else if( value == "extensions" )
-					readExtensions( child, vkData );
-
-				else if( value == "tags" )
-					readTags( child, vkData.tags );
-
-				else if( value == "types" )
-					readTypes( child, vkData );
-				else
-					assert( ( value == "feature" ) || ( value == "vendorids" ) );
-			} while( child = child->NextSiblingElement() );
-
-			sortDependencies( vkData.dependencies );
+			sortDependencies( vkData->dependencies );
 
 			std::map<std::string, std::string> defaultValues;
 			createDefaults( vkData, defaultValues );
 
 			std::ofstream ofs( VK_CPP );
 			ofs << nvidiaLicenseHeader << std::endl
-				<< vkData.vulkanLicenseHeader << std::endl
+				<< vkData->vulkanLicenseHeader << std::endl
 				<< std::endl
 				<< std::endl
 				<< "#ifndef " << opt.includeGuard << std::endl
@@ -102,8 +71,8 @@ namespace vk
 				<< "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl
 				<< std::endl;
 
-			writeVersionCheck( ofs, vkData.version );
-			writeTypesafeCheck( ofs, vkData.typesafeCheck );
+			writeVersionCheck( ofs, vkData->version );
+			writeTypesafeCheck( ofs, vkData->typesafeCheck );
 			ofs << versionCheckHeader
 				<< "namespace vk" << std::endl
 				<< "{" << std::endl
@@ -112,11 +81,15 @@ namespace vk
 				<< arrayProxyHeader;
 
 			// first of all, write out vk::Result and the exception handling stuff
-			std::list<DependencyData>::const_iterator it = std::find_if( vkData.dependencies.begin(), vkData.dependencies.end(), []( DependencyData const& dp ) { return dp.name == "Result"; } );
-			assert( it != vkData.dependencies.end() );
-			writeTypeEnum( ofs, *it, vkData.enums.find( it->name )->second );
-			writeEnumsToString( ofs, *it, vkData.enums.find( it->name )->second );
-			vkData.dependencies.erase( it );
+			auto it = std::find_if(
+						vkData->dependencies.begin(),
+						vkData->dependencies.end(),
+						[]( DependencyData const& dp ) { return dp.name == "Result"; }
+			);
+			assert( it != vkData->dependencies.end() );
+			writeTypeEnum( ofs, *it, vkData->enums.find( it->name )->second );
+			writeEnumsToString( ofs, *it, vkData->enums.find( it->name )->second );
+			vkData->dependencies.erase( it );
 			ofs << exceptionHeader;
 
 			ofs << "} // namespace vk" << std::endl
@@ -149,62 +122,48 @@ namespace vk
 		return 0;
 	}
 
-	void CppGenerator::EnumData::addEnum( std::string const & name, std::string const& tag, bool appendTag )
+	void CppGenerator::createDefaults( SpecData* vkData,
+									   std::map<std::string, std::string>& defaultValues )
 	{
-		assert( tag.empty() || ( name.find( tag ) != std::string::npos ) );
-		members.push_back( NameValue() );
-		members.back().name = "e" + StringsHelper::toCamelCase( strip( name, prefix, tag ) );
-		members.back().value = name;
-		if( !postfix.empty() )
+		for( auto& it : vkData->dependencies )
 		{
-			size_t pos = members.back().name.find( postfix );
-			if( pos != std::string::npos )
-			{
-				members.back().name.erase( pos );
-			}
-		}
-		if( appendTag && !tag.empty() )
-		{
-			members.back().name += tag;
-		}
-	}
-
-	void CppGenerator::createDefaults( VkData const& vkData, std::map<std::string, std::string> & defaultValues )
-	{
-		for( std::list<DependencyData>::const_iterator it = vkData.dependencies.begin(); it != vkData.dependencies.end(); ++it )
-		{
-			assert( defaultValues.find( it->name ) == defaultValues.end() );
-			switch( it->category )
+			assert( defaultValues.find( it.name ) == defaultValues.end() );
+			switch( it.category )
 			{
 				case DependencyData::Category::COMMAND:    // commands should never be asked for defaults
 					break;
+
 				case DependencyData::Category::ENUM:
 				{
-					assert( vkData.enums.find( it->name ) != vkData.enums.end() );
-					EnumData const & enumData = vkData.enums.find( it->name )->second;
+					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
+					EnumData const & enumData = vkData->enums.find( it.name )->second;
+					auto value = it.name;
+
 					if( !enumData.members.empty() )
-					{
-						defaultValues[ it->name ] = it->name + "::" + vkData.enums.find( it->name )->second.members.front().name;
-					}
+						value += "::" + vkData->enums.find( it.name )->second.members.front().name;
 					else
-					{
-						defaultValues[ it->name ] = it->name + "()";
-					}
+						value += "()";
+
+					defaultValues[ it.name ] = value;
 				}
 				break;
+
 				case DependencyData::Category::FLAGS:
 				case DependencyData::Category::HANDLE:
 				case DependencyData::Category::STRUCT:
 				case DependencyData::Category::UNION:        // just call the default constructor for flags, structs, and structs (which are mapped to classes)
-					defaultValues[ it->name ] = it->name + "()";
+					defaultValues[ it.name ] = it.name + "()";
 					break;
+
 				case DependencyData::Category::FUNC_POINTER: // func_pointers default to nullptr
-					defaultValues[ it->name ] = "nullptr";
+					defaultValues[ it.name ] = "nullptr";
 					break;
+
 				case DependencyData::Category::REQUIRED:     // all required default to "0"
 				case DependencyData::Category::SCALAR:       // all scalars default to "0"
-					defaultValues[ it->name ] = "0";
+					defaultValues[ it.name ] = "0";
 					break;
+
 				default:
 					assert( false );
 					break;
@@ -295,16 +254,6 @@ namespace vk
 		}
 	}
 
-	std::string CppGenerator::extractTag( std::string const& name )
-	{
-		// the name is supposed to look like: VK_<tag>_<other>
-		size_t start = name.find( '_' );
-		assert( start != std::string::npos );
-		size_t end = name.find( '_', start + 1 );
-		assert( end != std::string::npos );
-		return name.substr( start + 1, end - start - 1 );
-	}
-
 	size_t CppGenerator::findReturnIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters )
 	{
 		if( ( commandData.returnType == "Result" ) || ( commandData.returnType == "void" ) )
@@ -327,19 +276,6 @@ namespace vk
 		return ~0;
 	}
 
-	std::string CppGenerator::findTag( std::string const& name, std::set<std::string> const& tags )
-	{
-		for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
-		{
-			size_t pos = name.find( *it );
-			if( ( pos != std::string::npos ) && ( pos == name.length() - it->length() ) )
-			{
-				return *it;
-			}
-		}
-		return "";
-	}
-
 	size_t CppGenerator::findTemplateIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters )
 	{
 		for( size_t i = 0; i < commandData.arguments.size(); i++ )
@@ -351,20 +287,6 @@ namespace vk
 			}
 		}
 		return ~0;
-	}
-
-	std::string CppGenerator::getEnumName( std::string const& name ) // get vkcpp enum name from vk enum name
-	{
-		return strip( name, "Vk" );
-	}
-
-	std::string CppGenerator::generateEnumNameForFlags( std::string const& name )
-	{
-		std::string generatedName = name;
-		size_t pos = generatedName.rfind( "Flags" );
-		assert( pos != std::string::npos );
-		generatedName.replace( pos, 5, "FlagBits" );
-		return generatedName;
 	}
 
 	std::map<size_t, size_t> CppGenerator::getVectorParameters( CommandData const& commandData )
@@ -437,746 +359,6 @@ namespace vk
 		return( ok );
 	}
 
-	bool CppGenerator::readCommandParam( tinyxml2::XMLElement * element, DependencyData & typeData, std::vector<MemberData> & arguments )
-	{
-		arguments.push_back( MemberData() );
-		MemberData & arg = arguments.back();
-
-		if( element->Attribute( "len" ) )
-		{
-			arg.len = element->Attribute( "len" );
-		}
-
-		tinyxml2::XMLNode * child = element->FirstChild();
-		assert( child );
-		if( child->ToText() )
-		{
-			std::string value = StringsHelper::trimEnd( child->Value() );
-			assert( ( value == "const" ) || ( value == "struct" ) );
-			arg.type = value + " ";
-			child = child->NextSibling();
-			assert( child );
-		}
-
-		assert( child->ToElement() );
-		assert( ( strcmp( child->Value(), "type" ) == 0 ) && child->ToElement() && child->ToElement()->GetText() );
-		std::string type = strip( child->ToElement()->GetText(), "Vk" );
-		typeData.dependencies.insert( type );
-		arg.type += type;
-		arg.pureType = type;
-
-		child = child->NextSibling();
-		assert( child );
-		if( child->ToText() )
-		{
-			std::string value = StringsHelper::trimEnd( child->Value() );
-			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
-			arg.type += value;
-			child = child->NextSibling();
-		}
-
-		assert( child->ToElement() && ( strcmp( child->Value(), "name" ) == 0 ) );
-		arg.name = child->ToElement()->GetText();
-
-		if( arg.name.back() == ']' )
-		{
-			assert( !child->NextSibling() );
-			size_t pos = arg.name.find( '[' );
-			assert( pos != std::string::npos );
-			arg.arraySize = arg.name.substr( pos + 1, arg.name.length() - 2 - pos );
-			arg.name.erase( pos );
-		}
-
-		child = child->NextSibling();
-		if( child )
-		{
-			if( child->ToText() )
-			{
-				std::string value = child->Value();
-				if( value == "[" )
-				{
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToElement() && ( strcmp( child->Value(), "enum" ) == 0 ) );
-					arg.arraySize = child->ToElement()->GetText();
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToText() );
-					assert( strcmp( child->Value(), "]" ) == 0 );
-					assert( !child->NextSibling() );
-				}
-				else
-				{
-					assert( ( value.front() == '[' ) && ( value.back() == ']' ) );
-					arg.arraySize = value.substr( 1, value.length() - 2 );
-					assert( !child->NextSibling() );
-				}
-			}
-		}
-
-		arg.optional = element->Attribute( "optional" ) && ( strcmp( element->Attribute( "optional" ), "true" ) == 0 );
-
-		return element->Attribute( "optional" ) && ( strcmp( element->Attribute( "optional" ), "false,true" ) == 0 );
-	}
-
-	std::map<std::string, CppGenerator::CommandData>::iterator CppGenerator::readCommandProto( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * typeElement = element->FirstChildElement();
-		assert( typeElement && ( strcmp( typeElement->Value(), "type" ) == 0 ) );
-		tinyxml2::XMLElement * nameElement = typeElement->NextSiblingElement();
-		assert( nameElement && ( strcmp( nameElement->Value(), "name" ) == 0 ) );
-		assert( !nameElement->NextSiblingElement() );
-
-		std::string type = strip( typeElement->GetText(), "Vk" );
-		std::string name = stripCommand( nameElement->GetText() );
-
-		vkData.dependencies.push_back( DependencyData( DependencyData::Category::COMMAND, name ) );
-		assert( vkData.commands.find( name ) == vkData.commands.end() );
-		std::map<std::string, CommandData>::iterator it = vkData.commands.insert( std::make_pair( name, CommandData() ) ).first;
-		it->second.returnType = type;
-
-		return it;
-	}
-
-	void CppGenerator::readCommands( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		assert( child );
-		do
-		{
-			assert( strcmp( child->Value(), "command" ) == 0 );
-			readCommandsCommand( child, vkData );
-		} while( child = child->NextSiblingElement() );
-	}
-
-	void CppGenerator::readCommandsCommand( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		assert( child && ( strcmp( child->Value(), "proto" ) == 0 ) );
-
-		std::map<std::string, CommandData>::iterator it = readCommandProto( child, vkData );
-
-		if( element->Attribute( "successcodes" ) )
-		{
-			std::string successCodes = element->Attribute( "successcodes" );
-			size_t start = 0, end;
-			do
-			{
-				end = successCodes.find( ',', start );
-				std::string code = successCodes.substr( start, end - start );
-				std::string tag = findTag( code, vkData.tags );
-				it->second.successCodes.push_back( "e" + StringsHelper::toCamelCase( strip( code, "VK_", tag ) ) + tag );
-				start = end + 1;
-			} while( end != std::string::npos );
-		}
-
-		// HACK: the current vk.xml misses to specify successcodes on command vkCreateDebugReportCallbackEXT!
-		if( it->first == "createDebugReportCallbackEXT" )
-		{
-			it->second.successCodes.clear();
-			it->second.successCodes.push_back( "eSuccess" );
-		}
-
-		while( child = child->NextSiblingElement() )
-		{
-			std::string value = child->Value();
-			if( value == "param" )
-			{
-				it->second.twoStep |= readCommandParam( child, vkData.dependencies.back(), it->second.arguments );
-			}
-			else
-			{
-				assert( ( value == "implicitexternsyncparams" ) || ( value == "validity" ) );
-			}
-		}
-
-		// HACK: the current vk.xml misses to specify <optional="false,true"> on param pSparseMemoryRequirementCount on command vkGetImageSparseMemoryRequirements!
-		if( it->first == "getImageSparseMemoryRequirements" )
-		{
-			it->second.twoStep = true;
-		}
-
-		assert( !it->second.arguments.empty() );
-		std::map<std::string, HandleData>::iterator hit = vkData.handles.find( it->second.arguments[ 0 ].pureType );
-		if( hit != vkData.handles.end() )
-		{
-			hit->second.commands.push_back( it->first );
-			it->second.handleCommand = true;
-			DependencyData const& dep = vkData.dependencies.back();
-			std::list<DependencyData>::iterator dit = std::find_if( vkData.dependencies.begin(), vkData.dependencies.end(), [ hit ]( DependencyData const& dd ) { return dd.name == hit->first; } );
-			for( std::set<std::string>::const_iterator depit = dep.dependencies.begin(); depit != dep.dependencies.end(); ++depit )
-			{
-				if( *depit != hit->first )
-				{
-					dit->dependencies.insert( *depit );
-				}
-			}
-		}
-	}
-
-	void CppGenerator::readComment( tinyxml2::XMLElement * element, std::string & header )
-	{
-		assert( element->GetText() );
-		assert( header.empty() );
-		header = element->GetText();
-		assert( header.find( "\nCopyright" ) == 0 );
-
-		size_t pos = header.find( "\n\n-----" );
-		assert( pos != std::string::npos );
-		header.erase( pos );
-
-		for( size_t pos = header.find( '\n' ); pos != std::string::npos; pos = header.find( '\n', pos + 1 ) )
-		{
-			header.replace( pos, 1, "\n// " );
-		}
-
-		header += "\n\n// This header is generated from the Khronos Vulkan XML API Registry.";
-	}
-
-	void CppGenerator::readEnums( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		assert( element->Attribute( "name" ) );
-		std::string name = getEnumName( element->Attribute( "name" ) );
-		if( name != "API Constants" )
-		{
-			vkData.dependencies.push_back( DependencyData( DependencyData::Category::ENUM, name ) );
-			std::map<std::string, EnumData>::iterator it = vkData.enums.insert( std::make_pair( name, EnumData() ) ).first;
-			std::string tag;
-
-			if( name == "Result" )
-			{
-				// special handling for VKResult, as its enums just have VK_ in common
-				it->second.prefix = "VK_";
-			}
-			else
-			{
-				assert( element->Attribute( "type" ) );
-				std::string type = element->Attribute( "type" );
-				assert( ( type == "bitmask" ) || ( type == "enum" ) );
-				it->second.bitmask = ( type == "bitmask" );
-				std::string prefix, postfix;
-				if( it->second.bitmask )
-				{
-					size_t pos = name.find( "FlagBits" );
-					assert( pos != std::string::npos );
-					it->second.prefix = "VK" + StringsHelper::toUpperCase( name.substr( 0, pos ) ) + "_";
-					it->second.postfix = "Bit";
-				}
-				else
-				{
-					it->second.prefix = "VK" + StringsHelper::toUpperCase( name ) + "_";
-				}
-
-				// if the enum name contains a tag remove it from the prefix to generate correct enum value names.
-				for( std::set<std::string>::const_iterator tit = vkData.tags.begin(); tit != vkData.tags.end(); ++tit )
-				{
-					size_t pos = it->second.prefix.find( *tit );
-					if( ( pos != std::string::npos ) && ( pos == it->second.prefix.length() - tit->length() - 1 ) )
-					{
-						it->second.prefix.erase( pos );
-						tag = *tit;
-						break;
-					}
-				}
-			}
-
-			readEnumsEnum( element, it->second, tag );
-
-			assert( vkData.vkTypes.find( name ) == vkData.vkTypes.end() );
-			vkData.vkTypes.insert( name );
-		}
-	}
-
-	void CppGenerator::readEnumsEnum( tinyxml2::XMLElement * element, EnumData & enumData, std::string const& tag )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		do
-		{
-			if( child->Attribute( "name" ) )
-			{
-				enumData.addEnum( child->Attribute( "name" ), tag, false );
-			}
-		} while( child = child->NextSiblingElement() );
-	}
-
-	void CppGenerator::readExtensionRequire( tinyxml2::XMLElement * element, VkData & vkData, std::string const& protect, std::string const& tag )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		do
-		{
-			std::string value = child->Value();
-
-			if( value == "command" )
-			{
-				assert( child->Attribute( "name" ) );
-				std::string name = stripCommand( child->Attribute( "name" ) );
-				std::map<std::string, CommandData>::iterator cit = vkData.commands.find( name );
-				assert( cit != vkData.commands.end() );
-				cit->second.protect = protect;
-			}
-			else if( value == "type" )
-			{
-				assert( child->Attribute( "name" ) );
-				std::string name = strip( child->Attribute( "name" ), "Vk" );
-				std::map<std::string, EnumData>::iterator eit = vkData.enums.find( name );
-				if( eit != vkData.enums.end() )
-				{
-					eit->second.protect = protect;
-				}
-				else
-				{
-					std::map<std::string, FlagData>::iterator fit = vkData.flags.find( name );
-					if( fit != vkData.flags.end() )
-					{
-						fit->second.protect = protect;
-
-						// if the enum of this flags is auto-generated, protect it as well
-						std::string enumName = generateEnumNameForFlags( name );
-						std::map<std::string, EnumData>::iterator eit = vkData.enums.find( enumName );
-						assert( eit != vkData.enums.end() );
-						if( eit->second.members.empty() )
-						{
-							eit->second.protect = protect;
-						}
-					}
-					else
-					{
-						std::map<std::string, ScalarData>::iterator scit = vkData.scalars.find( name );
-						if( scit != vkData.scalars.end() )
-						{
-							scit->second.protect = protect;
-						}
-						else
-						{
-							std::map<std::string, StructData>::iterator stit = vkData.structs.find( name );
-							assert( stit != vkData.structs.end() && stit->second.protect.empty() );
-							stit->second.protect = protect;
-						}
-					}
-				}
-			}
-			else if( value == "enum" )
-			{
-				// TODO process enums which don't extend existing enums
-				if( child->Attribute( "extends" ) )
-				{
-					assert( child->Attribute( "name" ) );
-					assert( vkData.enums.find( getEnumName( child->Attribute( "extends" ) ) ) != vkData.enums.end() );
-					assert( !!child->Attribute( "bitpos" ) + !!child->Attribute( "offset" ) + !!child->Attribute( "value" ) == 1 );
-					vkData.enums[ getEnumName( child->Attribute( "extends" ) ) ].addEnum( child->Attribute( "name" ), child->Attribute( "value" ) ? "" : tag, true );
-				}
-			}
-			else
-			{
-				assert( value == "usage" );
-			}
-		} while( child = child->NextSiblingElement() );
-	}
-
-	void CppGenerator::readExtensions( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		assert( child );
-		do
-		{
-			assert( strcmp( child->Value(), "extension" ) == 0 );
-			readExtensionsExtension( child, vkData );
-		} while( child = child->NextSiblingElement() );
-	}
-
-	void CppGenerator::readExtensionsExtension( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		assert( element->Attribute( "name" ) );
-		std::string tag = extractTag( element->Attribute( "name" ) );
-		assert( vkData.tags.find( tag ) != vkData.tags.end() );
-
-		// don't parse disabled extensions
-		if( strcmp( element->Attribute( "supported" ), "disabled" ) == 0 )
-		{
-			return;
-		}
-
-		std::string protect;
-		if( element->Attribute( "protect" ) )
-		{
-			protect = element->Attribute( "protect" );
-		}
-
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		assert( child && ( strcmp( child->Value(), "require" ) == 0 ) && !child->NextSiblingElement() );
-		readExtensionRequire( child, vkData, protect, tag );
-	}
-
-	void CppGenerator::readTypeBasetype( tinyxml2::XMLElement * element, std::list<DependencyData> & dependencies )
-	{
-		tinyxml2::XMLElement * typeElement = element->FirstChildElement();
-		assert( typeElement && ( strcmp( typeElement->Value(), "type" ) == 0 ) && typeElement->GetText() );
-		std::string type = typeElement->GetText();
-		assert( ( type == "uint32_t" ) || ( type == "uint64_t" ) );
-
-		tinyxml2::XMLElement * nameElement = typeElement->NextSiblingElement();
-		assert( nameElement && ( strcmp( nameElement->Value(), "name" ) == 0 ) && nameElement->GetText() );
-		std::string name = strip( nameElement->GetText(), "Vk" );
-
-		// skip "Flags",
-		if( name != "Flags" )
-		{
-			dependencies.push_back( DependencyData( DependencyData::Category::SCALAR, name ) );
-			dependencies.back().dependencies.insert( type );
-		}
-		else
-		{
-			assert( type == "uint32_t" );
-		}
-	}
-
-	void CppGenerator::readTypeBitmask( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * typeElement = element->FirstChildElement();
-		assert( typeElement && ( strcmp( typeElement->Value(), "type" ) == 0 ) && typeElement->GetText() && ( strcmp( typeElement->GetText(), "VkFlags" ) == 0 ) );
-		std::string type = typeElement->GetText();
-
-		tinyxml2::XMLElement * nameElement = typeElement->NextSiblingElement();
-		assert( nameElement && ( strcmp( nameElement->Value(), "name" ) == 0 ) && nameElement->GetText() );
-		std::string name = strip( nameElement->GetText(), "Vk" );
-
-		assert( !nameElement->NextSiblingElement() );
-
-		std::string requires;
-		if( element->Attribute( "requires" ) )
-		{
-			requires = strip( element->Attribute( "requires" ), "Vk" );
-		}
-		else
-		{
-			// Generate FlagBits name
-			requires = generateEnumNameForFlags( name );
-			vkData.dependencies.push_back( DependencyData( DependencyData::Category::ENUM, requires ) );
-			std::map<std::string, EnumData>::iterator it = vkData.enums.insert( std::make_pair( requires, EnumData() ) ).first;
-			it->second.bitmask = true;
-			vkData.vkTypes.insert( requires );
-		}
-
-		vkData.dependencies.push_back( DependencyData( DependencyData::Category::FLAGS, name ) );
-		vkData.dependencies.back().dependencies.insert( requires );
-		vkData.flags.insert( std::make_pair( name, FlagData() ) );
-
-		assert( vkData.vkTypes.find( name ) == vkData.vkTypes.end() );
-		vkData.vkTypes.insert( name );
-	}
-
-	void CppGenerator::readTypeDefine( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		if( child && ( strcmp( child->GetText(), "VK_HEADER_VERSION" ) == 0 ) )
-		{
-			vkData.version = element->LastChild()->ToText()->Value();
-		}
-		else if( element->Attribute( "name" ) && strcmp( element->Attribute( "name" ), "VK_DEFINE_NON_DISPATCHABLE_HANDLE" ) == 0 )
-		{
-			std::string text = element->LastChild()->ToText()->Value();
-			size_t start = text.find( '#' );
-			size_t end = text.find_first_of( "\r\n", start + 1 );
-			vkData.typesafeCheck = text.substr( start, end - start );
-		}
-	}
-
-	void CppGenerator::readTypeFuncpointer( tinyxml2::XMLElement * element, std::list<DependencyData> & dependencies )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		assert( child && ( strcmp( child->Value(), "name" ) == 0 ) && child->GetText() );
-		dependencies.push_back( DependencyData( DependencyData::Category::FUNC_POINTER, child->GetText() ) );
-	}
-
-	void CppGenerator::readTypeHandle( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * typeElement = element->FirstChildElement();
-		assert( typeElement && ( strcmp( typeElement->Value(), "type" ) == 0 ) && typeElement->GetText() );
-	#if !defined(NDEBUG)
-		std::string type = typeElement->GetText();
-		assert( type.find( "VK_DEFINE" ) == 0 );
-	#endif
-
-		tinyxml2::XMLElement * nameElement = typeElement->NextSiblingElement();
-		assert( nameElement && ( strcmp( nameElement->Value(), "name" ) == 0 ) && nameElement->GetText() );
-		std::string name = strip( nameElement->GetText(), "Vk" );
-
-		vkData.dependencies.push_back( DependencyData( DependencyData::Category::HANDLE, name ) );
-
-		assert( vkData.vkTypes.find( name ) == vkData.vkTypes.end() );
-		vkData.vkTypes.insert( name );
-		assert( vkData.handles.find( name ) == vkData.handles.end() );
-		vkData.handles[ name ];    // add this to the handles map
-	}
-
-	void CppGenerator::readTypeStructMember( tinyxml2::XMLElement * element, std::vector<MemberData> & members, std::set<std::string> & dependencies )
-	{
-		members.push_back( MemberData() );
-		MemberData & member = members.back();
-
-		tinyxml2::XMLNode * child = element->FirstChild();
-		assert( child );
-		if( child->ToText() )
-		{
-			std::string value = StringsHelper::trimEnd( child->Value() );
-			assert( ( value == "const" ) || ( value == "struct" ) );
-			member.type = value + " ";
-			child = child->NextSibling();
-			assert( child );
-		}
-
-		assert( child->ToElement() );
-		assert( ( strcmp( child->Value(), "type" ) == 0 ) && child->ToElement() && child->ToElement()->GetText() );
-		std::string type = strip( child->ToElement()->GetText(), "Vk" );
-		dependencies.insert( type );
-		member.type += type;
-		member.pureType = type;
-
-		child = child->NextSibling();
-		assert( child );
-		if( child->ToText() )
-		{
-			std::string value = StringsHelper::trimEnd( child->Value() );
-			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
-			member.type += value;
-			child = child->NextSibling();
-		}
-
-		assert( ( child->ToElement() && strcmp( child->Value(), "name" ) == 0 ) );
-		member.name = child->ToElement()->GetText();
-
-		if( member.name.back() == ']' )
-		{
-			assert( !child->NextSibling() );
-			size_t pos = member.name.find( '[' );
-			assert( pos != std::string::npos );
-			member.arraySize = member.name.substr( pos + 1, member.name.length() - 2 - pos );
-			member.name.erase( pos );
-		}
-
-		child = child->NextSibling();
-		if( child )
-		{
-			assert( member.arraySize.empty() );
-			if( child->ToText() )
-			{
-				std::string value = child->Value();
-				if( value == "[" )
-				{
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToElement() && ( strcmp( child->Value(), "enum" ) == 0 ) );
-					member.arraySize = child->ToElement()->GetText();
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToText() );
-					assert( strcmp( child->Value(), "]" ) == 0 );
-					assert( !child->NextSibling() );
-				}
-				else
-				{
-					assert( ( value.front() == '[' ) && ( value.back() == ']' ) );
-					member.arraySize = value.substr( 1, value.length() - 2 );
-					assert( !child->NextSibling() );
-				}
-			}
-		}
-	}
-
-	void CppGenerator::readTypeStruct( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		assert( !element->Attribute( "returnedonly" ) || ( strcmp( element->Attribute( "returnedonly" ), "true" ) == 0 ) );
-
-		assert( element->Attribute( "name" ) );
-		std::string name = strip( element->Attribute( "name" ), "Vk" );
-
-		if( name == "Rect3D" )
-		{
-			return;
-		}
-
-		vkData.dependencies.push_back( DependencyData( DependencyData::Category::STRUCT, name ) );
-
-		assert( vkData.structs.find( name ) == vkData.structs.end() );
-		std::map<std::string, StructData>::iterator it = vkData.structs.insert( std::make_pair( name, StructData() ) ).first;
-		it->second.returnedOnly = !!element->Attribute( "returnedonly" );
-
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		do
-		{
-			assert( child->Value() );
-			std::string value = child->Value();
-			if( value == "member" )
-			{
-				readTypeStructMember( child, it->second.members, vkData.dependencies.back().dependencies );
-			}
-			else
-			{
-				assert( value == "validity" );
-			}
-		} while( child = child->NextSiblingElement() );
-
-		assert( vkData.vkTypes.find( name ) == vkData.vkTypes.end() );
-		vkData.vkTypes.insert( name );
-	}
-
-	void CppGenerator::readTypeUnionMember( tinyxml2::XMLElement * element, std::vector<MemberData> & members, std::set<std::string> & dependencies )
-	{
-		members.push_back( MemberData() );
-		MemberData & member = members.back();
-
-		tinyxml2::XMLNode * child = element->FirstChild();
-		assert( child );
-		if( child->ToText() )
-		{
-			assert( ( strcmp( child->Value(), "const" ) == 0 ) || ( strcmp( child->Value(), "struct" ) == 0 ) );
-			member.type = std::string( child->Value() ) + " ";
-			child = child->NextSibling();
-			assert( child );
-		}
-
-		assert( child->ToElement() );
-		assert( ( strcmp( child->Value(), "type" ) == 0 ) && child->ToElement() && child->ToElement()->GetText() );
-		std::string type = strip( child->ToElement()->GetText(), "Vk" );
-		dependencies.insert( type );
-		member.type += type;
-		member.pureType = type;
-
-		child = child->NextSibling();
-		assert( child );
-		if( child->ToText() )
-		{
-			std::string value = child->Value();
-			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
-			member.type += value;
-			child = child->NextSibling();
-		}
-
-		assert( child->ToElement() && ( strcmp( child->Value(), "name" ) == 0 ) );
-		member.name = child->ToElement()->GetText();
-
-		if( member.name.back() == ']' )
-		{
-			assert( !child->NextSibling() );
-			size_t pos = member.name.find( '[' );
-			assert( pos != std::string::npos );
-			member.arraySize = member.name.substr( pos + 1, member.name.length() - 2 - pos );
-			member.name.erase( pos );
-		}
-
-		child = child->NextSibling();
-		if( child )
-		{
-			if( child->ToText() )
-			{
-				std::string value = child->Value();
-				if( value == "[" )
-				{
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToElement() && ( strcmp( child->Value(), "enum" ) == 0 ) );
-					member.arraySize = child->ToElement()->GetText();
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToText() );
-					assert( strcmp( child->Value(), "]" ) == 0 );
-					assert( !child->NextSibling() );
-				}
-				else
-				{
-					assert( ( value.front() == '[' ) && ( value.back() == ']' ) );
-					member.arraySize = value.substr( 1, value.length() - 2 );
-					assert( !child->NextSibling() );
-				}
-			}
-		}
-	}
-
-	void CppGenerator::readTypeUnion( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		assert( element->Attribute( "name" ) );
-		std::string name = strip( element->Attribute( "name" ), "Vk" );
-
-		vkData.dependencies.push_back( DependencyData( DependencyData::Category::UNION, name ) );
-
-		assert( vkData.structs.find( name ) == vkData.structs.end() );
-		std::map<std::string, StructData>::iterator it = vkData.structs.insert( std::make_pair( name, StructData() ) ).first;
-
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		do
-		{
-			assert( strcmp( child->Value(), "member" ) == 0 );
-			readTypeUnionMember( child, it->second.members, vkData.dependencies.back().dependencies );
-		} while( child = child->NextSiblingElement() );
-
-		assert( vkData.vkTypes.find( name ) == vkData.vkTypes.end() );
-		vkData.vkTypes.insert( name );
-	}
-
-	void CppGenerator::readTags( tinyxml2::XMLElement * element, std::set<std::string> & tags )
-	{
-		tags.insert( "EXT" );
-		tags.insert( "KHR" );
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		do
-		{
-			assert( child->Attribute( "name" ) );
-			tags.insert( child->Attribute( "name" ) );
-		} while( child = child->NextSiblingElement() );
-	}
-
-	void CppGenerator::readTypes( tinyxml2::XMLElement * element, VkData & vkData )
-	{
-		tinyxml2::XMLElement * child = element->FirstChildElement();
-		do
-		{
-			assert( strcmp( child->Value(), "type" ) == 0 );
-			std::string type = child->Value();
-			assert( type == "type" );
-			if( child->Attribute( "category" ) )
-			{
-				std::string category = child->Attribute( "category" );
-				if( category == "basetype" )
-				{
-					readTypeBasetype( child, vkData.dependencies );
-				}
-				else if( category == "bitmask" )
-				{
-					readTypeBitmask( child, vkData );
-				}
-				else if( category == "define" )
-				{
-					readTypeDefine( child, vkData );
-				}
-				else if( category == "funcpointer" )
-				{
-					readTypeFuncpointer( child, vkData.dependencies );
-				}
-				else if( category == "handle" )
-				{
-					readTypeHandle( child, vkData );
-				}
-				else if( category == "struct" )
-				{
-					readTypeStruct( child, vkData );
-				}
-				else if( category == "union" )
-				{
-					readTypeUnion( child, vkData );
-				}
-				else
-				{
-					assert( ( category == "enum" ) || ( category == "include" ) );
-				}
-			}
-			else
-			{
-				assert( child->Attribute( "requires" ) && child->Attribute( "name" ) );
-				vkData.dependencies.push_back( DependencyData( DependencyData::Category::REQUIRED, child->Attribute( "name" ) ) );
-			}
-		} while( child = child->NextSiblingElement() );
-	}
-
 	void CppGenerator::sortDependencies( std::list<DependencyData> & dependencies )
 	{
 		std::set<std::string> listedTypes = { "VkFlags" };
@@ -1211,7 +393,7 @@ namespace vk
 		std::string reducedName;
 		if( ( name[ 0 ] == 'p' ) && ( 1 < name.length() ) && ( isupper( name[ 1 ] ) || name[ 1 ] == 'p' ) )
 		{
-			reducedName = strip( name, "p" );
+			reducedName = StringsHelper::strip( name, "p" );
 			reducedName[ 0 ] = tolower( reducedName[ 0 ] );
 		}
 		else
@@ -1220,30 +402,6 @@ namespace vk
 		}
 
 		return reducedName;
-	}
-
-	std::string CppGenerator::strip( std::string const& value, std::string const& prefix, std::string const& postfix )
-	{
-		std::string strippedValue = value;
-		if( strippedValue.find( prefix ) == 0 )
-		{
-			strippedValue.erase( 0, prefix.length() );
-		}
-		if( !postfix.empty() )
-		{
-			size_t pos = strippedValue.rfind( postfix );
-			assert( pos != std::string::npos );
-			strippedValue.erase( pos );
-		}
-		return strippedValue;
-	}
-
-	std::string CppGenerator::stripCommand( std::string const& value )
-	{
-		std::string stripped = strip( value, "vk" );
-		assert( isupper( stripped[ 0 ] ) );
-		stripped[ 0 ] = tolower( stripped[ 0 ] );
-		return stripped;
 	}
 
 	void CppGenerator::writeCall( std::ofstream & ofs, std::string const& name, size_t templateIndex, CommandData const& commandData, std::set<std::string> const& vkTypes, std::map<size_t, size_t> const& vectorParameters, size_t returnIndex, bool firstCall )
@@ -1608,7 +766,14 @@ namespace vk
 		ofs << indentation << "}" << std::endl;
 	}
 
-	void CppGenerator::writeFunctionHeader( std::ofstream & ofs, VkData const& vkData, std::string const& indentation, std::string const& returnType, std::string const& name, CommandData const& commandData, size_t returnIndex, size_t templateIndex, std::map<size_t, size_t> const& vectorParameters )
+	void CppGenerator::writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
+											std::string const& indentation,
+											std::string const& returnType,
+											std::string const& name,
+											CommandData const& commandData,
+											size_t returnIndex,
+											size_t templateIndex,
+											std::map<size_t, size_t> const& vectorParameters )
 	{
 		std::set<size_t> skippedArguments;
 		for( std::map<size_t, size_t>::const_iterator it = vectorParameters.begin(); it != vectorParameters.end(); ++it )
@@ -1701,14 +866,14 @@ namespace vk
 							}
 							if( lastArgument == i )
 							{
-								std::map<std::string, FlagData>::const_iterator flagIt = vkData.flags.find( commandData.arguments[ i ].pureType );
-								if( flagIt != vkData.flags.end() )
+								std::map<std::string, FlagData>::const_iterator flagIt = vkData->flags.find( commandData.arguments[ i ].pureType );
+								if( flagIt != vkData->flags.end() )
 								{
-									std::list<DependencyData>::const_iterator depIt = std::find_if( vkData.dependencies.begin(), vkData.dependencies.end(), [ &flagIt ]( DependencyData const& dd ) { return( dd.name == flagIt->first ); } );
-									assert( depIt != vkData.dependencies.end() );
+									std::list<DependencyData>::const_iterator depIt = std::find_if( vkData->dependencies.begin(), vkData->dependencies.end(), [ &flagIt ]( DependencyData const& dd ) { return( dd.name == flagIt->first ); } );
+									assert( depIt != vkData->dependencies.end() );
 									assert( depIt->dependencies.size() == 1 );
-									std::map<std::string, EnumData>::const_iterator enumIt = vkData.enums.find( *depIt->dependencies.begin() );
-									assert( enumIt != vkData.enums.end() );
+									std::map<std::string, EnumData>::const_iterator enumIt = vkData->enums.find( *depIt->dependencies.begin() );
+									assert( enumIt != vkData->enums.end() );
 									if( enumIt->second.members.empty() )
 									{
 										ofs << " = " << commandData.arguments[ i ].pureType << "()";
@@ -1908,13 +1073,13 @@ namespace vk
 			<< std::endl;
 	}
 
-	void CppGenerator::writeTypeCommand( std::ofstream & ofs, VkData const& vkData, DependencyData const& dependencyData )
+	void CppGenerator::writeTypeCommand( std::ofstream& ofs, SpecData* vkData, DependencyData const& dependencyData )
 	{
-		assert( vkData.commands.find( dependencyData.name ) != vkData.commands.end() );
-		CommandData const& commandData = vkData.commands.find( dependencyData.name )->second;
+		assert( vkData->commands.find( dependencyData.name ) != vkData->commands.end() );
+		CommandData const& commandData = vkData->commands.find( dependencyData.name )->second;
 		if( !commandData.handleCommand )
 		{
-			writeTypeCommandStandard( ofs, "  ", dependencyData.name, dependencyData, commandData, vkData.vkTypes );
+			writeTypeCommandStandard( ofs, "  ", dependencyData.name, dependencyData, commandData, vkData->vkTypes );
 
 			ofs << std::endl
 				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
@@ -1924,7 +1089,12 @@ namespace vk
 		}
 	}
 
-	void CppGenerator::writeTypeCommandEnhanced( std::ofstream & ofs, VkData const& vkData, std::string const& indentation, std::string const& className, std::string const& functionName, DependencyData const& dependencyData, CommandData const& commandData )
+	void CppGenerator::writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
+												 std::string const& indentation,
+												 std::string const& className,
+												 std::string const& functionName,
+												 DependencyData const& dependencyData,
+												 CommandData const& commandData )
 	{
 		enterProtect( ofs, commandData.protect );
 		std::map<size_t, size_t> vectorParameters = getVectorParameters( commandData );
@@ -1934,7 +1104,7 @@ namespace vk
 		std::string returnType = determineReturnType( commandData, returnIndex, returnVector != vectorParameters.end() );
 
 		writeFunctionHeader( ofs, vkData, indentation, returnType, functionName, commandData, returnIndex, templateIndex, vectorParameters );
-		writeFunctionBody( ofs, indentation, className, functionName, returnType, templateIndex, dependencyData, commandData, vkData.vkTypes, returnIndex, vectorParameters );
+		writeFunctionBody( ofs, indentation, className, functionName, returnType, templateIndex, dependencyData, commandData, vkData->vkTypes, returnIndex, vectorParameters );
 		leaveProtect( ofs, commandData.protect );
 	}
 
@@ -2052,25 +1222,23 @@ namespace vk
 		ofs << std::endl;
 	}
 
-	void CppGenerator::writeFlagsToString( std::ofstream & ofs, DependencyData const& dependencyData, EnumData const &enumData )
+	void CppGenerator::writeFlagsToString( std::ofstream& ofs, DependencyData const& dependencyData, EnumData const &enumData )
 	{
 		enterProtect( ofs, enumData.protect );
 		std::string enumPrefix = *dependencyData.dependencies.begin() + "::";
 		ofs << "  inline std::string to_string(" << dependencyData.name << ( enumData.members.empty() ? ")" : " value)" ) << std::endl
 			<< "  {" << std::endl;
 		if( enumData.members.empty() )
-		{
 			ofs << "    return \"{}\";" << std::endl;
-		}
+
 		else
 		{
 			ofs << "    if (!value) return \"{}\";" << std::endl
 				<< "    std::string result;" << std::endl;
 
 			for( auto itMember = enumData.members.begin(); itMember != enumData.members.end(); ++itMember )
-			{
 				ofs << "    if (value & " << enumPrefix + itMember->name << ") result += \"" << itMember->name.substr( 1 ) << " | \";" << std::endl;
-			}
+
 			ofs << "    return \"{\" + result.substr(0, result.size() - 3) + \"}\";" << std::endl;
 		}
 		ofs << "  }" << std::endl;
@@ -2078,18 +1246,19 @@ namespace vk
 		ofs << std::endl;
 	}
 
-	void CppGenerator::writeEnumsToString( std::ofstream & ofs, VkData const& vkData )
+	void CppGenerator::writeEnumsToString( std::ofstream& ofs, SpecData* vkData )
 	{
-		for( auto it = vkData.dependencies.begin(); it != vkData.dependencies.end(); ++it )
+		for( auto& it : vkData->dependencies )
 		{
-			switch( it->category )
+			switch( it.category )
 			{
 				case DependencyData::Category::ENUM:
-					assert( vkData.enums.find( it->name ) != vkData.enums.end() );
-					writeEnumsToString( ofs, *it, vkData.enums.find( it->name )->second );
+					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
+					writeEnumsToString( ofs, it, vkData->enums.find( it.name )->second );
 					break;
+
 				case DependencyData::Category::FLAGS:
-					writeFlagsToString( ofs, *it, vkData.enums.find( *it->dependencies.begin() )->second );
+					writeFlagsToString( ofs, it, vkData->enums.find( *it.dependencies.begin() )->second );
 					break;
 			}
 		}
@@ -2109,7 +1278,10 @@ namespace vk
 		ofs << std::endl;
 	}
 
-	void CppGenerator::writeTypeHandle( std::ofstream & ofs, VkData const& vkData, DependencyData const& dependencyData, HandleData const& handle, std::list<DependencyData> const& dependencies )
+	void CppGenerator::writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
+										DependencyData const& dependencyData,
+										HandleData const& handle,
+										std::list<DependencyData> const& dependencies )
 	{
 		std::string memberName = dependencyData.name;
 		assert( isupper( memberName[ 0 ] ) );
@@ -2142,8 +1314,8 @@ namespace vk
 			for( size_t i = 0; i < handle.commands.size(); i++ )
 			{
 				std::string commandName = handle.commands[ i ];
-				std::map<std::string, CommandData>::const_iterator cit = vkData.commands.find( commandName );
-				assert( ( cit != vkData.commands.end() ) && cit->second.handleCommand );
+				std::map<std::string, CommandData>::const_iterator cit = vkData->commands.find( commandName );
+				assert( ( cit != vkData->commands.end() ) && cit->second.handleCommand );
 				std::list<DependencyData>::const_iterator dep = std::find_if( dependencies.begin(), dependencies.end(), [ commandName ]( DependencyData const& dd ) { return dd.name == commandName; } );
 				assert( dep != dependencies.end() );
 				std::string className = dependencyData.name;
@@ -2151,14 +1323,11 @@ namespace vk
 
 				bool hasPointers = hasPointerArguments( cit->second );
 				if( !hasPointers )
-				{
 					ofs << "#ifdef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
-				}
-				writeTypeCommandStandard( ofs, "    ", functionName, *dep, cit->second, vkData.vkTypes );
+
+				writeTypeCommandStandard( ofs, "    ", functionName, *dep, cit->second, vkData->vkTypes );
 				if( !hasPointers )
-				{
 					ofs << "#endif /*!VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl;
-				}
 
 				ofs << std::endl
 					<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
@@ -2166,9 +1335,7 @@ namespace vk
 				ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl;
 
 				if( i < handle.commands.size() - 1 )
-				{
 					ofs << std::endl;
-				}
 			}
 			ofs << std::endl;
 		}
@@ -2206,10 +1373,12 @@ namespace vk
 			<< std::endl;
 	}
 
-	void CppGenerator::writeTypeStruct( std::ofstream & ofs, VkData const& vkData, DependencyData const& dependencyData, std::map<std::string, std::string> const& defaultValues )
+	void CppGenerator::writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
+										DependencyData const& dependencyData,
+										std::map<std::string, std::string> const& defaultValues )
 	{
-		std::map<std::string, StructData>::const_iterator it = vkData.structs.find( dependencyData.name );
-		assert( it != vkData.structs.end() );
+		std::map<std::string, StructData>::const_iterator it = vkData->structs.find( dependencyData.name );
+		assert( it != vkData->structs.end() );
 
 		enterProtect( ofs, it->second.protect );
 		ofs << "  struct " << dependencyData.name << std::endl
@@ -2217,17 +1386,13 @@ namespace vk
 
 		// only structs that are not returnedOnly get a constructor!
 		if( !it->second.returnedOnly )
-		{
-			writeStructConstructor( ofs, dependencyData.name, it->second, vkData.vkTypes, defaultValues );
-		}
+			writeStructConstructor( ofs, dependencyData.name, it->second, vkData->vkTypes, defaultValues );
 
 		// create the setters
 		if( !it->second.returnedOnly )
 		{
 			for( size_t i = 0; i < it->second.members.size(); i++ )
-			{
-				writeStructSetter( ofs, dependencyData.name, it->second.members[ i ], vkData.vkTypes );
-			}
+				writeStructSetter( ofs, dependencyData.name, it->second.members[ i ], vkData->vkTypes );
 		}
 
 		// the cast-operator to the wrapped struct
@@ -2252,9 +1417,7 @@ namespace vk
 			{
 				ofs << "    " << it->second.members[ i ].type << " " << it->second.members[ i ].name;
 				if( !it->second.members[ i ].arraySize.empty() )
-				{
 					ofs << "[" << it->second.members[ i ].arraySize << "]";
-				}
 				ofs << ";" << std::endl;
 			}
 		}
@@ -2266,7 +1429,10 @@ namespace vk
 		ofs << std::endl;
 	}
 
-	void CppGenerator::writeTypeUnion( std::ofstream & ofs, VkData const& vkData, DependencyData const& dependencyData, StructData const& unionData, std::map<std::string, std::string> const& defaultValues )
+	void CppGenerator::writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
+									   DependencyData const& dependencyData,
+									   StructData const& unionData,
+									   std::map<std::string, std::string> const& defaultValues )
 	{
 		std::ostringstream oss;
 		ofs << "  union " << dependencyData.name << std::endl
@@ -2320,7 +1486,7 @@ namespace vk
 		{
 			// one setter per union element
 			assert( !unionData.returnedOnly );
-			writeStructSetter( ofs, dependencyData.name, unionData.members[ i ], vkData.vkTypes );
+			writeStructSetter( ofs, dependencyData.name, unionData.members[ i ], vkData->vkTypes );
 		}
 
 		// the implicit cast operator to the native type
@@ -2334,9 +1500,8 @@ namespace vk
 		// if there's at least one Vk... type in this union, check for unrestricted unions support
 		bool needsUnrestrictedUnions = false;
 		for( size_t i = 0; i < unionData.members.size() && !needsUnrestrictedUnions; i++ )
-		{
-			needsUnrestrictedUnions = ( vkData.vkTypes.find( unionData.members[ i ].type ) != vkData.vkTypes.end() );
-		}
+			needsUnrestrictedUnions = vkData->vkTypes.find( unionData.members[ i ].type ) != vkData->vkTypes.end();
+
 		if( needsUnrestrictedUnions )
 		{
 			ofs << "#ifdef VK_CPP_HAS_UNRESTRICTED_UNIONS" << std::endl;
@@ -2344,9 +1509,8 @@ namespace vk
 			{
 				ofs << "    " << unionData.members[ i ].type << " " << unionData.members[ i ].name;
 				if( !unionData.members[ i ].arraySize.empty() )
-				{
 					ofs << "[" << unionData.members[ i ].arraySize << "]";
-				}
+
 				ofs << ";" << std::endl;
 			}
 			ofs << "#else" << std::endl;
@@ -2354,60 +1518,66 @@ namespace vk
 		for( size_t i = 0; i < unionData.members.size(); i++ )
 		{
 			ofs << "    ";
-			if( vkData.vkTypes.find( unionData.members[ i ].type ) != vkData.vkTypes.end() )
-			{
+			if( vkData->vkTypes.find( unionData.members[ i ].type ) != vkData->vkTypes.end() )
 				ofs << "Vk";
-			}
+
 			ofs << unionData.members[ i ].type << " " << unionData.members[ i ].name;
 			if( !unionData.members[ i ].arraySize.empty() )
-			{
 				ofs << "[" << unionData.members[ i ].arraySize << "]";
-			}
+
 			ofs << ";" << std::endl;
 		}
 		if( needsUnrestrictedUnions )
-		{
 			ofs << "#endif  // VK_CPP_HAS_UNRESTRICTED_UNIONS" << std::endl;
-		}
+
 		ofs << "  };" << std::endl
 			<< std::endl;
 	}
 
-	void CppGenerator::writeTypes( std::ofstream & ofs, VkData const& vkData, std::map<std::string, std::string> const& defaultValues )
+	void CppGenerator::writeTypes( std::ofstream& ofs, SpecData* vkData,
+								   std::map<std::string, std::string> const& defaultValues )
 	{
-		for( std::list<DependencyData>::const_iterator it = vkData.dependencies.begin(); it != vkData.dependencies.end(); ++it )
+		for( auto& it : vkData->dependencies )
 		{
-			switch( it->category )
+			switch( it.category )
 			{
 				case DependencyData::Category::COMMAND:
-					writeTypeCommand( ofs, vkData, *it );
+					writeTypeCommand( ofs, vkData, it );
 					break;
+
 				case DependencyData::Category::ENUM:
-					assert( vkData.enums.find( it->name ) != vkData.enums.end() );
-					writeTypeEnum( ofs, *it, vkData.enums.find( it->name )->second );
+					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
+					writeTypeEnum( ofs, it, vkData->enums.find( it.name )->second );
 					break;
+
 				case DependencyData::Category::FLAGS:
-					assert( vkData.flags.find( it->name ) != vkData.flags.end() );
-					writeTypeFlags( ofs, *it, vkData.flags.find( it->name )->second );
+					assert( vkData->flags.find( it.name ) != vkData->flags.end() );
+					writeTypeFlags( ofs, it, vkData->flags.find( it.name )->second );
 					break;
+
 				case DependencyData::Category::FUNC_POINTER:
 				case DependencyData::Category::REQUIRED:
 					// skip FUNC_POINTER and REQUIRED, they just needed to be in the dependencies list to resolve dependencies
 					break;
+
 				case DependencyData::Category::HANDLE:
-					assert( vkData.handles.find( it->name ) != vkData.handles.end() );
-					writeTypeHandle( ofs, vkData, *it, vkData.handles.find( it->name )->second, vkData.dependencies );
+					assert( vkData->handles.find( it.name ) != vkData->handles.end() );
+					writeTypeHandle( ofs, vkData, it, vkData->handles.find( it.name )->second, vkData->dependencies );
 					break;
+
 				case DependencyData::Category::SCALAR:
-					writeTypeScalar( ofs, *it );
+					writeTypeScalar( ofs, it );
 					break;
+
 				case DependencyData::Category::STRUCT:
-					writeTypeStruct( ofs, vkData, *it, defaultValues );
+					writeTypeStruct( ofs, vkData, it, defaultValues );
 					break;
+
 				case DependencyData::Category::UNION:
-					assert( vkData.structs.find( it->name ) != vkData.structs.end() );
-					writeTypeUnion( ofs, vkData, *it, vkData.structs.find( it->name )->second, defaultValues );
+					assert( vkData->structs.find( it.name ) != vkData->structs.end() );
+					writeTypeUnion( ofs, vkData, it, vkData->structs.find( it.name )->second, defaultValues );
 					break;
+
 				default:
 					assert( false );
 					break;
@@ -2415,7 +1585,8 @@ namespace vk
 		}
 	}
 
-	void CppGenerator::writeVersionCheck( std::ofstream & ofs, std::string const& version )
+	void CppGenerator::writeVersionCheck( std::ofstream& ofs,
+										  std::string const& version )
 	{
 		ofs << "static_assert( VK_HEADER_VERSION == " << version << " , \"Wrong VK_HEADER_VERSION!\" );" << std::endl
 			<< std::endl;
