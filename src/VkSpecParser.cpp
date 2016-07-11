@@ -95,7 +95,7 @@ namespace vk
 				else if( value == "types" )
 					_readTypes( child, vkData );
 				else
-					assert( ( value == "feature" ) || ( value == "vendorids" ) );
+					assert( value == "feature" || value == "vendorids" );
 			} while( child = child->NextSiblingElement() );
 		}
 		catch( const std::exception& e )
@@ -210,17 +210,21 @@ namespace vk
 			it->second.twoStep = true;
 
 		assert( !it->second.arguments.empty() );
-		std::map<std::string, HandleData>::iterator hit = vkData->handles.find( it->second.arguments[ 0 ].pureType );
+		auto hit = vkData->handles.find( it->second.arguments[ 0 ].pureType );
 		if( hit != vkData->handles.end() )
 		{
 			hit->second.commands.push_back( it->first );
 			it->second.handleCommand = true;
 			DependencyData const& dep = vkData->dependencies.back();
-			std::list<DependencyData>::iterator dit = std::find_if( vkData->dependencies.begin(), vkData->dependencies.end(), [ hit ]( DependencyData const& dd ) { return dd.name == hit->first; } );
-			for( std::set<std::string>::const_iterator depit = dep.dependencies.begin(); depit != dep.dependencies.end(); ++depit )
+			auto dit = std::find_if(
+						   vkData->dependencies.begin(),
+						   vkData->dependencies.end(),
+						   [ hit ]( DependencyData const& dd ) { return dd.name == hit->first; }
+			);
+			for( auto& depit : dep.dependencies )
 			{
-				if( *depit != hit->first )
-					dit->dependencies.insert( *depit );
+				if( depit != hit->first )
+					dit->dependencies.insert( depit );
 			}
 		}
 	}
@@ -230,6 +234,7 @@ namespace vk
 	{
 		auto typeElement = element->FirstChildElement();
 		assert( typeElement && ( strcmp( typeElement->Value(), "type" ) == 0 ) );
+
 		auto nameElement = typeElement->NextSiblingElement();
 		assert( nameElement && ( strcmp( nameElement->Value(), "name" ) == 0 ) );
 		assert( !nameElement->NextSiblingElement() );
@@ -239,7 +244,7 @@ namespace vk
 
 		vkData->dependencies.push_back( DependencyData( DependencyData::Category::COMMAND, name ) );
 		assert( vkData->commands.find( name ) == vkData->commands.end() );
-		std::map<std::string, CommandData>::iterator it = vkData->commands.insert( std::make_pair( name, CommandData() ) ).first;
+		auto it = vkData->commands.insert( std::make_pair( name, CommandData() ) ).first;
 		it->second.returnType = type;
 
 		return it;
@@ -250,7 +255,7 @@ namespace vk
 									   std::vector<MemberData>& arguments ) const
 	{
 		arguments.push_back( MemberData() );
-		MemberData & arg = arguments.back();
+		MemberData& arg = arguments.back();
 
 		if( element->Attribute( "len" ) )
 			arg.len = element->Attribute( "len" );
@@ -267,7 +272,7 @@ namespace vk
 		}
 
 		assert( child->ToElement() );
-		assert( ( strcmp( child->Value(), "type" ) == 0 ) && child->ToElement() && child->ToElement()->GetText() );
+		assert( strcmp( child->Value(), "type" ) == 0 && child->ToElement() && child->ToElement()->GetText() );
 		std::string type = StringsHelper::strip( child->ToElement()->GetText(), "Vk" );
 		typeData.dependencies.insert( type );
 		arg.type += type;
@@ -278,7 +283,7 @@ namespace vk
 		if( child->ToText() )
 		{
 			std::string value = StringsHelper::trimEnd( child->Value() );
-			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
+			assert( value == "*" || value == "**" || value == "* const*" );
 			arg.type += value;
 			child = child->NextSibling();
 		}
@@ -304,27 +309,25 @@ namespace vk
 				if( value == "[" )
 				{
 					child = child->NextSibling();
-					assert( child );
-					assert( child->ToElement() && ( strcmp( child->Value(), "enum" ) == 0 ) );
+					assert( child && child->ToElement() && strcmp( child->Value(), "enum" ) == 0 );
 					arg.arraySize = child->ToElement()->GetText();
 					child = child->NextSibling();
-					assert( child );
-					assert( child->ToText() );
+					assert( child && child->ToText() );
 					assert( strcmp( child->Value(), "]" ) == 0 );
 					assert( !child->NextSibling() );
 				}
 				else
 				{
-					assert( ( value.front() == '[' ) && ( value.back() == ']' ) );
+					assert( value.front() == '[' && value.back() == ']' );
 					arg.arraySize = value.substr( 1, value.length() - 2 );
 					assert( !child->NextSibling() );
 				}
 			}
 		}
 
-		arg.optional = element->Attribute( "optional" ) && ( strcmp( element->Attribute( "optional" ), "true" ) == 0 );
-
-		return element->Attribute( "optional" ) && ( strcmp( element->Attribute( "optional" ), "false,true" ) == 0 );
+		auto optAttr = element->Attribute( "optional" );
+		arg.optional = optAttr && strcmp( optAttr, "true" ) == 0;
+		return optAttr && strcmp( optAttr, "false,true" ) == 0;
 	}
 	//--------------------------------------------------------------------------
 	void SpecParser::_readComment( tinyxml2::XMLElement* element, std::string& header ) const
@@ -348,52 +351,56 @@ namespace vk
 	{
 		assert( element->Attribute( "name" ) );
 		std::string name = _getEnumName( element->Attribute( "name" ) );
-		if( name != "API Constants" )
-		{
-			vkData->dependencies.push_back( DependencyData( DependencyData::Category::ENUM, name ) );
-			std::map<std::string, EnumData>::iterator it = vkData->enums.insert( std::make_pair( name, EnumData() ) ).first;
-			std::string tag;
+		if( name == "API Constants" )
+			return;
 
-			if( name == "Result" )
+		vkData->dependencies.push_back( DependencyData( DependencyData::Category::ENUM, name ) );
+		auto it = vkData->enums.insert( std::make_pair( name, EnumData() ) ).first;
+		std::string tag;
+
+		if( name == "Result" )
+		{
+			// special handling for VKResult, as its enums just have VK_ in common
+			it->second.prefix = "VK_";
+		}
+		else
+		{
+			auto typeAttr = element->Attribute( "type" );
+			assert( typeAttr );
+			std::string type = typeAttr;
+			assert( type == "bitmask" || type == "enum" );
+			it->second.bitmask = type == "bitmask";
+
+			//Unused variables
+			//std::string prefix, postfix;
+
+			if( it->second.bitmask )
 			{
-				// special handling for VKResult, as its enums just have VK_ in common
-				it->second.prefix = "VK_";
+				size_t pos = name.find( "FlagBits" );
+				assert( pos != std::string::npos );
+				it->second.prefix = "VK" + StringsHelper::toUpperCase( name.substr( 0, pos ) ) + "_";
+				it->second.postfix = "Bit";
 			}
 			else
-			{
-				assert( element->Attribute( "type" ) );
-				std::string type = element->Attribute( "type" );
-				assert( ( type == "bitmask" ) || ( type == "enum" ) );
-				it->second.bitmask = ( type == "bitmask" );
-				std::string prefix, postfix;
-				if( it->second.bitmask )
-				{
-					size_t pos = name.find( "FlagBits" );
-					assert( pos != std::string::npos );
-					it->second.prefix = "VK" + StringsHelper::toUpperCase( name.substr( 0, pos ) ) + "_";
-					it->second.postfix = "Bit";
-				}
-				else
-					it->second.prefix = "VK" + StringsHelper::toUpperCase( name ) + "_";
+				it->second.prefix = "VK" + StringsHelper::toUpperCase( name ) + "_";
 
-				// if the enum name contains a tag remove it from the prefix to generate correct enum value names.
-				for( std::set<std::string>::const_iterator tit = vkData->tags.begin(); tit != vkData->tags.end(); ++tit )
+			// if the enum name contains a tag remove it from the prefix to generate correct enum value names.
+			for( auto& tit : vkData->tags )
+			{
+				size_t pos = it->second.prefix.find( tit );
+				if( pos != std::string::npos && ( pos == it->second.prefix.length() - tit.length() - 1 ) )
 				{
-					size_t pos = it->second.prefix.find( *tit );
-					if( ( pos != std::string::npos ) && ( pos == it->second.prefix.length() - tit->length() - 1 ) )
-					{
-						it->second.prefix.erase( pos );
-						tag = *tit;
-						break;
-					}
+					it->second.prefix.erase( pos );
+					tag = tit;
+					break;
 				}
 			}
-
-			_readEnumsEnum( element, it->second, tag );
-
-			assert( vkData->vkTypes.find( name ) == vkData->vkTypes.end() );
-			vkData->vkTypes.insert( name );
 		}
+
+		_readEnumsEnum( element, it->second, tag );
+
+		assert( vkData->vkTypes.find( name ) == vkData->vkTypes.end() );
+		vkData->vkTypes.insert( name );
 	}
 	//--------------------------------------------------------------------------
 	void SpecParser::_readEnumsEnum( tinyxml2::XMLElement* element, EnumData& enumData,
@@ -402,8 +409,9 @@ namespace vk
 		auto child = element->FirstChildElement();
 		do
 		{
-			if( child->Attribute( "name" ) )
-				enumData.addEnum( child->Attribute( "name" ), tag, false );
+			auto nameAttr = child->Attribute( "name" );
+			if( nameAttr )
+				enumData.addEnum( nameAttr, tag, false );
 
 		} while( child = child->NextSiblingElement() );
 	}
@@ -422,8 +430,9 @@ namespace vk
 	void SpecParser::_readExtensionsExtension( tinyxml2::XMLElement* element,
 											  SpecData* vkData ) const
 	{
-		assert( element->Attribute( "name" ) );
-		std::string tag = _extractTag( element->Attribute( "name" ) );
+		auto nameAttr = element->Attribute( "name" );
+		assert( nameAttr );
+		std::string tag = _extractTag( nameAttr );
 		assert( vkData->tags.find( tag ) != vkData->tags.end() );
 
 		// don't parse disabled extensions
@@ -453,7 +462,7 @@ namespace vk
 			{
 				assert( child->Attribute( "name" ) );
 				std::string name = _stripCommand( child->Attribute( "name" ) );
-				std::map<std::string, CommandData>::iterator cit = vkData->commands.find( name );
+				auto cit = vkData->commands.find( name );
 				assert( cit != vkData->commands.end() );
 				cit->second.protect = protect;
 			}
@@ -461,7 +470,7 @@ namespace vk
 			{
 				assert( child->Attribute( "name" ) );
 				std::string name = StringsHelper::strip( child->Attribute( "name" ), "Vk" );
-				std::map<std::string, EnumData>::iterator eit = vkData->enums.find( name );
+				auto eit = vkData->enums.find( name );
 				if( eit != vkData->enums.end() )
 					eit->second.protect = protect;
 
@@ -557,7 +566,7 @@ namespace vk
 					_readTypeUnion( child, vkData );
 
 				else
-					assert( ( category == "enum" ) || ( category == "include" ) );
+					assert( category == "enum" || category == "include" );
 			}
 			else
 			{
@@ -709,21 +718,21 @@ namespace vk
 										   std::set<std::string>& dependencies ) const
 	{
 		members.push_back( MemberData() );
-		MemberData & member = members.back();
+		MemberData& member = members.back();
 
-		tinyxml2::XMLNode * child = element->FirstChild();
+		auto child = element->FirstChild();
 		assert( child );
 		if( child->ToText() )
 		{
 			std::string value = StringsHelper::trimEnd( child->Value() );
-			assert( ( value == "const" ) || ( value == "struct" ) );
+			assert( value == "const" || value == "struct" );
 			member.type = value + " ";
 			child = child->NextSibling();
 			assert( child );
 		}
 
 		assert( child->ToElement() );
-		assert( ( strcmp( child->Value(), "type" ) == 0 ) && child->ToElement() && child->ToElement()->GetText() );
+		assert( strcmp( child->Value(), "type" ) == 0 && child->ToElement() && child->ToElement()->GetText() );
 		std::string type = StringsHelper::strip( child->ToElement()->GetText(), "Vk" );
 		dependencies.insert( type );
 		member.type += type;
@@ -734,7 +743,7 @@ namespace vk
 		if( child->ToText() )
 		{
 			std::string value = StringsHelper::trimEnd( child->Value() );
-			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
+			assert( value == "*" ||  value == "**" || value == "* const*" );
 			member.type += value;
 			child = child->NextSibling();
 		}
@@ -752,30 +761,28 @@ namespace vk
 		}
 
 		child = child->NextSibling();
-		if( child )
+		if( !child )
+			return;
+
+		assert( member.arraySize.empty() );
+		if( child->ToText() )
 		{
-			assert( member.arraySize.empty() );
-			if( child->ToText() )
+			std::string value = child->Value();
+			if( value == "[" )
 			{
-				std::string value = child->Value();
-				if( value == "[" )
-				{
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToElement() && ( strcmp( child->Value(), "enum" ) == 0 ) );
-					member.arraySize = child->ToElement()->GetText();
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToText() );
-					assert( strcmp( child->Value(), "]" ) == 0 );
-					assert( !child->NextSibling() );
-				}
-				else
-				{
-					assert( ( value.front() == '[' ) && ( value.back() == ']' ) );
-					member.arraySize = value.substr( 1, value.length() - 2 );
-					assert( !child->NextSibling() );
-				}
+				child = child->NextSibling();
+				assert( child && child->ToElement() && strcmp( child->Value(), "enum" ) == 0 );
+				member.arraySize = child->ToElement()->GetText();
+				child = child->NextSibling();
+				assert( child && child->ToText() );
+				assert( strcmp( child->Value(), "]" ) == 0 );
+				assert( !child->NextSibling() );
+			}
+			else
+			{
+				assert( value.front() == '[' && value.back() == ']' );
+				member.arraySize = value.substr( 1, value.length() - 2 );
+				assert( !child->NextSibling() );
 			}
 		}
 	}
@@ -812,14 +819,14 @@ namespace vk
 		assert( child );
 		if( child->ToText() )
 		{
-			assert( ( strcmp( child->Value(), "const" ) == 0 ) || ( strcmp( child->Value(), "struct" ) == 0 ) );
+			assert( strcmp( child->Value(), "const" ) == 0 || strcmp( child->Value(), "struct" ) == 0 );
 			member.type = std::string( child->Value() ) + " ";
 			child = child->NextSibling();
 			assert( child );
 		}
 
 		assert( child->ToElement() );
-		assert( ( strcmp( child->Value(), "type" ) == 0 ) && child->ToElement() && child->ToElement()->GetText() );
+		assert( strcmp( child->Value(), "type" ) == 0 && child->ToElement() && child->ToElement()->GetText() );
 		std::string type = StringsHelper::strip( child->ToElement()->GetText(), "Vk" );
 		dependencies.insert( type );
 		member.type += type;
@@ -830,12 +837,12 @@ namespace vk
 		if( child->ToText() )
 		{
 			std::string value = child->Value();
-			assert( ( value == "*" ) || ( value == "**" ) || ( value == "* const*" ) );
+			assert( value == "*" || value == "**" || value == "* const*" );
 			member.type += value;
 			child = child->NextSibling();
 		}
 
-		assert( child->ToElement() && ( strcmp( child->Value(), "name" ) == 0 ) );
+		assert( child->ToElement() && strcmp( child->Value(), "name" ) == 0 );
 		member.name = child->ToElement()->GetText();
 
 		if( member.name.back() == ']' )
@@ -848,29 +855,27 @@ namespace vk
 		}
 
 		child = child->NextSibling();
-		if( child )
+		if( !child )
+			return;
+
+		if( child->ToText() )
 		{
-			if( child->ToText() )
+			std::string value = child->Value();
+			if( value == "[" )
 			{
-				std::string value = child->Value();
-				if( value == "[" )
-				{
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToElement() && ( strcmp( child->Value(), "enum" ) == 0 ) );
-					member.arraySize = child->ToElement()->GetText();
-					child = child->NextSibling();
-					assert( child );
-					assert( child->ToText() );
-					assert( strcmp( child->Value(), "]" ) == 0 );
-					assert( !child->NextSibling() );
-				}
-				else
-				{
-					assert( ( value.front() == '[' ) && ( value.back() == ']' ) );
-					member.arraySize = value.substr( 1, value.length() - 2 );
-					assert( !child->NextSibling() );
-				}
+				child = child->NextSibling();
+				assert( child && child->ToElement() && strcmp( child->Value(), "enum" ) == 0 );
+				member.arraySize = child->ToElement()->GetText();
+				child = child->NextSibling();
+				assert( child && child->ToText() );
+				assert( strcmp( child->Value(), "]" ) == 0 );
+				assert( !child->NextSibling() );
+			}
+			else
+			{
+				assert( value.front() == '[' && value.back() == ']' );
+				member.arraySize = value.substr( 1, value.length() - 2 );
+				assert( !child->NextSibling() );
 			}
 		}
 	}
