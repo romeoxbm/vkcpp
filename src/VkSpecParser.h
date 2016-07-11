@@ -156,68 +156,68 @@ namespace vk
 		/**
 		 * @brief get vkcpp enum name from vk enum name.
 		 */
-		std::string getEnumName( std::string const& name ) const;
+		std::string _getEnumName( std::string const& name ) const;
 
-		std::string stripCommand( std::string const& value ) const;
+		std::string _stripCommand( std::string const& value ) const;
 
-		std::string findTag( std::string const& name,
+		std::string _findTag( std::string const& name,
 			std::set<std::string> const& tags ) const;
 
-		std::string extractTag( std::string const& name ) const;
+		std::string _extractTag( std::string const& name ) const;
 
-		std::string generateEnumNameForFlags( std::string const& name ) const;
+		std::string _generateEnumNameForFlags( std::string const& name ) const;
 
-		void readCommands( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readCommands( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readCommandsCommand( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readCommandsCommand( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		std::map<std::string, CommandData>::iterator readCommandProto(
+		std::map<std::string, CommandData>::iterator _readCommandProto(
 			tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		bool readCommandParam( tinyxml2::XMLElement* element,
+		bool _readCommandParam( tinyxml2::XMLElement* element,
 			DependencyData& typeData,
 			std::vector<MemberData>& arguments ) const;
 
-		void readComment( tinyxml2::XMLElement* element, std::string& header ) const;
+		void _readComment( tinyxml2::XMLElement* element, std::string& header ) const;
 
-		void readEnums( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readEnums( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readEnumsEnum( tinyxml2::XMLElement* element, EnumData& enumData,
+		void _readEnumsEnum( tinyxml2::XMLElement* element, EnumData& enumData,
 			std::string const& tag ) const;
 
-		void readExtensions( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readExtensions( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readExtensionsExtension( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readExtensionsExtension( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readExtensionRequire( tinyxml2::XMLElement* element, SpecData* vkData,
+		void _readExtensionRequire( tinyxml2::XMLElement* element, SpecData* vkData,
 			std::string const& protect,
 			std::string const& tag ) const;
 
-		void readTags( tinyxml2::XMLElement* element, std::set<std::string>& tags ) const;
+		void _readTags( tinyxml2::XMLElement* element, std::set<std::string>& tags ) const;
 
-		void readTypes( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readTypes( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readTypeBasetype( tinyxml2::XMLElement* element,
+		void _readTypeBasetype( tinyxml2::XMLElement* element,
 			std::list<DependencyData>& dependencies ) const;
 
-		void readTypeBitmask( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readTypeBitmask( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readTypeDefine( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readTypeDefine( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readTypeFuncpointer( tinyxml2::XMLElement* element,
+		void _readTypeFuncpointer( tinyxml2::XMLElement* element,
 			std::list<DependencyData>& dependencies ) const;
 
-		void readTypeHandle( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readTypeHandle( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readTypeStruct( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readTypeStruct( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readTypeStructMember( tinyxml2::XMLElement* element,
+		void _readTypeStructMember( tinyxml2::XMLElement* element,
 			std::vector<MemberData>& members,
 			std::set<std::string>& dependencies ) const;
 
-		void readTypeUnion( tinyxml2::XMLElement* element, SpecData* vkData ) const;
+		void _readTypeUnion( tinyxml2::XMLElement* element, SpecData* vkData ) const;
 
-		void readTypeUnionMember( tinyxml2::XMLElement* element,
+		void _readTypeUnionMember( tinyxml2::XMLElement* element,
 			std::vector<MemberData>& members,
 			std::set<std::string>& dependencies ) const;
 	};

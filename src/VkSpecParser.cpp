@@ -78,22 +78,22 @@ namespace vk
 				assert( child->Value() );
 				const std::string value = child->Value();
 				if( value == "commands" )
-					readCommands( child, vkData );
+					_readCommands( child, vkData );
 
 				else if( value == "comment" )
-					readComment( child, vkData->vulkanLicenseHeader );
+					_readComment( child, vkData->vulkanLicenseHeader );
 
 				else if( value == "enums" )
-					readEnums( child, vkData );
+					_readEnums( child, vkData );
 
 				else if( value == "extensions" )
-					readExtensions( child, vkData );
+					_readExtensions( child, vkData );
 
 				else if( value == "tags" )
-					readTags( child, vkData->tags );
+					_readTags( child, vkData->tags );
 
 				else if( value == "types" )
-					readTypes( child, vkData );
+					_readTypes( child, vkData );
 				else
 					assert( ( value == "feature" ) || ( value == "vendorids" ) );
 			} while( child = child->NextSiblingElement() );
@@ -112,12 +112,12 @@ namespace vk
 		return vkData;
 	}
 	//--------------------------------------------------------------------------
-	std::string SpecParser::getEnumName( std::string const& name ) const
+	std::string SpecParser::_getEnumName( std::string const& name ) const
 	{
 		return StringsHelper::strip( name, "Vk" );
 	}
 	//--------------------------------------------------------------------------
-	std::string SpecParser::stripCommand( std::string const& value ) const
+	std::string SpecParser::_stripCommand( std::string const& value ) const
 	{
 		std::string stripped = StringsHelper::strip( value, "vk" );
 		assert( isupper( stripped[ 0 ] ) );
@@ -125,7 +125,7 @@ namespace vk
 		return stripped;
 	}
 	//--------------------------------------------------------------------------
-	std::string SpecParser::findTag( std::string const& name, std::set<std::string> const& tags ) const
+	std::string SpecParser::_findTag( std::string const& name, std::set<std::string> const& tags ) const
 	{
 		for( auto& it : tags )
 		{
@@ -136,7 +136,7 @@ namespace vk
 		return "";
 	}
 	//--------------------------------------------------------------------------
-	std::string SpecParser::extractTag( std::string const& name ) const
+	std::string SpecParser::_extractTag( std::string const& name ) const
 	{
 		// the name is supposed to look like: VK_<tag>_<other>
 		size_t start = name.find( '_' );
@@ -148,7 +148,7 @@ namespace vk
 		return name.substr( start + 1, end - start - 1 );
 	}
 	//--------------------------------------------------------------------------
-	std::string SpecParser::generateEnumNameForFlags( std::string const& name ) const
+	std::string SpecParser::_generateEnumNameForFlags( std::string const& name ) const
 	{
 		std::string generatedName = name;
 		size_t pos = generatedName.rfind( "Flags" );
@@ -157,23 +157,23 @@ namespace vk
 		return generatedName;
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readCommands( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readCommands( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto child = element->FirstChildElement();
 		assert( child );
 		do
 		{
 			assert( strcmp( child->Value(), "command" ) == 0 );
-			readCommandsCommand( child, vkData );
+			_readCommandsCommand( child, vkData );
 		} while( child = child->NextSiblingElement() );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readCommandsCommand( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readCommandsCommand( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto child = element->FirstChildElement();
 		assert( child && strcmp( child->Value(), "proto" ) == 0 );
 
-		std::map<std::string, CommandData>::iterator it = readCommandProto( child, vkData );
+		std::map<std::string, CommandData>::iterator it = _readCommandProto( child, vkData );
 
 		if( element->Attribute( "successcodes" ) )
 		{
@@ -183,7 +183,7 @@ namespace vk
 			{
 				end = successCodes.find( ',', start );
 				std::string code = successCodes.substr( start, end - start );
-				std::string tag = findTag( code, vkData->tags );
+				std::string tag = _findTag( code, vkData->tags );
 				it->second.successCodes.push_back( "e" + StringsHelper::toCamelCase( StringsHelper::strip( code, "VK_", tag ) ) + tag );
 				start = end + 1;
 			} while( end != std::string::npos );
@@ -200,7 +200,7 @@ namespace vk
 		{
 			std::string value = child->Value();
 			if( value == "param" )
-				it->second.twoStep |= readCommandParam( child, vkData->dependencies.back(), it->second.arguments );
+				it->second.twoStep |= _readCommandParam( child, vkData->dependencies.back(), it->second.arguments );
 			else
 				assert( value == "implicitexternsyncparams" || value == "validity" );
 		}
@@ -225,7 +225,7 @@ namespace vk
 		}
 	}
 	//--------------------------------------------------------------------------
-	std::map<std::string, CommandData>::iterator SpecParser::readCommandProto(
+	std::map<std::string, CommandData>::iterator SpecParser::_readCommandProto(
 			tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto typeElement = element->FirstChildElement();
@@ -235,7 +235,7 @@ namespace vk
 		assert( !nameElement->NextSiblingElement() );
 
 		std::string type = StringsHelper::strip( typeElement->GetText(), "Vk" );
-		std::string name = stripCommand( nameElement->GetText() );
+		std::string name = _stripCommand( nameElement->GetText() );
 
 		vkData->dependencies.push_back( DependencyData( DependencyData::Category::COMMAND, name ) );
 		assert( vkData->commands.find( name ) == vkData->commands.end() );
@@ -245,7 +245,7 @@ namespace vk
 		return it;
 	}
 	//--------------------------------------------------------------------------
-	bool SpecParser::readCommandParam( tinyxml2::XMLElement* element,
+	bool SpecParser::_readCommandParam( tinyxml2::XMLElement* element,
 									   DependencyData& typeData,
 									   std::vector<MemberData>& arguments ) const
 	{
@@ -327,7 +327,7 @@ namespace vk
 		return element->Attribute( "optional" ) && ( strcmp( element->Attribute( "optional" ), "false,true" ) == 0 );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readComment( tinyxml2::XMLElement* element, std::string& header ) const
+	void SpecParser::_readComment( tinyxml2::XMLElement* element, std::string& header ) const
 	{
 		assert( element->GetText() );
 		assert( header.empty() );
@@ -344,10 +344,10 @@ namespace vk
 		header += "\n\n// This header is generated from the Khronos Vulkan XML API Registry.";
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readEnums( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readEnums( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		assert( element->Attribute( "name" ) );
-		std::string name = getEnumName( element->Attribute( "name" ) );
+		std::string name = _getEnumName( element->Attribute( "name" ) );
 		if( name != "API Constants" )
 		{
 			vkData->dependencies.push_back( DependencyData( DependencyData::Category::ENUM, name ) );
@@ -389,14 +389,14 @@ namespace vk
 				}
 			}
 
-			readEnumsEnum( element, it->second, tag );
+			_readEnumsEnum( element, it->second, tag );
 
 			assert( vkData->vkTypes.find( name ) == vkData->vkTypes.end() );
 			vkData->vkTypes.insert( name );
 		}
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readEnumsEnum( tinyxml2::XMLElement* element, EnumData& enumData,
+	void SpecParser::_readEnumsEnum( tinyxml2::XMLElement* element, EnumData& enumData,
 									std::string const& tag ) const
 	{
 		auto child = element->FirstChildElement();
@@ -408,22 +408,22 @@ namespace vk
 		} while( child = child->NextSiblingElement() );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readExtensions( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readExtensions( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto child = element->FirstChildElement();
 		assert( child );
 		do
 		{
 			assert( strcmp( child->Value(), "extension" ) == 0 );
-			readExtensionsExtension( child, vkData );
+			_readExtensionsExtension( child, vkData );
 		} while( child = child->NextSiblingElement() );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readExtensionsExtension( tinyxml2::XMLElement* element,
+	void SpecParser::_readExtensionsExtension( tinyxml2::XMLElement* element,
 											  SpecData* vkData ) const
 	{
 		assert( element->Attribute( "name" ) );
-		std::string tag = extractTag( element->Attribute( "name" ) );
+		std::string tag = _extractTag( element->Attribute( "name" ) );
 		assert( vkData->tags.find( tag ) != vkData->tags.end() );
 
 		// don't parse disabled extensions
@@ -436,10 +436,10 @@ namespace vk
 
 		auto child = element->FirstChildElement();
 		assert( child && strcmp( child->Value(), "require" ) == 0 && !child->NextSiblingElement() );
-		readExtensionRequire( child, vkData, protect, tag );
+		_readExtensionRequire( child, vkData, protect, tag );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readExtensionRequire( tinyxml2::XMLElement* element,
+	void SpecParser::_readExtensionRequire( tinyxml2::XMLElement* element,
 										   SpecData* vkData,
 										   std::string const& protect,
 										   std::string const& tag ) const
@@ -452,7 +452,7 @@ namespace vk
 			if( value == "command" )
 			{
 				assert( child->Attribute( "name" ) );
-				std::string name = stripCommand( child->Attribute( "name" ) );
+				std::string name = _stripCommand( child->Attribute( "name" ) );
 				std::map<std::string, CommandData>::iterator cit = vkData->commands.find( name );
 				assert( cit != vkData->commands.end() );
 				cit->second.protect = protect;
@@ -473,7 +473,7 @@ namespace vk
 						fit->second.protect = protect;
 
 						// if the enum of this flags is auto-generated, protect it as well
-						std::string enumName = generateEnumNameForFlags( name );
+						std::string enumName = _generateEnumNameForFlags( name );
 						std::map<std::string, EnumData>::iterator eit = vkData->enums.find( enumName );
 						assert( eit != vkData->enums.end() );
 						if( eit->second.members.empty() )
@@ -500,9 +500,9 @@ namespace vk
 				if( child->Attribute( "extends" ) )
 				{
 					assert( child->Attribute( "name" ) );
-					assert( vkData->enums.find( getEnumName( child->Attribute( "extends" ) ) ) != vkData->enums.end() );
+					assert( vkData->enums.find( _getEnumName( child->Attribute( "extends" ) ) ) != vkData->enums.end() );
 					assert( !!child->Attribute( "bitpos" ) + !!child->Attribute( "offset" ) + !!child->Attribute( "value" ) == 1 );
-					vkData->enums[ getEnumName( child->Attribute( "extends" ) ) ].addEnum( child->Attribute( "name" ), child->Attribute( "value" ) ? "" : tag, true );
+					vkData->enums[ _getEnumName( child->Attribute( "extends" ) ) ].addEnum( child->Attribute( "name" ), child->Attribute( "value" ) ? "" : tag, true );
 				}
 			}
 			else
@@ -511,7 +511,7 @@ namespace vk
 		} while( child = child->NextSiblingElement() );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTags( tinyxml2::XMLElement* element,
+	void SpecParser::_readTags( tinyxml2::XMLElement* element,
 								 std::set<std::string>& tags ) const
 	{
 		tags.insert( "EXT" );
@@ -524,7 +524,7 @@ namespace vk
 		} while( child = child->NextSiblingElement() );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypes( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readTypes( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto child = element->FirstChildElement();
 		do
@@ -536,25 +536,25 @@ namespace vk
 			{
 				std::string category = child->Attribute( "category" );
 				if( category == "basetype" )
-					readTypeBasetype( child, vkData->dependencies );
+					_readTypeBasetype( child, vkData->dependencies );
 
 				else if( category == "bitmask" )
-					readTypeBitmask( child, vkData );
+					_readTypeBitmask( child, vkData );
 
 				else if( category == "define" )
-					readTypeDefine( child, vkData );
+					_readTypeDefine( child, vkData );
 
 				else if( category == "funcpointer" )
-					readTypeFuncpointer( child, vkData->dependencies );
+					_readTypeFuncpointer( child, vkData->dependencies );
 
 				else if( category == "handle" )
-					readTypeHandle( child, vkData );
+					_readTypeHandle( child, vkData );
 
 				else if( category == "struct" )
-					readTypeStruct( child, vkData );
+					_readTypeStruct( child, vkData );
 
 				else if( category == "union" )
-					readTypeUnion( child, vkData );
+					_readTypeUnion( child, vkData );
 
 				else
 					assert( ( category == "enum" ) || ( category == "include" ) );
@@ -567,7 +567,7 @@ namespace vk
 		} while( child = child->NextSiblingElement() );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeBasetype( tinyxml2::XMLElement* element,
+	void SpecParser::_readTypeBasetype( tinyxml2::XMLElement* element,
 									   std::list<DependencyData>& dependencies ) const
 	{
 		auto typeElement = element->FirstChildElement();
@@ -589,7 +589,7 @@ namespace vk
 			assert( type == "uint32_t" );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeBitmask( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readTypeBitmask( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto typeElement = element->FirstChildElement();
 		assert( typeElement && strcmp( typeElement->Value(), "type" ) == 0 &&
@@ -611,7 +611,7 @@ namespace vk
 		else
 		{
 			// Generate FlagBits name
-			requires = generateEnumNameForFlags( name );
+			requires = _generateEnumNameForFlags( name );
 			vkData->dependencies.push_back( DependencyData( DependencyData::Category::ENUM, requires ) );
 			std::map<std::string, EnumData>::iterator it = vkData->enums.insert( std::make_pair( requires, EnumData() ) ).first;
 			it->second.bitmask = true;
@@ -626,7 +626,7 @@ namespace vk
 		vkData->vkTypes.insert( name );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeDefine( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readTypeDefine( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto child = element->FirstChildElement();
 		if( child && strcmp( child->GetText(), "VK_HEADER_VERSION" ) == 0 )
@@ -641,7 +641,7 @@ namespace vk
 		}
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeFuncpointer( tinyxml2::XMLElement* element,
+	void SpecParser::_readTypeFuncpointer( tinyxml2::XMLElement* element,
 										  std::list<DependencyData>& dependencies ) const
 	{
 		auto child = element->FirstChildElement();
@@ -649,7 +649,7 @@ namespace vk
 		dependencies.push_back( DependencyData( DependencyData::Category::FUNC_POINTER, child->GetText() ) );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeHandle( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readTypeHandle( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		auto typeElement = element->FirstChildElement();
 		assert( typeElement && strcmp( typeElement->Value(), "type" ) == 0 && typeElement->GetText() );
@@ -670,7 +670,7 @@ namespace vk
 		vkData->handles[ name ];    // add this to the handles map
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeStruct( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readTypeStruct( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		assert( !element->Attribute( "returnedonly" ) ||
 				strcmp( element->Attribute( "returnedonly" ), "true" ) == 0 );
@@ -693,7 +693,7 @@ namespace vk
 			assert( child->Value() );
 			std::string value = child->Value();
 			if( value == "member" )
-				readTypeStructMember( child, it->second.members, vkData->dependencies.back().dependencies );
+				_readTypeStructMember( child, it->second.members, vkData->dependencies.back().dependencies );
 
 			else
 				assert( value == "validity" );
@@ -704,7 +704,7 @@ namespace vk
 		vkData->vkTypes.insert( name );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeStructMember( tinyxml2::XMLElement* element,
+	void SpecParser::_readTypeStructMember( tinyxml2::XMLElement* element,
 										   std::vector<MemberData>& members,
 										   std::set<std::string>& dependencies ) const
 	{
@@ -780,7 +780,7 @@ namespace vk
 		}
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeUnion( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readTypeUnion( tinyxml2::XMLElement* element, SpecData* vkData ) const
 	{
 		assert( element->Attribute( "name" ) );
 		std::string name = StringsHelper::strip( element->Attribute( "name" ), "Vk" );
@@ -794,14 +794,14 @@ namespace vk
 		do
 		{
 			assert( strcmp( child->Value(), "member" ) == 0 );
-			readTypeUnionMember( child, it->second.members, vkData->dependencies.back().dependencies );
+			_readTypeUnionMember( child, it->second.members, vkData->dependencies.back().dependencies );
 		} while( child = child->NextSiblingElement() );
 
 		assert( vkData->vkTypes.find( name ) == vkData->vkTypes.end() );
 		vkData->vkTypes.insert( name );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::readTypeUnionMember( tinyxml2::XMLElement* element,
+	void SpecParser::_readTypeUnionMember( tinyxml2::XMLElement* element,
 										  std::vector<MemberData>& members,
 										  std::set<std::string>& dependencies ) const
 	{
