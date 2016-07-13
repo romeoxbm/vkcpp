@@ -46,6 +46,12 @@ configure_file(
 
 message( STATUS "Version: ${VERSION}" )
 
+#Look for tinyxml2
+find_package( tinyxml2 REQUIRED )
+if( NOT TINYXML2_FOUND )
+	message( FATAL_ERROR "* Failed to find tinyxml2." )
+endif()
+
 file( TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/vulkan/vk_cpp.hpp vk_cpp )
 string( REPLACE "\\" "\\\\" vk_cpp ${vk_cpp} )
 add_definitions( -DVK_CPP="${vk_cpp}" )
@@ -66,29 +72,19 @@ set( SOURCES
 	src/VkSpecParser.cpp
 )
 
-set( TINYXML2_SOURCES
-	tinyxml2/tinyxml2.cpp
-)
-
-set( TINYXML2_HEADERS
-	tinyxml2/tinyxml2.h
-)
-
 source_group( headers FILES ${HEADERS} )
 source_group( sources FILES ${SOURCES} )
-
-source_group( TinyXML2\\headers FILES ${TINYXML2_HEADERS} )
-source_group( TinyXML2\\sources FILES ${TINYXML2_SOURCES} )
 
 add_executable( VkCppGenerator
 	${HEADERS}
 	${SOURCES}
-	${TINYXML2_SOURCES}
-	${TINYXML2_HEADERS}
 )
 
 set_property( TARGET VkCppGenerator PROPERTY CXX_STANDARD 11 )
 target_include_directories( VkCppGenerator
-	PRIVATE "${CMAKE_SOURCE_DIR}/tinyxml2"
+	PRIVATE ${TINYXML2_INCLUDE_DIR}
 	PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
+target_link_libraries( VkCppGenerator
+	PRIVATE ${TINYXML2_LIBRARIES}
 )
