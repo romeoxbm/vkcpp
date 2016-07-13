@@ -23,8 +23,8 @@
 // OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#ifndef VKCPPGENERATOR
-#define VKCPPGENERATOR
+#ifndef VKCPPGENERATOR_H
+#define VKCPPGENERATOR_H
 
 #include "VkSpecParser.h"
 
@@ -177,4 +177,4 @@ namespace vk
 		void writeTypesafeCheck( std::ofstream& ofs, std::string const& typesafeCheck );
 	};
 } // end of vk namespace
-#endif // VKCPPGENERATOR
+#endif // VKCPPGENERATOR_H
