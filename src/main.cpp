@@ -22,7 +22,7 @@ int main( int argc, char** argv )
 	vk::CppGenerator vGen;
 	vk::CppGenerator::Options opt;
 
-	opt.inputFile =  cmd.rest()[ 0 ]; //( argc == 1 ) ? VK_SPEC : argv[ 1 ];
+	opt.inputFile =  cmd.rest()[ 0 ];
 	opt.includeGuard = cmd.get<std::string>( "guard" );
 
 	return vGen.generate( opt );
