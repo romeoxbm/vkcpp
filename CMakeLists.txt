@@ -26,6 +26,26 @@
 cmake_minimum_required( VERSION 3.2 )
 project( VkCppGenerator )
 
+set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
+
+#Make a version file containing the current version from git
+include( GetGitRevisionDescription )
+git_describe( VERSION --tags )
+
+#Parse the version information into pieces.
+string( REGEX REPLACE "^v([0-9]+)\\..*" "\\1" VERSION_MAJOR "${VERSION}" )
+string( REGEX REPLACE "^v[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${VERSION}" )
+string( REGEX REPLACE "^v[0-9]+\\.[0-9]+-([0-9]+).*" "\\1" VERSION_PATCH "${VERSION}" )
+string( REGEX REPLACE "^v[0-9]+\\.[0-9]+-[0-9]+-(.*)" "\\1" VERSION_SHA1 "${VERSION}" )
+set( VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" )
+
+configure_file(
+	${CMAKE_CURRENT_SOURCE_DIR}/cmake/VkVersion.h.in
+	${CMAKE_CURRENT_BINARY_DIR}/VkVersion.h
+)
+
+message( STATUS "Version: ${VERSION}" )
+
 file( TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/vulkan/vk_cpp.hpp vk_cpp )
 string( REPLACE "\\" "\\\\" vk_cpp ${vk_cpp} )
 add_definitions( -DVK_CPP="${vk_cpp}" )
@@ -36,6 +56,7 @@ set( HEADERS
 	src/StringsHelper.h
 	src/VkCppGenerator.h
 	src/VkSpecParser.h
+	${CMAKE_CURRENT_BINARY_DIR}/VkVersion.h
 )
 
 set( SOURCES
@@ -67,4 +88,7 @@ add_executable( VkCppGenerator
 )
 
 set_property( TARGET VkCppGenerator PROPERTY CXX_STANDARD 11 )
-target_include_directories( VkCppGenerator PRIVATE "${CMAKE_SOURCE_DIR}/tinyxml2" )
+target_include_directories( VkCppGenerator
+	PRIVATE "${CMAKE_SOURCE_DIR}/tinyxml2"
+	PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)

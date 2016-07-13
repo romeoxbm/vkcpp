@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "VkVersion.h"
 #include "cmdline.h"
 #include "VkCppGenerator.h"
 
@@ -10,8 +12,15 @@ int main( int argc, char** argv )
 
 	//Define command line options
 	cmd.add<std::string>( "guard", 'g', "Change the include guard. Default is", false, "VK_CPP_H_" );
-	cmd.add( "help", 'h', "Print this message" );
+	cmd.add( "version", 'v', "Print version and exit" );
+	cmd.add( "help", 'h', "Print this message and exit" );
 	cmd.parse_check( argc, argv );
+
+	if( cmd.exist( "version" ) )
+	{
+		std::cout << "VkCppGenerator v" << VERSION << std::endl;
+		return 0;
+	}
 
 	if( cmd.rest().empty() || cmd.rest().size() > 1 )
 	{
