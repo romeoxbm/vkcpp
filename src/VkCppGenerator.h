@@ -36,7 +36,7 @@ namespace vk
 		struct Options
 		{
 			std::string inputFile;
-			std::string includeGuard = "VK_CPP_H_";
+			std::string includeGuard;
 		};
 
 		int generate( const Options& opt );
