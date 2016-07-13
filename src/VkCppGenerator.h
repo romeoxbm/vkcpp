@@ -36,6 +36,7 @@ namespace vk
 		struct Options
 		{
 			std::string inputFile;
+			std::string outFileName;
 			std::string includeGuard;
 		};
 

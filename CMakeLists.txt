@@ -52,10 +52,6 @@ if( NOT TINYXML2_FOUND )
 	message( FATAL_ERROR "* Failed to find tinyxml2." )
 endif()
 
-file( TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/vulkan/vk_cpp.hpp vk_cpp )
-string( REPLACE "\\" "\\\\" vk_cpp ${vk_cpp} )
-add_definitions( -DVK_CPP="${vk_cpp}" )
-
 set( HEADERS
 	src/cmdline.h
 	src/Strings.h

@@ -46,13 +46,15 @@ namespace vk
 
 		try
 		{
-			std::cout << "Writing vk_cpp.hpp to " << VK_CPP << std::endl;
+			auto dest = "./" + opt.outFileName + ".h";
+
+			std::cout << "Writing to \"" << dest << "\"\n";
 			sortDependencies( vkData->dependencies );
 
 			std::map<std::string, std::string> defaultValues;
 			createDefaults( vkData, defaultValues );
 
-			std::ofstream ofs( VK_CPP );
+			std::ofstream ofs( dest );
 			ofs << nvidiaLicenseHeader << std::endl
 				<< vkData->vulkanLicenseHeader << std::endl
 				<< std::endl

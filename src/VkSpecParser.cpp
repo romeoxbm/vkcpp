@@ -57,7 +57,7 @@ namespace vk
 		try
 		{
 			tinyxml2::XMLDocument doc;
-			std::cout << "Loading Vulkan specs from file \"" << filename << "\"\n";
+			std::cout << "Parsing Vulkan specs from file \"" << filename << "\"\n";
 
 			auto error = doc.LoadFile( filename.c_str() );
 			if( error != tinyxml2::XML_SUCCESS )
