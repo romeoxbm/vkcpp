@@ -57,13 +57,13 @@ namespace vk
 		try
 		{
 			tinyxml2::XMLDocument doc;
-			std::cout << "Loading vk.xml from " << filename << std::endl;
+			std::cout << "Loading Vulkan specs from file \"" << filename << "\"\n";
 
-			tinyxml2::XMLError error = doc.LoadFile( filename.c_str() );
+			auto error = doc.LoadFile( filename.c_str() );
 			if( error != tinyxml2::XML_SUCCESS )
 			{
-				std::cerr << "VkSpecParser: failed to load file " << filename
-						  << " . Error code: " << error << std::endl;
+				std::cerr << "VkSpecParser: failed to load file \"" << filename
+						  << "\". Error code: " << error << std::endl;
 				return 0;
 			}
 

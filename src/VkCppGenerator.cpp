@@ -41,7 +41,8 @@ namespace vk
 	{
 		SpecParser parser;
 		auto vkData = parser.parse( opt.inputFile );
-		assert( vkData );
+		if( !vkData )
+			return -1;
 
 		try
 		{
