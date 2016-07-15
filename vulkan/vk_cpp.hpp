@@ -906,15 +906,15 @@ namespace vk
   {
   public:
     DeviceMemory()
-      : m_deviceMemory(VK_NULL_HANDLE)
+      : m_deviceMemory( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    DeviceMemory(VkDeviceMemory deviceMemory)
-       : m_deviceMemory(deviceMemory)
+    DeviceMemory( VkDeviceMemory deviceMemory )
+       : m_deviceMemory( deviceMemory )
     {}
 
-    DeviceMemory& operator=(VkDeviceMemory deviceMemory)
+    DeviceMemory& operator=( VkDeviceMemory deviceMemory )
     {
       m_deviceMemory = deviceMemory;
       return *this;
@@ -948,15 +948,15 @@ namespace vk
   {
   public:
     CommandPool()
-      : m_commandPool(VK_NULL_HANDLE)
+      : m_commandPool( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    CommandPool(VkCommandPool commandPool)
-       : m_commandPool(commandPool)
+    CommandPool( VkCommandPool commandPool )
+       : m_commandPool( commandPool )
     {}
 
-    CommandPool& operator=(VkCommandPool commandPool)
+    CommandPool& operator=( VkCommandPool commandPool )
     {
       m_commandPool = commandPool;
       return *this;
@@ -990,15 +990,15 @@ namespace vk
   {
   public:
     Buffer()
-      : m_buffer(VK_NULL_HANDLE)
+      : m_buffer( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Buffer(VkBuffer buffer)
-       : m_buffer(buffer)
+    Buffer( VkBuffer buffer )
+       : m_buffer( buffer )
     {}
 
-    Buffer& operator=(VkBuffer buffer)
+    Buffer& operator=( VkBuffer buffer )
     {
       m_buffer = buffer;
       return *this;
@@ -1032,15 +1032,15 @@ namespace vk
   {
   public:
     BufferView()
-      : m_bufferView(VK_NULL_HANDLE)
+      : m_bufferView( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    BufferView(VkBufferView bufferView)
-       : m_bufferView(bufferView)
+    BufferView( VkBufferView bufferView )
+       : m_bufferView( bufferView )
     {}
 
-    BufferView& operator=(VkBufferView bufferView)
+    BufferView& operator=( VkBufferView bufferView )
     {
       m_bufferView = bufferView;
       return *this;
@@ -1074,15 +1074,15 @@ namespace vk
   {
   public:
     Image()
-      : m_image(VK_NULL_HANDLE)
+      : m_image( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Image(VkImage image)
-       : m_image(image)
+    Image( VkImage image )
+       : m_image( image )
     {}
 
-    Image& operator=(VkImage image)
+    Image& operator=( VkImage image )
     {
       m_image = image;
       return *this;
@@ -1116,15 +1116,15 @@ namespace vk
   {
   public:
     ImageView()
-      : m_imageView(VK_NULL_HANDLE)
+      : m_imageView( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    ImageView(VkImageView imageView)
-       : m_imageView(imageView)
+    ImageView( VkImageView imageView )
+       : m_imageView( imageView )
     {}
 
-    ImageView& operator=(VkImageView imageView)
+    ImageView& operator=( VkImageView imageView )
     {
       m_imageView = imageView;
       return *this;
@@ -1158,15 +1158,15 @@ namespace vk
   {
   public:
     ShaderModule()
-      : m_shaderModule(VK_NULL_HANDLE)
+      : m_shaderModule( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    ShaderModule(VkShaderModule shaderModule)
-       : m_shaderModule(shaderModule)
+    ShaderModule( VkShaderModule shaderModule )
+       : m_shaderModule( shaderModule )
     {}
 
-    ShaderModule& operator=(VkShaderModule shaderModule)
+    ShaderModule& operator=( VkShaderModule shaderModule )
     {
       m_shaderModule = shaderModule;
       return *this;
@@ -1200,15 +1200,15 @@ namespace vk
   {
   public:
     Pipeline()
-      : m_pipeline(VK_NULL_HANDLE)
+      : m_pipeline( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Pipeline(VkPipeline pipeline)
-       : m_pipeline(pipeline)
+    Pipeline( VkPipeline pipeline )
+       : m_pipeline( pipeline )
     {}
 
-    Pipeline& operator=(VkPipeline pipeline)
+    Pipeline& operator=( VkPipeline pipeline )
     {
       m_pipeline = pipeline;
       return *this;
@@ -1242,15 +1242,15 @@ namespace vk
   {
   public:
     PipelineLayout()
-      : m_pipelineLayout(VK_NULL_HANDLE)
+      : m_pipelineLayout( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    PipelineLayout(VkPipelineLayout pipelineLayout)
-       : m_pipelineLayout(pipelineLayout)
+    PipelineLayout( VkPipelineLayout pipelineLayout )
+       : m_pipelineLayout( pipelineLayout )
     {}
 
-    PipelineLayout& operator=(VkPipelineLayout pipelineLayout)
+    PipelineLayout& operator=( VkPipelineLayout pipelineLayout )
     {
       m_pipelineLayout = pipelineLayout;
       return *this;
@@ -1284,15 +1284,15 @@ namespace vk
   {
   public:
     Sampler()
-      : m_sampler(VK_NULL_HANDLE)
+      : m_sampler( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Sampler(VkSampler sampler)
-       : m_sampler(sampler)
+    Sampler( VkSampler sampler )
+       : m_sampler( sampler )
     {}
 
-    Sampler& operator=(VkSampler sampler)
+    Sampler& operator=( VkSampler sampler )
     {
       m_sampler = sampler;
       return *this;
@@ -1326,15 +1326,15 @@ namespace vk
   {
   public:
     DescriptorSet()
-      : m_descriptorSet(VK_NULL_HANDLE)
+      : m_descriptorSet( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    DescriptorSet(VkDescriptorSet descriptorSet)
-       : m_descriptorSet(descriptorSet)
+    DescriptorSet( VkDescriptorSet descriptorSet )
+       : m_descriptorSet( descriptorSet )
     {}
 
-    DescriptorSet& operator=(VkDescriptorSet descriptorSet)
+    DescriptorSet& operator=( VkDescriptorSet descriptorSet )
     {
       m_descriptorSet = descriptorSet;
       return *this;
@@ -1368,15 +1368,15 @@ namespace vk
   {
   public:
     DescriptorSetLayout()
-      : m_descriptorSetLayout(VK_NULL_HANDLE)
+      : m_descriptorSetLayout( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    DescriptorSetLayout(VkDescriptorSetLayout descriptorSetLayout)
-       : m_descriptorSetLayout(descriptorSetLayout)
+    DescriptorSetLayout( VkDescriptorSetLayout descriptorSetLayout )
+       : m_descriptorSetLayout( descriptorSetLayout )
     {}
 
-    DescriptorSetLayout& operator=(VkDescriptorSetLayout descriptorSetLayout)
+    DescriptorSetLayout& operator=( VkDescriptorSetLayout descriptorSetLayout )
     {
       m_descriptorSetLayout = descriptorSetLayout;
       return *this;
@@ -1410,15 +1410,15 @@ namespace vk
   {
   public:
     DescriptorPool()
-      : m_descriptorPool(VK_NULL_HANDLE)
+      : m_descriptorPool( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    DescriptorPool(VkDescriptorPool descriptorPool)
-       : m_descriptorPool(descriptorPool)
+    DescriptorPool( VkDescriptorPool descriptorPool )
+       : m_descriptorPool( descriptorPool )
     {}
 
-    DescriptorPool& operator=(VkDescriptorPool descriptorPool)
+    DescriptorPool& operator=( VkDescriptorPool descriptorPool )
     {
       m_descriptorPool = descriptorPool;
       return *this;
@@ -1452,15 +1452,15 @@ namespace vk
   {
   public:
     Fence()
-      : m_fence(VK_NULL_HANDLE)
+      : m_fence( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Fence(VkFence fence)
-       : m_fence(fence)
+    Fence( VkFence fence )
+       : m_fence( fence )
     {}
 
-    Fence& operator=(VkFence fence)
+    Fence& operator=( VkFence fence )
     {
       m_fence = fence;
       return *this;
@@ -1494,15 +1494,15 @@ namespace vk
   {
   public:
     Semaphore()
-      : m_semaphore(VK_NULL_HANDLE)
+      : m_semaphore( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Semaphore(VkSemaphore semaphore)
-       : m_semaphore(semaphore)
+    Semaphore( VkSemaphore semaphore )
+       : m_semaphore( semaphore )
     {}
 
-    Semaphore& operator=(VkSemaphore semaphore)
+    Semaphore& operator=( VkSemaphore semaphore )
     {
       m_semaphore = semaphore;
       return *this;
@@ -1536,15 +1536,15 @@ namespace vk
   {
   public:
     Event()
-      : m_event(VK_NULL_HANDLE)
+      : m_event( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Event(VkEvent event)
-       : m_event(event)
+    Event( VkEvent event )
+       : m_event( event )
     {}
 
-    Event& operator=(VkEvent event)
+    Event& operator=( VkEvent event )
     {
       m_event = event;
       return *this;
@@ -1578,15 +1578,15 @@ namespace vk
   {
   public:
     QueryPool()
-      : m_queryPool(VK_NULL_HANDLE)
+      : m_queryPool( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    QueryPool(VkQueryPool queryPool)
-       : m_queryPool(queryPool)
+    QueryPool( VkQueryPool queryPool )
+       : m_queryPool( queryPool )
     {}
 
-    QueryPool& operator=(VkQueryPool queryPool)
+    QueryPool& operator=( VkQueryPool queryPool )
     {
       m_queryPool = queryPool;
       return *this;
@@ -1620,15 +1620,15 @@ namespace vk
   {
   public:
     Framebuffer()
-      : m_framebuffer(VK_NULL_HANDLE)
+      : m_framebuffer( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Framebuffer(VkFramebuffer framebuffer)
-       : m_framebuffer(framebuffer)
+    Framebuffer( VkFramebuffer framebuffer )
+       : m_framebuffer( framebuffer )
     {}
 
-    Framebuffer& operator=(VkFramebuffer framebuffer)
+    Framebuffer& operator=( VkFramebuffer framebuffer )
     {
       m_framebuffer = framebuffer;
       return *this;
@@ -1662,15 +1662,15 @@ namespace vk
   {
   public:
     RenderPass()
-      : m_renderPass(VK_NULL_HANDLE)
+      : m_renderPass( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    RenderPass(VkRenderPass renderPass)
-       : m_renderPass(renderPass)
+    RenderPass( VkRenderPass renderPass )
+       : m_renderPass( renderPass )
     {}
 
-    RenderPass& operator=(VkRenderPass renderPass)
+    RenderPass& operator=( VkRenderPass renderPass )
     {
       m_renderPass = renderPass;
       return *this;
@@ -1704,15 +1704,15 @@ namespace vk
   {
   public:
     PipelineCache()
-      : m_pipelineCache(VK_NULL_HANDLE)
+      : m_pipelineCache( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    PipelineCache(VkPipelineCache pipelineCache)
-       : m_pipelineCache(pipelineCache)
+    PipelineCache( VkPipelineCache pipelineCache )
+       : m_pipelineCache( pipelineCache )
     {}
 
-    PipelineCache& operator=(VkPipelineCache pipelineCache)
+    PipelineCache& operator=( VkPipelineCache pipelineCache )
     {
       m_pipelineCache = pipelineCache;
       return *this;
@@ -1746,15 +1746,15 @@ namespace vk
   {
   public:
     DisplayKHR()
-      : m_displayKHR(VK_NULL_HANDLE)
+      : m_displayKHR( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    DisplayKHR(VkDisplayKHR displayKHR)
-       : m_displayKHR(displayKHR)
+    DisplayKHR( VkDisplayKHR displayKHR )
+       : m_displayKHR( displayKHR )
     {}
 
-    DisplayKHR& operator=(VkDisplayKHR displayKHR)
+    DisplayKHR& operator=( VkDisplayKHR displayKHR )
     {
       m_displayKHR = displayKHR;
       return *this;
@@ -1788,15 +1788,15 @@ namespace vk
   {
   public:
     DisplayModeKHR()
-      : m_displayModeKHR(VK_NULL_HANDLE)
+      : m_displayModeKHR( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    DisplayModeKHR(VkDisplayModeKHR displayModeKHR)
-       : m_displayModeKHR(displayModeKHR)
+    DisplayModeKHR( VkDisplayModeKHR displayModeKHR )
+       : m_displayModeKHR( displayModeKHR )
     {}
 
-    DisplayModeKHR& operator=(VkDisplayModeKHR displayModeKHR)
+    DisplayModeKHR& operator=( VkDisplayModeKHR displayModeKHR )
     {
       m_displayModeKHR = displayModeKHR;
       return *this;
@@ -1830,15 +1830,15 @@ namespace vk
   {
   public:
     SurfaceKHR()
-      : m_surfaceKHR(VK_NULL_HANDLE)
+      : m_surfaceKHR( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    SurfaceKHR(VkSurfaceKHR surfaceKHR)
-       : m_surfaceKHR(surfaceKHR)
+    SurfaceKHR( VkSurfaceKHR surfaceKHR )
+       : m_surfaceKHR( surfaceKHR )
     {}
 
-    SurfaceKHR& operator=(VkSurfaceKHR surfaceKHR)
+    SurfaceKHR& operator=( VkSurfaceKHR surfaceKHR )
     {
       m_surfaceKHR = surfaceKHR;
       return *this;
@@ -1872,15 +1872,15 @@ namespace vk
   {
   public:
     SwapchainKHR()
-      : m_swapchainKHR(VK_NULL_HANDLE)
+      : m_swapchainKHR( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    SwapchainKHR(VkSwapchainKHR swapchainKHR)
-       : m_swapchainKHR(swapchainKHR)
+    SwapchainKHR( VkSwapchainKHR swapchainKHR )
+       : m_swapchainKHR( swapchainKHR )
     {}
 
-    SwapchainKHR& operator=(VkSwapchainKHR swapchainKHR)
+    SwapchainKHR& operator=( VkSwapchainKHR swapchainKHR )
     {
       m_swapchainKHR = swapchainKHR;
       return *this;
@@ -1914,15 +1914,15 @@ namespace vk
   {
   public:
     DebugReportCallbackEXT()
-      : m_debugReportCallbackEXT(VK_NULL_HANDLE)
+      : m_debugReportCallbackEXT( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    DebugReportCallbackEXT(VkDebugReportCallbackEXT debugReportCallbackEXT)
-       : m_debugReportCallbackEXT(debugReportCallbackEXT)
+    DebugReportCallbackEXT( VkDebugReportCallbackEXT debugReportCallbackEXT )
+       : m_debugReportCallbackEXT( debugReportCallbackEXT )
     {}
 
-    DebugReportCallbackEXT& operator=(VkDebugReportCallbackEXT debugReportCallbackEXT)
+    DebugReportCallbackEXT& operator=( VkDebugReportCallbackEXT debugReportCallbackEXT )
     {
       m_debugReportCallbackEXT = debugReportCallbackEXT;
       return *this;
@@ -1985,7 +1985,7 @@ namespace vk
 
     operator const VkOffset2D&() const
     {
-      return *reinterpret_cast<const VkOffset2D*>(this);
+      return *reinterpret_cast<const VkOffset2D*>( this );
     }
 
     int32_t x;
@@ -2033,7 +2033,7 @@ namespace vk
 
     operator const VkOffset3D&() const
     {
-      return *reinterpret_cast<const VkOffset3D*>(this);
+      return *reinterpret_cast<const VkOffset3D*>( this );
     }
 
     int32_t x;
@@ -2075,7 +2075,7 @@ namespace vk
 
     operator const VkExtent2D&() const
     {
-      return *reinterpret_cast<const VkExtent2D*>(this);
+      return *reinterpret_cast<const VkExtent2D*>( this );
     }
 
     uint32_t width;
@@ -2123,7 +2123,7 @@ namespace vk
 
     operator const VkExtent3D&() const
     {
-      return *reinterpret_cast<const VkExtent3D*>(this);
+      return *reinterpret_cast<const VkExtent3D*>( this );
     }
 
     uint32_t width;
@@ -2193,7 +2193,7 @@ namespace vk
 
     operator const VkViewport&() const
     {
-      return *reinterpret_cast<const VkViewport*>(this);
+      return *reinterpret_cast<const VkViewport*>( this );
     }
 
     float x;
@@ -2238,7 +2238,7 @@ namespace vk
 
     operator const VkRect2D&() const
     {
-      return *reinterpret_cast<const VkRect2D*>(this);
+      return *reinterpret_cast<const VkRect2D*>( this );
     }
 
     Offset2D offset;
@@ -2286,7 +2286,7 @@ namespace vk
 
     operator const VkClearRect&() const
     {
-      return *reinterpret_cast<const VkClearRect*>(this);
+      return *reinterpret_cast<const VkClearRect*>( this );
     }
 
     Rect2D rect;
@@ -2299,10 +2299,10 @@ namespace vk
   {
     operator const VkExtensionProperties&() const
     {
-      return *reinterpret_cast<const VkExtensionProperties*>(this);
+      return *reinterpret_cast<const VkExtensionProperties*>( this );
     }
 
-    char extensionName[VK_MAX_EXTENSION_NAME_SIZE];
+    char extensionName[ VK_MAX_EXTENSION_NAME_SIZE ];
     uint32_t specVersion;
   };
   static_assert( sizeof( ExtensionProperties ) == sizeof( VkExtensionProperties ), "struct and wrapper have different size!" );
@@ -2311,13 +2311,13 @@ namespace vk
   {
     operator const VkLayerProperties&() const
     {
-      return *reinterpret_cast<const VkLayerProperties*>(this);
+      return *reinterpret_cast<const VkLayerProperties*>( this );
     }
 
-    char layerName[VK_MAX_EXTENSION_NAME_SIZE];
+    char layerName[ VK_MAX_EXTENSION_NAME_SIZE ];
     uint32_t specVersion;
     uint32_t implementationVersion;
-    char description[VK_MAX_DESCRIPTION_SIZE];
+    char description[ VK_MAX_DESCRIPTION_SIZE ];
   };
   static_assert( sizeof( LayerProperties ) == sizeof( VkLayerProperties ), "struct and wrapper have different size!" );
 
@@ -2382,7 +2382,7 @@ namespace vk
 
     operator const VkAllocationCallbacks&() const
     {
-      return *reinterpret_cast<const VkAllocationCallbacks*>(this);
+      return *reinterpret_cast<const VkAllocationCallbacks*>( this );
     }
 
     void* pUserData;
@@ -2398,7 +2398,7 @@ namespace vk
   {
     operator const VkMemoryRequirements&() const
     {
-      return *reinterpret_cast<const VkMemoryRequirements*>(this);
+      return *reinterpret_cast<const VkMemoryRequirements*>( this );
     }
 
     DeviceSize size;
@@ -2447,7 +2447,7 @@ namespace vk
 
     operator const VkDescriptorBufferInfo&() const
     {
-      return *reinterpret_cast<const VkDescriptorBufferInfo*>(this);
+      return *reinterpret_cast<const VkDescriptorBufferInfo*>( this );
     }
 
     Buffer buffer;
@@ -2460,7 +2460,7 @@ namespace vk
   {
     operator const VkSubresourceLayout&() const
     {
-      return *reinterpret_cast<const VkSubresourceLayout*>(this);
+      return *reinterpret_cast<const VkSubresourceLayout*>( this );
     }
 
     DeviceSize offset;
@@ -2511,7 +2511,7 @@ namespace vk
 
     operator const VkBufferCopy&() const
     {
-      return *reinterpret_cast<const VkBufferCopy*>(this);
+      return *reinterpret_cast<const VkBufferCopy*>( this );
     }
 
     DeviceSize srcOffset;
@@ -2560,7 +2560,7 @@ namespace vk
 
     operator const VkSpecializationMapEntry&() const
     {
-      return *reinterpret_cast<const VkSpecializationMapEntry*>(this);
+      return *reinterpret_cast<const VkSpecializationMapEntry*>( this );
     }
 
     uint32_t constantID;
@@ -2616,7 +2616,7 @@ namespace vk
 
     operator const VkSpecializationInfo&() const
     {
-      return *reinterpret_cast<const VkSpecializationInfo*>(this);
+      return *reinterpret_cast<const VkSpecializationInfo*>( this );
     }
 
     uint32_t mapEntryCount;
@@ -2628,17 +2628,17 @@ namespace vk
 
   union ClearColorValue
   {
-    ClearColorValue( const std::array<float,4>& float32_ = { 0 } )
+    ClearColorValue( const std::array<float, 4>& float32_ = { 0 } )
     {
       memcpy( &float32, float32_.data(), 4 * sizeof( float ) );
     }
 
-    ClearColorValue( const std::array<int32_t,4>& int32_ )
+    ClearColorValue( const std::array<int32_t, 4>& int32_ )
     {
       memcpy( &int32, int32_.data(), 4 * sizeof( int32_t ) );
     }
 
-    ClearColorValue( const std::array<uint32_t,4>& uint32_ )
+    ClearColorValue( const std::array<uint32_t, 4>& uint32_ )
     {
       memcpy( &uint32, uint32_.data(), 4 * sizeof( uint32_t ) );
     }
@@ -2663,12 +2663,12 @@ namespace vk
 
     operator VkClearColorValue const& () const
     {
-      return *reinterpret_cast<const VkClearColorValue*>(this);
+      return *reinterpret_cast<const VkClearColorValue*>( this );
     }
 
-    float float32[4];
-    int32_t int32[4];
-    uint32_t uint32[4];
+    float float32[ 4 ];
+    int32_t int32[ 4 ];
+    uint32_t uint32[ 4 ];
   };
 
   struct ClearDepthStencilValue
@@ -2704,7 +2704,7 @@ namespace vk
 
     operator const VkClearDepthStencilValue&() const
     {
-      return *reinterpret_cast<const VkClearDepthStencilValue*>(this);
+      return *reinterpret_cast<const VkClearDepthStencilValue*>( this );
     }
 
     float depth;
@@ -2738,7 +2738,7 @@ namespace vk
 
     operator VkClearValue const& () const
     {
-      return *reinterpret_cast<const VkClearValue*>(this);
+      return *reinterpret_cast<const VkClearValue*>( this );
     }
 
 #ifdef VK_CPP_HAS_UNRESTRICTED_UNIONS
@@ -3154,7 +3154,7 @@ namespace vk
 
     operator const VkPhysicalDeviceFeatures&() const
     {
-      return *reinterpret_cast<const VkPhysicalDeviceFeatures*>(this);
+      return *reinterpret_cast<const VkPhysicalDeviceFeatures*>( this );
     }
 
     Bool32 robustBufferAccess;
@@ -3219,7 +3219,7 @@ namespace vk
   {
     operator const VkPhysicalDeviceSparseProperties&() const
     {
-      return *reinterpret_cast<const VkPhysicalDeviceSparseProperties*>(this);
+      return *reinterpret_cast<const VkPhysicalDeviceSparseProperties*>( this );
     }
 
     Bool32 residencyStandard2DBlockShape;
@@ -3277,7 +3277,7 @@ namespace vk
 
     operator const VkDrawIndirectCommand&() const
     {
-      return *reinterpret_cast<const VkDrawIndirectCommand*>(this);
+      return *reinterpret_cast<const VkDrawIndirectCommand*>( this );
     }
 
     uint32_t vertexCount;
@@ -3341,7 +3341,7 @@ namespace vk
 
     operator const VkDrawIndexedIndirectCommand&() const
     {
-      return *reinterpret_cast<const VkDrawIndexedIndirectCommand*>(this);
+      return *reinterpret_cast<const VkDrawIndexedIndirectCommand*>( this );
     }
 
     uint32_t indexCount;
@@ -3392,7 +3392,7 @@ namespace vk
 
     operator const VkDispatchIndirectCommand&() const
     {
-      return *reinterpret_cast<const VkDispatchIndirectCommand*>(this);
+      return *reinterpret_cast<const VkDispatchIndirectCommand*>( this );
     }
 
     uint32_t x;
@@ -3434,7 +3434,7 @@ namespace vk
 
     operator const VkDisplayPlanePropertiesKHR&() const
     {
-      return *reinterpret_cast<const VkDisplayPlanePropertiesKHR*>(this);
+      return *reinterpret_cast<const VkDisplayPlanePropertiesKHR*>( this );
     }
 
     DisplayKHR currentDisplay;
@@ -3475,7 +3475,7 @@ namespace vk
 
     operator const VkDisplayModeParametersKHR&() const
     {
-      return *reinterpret_cast<const VkDisplayModeParametersKHR*>(this);
+      return *reinterpret_cast<const VkDisplayModeParametersKHR*>( this );
     }
 
     Extent2D visibleRegion;
@@ -3516,7 +3516,7 @@ namespace vk
 
     operator const VkDisplayModePropertiesKHR&() const
     {
-      return *reinterpret_cast<const VkDisplayModePropertiesKHR*>(this);
+      return *reinterpret_cast<const VkDisplayModePropertiesKHR*>( this );
     }
 
     DisplayModeKHR displayMode;
@@ -3578,7 +3578,7 @@ namespace vk
 
     operator const VkDescriptorImageInfo&() const
     {
-      return *reinterpret_cast<const VkDescriptorImageInfo*>(this);
+      return *reinterpret_cast<const VkDescriptorImageInfo*>( this );
     }
 
     Sampler sampler;
@@ -3620,7 +3620,7 @@ namespace vk
 
     operator const VkAttachmentReference&() const
     {
-      return *reinterpret_cast<const VkAttachmentReference*>(this);
+      return *reinterpret_cast<const VkAttachmentReference*>( this );
     }
 
     uint32_t attachment;
@@ -3729,7 +3729,7 @@ namespace vk
 
     operator const VkComponentMapping&() const
     {
-      return *reinterpret_cast<const VkComponentMapping*>(this);
+      return *reinterpret_cast<const VkComponentMapping*>( this );
     }
 
     ComponentSwizzle r;
@@ -3787,7 +3787,7 @@ namespace vk
 
     operator const VkDescriptorPoolSize&() const
     {
-      return *reinterpret_cast<const VkDescriptorPoolSize*>(this);
+      return *reinterpret_cast<const VkDescriptorPoolSize*>( this );
     }
 
     DescriptorType type;
@@ -3907,7 +3907,7 @@ namespace vk
 
     operator const VkSubpassDescription&() const
     {
-      return *reinterpret_cast<const VkSubpassDescription*>(this);
+      return *reinterpret_cast<const VkSubpassDescription*>( this );
     }
 
     SubpassDescriptionFlags flags;
@@ -4129,7 +4129,7 @@ namespace vk
 
     operator const VkStencilOpState&() const
     {
-      return *reinterpret_cast<const VkStencilOpState*>(this);
+      return *reinterpret_cast<const VkStencilOpState*>( this );
     }
 
     StencilOp failOp;
@@ -4231,7 +4231,7 @@ namespace vk
 
     operator const VkVertexInputBindingDescription&() const
     {
-      return *reinterpret_cast<const VkVertexInputBindingDescription*>(this);
+      return *reinterpret_cast<const VkVertexInputBindingDescription*>( this );
     }
 
     uint32_t binding;
@@ -4476,7 +4476,7 @@ namespace vk
 
     operator const VkVertexInputAttributeDescription&() const
     {
-      return *reinterpret_cast<const VkVertexInputAttributeDescription*>(this);
+      return *reinterpret_cast<const VkVertexInputAttributeDescription*>( this );
     }
 
     uint32_t location;
@@ -4623,7 +4623,7 @@ namespace vk
 
     operator const VkApplicationInfo&() const
     {
-      return *reinterpret_cast<const VkApplicationInfo*>(this);
+      return *reinterpret_cast<const VkApplicationInfo*>( this );
     }
 
   private:
@@ -4700,7 +4700,7 @@ namespace vk
 
     operator const VkDeviceQueueCreateInfo&() const
     {
-      return *reinterpret_cast<const VkDeviceQueueCreateInfo*>(this);
+      return *reinterpret_cast<const VkDeviceQueueCreateInfo*>( this );
     }
 
   private:
@@ -4804,7 +4804,7 @@ namespace vk
 
     operator const VkDeviceCreateInfo&() const
     {
-      return *reinterpret_cast<const VkDeviceCreateInfo*>(this);
+      return *reinterpret_cast<const VkDeviceCreateInfo*>( this );
     }
 
   private:
@@ -4898,7 +4898,7 @@ namespace vk
 
     operator const VkInstanceCreateInfo&() const
     {
-      return *reinterpret_cast<const VkInstanceCreateInfo*>(this);
+      return *reinterpret_cast<const VkInstanceCreateInfo*>( this );
     }
 
   private:
@@ -4962,7 +4962,7 @@ namespace vk
 
     operator const VkMemoryAllocateInfo&() const
     {
-      return *reinterpret_cast<const VkMemoryAllocateInfo*>(this);
+      return *reinterpret_cast<const VkMemoryAllocateInfo*>( this );
     }
 
   private:
@@ -5029,7 +5029,7 @@ namespace vk
 
     operator const VkMappedMemoryRange&() const
     {
-      return *reinterpret_cast<const VkMappedMemoryRange*>(this);
+      return *reinterpret_cast<const VkMappedMemoryRange*>( this );
     }
 
   private:
@@ -5132,7 +5132,7 @@ namespace vk
 
     operator const VkWriteDescriptorSet&() const
     {
-      return *reinterpret_cast<const VkWriteDescriptorSet*>(this);
+      return *reinterpret_cast<const VkWriteDescriptorSet*>( this );
     }
 
   private:
@@ -5233,7 +5233,7 @@ namespace vk
 
     operator const VkCopyDescriptorSet&() const
     {
-      return *reinterpret_cast<const VkCopyDescriptorSet*>(this);
+      return *reinterpret_cast<const VkCopyDescriptorSet*>( this );
     }
 
   private:
@@ -5319,7 +5319,7 @@ namespace vk
 
     operator const VkBufferViewCreateInfo&() const
     {
-      return *reinterpret_cast<const VkBufferViewCreateInfo*>(this);
+      return *reinterpret_cast<const VkBufferViewCreateInfo*>( this );
     }
 
   private:
@@ -5389,7 +5389,7 @@ namespace vk
 
     operator const VkShaderModuleCreateInfo&() const
     {
-      return *reinterpret_cast<const VkShaderModuleCreateInfo*>(this);
+      return *reinterpret_cast<const VkShaderModuleCreateInfo*>( this );
     }
 
   private:
@@ -5457,7 +5457,7 @@ namespace vk
 
     operator const VkDescriptorSetAllocateInfo&() const
     {
-      return *reinterpret_cast<const VkDescriptorSetAllocateInfo*>(this);
+      return *reinterpret_cast<const VkDescriptorSetAllocateInfo*>( this );
     }
 
   private:
@@ -5539,7 +5539,7 @@ namespace vk
 
     operator const VkPipelineVertexInputStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineVertexInputStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineVertexInputStateCreateInfo*>( this );
     }
 
   private:
@@ -5609,7 +5609,7 @@ namespace vk
 
     operator const VkPipelineInputAssemblyStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineInputAssemblyStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineInputAssemblyStateCreateInfo*>( this );
     }
 
   private:
@@ -5670,7 +5670,7 @@ namespace vk
 
     operator const VkPipelineTessellationStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineTessellationStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineTessellationStateCreateInfo*>( this );
     }
 
   private:
@@ -5751,7 +5751,7 @@ namespace vk
 
     operator const VkPipelineViewportStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineViewportStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineViewportStateCreateInfo*>( this );
     }
 
   private:
@@ -5877,7 +5877,7 @@ namespace vk
 
     operator const VkPipelineRasterizationStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineRasterizationStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineRasterizationStateCreateInfo*>( this );
     }
 
   private:
@@ -6002,7 +6002,7 @@ namespace vk
 
     operator const VkPipelineDepthStencilStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineDepthStencilStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineDepthStencilStateCreateInfo*>( this );
     }
 
   private:
@@ -6077,7 +6077,7 @@ namespace vk
 
     operator const VkPipelineCacheCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineCacheCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineCacheCreateInfo*>( this );
     }
 
   private:
@@ -6236,7 +6236,7 @@ namespace vk
 
     operator const VkSamplerCreateInfo&() const
     {
-      return *reinterpret_cast<const VkSamplerCreateInfo*>(this);
+      return *reinterpret_cast<const VkSamplerCreateInfo*>( this );
     }
 
   private:
@@ -6317,7 +6317,7 @@ namespace vk
 
     operator const VkCommandBufferAllocateInfo&() const
     {
-      return *reinterpret_cast<const VkCommandBufferAllocateInfo*>(this);
+      return *reinterpret_cast<const VkCommandBufferAllocateInfo*>( this );
     }
 
   private:
@@ -6399,7 +6399,7 @@ namespace vk
 
     operator const VkRenderPassBeginInfo&() const
     {
-      return *reinterpret_cast<const VkRenderPassBeginInfo*>(this);
+      return *reinterpret_cast<const VkRenderPassBeginInfo*>( this );
     }
 
   private:
@@ -6455,7 +6455,7 @@ namespace vk
 
     operator const VkEventCreateInfo&() const
     {
-      return *reinterpret_cast<const VkEventCreateInfo*>(this);
+      return *reinterpret_cast<const VkEventCreateInfo*>( this );
     }
 
   private:
@@ -6507,7 +6507,7 @@ namespace vk
 
     operator const VkSemaphoreCreateInfo&() const
     {
-      return *reinterpret_cast<const VkSemaphoreCreateInfo*>(this);
+      return *reinterpret_cast<const VkSemaphoreCreateInfo*>( this );
     }
 
   private:
@@ -6601,7 +6601,7 @@ namespace vk
 
     operator const VkFramebufferCreateInfo&() const
     {
-      return *reinterpret_cast<const VkFramebufferCreateInfo*>(this);
+      return *reinterpret_cast<const VkFramebufferCreateInfo*>( this );
     }
 
   private:
@@ -6666,7 +6666,7 @@ namespace vk
 
     operator const VkDisplayModeCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkDisplayModeCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkDisplayModeCreateInfoKHR*>( this );
     }
 
   private:
@@ -6733,7 +6733,7 @@ namespace vk
 
     operator const VkDisplayPresentInfoKHR&() const
     {
-      return *reinterpret_cast<const VkDisplayPresentInfoKHR*>(this);
+      return *reinterpret_cast<const VkDisplayPresentInfoKHR*>( this );
     }
 
   private:
@@ -6795,7 +6795,7 @@ namespace vk
 
     operator const VkAndroidSurfaceCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkAndroidSurfaceCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkAndroidSurfaceCreateInfoKHR*>( this );
     }
 
   private:
@@ -6864,7 +6864,7 @@ namespace vk
 
     operator const VkMirSurfaceCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkMirSurfaceCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkMirSurfaceCreateInfoKHR*>( this );
     }
 
   private:
@@ -6934,7 +6934,7 @@ namespace vk
 
     operator const VkWaylandSurfaceCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkWaylandSurfaceCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkWaylandSurfaceCreateInfoKHR*>( this );
     }
 
   private:
@@ -7004,7 +7004,7 @@ namespace vk
 
     operator const VkWin32SurfaceCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkWin32SurfaceCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkWin32SurfaceCreateInfoKHR*>( this );
     }
 
   private:
@@ -7074,7 +7074,7 @@ namespace vk
 
     operator const VkXlibSurfaceCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkXlibSurfaceCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkXlibSurfaceCreateInfoKHR*>( this );
     }
 
   private:
@@ -7144,7 +7144,7 @@ namespace vk
 
     operator const VkXcbSurfaceCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkXcbSurfaceCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkXcbSurfaceCreateInfoKHR*>( this );
     }
 
   private:
@@ -7206,7 +7206,7 @@ namespace vk
 
     operator const VkDebugMarkerMarkerInfoEXT&() const
     {
-      return *reinterpret_cast<const VkDebugMarkerMarkerInfoEXT*>(this);
+      return *reinterpret_cast<const VkDebugMarkerMarkerInfoEXT*>( this );
     }
 
   private:
@@ -7215,7 +7215,7 @@ namespace vk
   public:
     const void* pNext;
     const char* pMarkerName;
-    float color[4];
+    float color[ 4 ];
   };
   static_assert( sizeof( DebugMarkerMarkerInfoEXT ) == sizeof( VkDebugMarkerMarkerInfoEXT ), "struct and wrapper have different size!" );
 
@@ -7300,7 +7300,7 @@ namespace vk
 
     operator const VkPresentInfoKHR&() const
     {
-      return *reinterpret_cast<const VkPresentInfoKHR*>(this);
+      return *reinterpret_cast<const VkPresentInfoKHR*>( this );
     }
 
   private:
@@ -7384,7 +7384,7 @@ namespace vk
 
     operator const VkPipelineDynamicStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineDynamicStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineDynamicStateCreateInfo*>( this );
     }
 
   private:
@@ -7417,7 +7417,7 @@ namespace vk
   {
     operator const VkQueueFamilyProperties&() const
     {
-      return *reinterpret_cast<const VkQueueFamilyProperties*>(this);
+      return *reinterpret_cast<const VkQueueFamilyProperties*>( this );
     }
 
     QueueFlags queueFlags;
@@ -7447,7 +7447,7 @@ namespace vk
   {
     operator const VkMemoryType&() const
     {
-      return *reinterpret_cast<const VkMemoryType*>(this);
+      return *reinterpret_cast<const VkMemoryType*>( this );
     }
 
     MemoryPropertyFlags propertyFlags;
@@ -7471,7 +7471,7 @@ namespace vk
   {
     operator const VkMemoryHeap&() const
     {
-      return *reinterpret_cast<const VkMemoryHeap*>(this);
+      return *reinterpret_cast<const VkMemoryHeap*>( this );
     }
 
     DeviceSize size;
@@ -7483,13 +7483,13 @@ namespace vk
   {
     operator const VkPhysicalDeviceMemoryProperties&() const
     {
-      return *reinterpret_cast<const VkPhysicalDeviceMemoryProperties*>(this);
+      return *reinterpret_cast<const VkPhysicalDeviceMemoryProperties*>( this );
     }
 
     uint32_t memoryTypeCount;
-    MemoryType memoryTypes[VK_MAX_MEMORY_TYPES];
+    MemoryType memoryTypes[ VK_MAX_MEMORY_TYPES ];
     uint32_t memoryHeapCount;
-    MemoryHeap memoryHeaps[VK_MAX_MEMORY_HEAPS];
+    MemoryHeap memoryHeaps[ VK_MAX_MEMORY_HEAPS ];
   };
   static_assert( sizeof( PhysicalDeviceMemoryProperties ) == sizeof( VkPhysicalDeviceMemoryProperties ), "struct and wrapper have different size!" );
 
@@ -7568,7 +7568,7 @@ namespace vk
 
     operator const VkMemoryBarrier&() const
     {
-      return *reinterpret_cast<const VkMemoryBarrier*>(this);
+      return *reinterpret_cast<const VkMemoryBarrier*>( this );
     }
 
   private:
@@ -7663,7 +7663,7 @@ namespace vk
 
     operator const VkBufferMemoryBarrier&() const
     {
-      return *reinterpret_cast<const VkBufferMemoryBarrier*>(this);
+      return *reinterpret_cast<const VkBufferMemoryBarrier*>( this );
     }
 
   private:
@@ -7790,7 +7790,7 @@ namespace vk
 
     operator const VkBufferCreateInfo&() const
     {
-      return *reinterpret_cast<const VkBufferCreateInfo*>(this);
+      return *reinterpret_cast<const VkBufferCreateInfo*>( this );
     }
 
   private:
@@ -7880,7 +7880,7 @@ namespace vk
 
     operator const VkDescriptorSetLayoutBinding&() const
     {
-      return *reinterpret_cast<const VkDescriptorSetLayoutBinding*>(this);
+      return *reinterpret_cast<const VkDescriptorSetLayoutBinding*>( this );
     }
 
     uint32_t binding;
@@ -7945,7 +7945,7 @@ namespace vk
 
     operator const VkDescriptorSetLayoutCreateInfo&() const
     {
-      return *reinterpret_cast<const VkDescriptorSetLayoutCreateInfo*>(this);
+      return *reinterpret_cast<const VkDescriptorSetLayoutCreateInfo*>( this );
     }
 
   private:
@@ -8027,7 +8027,7 @@ namespace vk
 
     operator const VkPipelineShaderStageCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineShaderStageCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineShaderStageCreateInfo*>( this );
     }
 
   private:
@@ -8083,7 +8083,7 @@ namespace vk
 
     operator const VkPushConstantRange&() const
     {
-      return *reinterpret_cast<const VkPushConstantRange*>(this);
+      return *reinterpret_cast<const VkPushConstantRange*>( this );
     }
 
     ShaderStageFlags stageFlags;
@@ -8160,7 +8160,7 @@ namespace vk
 
     operator const VkPipelineLayoutCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineLayoutCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineLayoutCreateInfo*>( this );
     }
 
   private:
@@ -8293,7 +8293,7 @@ namespace vk
 
     operator const VkComputePipelineCreateInfo&() const
     {
-      return *reinterpret_cast<const VkComputePipelineCreateInfo*>(this);
+      return *reinterpret_cast<const VkComputePipelineCreateInfo*>( this );
     }
 
   private:
@@ -8399,7 +8399,7 @@ namespace vk
 
     operator const VkPipelineColorBlendAttachmentState&() const
     {
-      return *reinterpret_cast<const VkPipelineColorBlendAttachmentState*>(this);
+      return *reinterpret_cast<const VkPipelineColorBlendAttachmentState*>( this );
     }
 
     Bool32 blendEnable;
@@ -8488,7 +8488,7 @@ namespace vk
 
     operator const VkPipelineColorBlendStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineColorBlendStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineColorBlendStateCreateInfo*>( this );
     }
 
   private:
@@ -8501,7 +8501,7 @@ namespace vk
     LogicOp logicOp;
     uint32_t attachmentCount;
     const PipelineColorBlendAttachmentState* pAttachments;
-    float blendConstants[4];
+    float blendConstants[ 4 ];
   };
   static_assert( sizeof( PipelineColorBlendStateCreateInfo ) == sizeof( VkPipelineColorBlendStateCreateInfo ), "struct and wrapper have different size!" );
 
@@ -8557,7 +8557,7 @@ namespace vk
 
     operator const VkFenceCreateInfo&() const
     {
-      return *reinterpret_cast<const VkFenceCreateInfo*>(this);
+      return *reinterpret_cast<const VkFenceCreateInfo*>( this );
     }
 
   private:
@@ -8598,7 +8598,7 @@ namespace vk
   {
     operator const VkFormatProperties&() const
     {
-      return *reinterpret_cast<const VkFormatProperties*>(this);
+      return *reinterpret_cast<const VkFormatProperties*>( this );
     }
 
     FormatFeatureFlags linearTilingFeatures;
@@ -8745,7 +8745,7 @@ namespace vk
 
     operator const VkCommandBufferInheritanceInfo&() const
     {
-      return *reinterpret_cast<const VkCommandBufferInheritanceInfo*>(this);
+      return *reinterpret_cast<const VkCommandBufferInheritanceInfo*>( this );
     }
 
   private:
@@ -8809,7 +8809,7 @@ namespace vk
 
     operator const VkCommandBufferBeginInfo&() const
     {
-      return *reinterpret_cast<const VkCommandBufferBeginInfo*>(this);
+      return *reinterpret_cast<const VkCommandBufferBeginInfo*>( this );
     }
 
   private:
@@ -8883,7 +8883,7 @@ namespace vk
 
     operator const VkQueryPoolCreateInfo&() const
     {
-      return *reinterpret_cast<const VkQueryPoolCreateInfo*>(this);
+      return *reinterpret_cast<const VkQueryPoolCreateInfo*>( this );
     }
 
   private:
@@ -8953,7 +8953,7 @@ namespace vk
 
     operator const VkImageSubresource&() const
     {
-      return *reinterpret_cast<const VkImageSubresource*>(this);
+      return *reinterpret_cast<const VkImageSubresource*>( this );
     }
 
     ImageAspectFlags aspectMask;
@@ -9009,7 +9009,7 @@ namespace vk
 
     operator const VkImageSubresourceLayers&() const
     {
-      return *reinterpret_cast<const VkImageSubresourceLayers*>(this);
+      return *reinterpret_cast<const VkImageSubresourceLayers*>( this );
     }
 
     ImageAspectFlags aspectMask;
@@ -9073,7 +9073,7 @@ namespace vk
 
     operator const VkImageSubresourceRange&() const
     {
-      return *reinterpret_cast<const VkImageSubresourceRange*>(this);
+      return *reinterpret_cast<const VkImageSubresourceRange*>( this );
     }
 
     ImageAspectFlags aspectMask;
@@ -9173,7 +9173,7 @@ namespace vk
 
     operator const VkImageMemoryBarrier&() const
     {
-      return *reinterpret_cast<const VkImageMemoryBarrier*>(this);
+      return *reinterpret_cast<const VkImageMemoryBarrier*>( this );
     }
 
   private:
@@ -9267,7 +9267,7 @@ namespace vk
 
     operator const VkImageViewCreateInfo&() const
     {
-      return *reinterpret_cast<const VkImageViewCreateInfo*>(this);
+      return *reinterpret_cast<const VkImageViewCreateInfo*>( this );
     }
 
   private:
@@ -9338,7 +9338,7 @@ namespace vk
 
     operator const VkImageCopy&() const
     {
-      return *reinterpret_cast<const VkImageCopy*>(this);
+      return *reinterpret_cast<const VkImageCopy*>( this );
     }
 
     ImageSubresourceLayers srcSubresource;
@@ -9396,13 +9396,13 @@ namespace vk
 
     operator const VkImageBlit&() const
     {
-      return *reinterpret_cast<const VkImageBlit*>(this);
+      return *reinterpret_cast<const VkImageBlit*>( this );
     }
 
     ImageSubresourceLayers srcSubresource;
-    Offset3D srcOffsets[2];
+    Offset3D srcOffsets[ 2 ];
     ImageSubresourceLayers dstSubresource;
-    Offset3D dstOffsets[2];
+    Offset3D dstOffsets[ 2 ];
   };
   static_assert( sizeof( ImageBlit ) == sizeof( VkImageBlit ), "struct and wrapper have different size!" );
 
@@ -9467,7 +9467,7 @@ namespace vk
 
     operator const VkBufferImageCopy&() const
     {
-      return *reinterpret_cast<const VkBufferImageCopy*>(this);
+      return *reinterpret_cast<const VkBufferImageCopy*>( this );
     }
 
     DeviceSize bufferOffset;
@@ -9533,7 +9533,7 @@ namespace vk
 
     operator const VkImageResolve&() const
     {
-      return *reinterpret_cast<const VkImageResolve*>(this);
+      return *reinterpret_cast<const VkImageResolve*>( this );
     }
 
     ImageSubresourceLayers srcSubresource;
@@ -9584,7 +9584,7 @@ namespace vk
 
     operator const VkClearAttachment&() const
     {
-      return *reinterpret_cast<const VkClearAttachment*>(this);
+      return *reinterpret_cast<const VkClearAttachment*>( this );
     }
 
     ImageAspectFlags aspectMask;
@@ -9611,7 +9611,7 @@ namespace vk
   {
     operator const VkSparseImageFormatProperties&() const
     {
-      return *reinterpret_cast<const VkSparseImageFormatProperties*>(this);
+      return *reinterpret_cast<const VkSparseImageFormatProperties*>( this );
     }
 
     ImageAspectFlags aspectMask;
@@ -9624,7 +9624,7 @@ namespace vk
   {
     operator const VkSparseImageMemoryRequirements&() const
     {
-      return *reinterpret_cast<const VkSparseImageMemoryRequirements*>(this);
+      return *reinterpret_cast<const VkSparseImageMemoryRequirements*>( this );
     }
 
     SparseImageFormatProperties formatProperties;
@@ -9701,7 +9701,7 @@ namespace vk
 
     operator const VkSparseMemoryBind&() const
     {
-      return *reinterpret_cast<const VkSparseMemoryBind*>(this);
+      return *reinterpret_cast<const VkSparseMemoryBind*>( this );
     }
 
     DeviceSize resourceOffset;
@@ -9773,7 +9773,7 @@ namespace vk
 
     operator const VkSparseImageMemoryBind&() const
     {
-      return *reinterpret_cast<const VkSparseImageMemoryBind*>(this);
+      return *reinterpret_cast<const VkSparseImageMemoryBind*>( this );
     }
 
     ImageSubresource subresource;
@@ -9825,7 +9825,7 @@ namespace vk
 
     operator const VkSparseBufferMemoryBindInfo&() const
     {
-      return *reinterpret_cast<const VkSparseBufferMemoryBindInfo*>(this);
+      return *reinterpret_cast<const VkSparseBufferMemoryBindInfo*>( this );
     }
 
     Buffer buffer;
@@ -9874,7 +9874,7 @@ namespace vk
 
     operator const VkSparseImageOpaqueMemoryBindInfo&() const
     {
-      return *reinterpret_cast<const VkSparseImageOpaqueMemoryBindInfo*>(this);
+      return *reinterpret_cast<const VkSparseImageOpaqueMemoryBindInfo*>( this );
     }
 
     Image image;
@@ -9923,7 +9923,7 @@ namespace vk
 
     operator const VkSparseImageMemoryBindInfo&() const
     {
-      return *reinterpret_cast<const VkSparseImageMemoryBindInfo*>(this);
+      return *reinterpret_cast<const VkSparseImageMemoryBindInfo*>( this );
     }
 
     Image image;
@@ -10035,7 +10035,7 @@ namespace vk
 
     operator const VkBindSparseInfo&() const
     {
-      return *reinterpret_cast<const VkBindSparseInfo*>(this);
+      return *reinterpret_cast<const VkBindSparseInfo*>( this );
     }
 
   private:
@@ -10144,7 +10144,7 @@ namespace vk
 
     operator const VkCommandPoolCreateInfo&() const
     {
-      return *reinterpret_cast<const VkCommandPoolCreateInfo*>(this);
+      return *reinterpret_cast<const VkCommandPoolCreateInfo*>( this );
     }
 
   private:
@@ -10203,7 +10203,7 @@ namespace vk
   {
     operator const VkImageFormatProperties&() const
     {
-      return *reinterpret_cast<const VkImageFormatProperties*>(this);
+      return *reinterpret_cast<const VkImageFormatProperties*>( this );
     }
 
     Extent3D maxExtent;
@@ -10338,7 +10338,7 @@ namespace vk
 
     operator const VkImageCreateInfo&() const
     {
-      return *reinterpret_cast<const VkImageCreateInfo*>(this);
+      return *reinterpret_cast<const VkImageCreateInfo*>( this );
     }
 
   private:
@@ -10444,7 +10444,7 @@ namespace vk
 
     operator const VkPipelineMultisampleStateCreateInfo&() const
     {
-      return *reinterpret_cast<const VkPipelineMultisampleStateCreateInfo*>(this);
+      return *reinterpret_cast<const VkPipelineMultisampleStateCreateInfo*>( this );
     }
 
   private:
@@ -10614,7 +10614,7 @@ namespace vk
 
     operator const VkGraphicsPipelineCreateInfo&() const
     {
-      return *reinterpret_cast<const VkGraphicsPipelineCreateInfo*>(this);
+      return *reinterpret_cast<const VkGraphicsPipelineCreateInfo*>( this );
     }
 
   private:
@@ -10646,7 +10646,7 @@ namespace vk
   {
     operator const VkPhysicalDeviceLimits&() const
     {
-      return *reinterpret_cast<const VkPhysicalDeviceLimits*>(this);
+      return *reinterpret_cast<const VkPhysicalDeviceLimits*>( this );
     }
 
     uint32_t maxImageDimension1D;
@@ -10701,9 +10701,9 @@ namespace vk
     uint32_t maxFragmentDualSrcAttachments;
     uint32_t maxFragmentCombinedOutputResources;
     uint32_t maxComputeSharedMemorySize;
-    uint32_t maxComputeWorkGroupCount[3];
+    uint32_t maxComputeWorkGroupCount[ 3 ];
     uint32_t maxComputeWorkGroupInvocations;
-    uint32_t maxComputeWorkGroupSize[3];
+    uint32_t maxComputeWorkGroupSize[ 3 ];
     uint32_t subPixelPrecisionBits;
     uint32_t subTexelPrecisionBits;
     uint32_t mipmapPrecisionBits;
@@ -10712,8 +10712,8 @@ namespace vk
     float maxSamplerLodBias;
     float maxSamplerAnisotropy;
     uint32_t maxViewports;
-    uint32_t maxViewportDimensions[2];
-    float viewportBoundsRange[2];
+    uint32_t maxViewportDimensions[ 2 ];
+    float viewportBoundsRange[ 2 ];
     uint32_t viewportSubPixelBits;
     size_t minMemoryMapAlignment;
     DeviceSize minTexelBufferOffsetAlignment;
@@ -10746,8 +10746,8 @@ namespace vk
     uint32_t maxCullDistances;
     uint32_t maxCombinedClipAndCullDistances;
     uint32_t discreteQueuePriorities;
-    float pointSizeRange[2];
-    float lineWidthRange[2];
+    float pointSizeRange[ 2 ];
+    float lineWidthRange[ 2 ];
     float pointSizeGranularity;
     float lineWidthGranularity;
     Bool32 strictLines;
@@ -10762,7 +10762,7 @@ namespace vk
   {
     operator const VkPhysicalDeviceProperties&() const
     {
-      return *reinterpret_cast<const VkPhysicalDeviceProperties*>(this);
+      return *reinterpret_cast<const VkPhysicalDeviceProperties*>( this );
     }
 
     uint32_t apiVersion;
@@ -10770,8 +10770,8 @@ namespace vk
     uint32_t vendorID;
     uint32_t deviceID;
     PhysicalDeviceType deviceType;
-    char deviceName[VK_MAX_PHYSICAL_DEVICE_NAME_SIZE];
-    uint8_t pipelineCacheUUID[VK_UUID_SIZE];
+    char deviceName[ VK_MAX_PHYSICAL_DEVICE_NAME_SIZE ];
+    uint8_t pipelineCacheUUID[ VK_UUID_SIZE ];
     PhysicalDeviceLimits limits;
     PhysicalDeviceSparseProperties sparseProperties;
   };
@@ -10871,7 +10871,7 @@ namespace vk
 
     operator const VkAttachmentDescription&() const
     {
-      return *reinterpret_cast<const VkAttachmentDescription*>(this);
+      return *reinterpret_cast<const VkAttachmentDescription*>( this );
     }
 
     AttachmentDescriptionFlags flags;
@@ -10973,7 +10973,7 @@ namespace vk
 
     operator const VkDescriptorPoolCreateInfo&() const
     {
-      return *reinterpret_cast<const VkDescriptorPoolCreateInfo*>(this);
+      return *reinterpret_cast<const VkDescriptorPoolCreateInfo*>( this );
     }
 
   private:
@@ -11004,15 +11004,15 @@ namespace vk
   {
   public:
     CommandBuffer()
-      : m_commandBuffer(VK_NULL_HANDLE)
+      : m_commandBuffer( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    CommandBuffer(VkCommandBuffer commandBuffer)
-       : m_commandBuffer(commandBuffer)
+    CommandBuffer( VkCommandBuffer commandBuffer )
+       : m_commandBuffer( commandBuffer )
     {}
 
-    CommandBuffer& operator=(VkCommandBuffer commandBuffer)
+    CommandBuffer& operator=( VkCommandBuffer commandBuffer )
     {
       m_commandBuffer = commandBuffer;
       return *this;
@@ -11129,7 +11129,7 @@ namespace vk
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
 
 #ifdef VKCPP_DISABLE_ENHANCED_MODE
-    void setBlendConstants( const float blendConstants[4] ) const
+    void setBlendConstants( const float blendConstants[ 4 ] ) const
     {
       vkCmdSetBlendConstants( m_commandBuffer, blendConstants );
     }
@@ -11784,7 +11784,7 @@ namespace vk
 
     operator const VkSubpassDependency&() const
     {
-      return *reinterpret_cast<const VkSubpassDependency*>(this);
+      return *reinterpret_cast<const VkSubpassDependency*>( this );
     }
 
     uint32_t srcSubpass;
@@ -11879,7 +11879,7 @@ namespace vk
 
     operator const VkRenderPassCreateInfo&() const
     {
-      return *reinterpret_cast<const VkRenderPassCreateInfo*>(this);
+      return *reinterpret_cast<const VkRenderPassCreateInfo*>( this );
     }
 
   private:
@@ -11979,7 +11979,7 @@ namespace vk
 
     operator const VkSubmitInfo&() const
     {
-      return *reinterpret_cast<const VkSubmitInfo*>(this);
+      return *reinterpret_cast<const VkSubmitInfo*>( this );
     }
 
   private:
@@ -12001,15 +12001,15 @@ namespace vk
   {
   public:
     Queue()
-      : m_queue(VK_NULL_HANDLE)
+      : m_queue( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Queue(VkQueue queue)
-       : m_queue(queue)
+    Queue( VkQueue queue )
+       : m_queue( queue )
     {}
 
-    Queue& operator=(VkQueue queue)
+    Queue& operator=( VkQueue queue )
     {
       m_queue = queue;
       return *this;
@@ -12139,7 +12139,7 @@ namespace vk
 
     operator const VkSurfaceFormatKHR&() const
     {
-      return *reinterpret_cast<const VkSurfaceFormatKHR*>(this);
+      return *reinterpret_cast<const VkSurfaceFormatKHR*>( this );
     }
 
     Format format;
@@ -12244,7 +12244,7 @@ namespace vk
 
     operator const VkDisplayPlaneCapabilitiesKHR&() const
     {
-      return *reinterpret_cast<const VkDisplayPlaneCapabilitiesKHR*>(this);
+      return *reinterpret_cast<const VkDisplayPlaneCapabilitiesKHR*>( this );
     }
 
     DisplayPlaneAlphaFlagsKHR supportedAlpha;
@@ -12362,7 +12362,7 @@ namespace vk
 
     operator const VkDisplayPropertiesKHR&() const
     {
-      return *reinterpret_cast<const VkDisplayPropertiesKHR*>(this);
+      return *reinterpret_cast<const VkDisplayPropertiesKHR*>( this );
     }
 
     DisplayKHR display;
@@ -12464,7 +12464,7 @@ namespace vk
 
     operator const VkDisplaySurfaceCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkDisplaySurfaceCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkDisplaySurfaceCreateInfoKHR*>( this );
     }
 
   private:
@@ -12572,7 +12572,7 @@ namespace vk
 
     operator const VkSurfaceCapabilitiesKHR&() const
     {
-      return *reinterpret_cast<const VkSurfaceCapabilitiesKHR*>(this);
+      return *reinterpret_cast<const VkSurfaceCapabilitiesKHR*>( this );
     }
 
     uint32_t minImageCount;
@@ -12733,7 +12733,7 @@ namespace vk
 
     operator const VkSwapchainCreateInfoKHR&() const
     {
-      return *reinterpret_cast<const VkSwapchainCreateInfoKHR*>(this);
+      return *reinterpret_cast<const VkSwapchainCreateInfoKHR*>( this );
     }
 
   private:
@@ -12830,7 +12830,7 @@ namespace vk
 
     operator const VkDebugReportCallbackCreateInfoEXT&() const
     {
-      return *reinterpret_cast<const VkDebugReportCallbackCreateInfoEXT*>(this);
+      return *reinterpret_cast<const VkDebugReportCallbackCreateInfoEXT*>( this );
     }
 
   private:
@@ -12931,7 +12931,7 @@ namespace vk
 
     operator const VkDebugMarkerObjectNameInfoEXT&() const
     {
-      return *reinterpret_cast<const VkDebugMarkerObjectNameInfoEXT*>(this);
+      return *reinterpret_cast<const VkDebugMarkerObjectNameInfoEXT*>( this );
     }
 
   private:
@@ -13013,7 +13013,7 @@ namespace vk
 
     operator const VkDebugMarkerObjectTagInfoEXT&() const
     {
-      return *reinterpret_cast<const VkDebugMarkerObjectTagInfoEXT*>(this);
+      return *reinterpret_cast<const VkDebugMarkerObjectTagInfoEXT*>( this );
     }
 
   private:
@@ -13033,15 +13033,15 @@ namespace vk
   {
   public:
     Device()
-      : m_device(VK_NULL_HANDLE)
+      : m_device( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Device(VkDevice device)
-       : m_device(device)
+    Device( VkDevice device )
+       : m_device( device )
     {}
 
-    Device& operator=(VkDevice device)
+    Device& operator=( VkDevice device )
     {
       m_device = device;
       return *this;
@@ -14151,15 +14151,15 @@ namespace vk
   {
   public:
     PhysicalDevice()
-      : m_physicalDevice(VK_NULL_HANDLE)
+      : m_physicalDevice( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    PhysicalDevice(VkPhysicalDevice physicalDevice)
-       : m_physicalDevice(physicalDevice)
+    PhysicalDevice( VkPhysicalDevice physicalDevice )
+       : m_physicalDevice( physicalDevice )
     {}
 
-    PhysicalDevice& operator=(VkPhysicalDevice physicalDevice)
+    PhysicalDevice& operator=( VkPhysicalDevice physicalDevice )
     {
       m_physicalDevice = physicalDevice;
       return *this;
@@ -14651,15 +14651,15 @@ namespace vk
   {
   public:
     Instance()
-      : m_instance(VK_NULL_HANDLE)
+      : m_instance( VK_NULL_HANDLE )
     {}
 
 #if defined(VK_CPP_TYPESAFE_CONVERSION)
-    Instance(VkInstance instance)
-       : m_instance(instance)
+    Instance( VkInstance instance )
+       : m_instance( instance )
     {}
 
-    Instance& operator=(VkInstance instance)
+    Instance& operator=( VkInstance instance )
     {
       m_instance = instance;
       return *this;
@@ -14962,7 +14962,7 @@ namespace vk
 
     operator const VkPipelineRasterizationStateRasterizationOrderAMD&() const
     {
-      return *reinterpret_cast<const VkPipelineRasterizationStateRasterizationOrderAMD*>(this);
+      return *reinterpret_cast<const VkPipelineRasterizationStateRasterizationOrderAMD*>( this );
     }
 
   private:
