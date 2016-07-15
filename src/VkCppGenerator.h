@@ -54,7 +54,11 @@ namespace vk
 		std::string _determineReturnType( CommandData const& commandData,
 			size_t returnIndex, bool isVector = false );
 
-		void _enterProtect( std::ofstream& ofs, std::string const& protect );
+		void _enterProtect( std::ofstream& ofs, std::string const& protect ) const;
+
+		void _leaveProtect( std::ofstream& ofs, std::string const& protect ) const;
+
+		std::string _reduceName( std::string const& name ) const;
 
 		size_t _findReturnIndex( CommandData const& commandData,
 			std::map<size_t, size_t> const& vectorParameters );
@@ -69,14 +73,12 @@ namespace vk
 		bool _isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters,
 			size_t idx );
 
-		void _leaveProtect( std::ofstream& ofs, std::string const& protect );
-
 		bool _noDependencies( std::set<std::string> const& dependencies,
-			std::set<std::string>& listedTypes );
+			std::set<std::string>& listedTypes ) const;
 
-		void _sortDependencies( std::list<DependencyData>& dependencies );
+		void _sortDependencies( std::list<DependencyData>& dependencies ) const;
 
-		std::string _reduceName( std::string const& name );
+		void _writeVersionCheck( std::ofstream& ofs, std::string const& version );
 
 		void _writeCall( std::ofstream& ofs, std::string const& name,
 			size_t templateIndex,
@@ -175,8 +177,6 @@ namespace vk
 
 		void _writeTypes(std::ofstream& ofs, SpecData* vkData,
 			std::map<std::string, std::string> const& defaultValues );
-
-		void _writeVersionCheck( std::ofstream& ofs, std::string const& version );
 
 		void _writeTypesafeCheck( std::ofstream& ofs, std::string const& typesafeCheck );
 	};
