@@ -1962,12 +1962,12 @@ namespace vk
 
     Offset2D( VkOffset2D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Offset2D) );
+      memcpy( this, &rhs, sizeof( Offset2D ) );
     }
 
     Offset2D& operator=( VkOffset2D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Offset2D) );
+      memcpy( this, &rhs, sizeof( Offset2D ) );
       return *this;
     }
 
@@ -2004,12 +2004,12 @@ namespace vk
 
     Offset3D( VkOffset3D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Offset3D) );
+      memcpy( this, &rhs, sizeof( Offset3D ) );
     }
 
     Offset3D& operator=( VkOffset3D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Offset3D) );
+      memcpy( this, &rhs, sizeof( Offset3D ) );
       return *this;
     }
 
@@ -2052,12 +2052,12 @@ namespace vk
 
     Extent2D( VkExtent2D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Extent2D) );
+      memcpy( this, &rhs, sizeof( Extent2D ) );
     }
 
     Extent2D& operator=( VkExtent2D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Extent2D) );
+      memcpy( this, &rhs, sizeof( Extent2D ) );
       return *this;
     }
 
@@ -2094,12 +2094,12 @@ namespace vk
 
     Extent3D( VkExtent3D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Extent3D) );
+      memcpy( this, &rhs, sizeof( Extent3D ) );
     }
 
     Extent3D& operator=( VkExtent3D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Extent3D) );
+      memcpy( this, &rhs, sizeof( Extent3D ) );
       return *this;
     }
 
@@ -2146,12 +2146,12 @@ namespace vk
 
     Viewport( VkViewport const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Viewport) );
+      memcpy( this, &rhs, sizeof( Viewport ) );
     }
 
     Viewport& operator=( VkViewport const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Viewport) );
+      memcpy( this, &rhs, sizeof( Viewport ) );
       return *this;
     }
 
@@ -2215,12 +2215,12 @@ namespace vk
 
     Rect2D( VkRect2D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Rect2D) );
+      memcpy( this, &rhs, sizeof( Rect2D ) );
     }
 
     Rect2D& operator=( VkRect2D const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Rect2D) );
+      memcpy( this, &rhs, sizeof( Rect2D ) );
       return *this;
     }
 
@@ -2257,12 +2257,12 @@ namespace vk
 
     ClearRect( VkClearRect const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ClearRect) );
+      memcpy( this, &rhs, sizeof( ClearRect ) );
     }
 
     ClearRect& operator=( VkClearRect const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ClearRect) );
+      memcpy( this, &rhs, sizeof( ClearRect ) );
       return *this;
     }
 
@@ -2335,12 +2335,12 @@ namespace vk
 
     AllocationCallbacks( VkAllocationCallbacks const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AllocationCallbacks) );
+      memcpy( this, &rhs, sizeof( AllocationCallbacks ) );
     }
 
     AllocationCallbacks& operator=( VkAllocationCallbacks const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AllocationCallbacks) );
+      memcpy( this, &rhs, sizeof( AllocationCallbacks ) );
       return *this;
     }
 
@@ -2418,12 +2418,12 @@ namespace vk
 
     DescriptorBufferInfo( VkDescriptorBufferInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorBufferInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorBufferInfo ) );
     }
 
     DescriptorBufferInfo& operator=( VkDescriptorBufferInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorBufferInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorBufferInfo ) );
       return *this;
     }
 
@@ -2482,12 +2482,12 @@ namespace vk
 
     BufferCopy( VkBufferCopy const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferCopy) );
+      memcpy( this, &rhs, sizeof( BufferCopy ) );
     }
 
     BufferCopy& operator=( VkBufferCopy const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferCopy) );
+      memcpy( this, &rhs, sizeof( BufferCopy ) );
       return *this;
     }
 
@@ -2531,12 +2531,12 @@ namespace vk
 
     SpecializationMapEntry( VkSpecializationMapEntry const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SpecializationMapEntry) );
+      memcpy( this, &rhs, sizeof( SpecializationMapEntry ) );
     }
 
     SpecializationMapEntry& operator=( VkSpecializationMapEntry const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SpecializationMapEntry) );
+      memcpy( this, &rhs, sizeof( SpecializationMapEntry ) );
       return *this;
     }
 
@@ -2581,12 +2581,12 @@ namespace vk
 
     SpecializationInfo( VkSpecializationInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SpecializationInfo) );
+      memcpy( this, &rhs, sizeof( SpecializationInfo ) );
     }
 
     SpecializationInfo& operator=( VkSpecializationInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SpecializationInfo) );
+      memcpy( this, &rhs, sizeof( SpecializationInfo ) );
       return *this;
     }
 
@@ -2643,19 +2643,19 @@ namespace vk
       memcpy( &uint32, uint32_.data(), 4 * sizeof( uint32_t ) );
     }
 
-    ClearColorValue& setFloat32( std::array<float,4> float32_ )
+    ClearColorValue& setFloat32( std::array<float, 4> float32_ )
     {
       memcpy( &float32, float32_.data(), 4 * sizeof( float ) );
       return *this;
     }
 
-    ClearColorValue& setInt32( std::array<int32_t,4> int32_ )
+    ClearColorValue& setInt32( std::array<int32_t, 4> int32_ )
     {
       memcpy( &int32, int32_.data(), 4 * sizeof( int32_t ) );
       return *this;
     }
 
-    ClearColorValue& setUint32( std::array<uint32_t,4> uint32_ )
+    ClearColorValue& setUint32( std::array<uint32_t, 4> uint32_ )
     {
       memcpy( &uint32, uint32_.data(), 4 * sizeof( uint32_t ) );
       return *this;
@@ -2681,12 +2681,12 @@ namespace vk
 
     ClearDepthStencilValue( VkClearDepthStencilValue const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ClearDepthStencilValue) );
+      memcpy( this, &rhs, sizeof( ClearDepthStencilValue ) );
     }
 
     ClearDepthStencilValue& operator=( VkClearDepthStencilValue const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ClearDepthStencilValue) );
+      memcpy( this, &rhs, sizeof( ClearDepthStencilValue ) );
       return *this;
     }
 
@@ -2813,12 +2813,12 @@ namespace vk
 
     PhysicalDeviceFeatures( VkPhysicalDeviceFeatures const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PhysicalDeviceFeatures) );
+      memcpy( this, &rhs, sizeof( PhysicalDeviceFeatures ) );
     }
 
     PhysicalDeviceFeatures& operator=( VkPhysicalDeviceFeatures const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PhysicalDeviceFeatures) );
+      memcpy( this, &rhs, sizeof( PhysicalDeviceFeatures ) );
       return *this;
     }
 
@@ -3242,12 +3242,12 @@ namespace vk
 
     DrawIndirectCommand( VkDrawIndirectCommand const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DrawIndirectCommand) );
+      memcpy( this, &rhs, sizeof( DrawIndirectCommand ) );
     }
 
     DrawIndirectCommand& operator=( VkDrawIndirectCommand const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DrawIndirectCommand) );
+      memcpy( this, &rhs, sizeof( DrawIndirectCommand ) );
       return *this;
     }
 
@@ -3300,12 +3300,12 @@ namespace vk
 
     DrawIndexedIndirectCommand( VkDrawIndexedIndirectCommand const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DrawIndexedIndirectCommand) );
+      memcpy( this, &rhs, sizeof( DrawIndexedIndirectCommand ) );
     }
 
     DrawIndexedIndirectCommand& operator=( VkDrawIndexedIndirectCommand const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DrawIndexedIndirectCommand) );
+      memcpy( this, &rhs, sizeof( DrawIndexedIndirectCommand ) );
       return *this;
     }
 
@@ -3363,12 +3363,12 @@ namespace vk
 
     DispatchIndirectCommand( VkDispatchIndirectCommand const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DispatchIndirectCommand) );
+      memcpy( this, &rhs, sizeof( DispatchIndirectCommand ) );
     }
 
     DispatchIndirectCommand& operator=( VkDispatchIndirectCommand const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DispatchIndirectCommand) );
+      memcpy( this, &rhs, sizeof( DispatchIndirectCommand ) );
       return *this;
     }
 
@@ -3411,12 +3411,12 @@ namespace vk
 
     DisplayPlanePropertiesKHR( VkDisplayPlanePropertiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPlanePropertiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPlanePropertiesKHR ) );
     }
 
     DisplayPlanePropertiesKHR& operator=( VkDisplayPlanePropertiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPlanePropertiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPlanePropertiesKHR ) );
       return *this;
     }
 
@@ -3452,12 +3452,12 @@ namespace vk
 
     DisplayModeParametersKHR( VkDisplayModeParametersKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayModeParametersKHR) );
+      memcpy( this, &rhs, sizeof( DisplayModeParametersKHR ) );
     }
 
     DisplayModeParametersKHR& operator=( VkDisplayModeParametersKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayModeParametersKHR) );
+      memcpy( this, &rhs, sizeof( DisplayModeParametersKHR ) );
       return *this;
     }
 
@@ -3493,12 +3493,12 @@ namespace vk
 
     DisplayModePropertiesKHR( VkDisplayModePropertiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayModePropertiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayModePropertiesKHR ) );
     }
 
     DisplayModePropertiesKHR& operator=( VkDisplayModePropertiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayModePropertiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayModePropertiesKHR ) );
       return *this;
     }
 
@@ -3549,12 +3549,12 @@ namespace vk
 
     DescriptorImageInfo( VkDescriptorImageInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorImageInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorImageInfo ) );
     }
 
     DescriptorImageInfo& operator=( VkDescriptorImageInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorImageInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorImageInfo ) );
       return *this;
     }
 
@@ -3597,12 +3597,12 @@ namespace vk
 
     AttachmentReference( VkAttachmentReference const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AttachmentReference) );
+      memcpy( this, &rhs, sizeof( AttachmentReference ) );
     }
 
     AttachmentReference& operator=( VkAttachmentReference const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AttachmentReference) );
+      memcpy( this, &rhs, sizeof( AttachmentReference ) );
       return *this;
     }
 
@@ -3694,12 +3694,12 @@ namespace vk
 
     ComponentMapping( VkComponentMapping const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ComponentMapping) );
+      memcpy( this, &rhs, sizeof( ComponentMapping ) );
     }
 
     ComponentMapping& operator=( VkComponentMapping const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ComponentMapping) );
+      memcpy( this, &rhs, sizeof( ComponentMapping ) );
       return *this;
     }
 
@@ -3764,12 +3764,12 @@ namespace vk
 
     DescriptorPoolSize( VkDescriptorPoolSize const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorPoolSize) );
+      memcpy( this, &rhs, sizeof( DescriptorPoolSize ) );
     }
 
     DescriptorPoolSize& operator=( VkDescriptorPoolSize const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorPoolSize) );
+      memcpy( this, &rhs, sizeof( DescriptorPoolSize ) );
       return *this;
     }
 
@@ -3836,12 +3836,12 @@ namespace vk
 
     SubpassDescription( VkSubpassDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SubpassDescription) );
+      memcpy( this, &rhs, sizeof( SubpassDescription ) );
     }
 
     SubpassDescription& operator=( VkSubpassDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SubpassDescription) );
+      memcpy( this, &rhs, sizeof( SubpassDescription ) );
       return *this;
     }
 
@@ -4076,12 +4076,12 @@ namespace vk
 
     StencilOpState( VkStencilOpState const & rhs )
     {
-      memcpy( this, &rhs, sizeof(StencilOpState) );
+      memcpy( this, &rhs, sizeof( StencilOpState ) );
     }
 
     StencilOpState& operator=( VkStencilOpState const & rhs )
     {
-      memcpy( this, &rhs, sizeof(StencilOpState) );
+      memcpy( this, &rhs, sizeof( StencilOpState ) );
       return *this;
     }
 
@@ -4202,12 +4202,12 @@ namespace vk
 
     VertexInputBindingDescription( VkVertexInputBindingDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(VertexInputBindingDescription) );
+      memcpy( this, &rhs, sizeof( VertexInputBindingDescription ) );
     }
 
     VertexInputBindingDescription& operator=( VkVertexInputBindingDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(VertexInputBindingDescription) );
+      memcpy( this, &rhs, sizeof( VertexInputBindingDescription ) );
       return *this;
     }
 
@@ -4441,12 +4441,12 @@ namespace vk
 
     VertexInputAttributeDescription( VkVertexInputAttributeDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(VertexInputAttributeDescription) );
+      memcpy( this, &rhs, sizeof( VertexInputAttributeDescription ) );
     }
 
     VertexInputAttributeDescription& operator=( VkVertexInputAttributeDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(VertexInputAttributeDescription) );
+      memcpy( this, &rhs, sizeof( VertexInputAttributeDescription ) );
       return *this;
     }
 
@@ -4570,12 +4570,12 @@ namespace vk
 
     ApplicationInfo( VkApplicationInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ApplicationInfo) );
+      memcpy( this, &rhs, sizeof( ApplicationInfo ) );
     }
 
     ApplicationInfo& operator=( VkApplicationInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ApplicationInfo) );
+      memcpy( this, &rhs, sizeof( ApplicationInfo ) );
       return *this;
     }
 
@@ -4653,12 +4653,12 @@ namespace vk
 
     DeviceQueueCreateInfo( VkDeviceQueueCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DeviceQueueCreateInfo) );
+      memcpy( this, &rhs, sizeof( DeviceQueueCreateInfo ) );
     }
 
     DeviceQueueCreateInfo& operator=( VkDeviceQueueCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DeviceQueueCreateInfo) );
+      memcpy( this, &rhs, sizeof( DeviceQueueCreateInfo ) );
       return *this;
     }
 
@@ -4733,12 +4733,12 @@ namespace vk
 
     DeviceCreateInfo( VkDeviceCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DeviceCreateInfo) );
+      memcpy( this, &rhs, sizeof( DeviceCreateInfo ) );
     }
 
     DeviceCreateInfo& operator=( VkDeviceCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DeviceCreateInfo) );
+      memcpy( this, &rhs, sizeof( DeviceCreateInfo ) );
       return *this;
     }
 
@@ -4839,12 +4839,12 @@ namespace vk
 
     InstanceCreateInfo( VkInstanceCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(InstanceCreateInfo) );
+      memcpy( this, &rhs, sizeof( InstanceCreateInfo ) );
     }
 
     InstanceCreateInfo& operator=( VkInstanceCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(InstanceCreateInfo) );
+      memcpy( this, &rhs, sizeof( InstanceCreateInfo ) );
       return *this;
     }
 
@@ -4927,12 +4927,12 @@ namespace vk
 
     MemoryAllocateInfo( VkMemoryAllocateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MemoryAllocateInfo) );
+      memcpy( this, &rhs, sizeof( MemoryAllocateInfo ) );
     }
 
     MemoryAllocateInfo& operator=( VkMemoryAllocateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MemoryAllocateInfo) );
+      memcpy( this, &rhs, sizeof( MemoryAllocateInfo ) );
       return *this;
     }
 
@@ -4988,12 +4988,12 @@ namespace vk
 
     MappedMemoryRange( VkMappedMemoryRange const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MappedMemoryRange) );
+      memcpy( this, &rhs, sizeof( MappedMemoryRange ) );
     }
 
     MappedMemoryRange& operator=( VkMappedMemoryRange const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MappedMemoryRange) );
+      memcpy( this, &rhs, sizeof( MappedMemoryRange ) );
       return *this;
     }
 
@@ -5061,12 +5061,12 @@ namespace vk
 
     WriteDescriptorSet( VkWriteDescriptorSet const & rhs )
     {
-      memcpy( this, &rhs, sizeof(WriteDescriptorSet) );
+      memcpy( this, &rhs, sizeof( WriteDescriptorSet ) );
     }
 
     WriteDescriptorSet& operator=( VkWriteDescriptorSet const & rhs )
     {
-      memcpy( this, &rhs, sizeof(WriteDescriptorSet) );
+      memcpy( this, &rhs, sizeof( WriteDescriptorSet ) );
       return *this;
     }
 
@@ -5168,12 +5168,12 @@ namespace vk
 
     CopyDescriptorSet( VkCopyDescriptorSet const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CopyDescriptorSet) );
+      memcpy( this, &rhs, sizeof( CopyDescriptorSet ) );
     }
 
     CopyDescriptorSet& operator=( VkCopyDescriptorSet const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CopyDescriptorSet) );
+      memcpy( this, &rhs, sizeof( CopyDescriptorSet ) );
       return *this;
     }
 
@@ -5266,12 +5266,12 @@ namespace vk
 
     BufferViewCreateInfo( VkBufferViewCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferViewCreateInfo) );
+      memcpy( this, &rhs, sizeof( BufferViewCreateInfo ) );
     }
 
     BufferViewCreateInfo& operator=( VkBufferViewCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferViewCreateInfo) );
+      memcpy( this, &rhs, sizeof( BufferViewCreateInfo ) );
       return *this;
     }
 
@@ -5348,12 +5348,12 @@ namespace vk
 
     ShaderModuleCreateInfo( VkShaderModuleCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ShaderModuleCreateInfo) );
+      memcpy( this, &rhs, sizeof( ShaderModuleCreateInfo ) );
     }
 
     ShaderModuleCreateInfo& operator=( VkShaderModuleCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ShaderModuleCreateInfo) );
+      memcpy( this, &rhs, sizeof( ShaderModuleCreateInfo ) );
       return *this;
     }
 
@@ -5416,12 +5416,12 @@ namespace vk
 
     DescriptorSetAllocateInfo( VkDescriptorSetAllocateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorSetAllocateInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorSetAllocateInfo ) );
     }
 
     DescriptorSetAllocateInfo& operator=( VkDescriptorSetAllocateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorSetAllocateInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorSetAllocateInfo ) );
       return *this;
     }
 
@@ -5486,12 +5486,12 @@ namespace vk
 
     PipelineVertexInputStateCreateInfo( VkPipelineVertexInputStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineVertexInputStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineVertexInputStateCreateInfo ) );
     }
 
     PipelineVertexInputStateCreateInfo& operator=( VkPipelineVertexInputStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineVertexInputStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineVertexInputStateCreateInfo ) );
       return *this;
     }
 
@@ -5568,12 +5568,12 @@ namespace vk
 
     PipelineInputAssemblyStateCreateInfo( VkPipelineInputAssemblyStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineInputAssemblyStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineInputAssemblyStateCreateInfo ) );
     }
 
     PipelineInputAssemblyStateCreateInfo& operator=( VkPipelineInputAssemblyStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineInputAssemblyStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineInputAssemblyStateCreateInfo ) );
       return *this;
     }
 
@@ -5635,12 +5635,12 @@ namespace vk
 
     PipelineTessellationStateCreateInfo( VkPipelineTessellationStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineTessellationStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineTessellationStateCreateInfo ) );
     }
 
     PipelineTessellationStateCreateInfo& operator=( VkPipelineTessellationStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineTessellationStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineTessellationStateCreateInfo ) );
       return *this;
     }
 
@@ -5698,12 +5698,12 @@ namespace vk
 
     PipelineViewportStateCreateInfo( VkPipelineViewportStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineViewportStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineViewportStateCreateInfo ) );
     }
 
     PipelineViewportStateCreateInfo& operator=( VkPipelineViewportStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineViewportStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineViewportStateCreateInfo ) );
       return *this;
     }
 
@@ -5788,12 +5788,12 @@ namespace vk
 
     PipelineRasterizationStateCreateInfo( VkPipelineRasterizationStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineRasterizationStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineRasterizationStateCreateInfo ) );
     }
 
     PipelineRasterizationStateCreateInfo& operator=( VkPipelineRasterizationStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineRasterizationStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineRasterizationStateCreateInfo ) );
       return *this;
     }
 
@@ -5919,12 +5919,12 @@ namespace vk
 
     PipelineDepthStencilStateCreateInfo( VkPipelineDepthStencilStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineDepthStencilStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineDepthStencilStateCreateInfo ) );
     }
 
     PipelineDepthStencilStateCreateInfo& operator=( VkPipelineDepthStencilStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineDepthStencilStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineDepthStencilStateCreateInfo ) );
       return *this;
     }
 
@@ -6036,12 +6036,12 @@ namespace vk
 
     PipelineCacheCreateInfo( VkPipelineCacheCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineCacheCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineCacheCreateInfo ) );
     }
 
     PipelineCacheCreateInfo& operator=( VkPipelineCacheCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineCacheCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineCacheCreateInfo ) );
       return *this;
     }
 
@@ -6117,12 +6117,12 @@ namespace vk
 
     SamplerCreateInfo( VkSamplerCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SamplerCreateInfo) );
+      memcpy( this, &rhs, sizeof( SamplerCreateInfo ) );
     }
 
     SamplerCreateInfo& operator=( VkSamplerCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SamplerCreateInfo) );
+      memcpy( this, &rhs, sizeof( SamplerCreateInfo ) );
       return *this;
     }
 
@@ -6276,12 +6276,12 @@ namespace vk
 
     CommandBufferAllocateInfo( VkCommandBufferAllocateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandBufferAllocateInfo) );
+      memcpy( this, &rhs, sizeof( CommandBufferAllocateInfo ) );
     }
 
     CommandBufferAllocateInfo& operator=( VkCommandBufferAllocateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandBufferAllocateInfo) );
+      memcpy( this, &rhs, sizeof( CommandBufferAllocateInfo ) );
       return *this;
     }
 
@@ -6346,12 +6346,12 @@ namespace vk
 
     RenderPassBeginInfo( VkRenderPassBeginInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(RenderPassBeginInfo) );
+      memcpy( this, &rhs, sizeof( RenderPassBeginInfo ) );
     }
 
     RenderPassBeginInfo& operator=( VkRenderPassBeginInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(RenderPassBeginInfo) );
+      memcpy( this, &rhs, sizeof( RenderPassBeginInfo ) );
       return *this;
     }
 
@@ -6426,12 +6426,12 @@ namespace vk
 
     EventCreateInfo( VkEventCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(EventCreateInfo) );
+      memcpy( this, &rhs, sizeof( EventCreateInfo ) );
     }
 
     EventCreateInfo& operator=( VkEventCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(EventCreateInfo) );
+      memcpy( this, &rhs, sizeof( EventCreateInfo ) );
       return *this;
     }
 
@@ -6478,12 +6478,12 @@ namespace vk
 
     SemaphoreCreateInfo( VkSemaphoreCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SemaphoreCreateInfo) );
+      memcpy( this, &rhs, sizeof( SemaphoreCreateInfo ) );
     }
 
     SemaphoreCreateInfo& operator=( VkSemaphoreCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SemaphoreCreateInfo) );
+      memcpy( this, &rhs, sizeof( SemaphoreCreateInfo ) );
       return *this;
     }
 
@@ -6536,12 +6536,12 @@ namespace vk
 
     FramebufferCreateInfo( VkFramebufferCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(FramebufferCreateInfo) );
+      memcpy( this, &rhs, sizeof( FramebufferCreateInfo ) );
     }
 
     FramebufferCreateInfo& operator=( VkFramebufferCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(FramebufferCreateInfo) );
+      memcpy( this, &rhs, sizeof( FramebufferCreateInfo ) );
       return *this;
     }
 
@@ -6631,12 +6631,12 @@ namespace vk
 
     DisplayModeCreateInfoKHR( VkDisplayModeCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayModeCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( DisplayModeCreateInfoKHR ) );
     }
 
     DisplayModeCreateInfoKHR& operator=( VkDisplayModeCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayModeCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( DisplayModeCreateInfoKHR ) );
       return *this;
     }
 
@@ -6692,12 +6692,12 @@ namespace vk
 
     DisplayPresentInfoKHR( VkDisplayPresentInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPresentInfoKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPresentInfoKHR ) );
     }
 
     DisplayPresentInfoKHR& operator=( VkDisplayPresentInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPresentInfoKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPresentInfoKHR ) );
       return *this;
     }
 
@@ -6760,12 +6760,12 @@ namespace vk
 
     AndroidSurfaceCreateInfoKHR( VkAndroidSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AndroidSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( AndroidSurfaceCreateInfoKHR ) );
     }
 
     AndroidSurfaceCreateInfoKHR& operator=( VkAndroidSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AndroidSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( AndroidSurfaceCreateInfoKHR ) );
       return *this;
     }
 
@@ -6823,12 +6823,12 @@ namespace vk
 
     MirSurfaceCreateInfoKHR( VkMirSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MirSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( MirSurfaceCreateInfoKHR ) );
     }
 
     MirSurfaceCreateInfoKHR& operator=( VkMirSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MirSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( MirSurfaceCreateInfoKHR ) );
       return *this;
     }
 
@@ -6893,12 +6893,12 @@ namespace vk
 
     WaylandSurfaceCreateInfoKHR( VkWaylandSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(WaylandSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( WaylandSurfaceCreateInfoKHR ) );
     }
 
     WaylandSurfaceCreateInfoKHR& operator=( VkWaylandSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(WaylandSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( WaylandSurfaceCreateInfoKHR ) );
       return *this;
     }
 
@@ -6963,12 +6963,12 @@ namespace vk
 
     Win32SurfaceCreateInfoKHR( VkWin32SurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Win32SurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( Win32SurfaceCreateInfoKHR ) );
     }
 
     Win32SurfaceCreateInfoKHR& operator=( VkWin32SurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(Win32SurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( Win32SurfaceCreateInfoKHR ) );
       return *this;
     }
 
@@ -7033,12 +7033,12 @@ namespace vk
 
     XlibSurfaceCreateInfoKHR( VkXlibSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(XlibSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( XlibSurfaceCreateInfoKHR ) );
     }
 
     XlibSurfaceCreateInfoKHR& operator=( VkXlibSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(XlibSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( XlibSurfaceCreateInfoKHR ) );
       return *this;
     }
 
@@ -7103,12 +7103,12 @@ namespace vk
 
     XcbSurfaceCreateInfoKHR( VkXcbSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(XcbSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( XcbSurfaceCreateInfoKHR ) );
     }
 
     XcbSurfaceCreateInfoKHR& operator=( VkXcbSurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(XcbSurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( XcbSurfaceCreateInfoKHR ) );
       return *this;
     }
 
@@ -7161,7 +7161,7 @@ namespace vk
 
   struct DebugMarkerMarkerInfoEXT
   {
-    DebugMarkerMarkerInfoEXT( const char* pMarkerName_ = nullptr, std::array<float,4> const& color_ = { 0, 0, 0, 0 } )
+    DebugMarkerMarkerInfoEXT( const char* pMarkerName_ = nullptr, std::array<float, 4> const& color_ = { 0, 0, 0, 0 } )
       : sType( StructureType::eDebugMarkerMarkerInfoEXT )
       , pNext( nullptr )
       , pMarkerName( pMarkerName_ )
@@ -7171,12 +7171,12 @@ namespace vk
 
     DebugMarkerMarkerInfoEXT( VkDebugMarkerMarkerInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugMarkerMarkerInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugMarkerMarkerInfoEXT ) );
     }
 
     DebugMarkerMarkerInfoEXT& operator=( VkDebugMarkerMarkerInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugMarkerMarkerInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugMarkerMarkerInfoEXT ) );
       return *this;
     }
 
@@ -7198,7 +7198,7 @@ namespace vk
       return *this;
     }
 
-    DebugMarkerMarkerInfoEXT& setColor( std::array<float,4> color_ )
+    DebugMarkerMarkerInfoEXT& setColor( std::array<float, 4> color_ )
     {
       memcpy( &color, color_.data(), 4 * sizeof( float ) );
       return *this;
@@ -7241,12 +7241,12 @@ namespace vk
 
     PresentInfoKHR( VkPresentInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PresentInfoKHR) );
+      memcpy( this, &rhs, sizeof( PresentInfoKHR ) );
     }
 
     PresentInfoKHR& operator=( VkPresentInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PresentInfoKHR) );
+      memcpy( this, &rhs, sizeof( PresentInfoKHR ) );
       return *this;
     }
 
@@ -7343,12 +7343,12 @@ namespace vk
 
     PipelineDynamicStateCreateInfo( VkPipelineDynamicStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineDynamicStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineDynamicStateCreateInfo ) );
     }
 
     PipelineDynamicStateCreateInfo& operator=( VkPipelineDynamicStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineDynamicStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineDynamicStateCreateInfo ) );
       return *this;
     }
 
@@ -7533,12 +7533,12 @@ namespace vk
 
     MemoryBarrier( VkMemoryBarrier const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MemoryBarrier) );
+      memcpy( this, &rhs, sizeof( MemoryBarrier ) );
     }
 
     MemoryBarrier& operator=( VkMemoryBarrier const & rhs )
     {
-      memcpy( this, &rhs, sizeof(MemoryBarrier) );
+      memcpy( this, &rhs, sizeof( MemoryBarrier ) );
       return *this;
     }
 
@@ -7598,12 +7598,12 @@ namespace vk
 
     BufferMemoryBarrier( VkBufferMemoryBarrier const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferMemoryBarrier) );
+      memcpy( this, &rhs, sizeof( BufferMemoryBarrier ) );
     }
 
     BufferMemoryBarrier& operator=( VkBufferMemoryBarrier const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferMemoryBarrier) );
+      memcpy( this, &rhs, sizeof( BufferMemoryBarrier ) );
       return *this;
     }
 
@@ -7731,12 +7731,12 @@ namespace vk
 
     BufferCreateInfo( VkBufferCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferCreateInfo) );
+      memcpy( this, &rhs, sizeof( BufferCreateInfo ) );
     }
 
     BufferCreateInfo& operator=( VkBufferCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferCreateInfo) );
+      memcpy( this, &rhs, sizeof( BufferCreateInfo ) );
       return *this;
     }
 
@@ -7839,12 +7839,12 @@ namespace vk
 
     DescriptorSetLayoutBinding( VkDescriptorSetLayoutBinding const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorSetLayoutBinding) );
+      memcpy( this, &rhs, sizeof( DescriptorSetLayoutBinding ) );
     }
 
     DescriptorSetLayoutBinding& operator=( VkDescriptorSetLayoutBinding const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorSetLayoutBinding) );
+      memcpy( this, &rhs, sizeof( DescriptorSetLayoutBinding ) );
       return *this;
     }
 
@@ -7904,12 +7904,12 @@ namespace vk
 
     DescriptorSetLayoutCreateInfo( VkDescriptorSetLayoutCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorSetLayoutCreateInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorSetLayoutCreateInfo ) );
     }
 
     DescriptorSetLayoutCreateInfo& operator=( VkDescriptorSetLayoutCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorSetLayoutCreateInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorSetLayoutCreateInfo ) );
       return *this;
     }
 
@@ -7974,12 +7974,12 @@ namespace vk
 
     PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineShaderStageCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineShaderStageCreateInfo ) );
     }
 
     PipelineShaderStageCreateInfo& operator=( VkPipelineShaderStageCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineShaderStageCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineShaderStageCreateInfo ) );
       return *this;
     }
 
@@ -8054,12 +8054,12 @@ namespace vk
 
     PushConstantRange( VkPushConstantRange const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PushConstantRange) );
+      memcpy( this, &rhs, sizeof( PushConstantRange ) );
     }
 
     PushConstantRange& operator=( VkPushConstantRange const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PushConstantRange) );
+      memcpy( this, &rhs, sizeof( PushConstantRange ) );
       return *this;
     }
 
@@ -8107,12 +8107,12 @@ namespace vk
 
     PipelineLayoutCreateInfo( VkPipelineLayoutCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineLayoutCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineLayoutCreateInfo ) );
     }
 
     PipelineLayoutCreateInfo& operator=( VkPipelineLayoutCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineLayoutCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineLayoutCreateInfo ) );
       return *this;
     }
 
@@ -8240,12 +8240,12 @@ namespace vk
 
     ComputePipelineCreateInfo( VkComputePipelineCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ComputePipelineCreateInfo) );
+      memcpy( this, &rhs, sizeof( ComputePipelineCreateInfo ) );
     }
 
     ComputePipelineCreateInfo& operator=( VkComputePipelineCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ComputePipelineCreateInfo) );
+      memcpy( this, &rhs, sizeof( ComputePipelineCreateInfo ) );
       return *this;
     }
 
@@ -8340,12 +8340,12 @@ namespace vk
 
     PipelineColorBlendAttachmentState( VkPipelineColorBlendAttachmentState const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineColorBlendAttachmentState) );
+      memcpy( this, &rhs, sizeof( PipelineColorBlendAttachmentState ) );
     }
 
     PipelineColorBlendAttachmentState& operator=( VkPipelineColorBlendAttachmentState const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineColorBlendAttachmentState) );
+      memcpy( this, &rhs, sizeof( PipelineColorBlendAttachmentState ) );
       return *this;
     }
 
@@ -8415,7 +8415,7 @@ namespace vk
 
   struct PipelineColorBlendStateCreateInfo
   {
-    PipelineColorBlendStateCreateInfo( PipelineColorBlendStateCreateFlags flags_ = PipelineColorBlendStateCreateFlags(), Bool32 logicOpEnable_ = 0, LogicOp logicOp_ = LogicOp::eClear, uint32_t attachmentCount_ = 0, const PipelineColorBlendAttachmentState* pAttachments_ = nullptr, std::array<float,4> const& blendConstants_ = { 0, 0, 0, 0 } )
+    PipelineColorBlendStateCreateInfo( PipelineColorBlendStateCreateFlags flags_ = PipelineColorBlendStateCreateFlags(), Bool32 logicOpEnable_ = 0, LogicOp logicOp_ = LogicOp::eClear, uint32_t attachmentCount_ = 0, const PipelineColorBlendAttachmentState* pAttachments_ = nullptr, std::array<float, 4> const& blendConstants_ = { 0, 0, 0, 0 } )
       : sType( StructureType::ePipelineColorBlendStateCreateInfo )
       , pNext( nullptr )
       , flags( flags_ )
@@ -8429,12 +8429,12 @@ namespace vk
 
     PipelineColorBlendStateCreateInfo( VkPipelineColorBlendStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineColorBlendStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineColorBlendStateCreateInfo ) );
     }
 
     PipelineColorBlendStateCreateInfo& operator=( VkPipelineColorBlendStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineColorBlendStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineColorBlendStateCreateInfo ) );
       return *this;
     }
 
@@ -8480,7 +8480,7 @@ namespace vk
       return *this;
     }
 
-    PipelineColorBlendStateCreateInfo& setBlendConstants( std::array<float,4> blendConstants_ )
+    PipelineColorBlendStateCreateInfo& setBlendConstants( std::array<float, 4> blendConstants_ )
     {
       memcpy( &blendConstants, blendConstants_.data(), 4 * sizeof( float ) );
       return *this;
@@ -8528,12 +8528,12 @@ namespace vk
 
     FenceCreateInfo( VkFenceCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(FenceCreateInfo) );
+      memcpy( this, &rhs, sizeof( FenceCreateInfo ) );
     }
 
     FenceCreateInfo& operator=( VkFenceCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(FenceCreateInfo) );
+      memcpy( this, &rhs, sizeof( FenceCreateInfo ) );
       return *this;
     }
 
@@ -8686,12 +8686,12 @@ namespace vk
 
     CommandBufferInheritanceInfo( VkCommandBufferInheritanceInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandBufferInheritanceInfo) );
+      memcpy( this, &rhs, sizeof( CommandBufferInheritanceInfo ) );
     }
 
     CommandBufferInheritanceInfo& operator=( VkCommandBufferInheritanceInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandBufferInheritanceInfo) );
+      memcpy( this, &rhs, sizeof( CommandBufferInheritanceInfo ) );
       return *this;
     }
 
@@ -8774,12 +8774,12 @@ namespace vk
 
     CommandBufferBeginInfo( VkCommandBufferBeginInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandBufferBeginInfo) );
+      memcpy( this, &rhs, sizeof( CommandBufferBeginInfo ) );
     }
 
     CommandBufferBeginInfo& operator=( VkCommandBufferBeginInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandBufferBeginInfo) );
+      memcpy( this, &rhs, sizeof( CommandBufferBeginInfo ) );
       return *this;
     }
 
@@ -8836,12 +8836,12 @@ namespace vk
 
     QueryPoolCreateInfo( VkQueryPoolCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(QueryPoolCreateInfo) );
+      memcpy( this, &rhs, sizeof( QueryPoolCreateInfo ) );
     }
 
     QueryPoolCreateInfo& operator=( VkQueryPoolCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(QueryPoolCreateInfo) );
+      memcpy( this, &rhs, sizeof( QueryPoolCreateInfo ) );
       return *this;
     }
 
@@ -8924,12 +8924,12 @@ namespace vk
 
     ImageSubresource( VkImageSubresource const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageSubresource) );
+      memcpy( this, &rhs, sizeof( ImageSubresource ) );
     }
 
     ImageSubresource& operator=( VkImageSubresource const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageSubresource) );
+      memcpy( this, &rhs, sizeof( ImageSubresource ) );
       return *this;
     }
 
@@ -8974,12 +8974,12 @@ namespace vk
 
     ImageSubresourceLayers( VkImageSubresourceLayers const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageSubresourceLayers) );
+      memcpy( this, &rhs, sizeof( ImageSubresourceLayers ) );
     }
 
     ImageSubresourceLayers& operator=( VkImageSubresourceLayers const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageSubresourceLayers) );
+      memcpy( this, &rhs, sizeof( ImageSubresourceLayers ) );
       return *this;
     }
 
@@ -9032,12 +9032,12 @@ namespace vk
 
     ImageSubresourceRange( VkImageSubresourceRange const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageSubresourceRange) );
+      memcpy( this, &rhs, sizeof( ImageSubresourceRange ) );
     }
 
     ImageSubresourceRange& operator=( VkImageSubresourceRange const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageSubresourceRange) );
+      memcpy( this, &rhs, sizeof( ImageSubresourceRange ) );
       return *this;
     }
 
@@ -9102,12 +9102,12 @@ namespace vk
 
     ImageMemoryBarrier( VkImageMemoryBarrier const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageMemoryBarrier) );
+      memcpy( this, &rhs, sizeof( ImageMemoryBarrier ) );
     }
 
     ImageMemoryBarrier& operator=( VkImageMemoryBarrier const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageMemoryBarrier) );
+      memcpy( this, &rhs, sizeof( ImageMemoryBarrier ) );
       return *this;
     }
 
@@ -9208,12 +9208,12 @@ namespace vk
 
     ImageViewCreateInfo( VkImageViewCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageViewCreateInfo) );
+      memcpy( this, &rhs, sizeof( ImageViewCreateInfo ) );
     }
 
     ImageViewCreateInfo& operator=( VkImageViewCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageViewCreateInfo) );
+      memcpy( this, &rhs, sizeof( ImageViewCreateInfo ) );
       return *this;
     }
 
@@ -9297,12 +9297,12 @@ namespace vk
 
     ImageCopy( VkImageCopy const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageCopy) );
+      memcpy( this, &rhs, sizeof( ImageCopy ) );
     }
 
     ImageCopy& operator=( VkImageCopy const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageCopy) );
+      memcpy( this, &rhs, sizeof( ImageCopy ) );
       return *this;
     }
 
@@ -9351,7 +9351,7 @@ namespace vk
 
   struct ImageBlit
   {
-    ImageBlit( ImageSubresourceLayers srcSubresource_ = ImageSubresourceLayers(), std::array<Offset3D,2> const& srcOffsets_ = { Offset3D(), Offset3D() }, ImageSubresourceLayers dstSubresource_ = ImageSubresourceLayers(), std::array<Offset3D,2> const& dstOffsets_ = { Offset3D(), Offset3D() } )
+    ImageBlit( ImageSubresourceLayers srcSubresource_ = ImageSubresourceLayers(), std::array<Offset3D, 2> const& srcOffsets_ = { Offset3D(), Offset3D() }, ImageSubresourceLayers dstSubresource_ = ImageSubresourceLayers(), std::array<Offset3D, 2> const& dstOffsets_ = { Offset3D(), Offset3D() } )
       : srcSubresource( srcSubresource_ )
       , dstSubresource( dstSubresource_ )
     {
@@ -9361,12 +9361,12 @@ namespace vk
 
     ImageBlit( VkImageBlit const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageBlit) );
+      memcpy( this, &rhs, sizeof( ImageBlit ) );
     }
 
     ImageBlit& operator=( VkImageBlit const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageBlit) );
+      memcpy( this, &rhs, sizeof( ImageBlit ) );
       return *this;
     }
 
@@ -9376,7 +9376,7 @@ namespace vk
       return *this;
     }
 
-    ImageBlit& setSrcOffsets( std::array<Offset3D,2> srcOffsets_ )
+    ImageBlit& setSrcOffsets( std::array<Offset3D, 2> srcOffsets_ )
     {
       memcpy( &srcOffsets, srcOffsets_.data(), 2 * sizeof( Offset3D ) );
       return *this;
@@ -9388,7 +9388,7 @@ namespace vk
       return *this;
     }
 
-    ImageBlit& setDstOffsets( std::array<Offset3D,2> dstOffsets_ )
+    ImageBlit& setDstOffsets( std::array<Offset3D, 2> dstOffsets_ )
     {
       memcpy( &dstOffsets, dstOffsets_.data(), 2 * sizeof( Offset3D ) );
       return *this;
@@ -9420,12 +9420,12 @@ namespace vk
 
     BufferImageCopy( VkBufferImageCopy const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferImageCopy) );
+      memcpy( this, &rhs, sizeof( BufferImageCopy ) );
     }
 
     BufferImageCopy& operator=( VkBufferImageCopy const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BufferImageCopy) );
+      memcpy( this, &rhs, sizeof( BufferImageCopy ) );
       return *this;
     }
 
@@ -9492,12 +9492,12 @@ namespace vk
 
     ImageResolve( VkImageResolve const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageResolve) );
+      memcpy( this, &rhs, sizeof( ImageResolve ) );
     }
 
     ImageResolve& operator=( VkImageResolve const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageResolve) );
+      memcpy( this, &rhs, sizeof( ImageResolve ) );
       return *this;
     }
 
@@ -9555,12 +9555,12 @@ namespace vk
 
     ClearAttachment( VkClearAttachment const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ClearAttachment) );
+      memcpy( this, &rhs, sizeof( ClearAttachment ) );
     }
 
     ClearAttachment& operator=( VkClearAttachment const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ClearAttachment) );
+      memcpy( this, &rhs, sizeof( ClearAttachment ) );
       return *this;
     }
 
@@ -9660,12 +9660,12 @@ namespace vk
 
     SparseMemoryBind( VkSparseMemoryBind const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseMemoryBind) );
+      memcpy( this, &rhs, sizeof( SparseMemoryBind ) );
     }
 
     SparseMemoryBind& operator=( VkSparseMemoryBind const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseMemoryBind) );
+      memcpy( this, &rhs, sizeof( SparseMemoryBind ) );
       return *this;
     }
 
@@ -9726,12 +9726,12 @@ namespace vk
 
     SparseImageMemoryBind( VkSparseImageMemoryBind const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseImageMemoryBind) );
+      memcpy( this, &rhs, sizeof( SparseImageMemoryBind ) );
     }
 
     SparseImageMemoryBind& operator=( VkSparseImageMemoryBind const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseImageMemoryBind) );
+      memcpy( this, &rhs, sizeof( SparseImageMemoryBind ) );
       return *this;
     }
 
@@ -9796,12 +9796,12 @@ namespace vk
 
     SparseBufferMemoryBindInfo( VkSparseBufferMemoryBindInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseBufferMemoryBindInfo) );
+      memcpy( this, &rhs, sizeof( SparseBufferMemoryBindInfo ) );
     }
 
     SparseBufferMemoryBindInfo& operator=( VkSparseBufferMemoryBindInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseBufferMemoryBindInfo) );
+      memcpy( this, &rhs, sizeof( SparseBufferMemoryBindInfo ) );
       return *this;
     }
 
@@ -9845,12 +9845,12 @@ namespace vk
 
     SparseImageOpaqueMemoryBindInfo( VkSparseImageOpaqueMemoryBindInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseImageOpaqueMemoryBindInfo) );
+      memcpy( this, &rhs, sizeof( SparseImageOpaqueMemoryBindInfo ) );
     }
 
     SparseImageOpaqueMemoryBindInfo& operator=( VkSparseImageOpaqueMemoryBindInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseImageOpaqueMemoryBindInfo) );
+      memcpy( this, &rhs, sizeof( SparseImageOpaqueMemoryBindInfo ) );
       return *this;
     }
 
@@ -9894,12 +9894,12 @@ namespace vk
 
     SparseImageMemoryBindInfo( VkSparseImageMemoryBindInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseImageMemoryBindInfo) );
+      memcpy( this, &rhs, sizeof( SparseImageMemoryBindInfo ) );
     }
 
     SparseImageMemoryBindInfo& operator=( VkSparseImageMemoryBindInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SparseImageMemoryBindInfo) );
+      memcpy( this, &rhs, sizeof( SparseImageMemoryBindInfo ) );
       return *this;
     }
 
@@ -9952,12 +9952,12 @@ namespace vk
 
     BindSparseInfo( VkBindSparseInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BindSparseInfo) );
+      memcpy( this, &rhs, sizeof( BindSparseInfo ) );
     }
 
     BindSparseInfo& operator=( VkBindSparseInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(BindSparseInfo) );
+      memcpy( this, &rhs, sizeof( BindSparseInfo ) );
       return *this;
     }
 
@@ -10109,12 +10109,12 @@ namespace vk
 
     CommandPoolCreateInfo( VkCommandPoolCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandPoolCreateInfo) );
+      memcpy( this, &rhs, sizeof( CommandPoolCreateInfo ) );
     }
 
     CommandPoolCreateInfo& operator=( VkCommandPoolCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(CommandPoolCreateInfo) );
+      memcpy( this, &rhs, sizeof( CommandPoolCreateInfo ) );
       return *this;
     }
 
@@ -10237,12 +10237,12 @@ namespace vk
 
     ImageCreateInfo( VkImageCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageCreateInfo) );
+      memcpy( this, &rhs, sizeof( ImageCreateInfo ) );
     }
 
     ImageCreateInfo& operator=( VkImageCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(ImageCreateInfo) );
+      memcpy( this, &rhs, sizeof( ImageCreateInfo ) );
       return *this;
     }
 
@@ -10379,12 +10379,12 @@ namespace vk
 
     PipelineMultisampleStateCreateInfo( VkPipelineMultisampleStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineMultisampleStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineMultisampleStateCreateInfo ) );
     }
 
     PipelineMultisampleStateCreateInfo& operator=( VkPipelineMultisampleStateCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineMultisampleStateCreateInfo) );
+      memcpy( this, &rhs, sizeof( PipelineMultisampleStateCreateInfo ) );
       return *this;
     }
 
@@ -10489,12 +10489,12 @@ namespace vk
 
     GraphicsPipelineCreateInfo( VkGraphicsPipelineCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(GraphicsPipelineCreateInfo) );
+      memcpy( this, &rhs, sizeof( GraphicsPipelineCreateInfo ) );
     }
 
     GraphicsPipelineCreateInfo& operator=( VkGraphicsPipelineCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(GraphicsPipelineCreateInfo) );
+      memcpy( this, &rhs, sizeof( GraphicsPipelineCreateInfo ) );
       return *this;
     }
 
@@ -10806,12 +10806,12 @@ namespace vk
 
     AttachmentDescription( VkAttachmentDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AttachmentDescription) );
+      memcpy( this, &rhs, sizeof( AttachmentDescription ) );
     }
 
     AttachmentDescription& operator=( VkAttachmentDescription const & rhs )
     {
-      memcpy( this, &rhs, sizeof(AttachmentDescription) );
+      memcpy( this, &rhs, sizeof( AttachmentDescription ) );
       return *this;
     }
 
@@ -10926,12 +10926,12 @@ namespace vk
 
     DescriptorPoolCreateInfo( VkDescriptorPoolCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorPoolCreateInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorPoolCreateInfo ) );
     }
 
     DescriptorPoolCreateInfo& operator=( VkDescriptorPoolCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DescriptorPoolCreateInfo) );
+      memcpy( this, &rhs, sizeof( DescriptorPoolCreateInfo ) );
       return *this;
     }
 
@@ -11731,12 +11731,12 @@ namespace vk
 
     SubpassDependency( VkSubpassDependency const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SubpassDependency) );
+      memcpy( this, &rhs, sizeof( SubpassDependency ) );
     }
 
     SubpassDependency& operator=( VkSubpassDependency const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SubpassDependency) );
+      memcpy( this, &rhs, sizeof( SubpassDependency ) );
       return *this;
     }
 
@@ -11814,12 +11814,12 @@ namespace vk
 
     RenderPassCreateInfo( VkRenderPassCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(RenderPassCreateInfo) );
+      memcpy( this, &rhs, sizeof( RenderPassCreateInfo ) );
     }
 
     RenderPassCreateInfo& operator=( VkRenderPassCreateInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(RenderPassCreateInfo) );
+      memcpy( this, &rhs, sizeof( RenderPassCreateInfo ) );
       return *this;
     }
 
@@ -11914,12 +11914,12 @@ namespace vk
 
     SubmitInfo( VkSubmitInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SubmitInfo) );
+      memcpy( this, &rhs, sizeof( SubmitInfo ) );
     }
 
     SubmitInfo& operator=( VkSubmitInfo const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SubmitInfo) );
+      memcpy( this, &rhs, sizeof( SubmitInfo ) );
       return *this;
     }
 
@@ -12116,12 +12116,12 @@ namespace vk
 
     SurfaceFormatKHR( VkSurfaceFormatKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SurfaceFormatKHR) );
+      memcpy( this, &rhs, sizeof( SurfaceFormatKHR ) );
     }
 
     SurfaceFormatKHR& operator=( VkSurfaceFormatKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SurfaceFormatKHR) );
+      memcpy( this, &rhs, sizeof( SurfaceFormatKHR ) );
       return *this;
     }
 
@@ -12179,12 +12179,12 @@ namespace vk
 
     DisplayPlaneCapabilitiesKHR( VkDisplayPlaneCapabilitiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPlaneCapabilitiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPlaneCapabilitiesKHR ) );
     }
 
     DisplayPlaneCapabilitiesKHR& operator=( VkDisplayPlaneCapabilitiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPlaneCapabilitiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPlaneCapabilitiesKHR ) );
       return *this;
     }
 
@@ -12309,12 +12309,12 @@ namespace vk
 
     DisplayPropertiesKHR( VkDisplayPropertiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPropertiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPropertiesKHR ) );
     }
 
     DisplayPropertiesKHR& operator=( VkDisplayPropertiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplayPropertiesKHR) );
+      memcpy( this, &rhs, sizeof( DisplayPropertiesKHR ) );
       return *this;
     }
 
@@ -12393,12 +12393,12 @@ namespace vk
 
     DisplaySurfaceCreateInfoKHR( VkDisplaySurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplaySurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( DisplaySurfaceCreateInfoKHR ) );
     }
 
     DisplaySurfaceCreateInfoKHR& operator=( VkDisplaySurfaceCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DisplaySurfaceCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( DisplaySurfaceCreateInfoKHR ) );
       return *this;
     }
 
@@ -12501,12 +12501,12 @@ namespace vk
 
     SurfaceCapabilitiesKHR( VkSurfaceCapabilitiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SurfaceCapabilitiesKHR) );
+      memcpy( this, &rhs, sizeof( SurfaceCapabilitiesKHR ) );
     }
 
     SurfaceCapabilitiesKHR& operator=( VkSurfaceCapabilitiesKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SurfaceCapabilitiesKHR) );
+      memcpy( this, &rhs, sizeof( SurfaceCapabilitiesKHR ) );
       return *this;
     }
 
@@ -12614,12 +12614,12 @@ namespace vk
 
     SwapchainCreateInfoKHR( VkSwapchainCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SwapchainCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( SwapchainCreateInfoKHR ) );
     }
 
     SwapchainCreateInfoKHR& operator=( VkSwapchainCreateInfoKHR const & rhs )
     {
-      memcpy( this, &rhs, sizeof(SwapchainCreateInfoKHR) );
+      memcpy( this, &rhs, sizeof( SwapchainCreateInfoKHR ) );
       return *this;
     }
 
@@ -12789,12 +12789,12 @@ namespace vk
 
     DebugReportCallbackCreateInfoEXT( VkDebugReportCallbackCreateInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugReportCallbackCreateInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugReportCallbackCreateInfoEXT ) );
     }
 
     DebugReportCallbackCreateInfoEXT& operator=( VkDebugReportCallbackCreateInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugReportCallbackCreateInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugReportCallbackCreateInfoEXT ) );
       return *this;
     }
 
@@ -12890,12 +12890,12 @@ namespace vk
 
     DebugMarkerObjectNameInfoEXT( VkDebugMarkerObjectNameInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugMarkerObjectNameInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugMarkerObjectNameInfoEXT ) );
     }
 
     DebugMarkerObjectNameInfoEXT& operator=( VkDebugMarkerObjectNameInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugMarkerObjectNameInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugMarkerObjectNameInfoEXT ) );
       return *this;
     }
 
@@ -12960,12 +12960,12 @@ namespace vk
 
     DebugMarkerObjectTagInfoEXT( VkDebugMarkerObjectTagInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugMarkerObjectTagInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugMarkerObjectTagInfoEXT ) );
     }
 
     DebugMarkerObjectTagInfoEXT& operator=( VkDebugMarkerObjectTagInfoEXT const & rhs )
     {
-      memcpy( this, &rhs, sizeof(DebugMarkerObjectTagInfoEXT) );
+      memcpy( this, &rhs, sizeof( DebugMarkerObjectTagInfoEXT ) );
       return *this;
     }
 
@@ -13262,9 +13262,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<SparseImageMemoryRequirements>>
-    std::vector<SparseImageMemoryRequirements,Allocator> getImageSparseMemoryRequirements( Image image ) const
+    std::vector<SparseImageMemoryRequirements, Allocator> getImageSparseMemoryRequirements( Image image ) const
     {
-      std::vector<SparseImageMemoryRequirements,Allocator> sparseMemoryRequirements;
+      std::vector<SparseImageMemoryRequirements, Allocator> sparseMemoryRequirements;
       uint32_t sparseMemoryRequirementCount;
       vkGetImageSparseMemoryRequirements( m_device, static_cast<VkImage>( image ), &sparseMemoryRequirementCount, nullptr );
       sparseMemoryRequirements.resize( sparseMemoryRequirementCount );
@@ -13654,12 +13654,12 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<uint8_t>>
-    typename ResultValueType<std::vector<uint8_t,Allocator>>::type getPipelineCacheData( PipelineCache pipelineCache ) const
+    typename ResultValueType<std::vector<uint8_t, Allocator>>::type getPipelineCacheData( PipelineCache pipelineCache ) const
     {
-      std::vector<uint8_t,Allocator> data;
+      std::vector<uint8_t, Allocator> data;
       size_t dataSize;
       Result result = static_cast<Result>( vkGetPipelineCacheData( m_device, static_cast<VkPipelineCache>( pipelineCache ), &dataSize, nullptr ) );
-      if ( ( result == Result::eSuccess ) && dataSize )
+      if( result == Result::eSuccess && dataSize )
       {
         data.resize( dataSize );
         result = static_cast<Result>( vkGetPipelineCacheData( m_device, static_cast<VkPipelineCache>( pipelineCache ), &dataSize, reinterpret_cast<void*>( data.data() ) ) );
@@ -13688,9 +13688,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<Pipeline>>
-    typename ResultValueType<std::vector<Pipeline,Allocator>>::type createGraphicsPipelines( PipelineCache pipelineCache, ArrayProxy<const GraphicsPipelineCreateInfo> createInfos, Optional<const AllocationCallbacks> allocator = nullptr ) const
+    typename ResultValueType<std::vector<Pipeline, Allocator>>::type createGraphicsPipelines( PipelineCache pipelineCache, ArrayProxy<const GraphicsPipelineCreateInfo> createInfos, Optional<const AllocationCallbacks> allocator = nullptr ) const
     {
-      std::vector<Pipeline,Allocator> pipelines( createInfos.size() );
+      std::vector<Pipeline, Allocator> pipelines( createInfos.size() );
       Result result = static_cast<Result>( vkCreateGraphicsPipelines( m_device, static_cast<VkPipelineCache>( pipelineCache ), createInfos.size() , reinterpret_cast<const VkGraphicsPipelineCreateInfo*>( createInfos.data() ), reinterpret_cast<const VkAllocationCallbacks*>( static_cast<const AllocationCallbacks*>( allocator)), reinterpret_cast<VkPipeline*>( pipelines.data() ) ) );
       return createResultValue( result, pipelines, "vk::Device::createGraphicsPipelines" );
     }
@@ -13703,9 +13703,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<Pipeline>>
-    typename ResultValueType<std::vector<Pipeline,Allocator>>::type createComputePipelines( PipelineCache pipelineCache, ArrayProxy<const ComputePipelineCreateInfo> createInfos, Optional<const AllocationCallbacks> allocator = nullptr ) const
+    typename ResultValueType<std::vector<Pipeline, Allocator>>::type createComputePipelines( PipelineCache pipelineCache, ArrayProxy<const ComputePipelineCreateInfo> createInfos, Optional<const AllocationCallbacks> allocator = nullptr ) const
     {
-      std::vector<Pipeline,Allocator> pipelines( createInfos.size() );
+      std::vector<Pipeline, Allocator> pipelines( createInfos.size() );
       Result result = static_cast<Result>( vkCreateComputePipelines( m_device, static_cast<VkPipelineCache>( pipelineCache ), createInfos.size() , reinterpret_cast<const VkComputePipelineCreateInfo*>( createInfos.data() ), reinterpret_cast<const VkAllocationCallbacks*>( static_cast<const AllocationCallbacks*>( allocator)), reinterpret_cast<VkPipeline*>( pipelines.data() ) ) );
       return createResultValue( result, pipelines, "vk::Device::createComputePipelines" );
     }
@@ -13849,9 +13849,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<DescriptorSet>>
-    typename ResultValueType<std::vector<DescriptorSet,Allocator>>::type allocateDescriptorSets( const DescriptorSetAllocateInfo& allocateInfo ) const
+    typename ResultValueType<std::vector<DescriptorSet, Allocator>>::type allocateDescriptorSets( const DescriptorSetAllocateInfo& allocateInfo ) const
     {
-      std::vector<DescriptorSet,Allocator> descriptorSets( allocateInfo.descriptorSetCount );
+      std::vector<DescriptorSet, Allocator> descriptorSets( allocateInfo.descriptorSetCount );
       Result result = static_cast<Result>( vkAllocateDescriptorSets( m_device, reinterpret_cast<const VkDescriptorSetAllocateInfo*>( &allocateInfo ), reinterpret_cast<VkDescriptorSet*>( descriptorSets.data() ) ) );
       return createResultValue( result, descriptorSets, "vk::Device::allocateDescriptorSets" );
     }
@@ -13996,9 +13996,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<CommandBuffer>>
-    typename ResultValueType<std::vector<CommandBuffer,Allocator>>::type allocateCommandBuffers( const CommandBufferAllocateInfo& allocateInfo ) const
+    typename ResultValueType<std::vector<CommandBuffer, Allocator>>::type allocateCommandBuffers( const CommandBufferAllocateInfo& allocateInfo ) const
     {
-      std::vector<CommandBuffer,Allocator> commandBuffers( allocateInfo.commandBufferCount );
+      std::vector<CommandBuffer, Allocator> commandBuffers( allocateInfo.commandBufferCount );
       Result result = static_cast<Result>( vkAllocateCommandBuffers( m_device, reinterpret_cast<const VkCommandBufferAllocateInfo*>( &allocateInfo ), reinterpret_cast<VkCommandBuffer*>( commandBuffers.data() ) ) );
       return createResultValue( result, commandBuffers, "vk::Device::allocateCommandBuffers" );
     }
@@ -14023,9 +14023,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<SwapchainKHR>>
-    typename ResultValueType<std::vector<SwapchainKHR,Allocator>>::type createSharedSwapchainsKHR( ArrayProxy<const SwapchainCreateInfoKHR> createInfos, Optional<const AllocationCallbacks> allocator = nullptr ) const
+    typename ResultValueType<std::vector<SwapchainKHR, Allocator>>::type createSharedSwapchainsKHR( ArrayProxy<const SwapchainCreateInfoKHR> createInfos, Optional<const AllocationCallbacks> allocator = nullptr ) const
     {
-      std::vector<SwapchainKHR,Allocator> swapchains( createInfos.size() );
+      std::vector<SwapchainKHR, Allocator> swapchains( createInfos.size() );
       Result result = static_cast<Result>( vkCreateSharedSwapchainsKHR( m_device, createInfos.size() , reinterpret_cast<const VkSwapchainCreateInfoKHR*>( createInfos.data() ), reinterpret_cast<const VkAllocationCallbacks*>( static_cast<const AllocationCallbacks*>( allocator)), reinterpret_cast<VkSwapchainKHR*>( swapchains.data() ) ) );
       return createResultValue( result, swapchains, "vk::Device::createSharedSwapchainsKHR" );
     }
@@ -14064,20 +14064,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<Image>>
-    typename ResultValueType<std::vector<Image,Allocator>>::type getSwapchainImagesKHR( SwapchainKHR swapchain ) const
+    typename ResultValueType<std::vector<Image, Allocator>>::type getSwapchainImagesKHR( SwapchainKHR swapchain ) const
     {
-      std::vector<Image,Allocator> swapchainImages;
+      std::vector<Image, Allocator> swapchainImages;
       uint32_t swapchainImageCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkGetSwapchainImagesKHR( m_device, static_cast<VkSwapchainKHR>( swapchain ), &swapchainImageCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && swapchainImageCount )
+        if( result == Result::eSuccess && swapchainImageCount )
         {
           swapchainImages.resize( swapchainImageCount );
           result = static_cast<Result>( vkGetSwapchainImagesKHR( m_device, static_cast<VkSwapchainKHR>( swapchain ), &swapchainImageCount, reinterpret_cast<VkImage*>( swapchainImages.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, swapchainImages, "vk::Device::getSwapchainImagesKHR" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14187,9 +14187,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<QueueFamilyProperties>>
-    std::vector<QueueFamilyProperties,Allocator> getQueueFamilyProperties() const
+    std::vector<QueueFamilyProperties, Allocator> getQueueFamilyProperties() const
     {
-      std::vector<QueueFamilyProperties,Allocator> queueFamilyProperties;
+      std::vector<QueueFamilyProperties, Allocator> queueFamilyProperties;
       uint32_t queueFamilyPropertyCount;
       vkGetPhysicalDeviceQueueFamilyProperties( m_physicalDevice, &queueFamilyPropertyCount, nullptr );
       queueFamilyProperties.resize( queueFamilyPropertyCount );
@@ -14275,20 +14275,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<LayerProperties>>
-    typename ResultValueType<std::vector<LayerProperties,Allocator>>::type enumerateDeviceLayerProperties() const
+    typename ResultValueType<std::vector<LayerProperties, Allocator>>::type enumerateDeviceLayerProperties() const
     {
-      std::vector<LayerProperties,Allocator> properties;
+      std::vector<LayerProperties, Allocator> properties;
       uint32_t propertyCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkEnumerateDeviceLayerProperties( m_physicalDevice, &propertyCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && propertyCount )
+        if( result == Result::eSuccess && propertyCount )
         {
           properties.resize( propertyCount );
           result = static_cast<Result>( vkEnumerateDeviceLayerProperties( m_physicalDevice, &propertyCount, reinterpret_cast<VkLayerProperties*>( properties.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, properties, "vk::PhysicalDevice::enumerateDeviceLayerProperties" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14300,20 +14300,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<ExtensionProperties>>
-    typename ResultValueType<std::vector<ExtensionProperties,Allocator>>::type enumerateDeviceExtensionProperties( Optional<const std::string> layerName = nullptr ) const
+    typename ResultValueType<std::vector<ExtensionProperties, Allocator>>::type enumerateDeviceExtensionProperties( Optional<const std::string> layerName = nullptr ) const
     {
-      std::vector<ExtensionProperties,Allocator> properties;
+      std::vector<ExtensionProperties, Allocator> properties;
       uint32_t propertyCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkEnumerateDeviceExtensionProperties( m_physicalDevice, layerName ? layerName->c_str() : nullptr, &propertyCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && propertyCount )
+        if( result == Result::eSuccess && propertyCount )
         {
           properties.resize( propertyCount );
           result = static_cast<Result>( vkEnumerateDeviceExtensionProperties( m_physicalDevice, layerName ? layerName->c_str() : nullptr, &propertyCount, reinterpret_cast<VkExtensionProperties*>( properties.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, properties, "vk::PhysicalDevice::enumerateDeviceExtensionProperties" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14325,9 +14325,9 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<SparseImageFormatProperties>>
-    std::vector<SparseImageFormatProperties,Allocator> getSparseImageFormatProperties( Format format, ImageType type, SampleCountFlagBits samples, ImageUsageFlags usage, ImageTiling tiling ) const
+    std::vector<SparseImageFormatProperties, Allocator> getSparseImageFormatProperties( Format format, ImageType type, SampleCountFlagBits samples, ImageUsageFlags usage, ImageTiling tiling ) const
     {
-      std::vector<SparseImageFormatProperties,Allocator> properties;
+      std::vector<SparseImageFormatProperties, Allocator> properties;
       uint32_t propertyCount;
       vkGetPhysicalDeviceSparseImageFormatProperties( m_physicalDevice, static_cast<VkFormat>( format ), static_cast<VkImageType>( type ), static_cast<VkSampleCountFlagBits>( samples ), static_cast<VkImageUsageFlags>( usage ), static_cast<VkImageTiling>( tiling ), &propertyCount, nullptr );
       properties.resize( propertyCount );
@@ -14343,20 +14343,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<DisplayPropertiesKHR>>
-    typename ResultValueType<std::vector<DisplayPropertiesKHR,Allocator>>::type getDisplayPropertiesKHR() const
+    typename ResultValueType<std::vector<DisplayPropertiesKHR, Allocator>>::type getDisplayPropertiesKHR() const
     {
-      std::vector<DisplayPropertiesKHR,Allocator> properties;
+      std::vector<DisplayPropertiesKHR, Allocator> properties;
       uint32_t propertyCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkGetPhysicalDeviceDisplayPropertiesKHR( m_physicalDevice, &propertyCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && propertyCount )
+        if( result == Result::eSuccess && propertyCount )
         {
           properties.resize( propertyCount );
           result = static_cast<Result>( vkGetPhysicalDeviceDisplayPropertiesKHR( m_physicalDevice, &propertyCount, reinterpret_cast<VkDisplayPropertiesKHR*>( properties.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, properties, "vk::PhysicalDevice::getDisplayPropertiesKHR" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14368,20 +14368,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<DisplayPlanePropertiesKHR>>
-    typename ResultValueType<std::vector<DisplayPlanePropertiesKHR,Allocator>>::type getDisplayPlanePropertiesKHR() const
+    typename ResultValueType<std::vector<DisplayPlanePropertiesKHR, Allocator>>::type getDisplayPlanePropertiesKHR() const
     {
-      std::vector<DisplayPlanePropertiesKHR,Allocator> properties;
+      std::vector<DisplayPlanePropertiesKHR, Allocator> properties;
       uint32_t propertyCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkGetPhysicalDeviceDisplayPlanePropertiesKHR( m_physicalDevice, &propertyCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && propertyCount )
+        if( result == Result::eSuccess && propertyCount )
         {
           properties.resize( propertyCount );
           result = static_cast<Result>( vkGetPhysicalDeviceDisplayPlanePropertiesKHR( m_physicalDevice, &propertyCount, reinterpret_cast<VkDisplayPlanePropertiesKHR*>( properties.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, properties, "vk::PhysicalDevice::getDisplayPlanePropertiesKHR" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14393,20 +14393,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<DisplayKHR>>
-    typename ResultValueType<std::vector<DisplayKHR,Allocator>>::type getDisplayPlaneSupportedDisplaysKHR( uint32_t planeIndex ) const
+    typename ResultValueType<std::vector<DisplayKHR, Allocator>>::type getDisplayPlaneSupportedDisplaysKHR( uint32_t planeIndex ) const
     {
-      std::vector<DisplayKHR,Allocator> displays;
+      std::vector<DisplayKHR, Allocator> displays;
       uint32_t displayCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkGetDisplayPlaneSupportedDisplaysKHR( m_physicalDevice, planeIndex, &displayCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && displayCount )
+        if( result == Result::eSuccess && displayCount )
         {
           displays.resize( displayCount );
           result = static_cast<Result>( vkGetDisplayPlaneSupportedDisplaysKHR( m_physicalDevice, planeIndex, &displayCount, reinterpret_cast<VkDisplayKHR*>( displays.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, displays, "vk::PhysicalDevice::getDisplayPlaneSupportedDisplaysKHR" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14418,20 +14418,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<DisplayModePropertiesKHR>>
-    typename ResultValueType<std::vector<DisplayModePropertiesKHR,Allocator>>::type getDisplayModePropertiesKHR( DisplayKHR display ) const
+    typename ResultValueType<std::vector<DisplayModePropertiesKHR, Allocator>>::type getDisplayModePropertiesKHR( DisplayKHR display ) const
     {
-      std::vector<DisplayModePropertiesKHR,Allocator> properties;
+      std::vector<DisplayModePropertiesKHR, Allocator> properties;
       uint32_t propertyCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkGetDisplayModePropertiesKHR( m_physicalDevice, static_cast<VkDisplayKHR>( display ), &propertyCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && propertyCount )
+        if( result == Result::eSuccess && propertyCount )
         {
           properties.resize( propertyCount );
           result = static_cast<Result>( vkGetDisplayModePropertiesKHR( m_physicalDevice, static_cast<VkDisplayKHR>( display ), &propertyCount, reinterpret_cast<VkDisplayModePropertiesKHR*>( properties.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, properties, "vk::PhysicalDevice::getDisplayModePropertiesKHR" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14515,20 +14515,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<SurfaceFormatKHR>>
-    typename ResultValueType<std::vector<SurfaceFormatKHR,Allocator>>::type getSurfaceFormatsKHR( SurfaceKHR surface ) const
+    typename ResultValueType<std::vector<SurfaceFormatKHR, Allocator>>::type getSurfaceFormatsKHR( SurfaceKHR surface ) const
     {
-      std::vector<SurfaceFormatKHR,Allocator> surfaceFormats;
+      std::vector<SurfaceFormatKHR, Allocator> surfaceFormats;
       uint32_t surfaceFormatCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkGetPhysicalDeviceSurfaceFormatsKHR( m_physicalDevice, static_cast<VkSurfaceKHR>( surface ), &surfaceFormatCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && surfaceFormatCount )
+        if( result == Result::eSuccess && surfaceFormatCount )
         {
           surfaceFormats.resize( surfaceFormatCount );
           result = static_cast<Result>( vkGetPhysicalDeviceSurfaceFormatsKHR( m_physicalDevice, static_cast<VkSurfaceKHR>( surface ), &surfaceFormatCount, reinterpret_cast<VkSurfaceFormatKHR*>( surfaceFormats.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, surfaceFormats, "vk::PhysicalDevice::getSurfaceFormatsKHR" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14540,20 +14540,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<PresentModeKHR>>
-    typename ResultValueType<std::vector<PresentModeKHR,Allocator>>::type getSurfacePresentModesKHR( SurfaceKHR surface ) const
+    typename ResultValueType<std::vector<PresentModeKHR, Allocator>>::type getSurfacePresentModesKHR( SurfaceKHR surface ) const
     {
-      std::vector<PresentModeKHR,Allocator> presentModes;
+      std::vector<PresentModeKHR, Allocator> presentModes;
       uint32_t presentModeCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkGetPhysicalDeviceSurfacePresentModesKHR( m_physicalDevice, static_cast<VkSurfaceKHR>( surface ), &presentModeCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && presentModeCount )
+        if( result == Result::eSuccess && presentModeCount )
         {
           presentModes.resize( presentModeCount );
           result = static_cast<Result>( vkGetPhysicalDeviceSurfacePresentModesKHR( m_physicalDevice, static_cast<VkSurfaceKHR>( surface ), &presentModeCount, reinterpret_cast<VkPresentModeKHR*>( presentModes.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, presentModes, "vk::PhysicalDevice::getSurfacePresentModesKHR" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14685,20 +14685,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
     template <typename Allocator = std::allocator<PhysicalDevice>>
-    typename ResultValueType<std::vector<PhysicalDevice,Allocator>>::type enumeratePhysicalDevices() const
+    typename ResultValueType<std::vector<PhysicalDevice, Allocator>>::type enumeratePhysicalDevices() const
     {
-      std::vector<PhysicalDevice,Allocator> physicalDevices;
+      std::vector<PhysicalDevice, Allocator> physicalDevices;
       uint32_t physicalDeviceCount;
       Result result;
       do
       {
         result = static_cast<Result>( vkEnumeratePhysicalDevices( m_instance, &physicalDeviceCount, nullptr ) );
-        if ( ( result == Result::eSuccess ) && physicalDeviceCount )
+        if( result == Result::eSuccess && physicalDeviceCount )
         {
           physicalDevices.resize( physicalDeviceCount );
           result = static_cast<Result>( vkEnumeratePhysicalDevices( m_instance, &physicalDeviceCount, reinterpret_cast<VkPhysicalDevice*>( physicalDevices.data() ) ) );
         }
-      } while ( result == Result::eIncomplete );
+      } while( result == Result::eIncomplete );
       return createResultValue( result, physicalDevices, "vk::Instance::enumeratePhysicalDevices" );
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -14933,12 +14933,12 @@ namespace vk
 
     PipelineRasterizationStateRasterizationOrderAMD( VkPipelineRasterizationStateRasterizationOrderAMD const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineRasterizationStateRasterizationOrderAMD) );
+      memcpy( this, &rhs, sizeof( PipelineRasterizationStateRasterizationOrderAMD ) );
     }
 
     PipelineRasterizationStateRasterizationOrderAMD& operator=( VkPipelineRasterizationStateRasterizationOrderAMD const & rhs )
     {
-      memcpy( this, &rhs, sizeof(PipelineRasterizationStateRasterizationOrderAMD) );
+      memcpy( this, &rhs, sizeof( PipelineRasterizationStateRasterizationOrderAMD ) );
       return *this;
     }
 
@@ -14995,20 +14995,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
   template <typename Allocator = std::allocator<LayerProperties>>
-  typename ResultValueType<std::vector<LayerProperties,Allocator>>::type enumerateInstanceLayerProperties()
+  typename ResultValueType<std::vector<LayerProperties, Allocator>>::type enumerateInstanceLayerProperties()
   {
-    std::vector<LayerProperties,Allocator> properties;
+    std::vector<LayerProperties, Allocator> properties;
     uint32_t propertyCount;
     Result result;
     do
     {
       result = static_cast<Result>( vkEnumerateInstanceLayerProperties( &propertyCount, nullptr ) );
-      if ( ( result == Result::eSuccess ) && propertyCount )
+      if( result == Result::eSuccess && propertyCount )
       {
         properties.resize( propertyCount );
         result = static_cast<Result>( vkEnumerateInstanceLayerProperties( &propertyCount, reinterpret_cast<VkLayerProperties*>( properties.data() ) ) );
       }
-    } while ( result == Result::eIncomplete );
+    } while( result == Result::eIncomplete );
     return createResultValue( result, properties, "vk::enumerateInstanceLayerProperties" );
   }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -15020,20 +15020,20 @@ namespace vk
 
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
   template <typename Allocator = std::allocator<ExtensionProperties>>
-  typename ResultValueType<std::vector<ExtensionProperties,Allocator>>::type enumerateInstanceExtensionProperties( Optional<const std::string> layerName = nullptr )
+  typename ResultValueType<std::vector<ExtensionProperties, Allocator>>::type enumerateInstanceExtensionProperties( Optional<const std::string> layerName = nullptr )
   {
-    std::vector<ExtensionProperties,Allocator> properties;
+    std::vector<ExtensionProperties, Allocator> properties;
     uint32_t propertyCount;
     Result result;
     do
     {
       result = static_cast<Result>( vkEnumerateInstanceExtensionProperties( layerName ? layerName->c_str() : nullptr, &propertyCount, nullptr ) );
-      if ( ( result == Result::eSuccess ) && propertyCount )
+      if( result == Result::eSuccess && propertyCount )
       {
         properties.resize( propertyCount );
         result = static_cast<Result>( vkEnumerateInstanceExtensionProperties( layerName ? layerName->c_str() : nullptr, &propertyCount, reinterpret_cast<VkExtensionProperties*>( properties.data() ) ) );
       }
-    } while ( result == Result::eIncomplete );
+    } while( result == Result::eIncomplete );
     return createResultValue( result, properties, "vk::enumerateInstanceExtensionProperties" );
   }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -15043,7 +15043,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(FramebufferCreateFlags)
+  inline std::string to_string( const FramebufferCreateFlags& )
   {
     return "{}";
   }
@@ -15053,7 +15053,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(QueryPoolCreateFlags)
+  inline std::string to_string( const QueryPoolCreateFlags& )
   {
     return "{}";
   }
@@ -15063,7 +15063,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(RenderPassCreateFlags)
+  inline std::string to_string( const RenderPassCreateFlags& )
   {
     return "{}";
   }
@@ -15073,7 +15073,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(SamplerCreateFlags)
+  inline std::string to_string( const SamplerCreateFlags& )
   {
     return "{}";
   }
@@ -15083,7 +15083,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineLayoutCreateFlags)
+  inline std::string to_string( const PipelineLayoutCreateFlags& )
   {
     return "{}";
   }
@@ -15093,7 +15093,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineCacheCreateFlags)
+  inline std::string to_string( const PipelineCacheCreateFlags& )
   {
     return "{}";
   }
@@ -15103,7 +15103,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineDepthStencilStateCreateFlags)
+  inline std::string to_string( const PipelineDepthStencilStateCreateFlags& )
   {
     return "{}";
   }
@@ -15113,7 +15113,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineDynamicStateCreateFlags)
+  inline std::string to_string( const PipelineDynamicStateCreateFlags& )
   {
     return "{}";
   }
@@ -15123,7 +15123,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineColorBlendStateCreateFlags)
+  inline std::string to_string( const PipelineColorBlendStateCreateFlags& )
   {
     return "{}";
   }
@@ -15133,7 +15133,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineMultisampleStateCreateFlags)
+  inline std::string to_string( const PipelineMultisampleStateCreateFlags& )
   {
     return "{}";
   }
@@ -15143,7 +15143,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineRasterizationStateCreateFlags)
+  inline std::string to_string( const PipelineRasterizationStateCreateFlags& )
   {
     return "{}";
   }
@@ -15153,7 +15153,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineViewportStateCreateFlags)
+  inline std::string to_string( const PipelineViewportStateCreateFlags& )
   {
     return "{}";
   }
@@ -15163,7 +15163,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineTessellationStateCreateFlags)
+  inline std::string to_string( const PipelineTessellationStateCreateFlags& )
   {
     return "{}";
   }
@@ -15173,7 +15173,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineInputAssemblyStateCreateFlags)
+  inline std::string to_string( const PipelineInputAssemblyStateCreateFlags& )
   {
     return "{}";
   }
@@ -15183,7 +15183,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineVertexInputStateCreateFlags)
+  inline std::string to_string( const PipelineVertexInputStateCreateFlags& )
   {
     return "{}";
   }
@@ -15193,7 +15193,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(PipelineShaderStageCreateFlags)
+  inline std::string to_string( const PipelineShaderStageCreateFlags& )
   {
     return "{}";
   }
@@ -15203,7 +15203,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(DescriptorSetLayoutCreateFlags)
+  inline std::string to_string( const DescriptorSetLayoutCreateFlags& )
   {
     return "{}";
   }
@@ -15213,7 +15213,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(BufferViewCreateFlags)
+  inline std::string to_string( const BufferViewCreateFlags& )
   {
     return "{}";
   }
@@ -15223,7 +15223,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(InstanceCreateFlags)
+  inline std::string to_string( const InstanceCreateFlags& )
   {
     return "{}";
   }
@@ -15233,7 +15233,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(DeviceCreateFlags)
+  inline std::string to_string( const DeviceCreateFlags& )
   {
     return "{}";
   }
@@ -15243,7 +15243,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(DeviceQueueCreateFlags)
+  inline std::string to_string( const DeviceQueueCreateFlags& )
   {
     return "{}";
   }
@@ -15253,7 +15253,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(ImageViewCreateFlags)
+  inline std::string to_string( const ImageViewCreateFlags& )
   {
     return "{}";
   }
@@ -15263,7 +15263,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(SemaphoreCreateFlags)
+  inline std::string to_string( const SemaphoreCreateFlags& )
   {
     return "{}";
   }
@@ -15273,7 +15273,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(ShaderModuleCreateFlags)
+  inline std::string to_string( const ShaderModuleCreateFlags& )
   {
     return "{}";
   }
@@ -15283,7 +15283,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(EventCreateFlags)
+  inline std::string to_string( const EventCreateFlags& )
   {
     return "{}";
   }
@@ -15293,7 +15293,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(MemoryMapFlags)
+  inline std::string to_string( const MemoryMapFlags& )
   {
     return "{}";
   }
@@ -15303,7 +15303,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(SubpassDescriptionFlags)
+  inline std::string to_string( const SubpassDescriptionFlags& )
   {
     return "{}";
   }
@@ -15313,7 +15313,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(DescriptorPoolResetFlags)
+  inline std::string to_string( const DescriptorPoolResetFlags& )
   {
     return "{}";
   }
@@ -15323,7 +15323,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(SwapchainCreateFlagsKHR)
+  inline std::string to_string( const SwapchainCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15333,7 +15333,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(DisplayModeCreateFlagsKHR)
+  inline std::string to_string( const DisplayModeCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15343,7 +15343,7 @@ namespace vk
     return "(void)";
   }
 
-  inline std::string to_string(DisplaySurfaceCreateFlagsKHR)
+  inline std::string to_string( const DisplaySurfaceCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15356,7 +15356,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_ANDROID_KHR*/
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-  inline std::string to_string(AndroidSurfaceCreateFlagsKHR)
+  inline std::string to_string( const AndroidSurfaceCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15370,7 +15370,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_MIR_KHR*/
 
 #ifdef VK_USE_PLATFORM_MIR_KHR
-  inline std::string to_string(MirSurfaceCreateFlagsKHR)
+  inline std::string to_string( const MirSurfaceCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15384,7 +15384,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_WAYLAND_KHR*/
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-  inline std::string to_string(WaylandSurfaceCreateFlagsKHR)
+  inline std::string to_string( const WaylandSurfaceCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15398,7 +15398,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_WIN32_KHR*/
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-  inline std::string to_string(Win32SurfaceCreateFlagsKHR)
+  inline std::string to_string( const Win32SurfaceCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15412,7 +15412,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_XLIB_KHR*/
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-  inline std::string to_string(XlibSurfaceCreateFlagsKHR)
+  inline std::string to_string( const XlibSurfaceCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15426,7 +15426,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_XCB_KHR*/
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
-  inline std::string to_string(XcbSurfaceCreateFlagsKHR)
+  inline std::string to_string( const XcbSurfaceCreateFlagsKHR& )
   {
     return "{}";
   }
@@ -15707,15 +15707,15 @@ namespace vk
     }
   }
 
-  inline std::string to_string(CullModeFlags value)
+  inline std::string to_string( const CullModeFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & CullModeFlagBits::eNone) result += "None | ";
-    if (value & CullModeFlagBits::eFront) result += "Front | ";
-    if (value & CullModeFlagBits::eBack) result += "Back | ";
-    if (value & CullModeFlagBits::eFrontAndBack) result += "FrontAndBack | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & CullModeFlagBits::eNone ) result += "None | ";
+    if( value & CullModeFlagBits::eFront ) result += "Front | ";
+    if( value & CullModeFlagBits::eBack ) result += "Back | ";
+    if( value & CullModeFlagBits::eFrontAndBack ) result += "FrontAndBack | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( FrontFace value )
@@ -16158,15 +16158,15 @@ namespace vk
     }
   }
 
-  inline std::string to_string(QueueFlags value)
+  inline std::string to_string( const QueueFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & QueueFlagBits::eGraphics) result += "Graphics | ";
-    if (value & QueueFlagBits::eCompute) result += "Compute | ";
-    if (value & QueueFlagBits::eTransfer) result += "Transfer | ";
-    if (value & QueueFlagBits::eSparseBinding) result += "SparseBinding | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & QueueFlagBits::eGraphics ) result += "Graphics | ";
+    if( value & QueueFlagBits::eCompute ) result += "Compute | ";
+    if( value & QueueFlagBits::eTransfer ) result += "Transfer | ";
+    if( value & QueueFlagBits::eSparseBinding ) result += "SparseBinding | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( MemoryPropertyFlagBits value )
@@ -16182,16 +16182,16 @@ namespace vk
     }
   }
 
-  inline std::string to_string(MemoryPropertyFlags value)
+  inline std::string to_string( const MemoryPropertyFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & MemoryPropertyFlagBits::eDeviceLocal) result += "DeviceLocal | ";
-    if (value & MemoryPropertyFlagBits::eHostVisible) result += "HostVisible | ";
-    if (value & MemoryPropertyFlagBits::eHostCoherent) result += "HostCoherent | ";
-    if (value & MemoryPropertyFlagBits::eHostCached) result += "HostCached | ";
-    if (value & MemoryPropertyFlagBits::eLazilyAllocated) result += "LazilyAllocated | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & MemoryPropertyFlagBits::eDeviceLocal ) result += "DeviceLocal | ";
+    if( value & MemoryPropertyFlagBits::eHostVisible ) result += "HostVisible | ";
+    if( value & MemoryPropertyFlagBits::eHostCoherent ) result += "HostCoherent | ";
+    if( value & MemoryPropertyFlagBits::eHostCached ) result += "HostCached | ";
+    if( value & MemoryPropertyFlagBits::eLazilyAllocated ) result += "LazilyAllocated | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( MemoryHeapFlagBits value )
@@ -16203,12 +16203,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(MemoryHeapFlags value)
+  inline std::string to_string( const MemoryHeapFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & MemoryHeapFlagBits::eDeviceLocal) result += "DeviceLocal | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & MemoryHeapFlagBits::eDeviceLocal ) result += "DeviceLocal | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( AccessFlagBits value )
@@ -16236,28 +16236,28 @@ namespace vk
     }
   }
 
-  inline std::string to_string(AccessFlags value)
+  inline std::string to_string( const AccessFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & AccessFlagBits::eIndirectCommandRead) result += "IndirectCommandRead | ";
-    if (value & AccessFlagBits::eIndexRead) result += "IndexRead | ";
-    if (value & AccessFlagBits::eVertexAttributeRead) result += "VertexAttributeRead | ";
-    if (value & AccessFlagBits::eUniformRead) result += "UniformRead | ";
-    if (value & AccessFlagBits::eInputAttachmentRead) result += "InputAttachmentRead | ";
-    if (value & AccessFlagBits::eShaderRead) result += "ShaderRead | ";
-    if (value & AccessFlagBits::eShaderWrite) result += "ShaderWrite | ";
-    if (value & AccessFlagBits::eColorAttachmentRead) result += "ColorAttachmentRead | ";
-    if (value & AccessFlagBits::eColorAttachmentWrite) result += "ColorAttachmentWrite | ";
-    if (value & AccessFlagBits::eDepthStencilAttachmentRead) result += "DepthStencilAttachmentRead | ";
-    if (value & AccessFlagBits::eDepthStencilAttachmentWrite) result += "DepthStencilAttachmentWrite | ";
-    if (value & AccessFlagBits::eTransferRead) result += "TransferRead | ";
-    if (value & AccessFlagBits::eTransferWrite) result += "TransferWrite | ";
-    if (value & AccessFlagBits::eHostRead) result += "HostRead | ";
-    if (value & AccessFlagBits::eHostWrite) result += "HostWrite | ";
-    if (value & AccessFlagBits::eMemoryRead) result += "MemoryRead | ";
-    if (value & AccessFlagBits::eMemoryWrite) result += "MemoryWrite | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & AccessFlagBits::eIndirectCommandRead ) result += "IndirectCommandRead | ";
+    if( value & AccessFlagBits::eIndexRead ) result += "IndexRead | ";
+    if( value & AccessFlagBits::eVertexAttributeRead ) result += "VertexAttributeRead | ";
+    if( value & AccessFlagBits::eUniformRead ) result += "UniformRead | ";
+    if( value & AccessFlagBits::eInputAttachmentRead ) result += "InputAttachmentRead | ";
+    if( value & AccessFlagBits::eShaderRead ) result += "ShaderRead | ";
+    if( value & AccessFlagBits::eShaderWrite ) result += "ShaderWrite | ";
+    if( value & AccessFlagBits::eColorAttachmentRead ) result += "ColorAttachmentRead | ";
+    if( value & AccessFlagBits::eColorAttachmentWrite ) result += "ColorAttachmentWrite | ";
+    if( value & AccessFlagBits::eDepthStencilAttachmentRead ) result += "DepthStencilAttachmentRead | ";
+    if( value & AccessFlagBits::eDepthStencilAttachmentWrite ) result += "DepthStencilAttachmentWrite | ";
+    if( value & AccessFlagBits::eTransferRead ) result += "TransferRead | ";
+    if( value & AccessFlagBits::eTransferWrite ) result += "TransferWrite | ";
+    if( value & AccessFlagBits::eHostRead ) result += "HostRead | ";
+    if( value & AccessFlagBits::eHostWrite ) result += "HostWrite | ";
+    if( value & AccessFlagBits::eMemoryRead ) result += "MemoryRead | ";
+    if( value & AccessFlagBits::eMemoryWrite ) result += "MemoryWrite | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( BufferUsageFlagBits value )
@@ -16277,20 +16277,20 @@ namespace vk
     }
   }
 
-  inline std::string to_string(BufferUsageFlags value)
+  inline std::string to_string( const BufferUsageFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & BufferUsageFlagBits::eTransferSrc) result += "TransferSrc | ";
-    if (value & BufferUsageFlagBits::eTransferDst) result += "TransferDst | ";
-    if (value & BufferUsageFlagBits::eUniformTexelBuffer) result += "UniformTexelBuffer | ";
-    if (value & BufferUsageFlagBits::eStorageTexelBuffer) result += "StorageTexelBuffer | ";
-    if (value & BufferUsageFlagBits::eUniformBuffer) result += "UniformBuffer | ";
-    if (value & BufferUsageFlagBits::eStorageBuffer) result += "StorageBuffer | ";
-    if (value & BufferUsageFlagBits::eIndexBuffer) result += "IndexBuffer | ";
-    if (value & BufferUsageFlagBits::eVertexBuffer) result += "VertexBuffer | ";
-    if (value & BufferUsageFlagBits::eIndirectBuffer) result += "IndirectBuffer | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & BufferUsageFlagBits::eTransferSrc ) result += "TransferSrc | ";
+    if( value & BufferUsageFlagBits::eTransferDst ) result += "TransferDst | ";
+    if( value & BufferUsageFlagBits::eUniformTexelBuffer ) result += "UniformTexelBuffer | ";
+    if( value & BufferUsageFlagBits::eStorageTexelBuffer ) result += "StorageTexelBuffer | ";
+    if( value & BufferUsageFlagBits::eUniformBuffer ) result += "UniformBuffer | ";
+    if( value & BufferUsageFlagBits::eStorageBuffer ) result += "StorageBuffer | ";
+    if( value & BufferUsageFlagBits::eIndexBuffer ) result += "IndexBuffer | ";
+    if( value & BufferUsageFlagBits::eVertexBuffer ) result += "VertexBuffer | ";
+    if( value & BufferUsageFlagBits::eIndirectBuffer ) result += "IndirectBuffer | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( BufferCreateFlagBits value )
@@ -16304,14 +16304,14 @@ namespace vk
     }
   }
 
-  inline std::string to_string(BufferCreateFlags value)
+  inline std::string to_string( const BufferCreateFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & BufferCreateFlagBits::eSparseBinding) result += "SparseBinding | ";
-    if (value & BufferCreateFlagBits::eSparseResidency) result += "SparseResidency | ";
-    if (value & BufferCreateFlagBits::eSparseAliased) result += "SparseAliased | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & BufferCreateFlagBits::eSparseBinding ) result += "SparseBinding | ";
+    if( value & BufferCreateFlagBits::eSparseResidency ) result += "SparseResidency | ";
+    if( value & BufferCreateFlagBits::eSparseAliased ) result += "SparseAliased | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( ShaderStageFlagBits value )
@@ -16330,19 +16330,19 @@ namespace vk
     }
   }
 
-  inline std::string to_string(ShaderStageFlags value)
+  inline std::string to_string( const ShaderStageFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & ShaderStageFlagBits::eVertex) result += "Vertex | ";
-    if (value & ShaderStageFlagBits::eTessellationControl) result += "TessellationControl | ";
-    if (value & ShaderStageFlagBits::eTessellationEvaluation) result += "TessellationEvaluation | ";
-    if (value & ShaderStageFlagBits::eGeometry) result += "Geometry | ";
-    if (value & ShaderStageFlagBits::eFragment) result += "Fragment | ";
-    if (value & ShaderStageFlagBits::eCompute) result += "Compute | ";
-    if (value & ShaderStageFlagBits::eAllGraphics) result += "AllGraphics | ";
-    if (value & ShaderStageFlagBits::eAll) result += "All | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & ShaderStageFlagBits::eVertex ) result += "Vertex | ";
+    if( value & ShaderStageFlagBits::eTessellationControl ) result += "TessellationControl | ";
+    if( value & ShaderStageFlagBits::eTessellationEvaluation ) result += "TessellationEvaluation | ";
+    if( value & ShaderStageFlagBits::eGeometry ) result += "Geometry | ";
+    if( value & ShaderStageFlagBits::eFragment ) result += "Fragment | ";
+    if( value & ShaderStageFlagBits::eCompute ) result += "Compute | ";
+    if( value & ShaderStageFlagBits::eAllGraphics ) result += "AllGraphics | ";
+    if( value & ShaderStageFlagBits::eAll ) result += "All | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( ImageUsageFlagBits value )
@@ -16361,19 +16361,19 @@ namespace vk
     }
   }
 
-  inline std::string to_string(ImageUsageFlags value)
+  inline std::string to_string( const ImageUsageFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & ImageUsageFlagBits::eTransferSrc) result += "TransferSrc | ";
-    if (value & ImageUsageFlagBits::eTransferDst) result += "TransferDst | ";
-    if (value & ImageUsageFlagBits::eSampled) result += "Sampled | ";
-    if (value & ImageUsageFlagBits::eStorage) result += "Storage | ";
-    if (value & ImageUsageFlagBits::eColorAttachment) result += "ColorAttachment | ";
-    if (value & ImageUsageFlagBits::eDepthStencilAttachment) result += "DepthStencilAttachment | ";
-    if (value & ImageUsageFlagBits::eTransientAttachment) result += "TransientAttachment | ";
-    if (value & ImageUsageFlagBits::eInputAttachment) result += "InputAttachment | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & ImageUsageFlagBits::eTransferSrc ) result += "TransferSrc | ";
+    if( value & ImageUsageFlagBits::eTransferDst ) result += "TransferDst | ";
+    if( value & ImageUsageFlagBits::eSampled ) result += "Sampled | ";
+    if( value & ImageUsageFlagBits::eStorage ) result += "Storage | ";
+    if( value & ImageUsageFlagBits::eColorAttachment ) result += "ColorAttachment | ";
+    if( value & ImageUsageFlagBits::eDepthStencilAttachment ) result += "DepthStencilAttachment | ";
+    if( value & ImageUsageFlagBits::eTransientAttachment ) result += "TransientAttachment | ";
+    if( value & ImageUsageFlagBits::eInputAttachment ) result += "InputAttachment | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( ImageCreateFlagBits value )
@@ -16389,16 +16389,16 @@ namespace vk
     }
   }
 
-  inline std::string to_string(ImageCreateFlags value)
+  inline std::string to_string( const ImageCreateFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & ImageCreateFlagBits::eSparseBinding) result += "SparseBinding | ";
-    if (value & ImageCreateFlagBits::eSparseResidency) result += "SparseResidency | ";
-    if (value & ImageCreateFlagBits::eSparseAliased) result += "SparseAliased | ";
-    if (value & ImageCreateFlagBits::eMutableFormat) result += "MutableFormat | ";
-    if (value & ImageCreateFlagBits::eCubeCompatible) result += "CubeCompatible | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & ImageCreateFlagBits::eSparseBinding ) result += "SparseBinding | ";
+    if( value & ImageCreateFlagBits::eSparseResidency ) result += "SparseResidency | ";
+    if( value & ImageCreateFlagBits::eSparseAliased ) result += "SparseAliased | ";
+    if( value & ImageCreateFlagBits::eMutableFormat ) result += "MutableFormat | ";
+    if( value & ImageCreateFlagBits::eCubeCompatible ) result += "CubeCompatible | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( PipelineCreateFlagBits value )
@@ -16412,14 +16412,14 @@ namespace vk
     }
   }
 
-  inline std::string to_string(PipelineCreateFlags value)
+  inline std::string to_string( const PipelineCreateFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & PipelineCreateFlagBits::eDisableOptimization) result += "DisableOptimization | ";
-    if (value & PipelineCreateFlagBits::eAllowDerivatives) result += "AllowDerivatives | ";
-    if (value & PipelineCreateFlagBits::eDerivative) result += "Derivative | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & PipelineCreateFlagBits::eDisableOptimization ) result += "DisableOptimization | ";
+    if( value & PipelineCreateFlagBits::eAllowDerivatives ) result += "AllowDerivatives | ";
+    if( value & PipelineCreateFlagBits::eDerivative ) result += "Derivative | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( ColorComponentFlagBits value )
@@ -16434,15 +16434,15 @@ namespace vk
     }
   }
 
-  inline std::string to_string(ColorComponentFlags value)
+  inline std::string to_string( const ColorComponentFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & ColorComponentFlagBits::eR) result += "R | ";
-    if (value & ColorComponentFlagBits::eG) result += "G | ";
-    if (value & ColorComponentFlagBits::eB) result += "B | ";
-    if (value & ColorComponentFlagBits::eA) result += "A | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & ColorComponentFlagBits::eR ) result += "R | ";
+    if( value & ColorComponentFlagBits::eG ) result += "G | ";
+    if( value & ColorComponentFlagBits::eB ) result += "B | ";
+    if( value & ColorComponentFlagBits::eA ) result += "A | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( FenceCreateFlagBits value )
@@ -16454,12 +16454,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(FenceCreateFlags value)
+  inline std::string to_string( const FenceCreateFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & FenceCreateFlagBits::eSignaled) result += "Signaled | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & FenceCreateFlagBits::eSignaled ) result += "Signaled | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( FormatFeatureFlagBits value )
@@ -16484,25 +16484,25 @@ namespace vk
     }
   }
 
-  inline std::string to_string(FormatFeatureFlags value)
+  inline std::string to_string( const FormatFeatureFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & FormatFeatureFlagBits::eSampledImage) result += "SampledImage | ";
-    if (value & FormatFeatureFlagBits::eStorageImage) result += "StorageImage | ";
-    if (value & FormatFeatureFlagBits::eStorageImageAtomic) result += "StorageImageAtomic | ";
-    if (value & FormatFeatureFlagBits::eUniformTexelBuffer) result += "UniformTexelBuffer | ";
-    if (value & FormatFeatureFlagBits::eStorageTexelBuffer) result += "StorageTexelBuffer | ";
-    if (value & FormatFeatureFlagBits::eStorageTexelBufferAtomic) result += "StorageTexelBufferAtomic | ";
-    if (value & FormatFeatureFlagBits::eVertexBuffer) result += "VertexBuffer | ";
-    if (value & FormatFeatureFlagBits::eColorAttachment) result += "ColorAttachment | ";
-    if (value & FormatFeatureFlagBits::eColorAttachmentBlend) result += "ColorAttachmentBlend | ";
-    if (value & FormatFeatureFlagBits::eDepthStencilAttachment) result += "DepthStencilAttachment | ";
-    if (value & FormatFeatureFlagBits::eBlitSrc) result += "BlitSrc | ";
-    if (value & FormatFeatureFlagBits::eBlitDst) result += "BlitDst | ";
-    if (value & FormatFeatureFlagBits::eSampledImageFilterLinear) result += "SampledImageFilterLinear | ";
-    if (value & FormatFeatureFlagBits::eSampledImageFilterCubicIMG) result += "SampledImageFilterCubicIMG | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & FormatFeatureFlagBits::eSampledImage ) result += "SampledImage | ";
+    if( value & FormatFeatureFlagBits::eStorageImage ) result += "StorageImage | ";
+    if( value & FormatFeatureFlagBits::eStorageImageAtomic ) result += "StorageImageAtomic | ";
+    if( value & FormatFeatureFlagBits::eUniformTexelBuffer ) result += "UniformTexelBuffer | ";
+    if( value & FormatFeatureFlagBits::eStorageTexelBuffer ) result += "StorageTexelBuffer | ";
+    if( value & FormatFeatureFlagBits::eStorageTexelBufferAtomic ) result += "StorageTexelBufferAtomic | ";
+    if( value & FormatFeatureFlagBits::eVertexBuffer ) result += "VertexBuffer | ";
+    if( value & FormatFeatureFlagBits::eColorAttachment ) result += "ColorAttachment | ";
+    if( value & FormatFeatureFlagBits::eColorAttachmentBlend ) result += "ColorAttachmentBlend | ";
+    if( value & FormatFeatureFlagBits::eDepthStencilAttachment ) result += "DepthStencilAttachment | ";
+    if( value & FormatFeatureFlagBits::eBlitSrc ) result += "BlitSrc | ";
+    if( value & FormatFeatureFlagBits::eBlitDst ) result += "BlitDst | ";
+    if( value & FormatFeatureFlagBits::eSampledImageFilterLinear ) result += "SampledImageFilterLinear | ";
+    if( value & FormatFeatureFlagBits::eSampledImageFilterCubicIMG ) result += "SampledImageFilterCubicIMG | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( QueryControlFlagBits value )
@@ -16514,12 +16514,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(QueryControlFlags value)
+  inline std::string to_string( const QueryControlFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & QueryControlFlagBits::ePrecise) result += "Precise | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & QueryControlFlagBits::ePrecise ) result += "Precise | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( QueryResultFlagBits value )
@@ -16534,15 +16534,15 @@ namespace vk
     }
   }
 
-  inline std::string to_string(QueryResultFlags value)
+  inline std::string to_string( const QueryResultFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & QueryResultFlagBits::e64) result += "64 | ";
-    if (value & QueryResultFlagBits::eWait) result += "Wait | ";
-    if (value & QueryResultFlagBits::eWithAvailability) result += "WithAvailability | ";
-    if (value & QueryResultFlagBits::ePartial) result += "Partial | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & QueryResultFlagBits::e64 ) result += "64 | ";
+    if( value & QueryResultFlagBits::eWait ) result += "Wait | ";
+    if( value & QueryResultFlagBits::eWithAvailability ) result += "WithAvailability | ";
+    if( value & QueryResultFlagBits::ePartial ) result += "Partial | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( CommandBufferUsageFlagBits value )
@@ -16556,14 +16556,14 @@ namespace vk
     }
   }
 
-  inline std::string to_string(CommandBufferUsageFlags value)
+  inline std::string to_string( const CommandBufferUsageFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & CommandBufferUsageFlagBits::eOneTimeSubmit) result += "OneTimeSubmit | ";
-    if (value & CommandBufferUsageFlagBits::eRenderPassContinue) result += "RenderPassContinue | ";
-    if (value & CommandBufferUsageFlagBits::eSimultaneousUse) result += "SimultaneousUse | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & CommandBufferUsageFlagBits::eOneTimeSubmit ) result += "OneTimeSubmit | ";
+    if( value & CommandBufferUsageFlagBits::eRenderPassContinue ) result += "RenderPassContinue | ";
+    if( value & CommandBufferUsageFlagBits::eSimultaneousUse ) result += "SimultaneousUse | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( QueryPipelineStatisticFlagBits value )
@@ -16585,22 +16585,22 @@ namespace vk
     }
   }
 
-  inline std::string to_string(QueryPipelineStatisticFlags value)
+  inline std::string to_string( const QueryPipelineStatisticFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & QueryPipelineStatisticFlagBits::eInputAssemblyVertices) result += "InputAssemblyVertices | ";
-    if (value & QueryPipelineStatisticFlagBits::eInputAssemblyPrimitives) result += "InputAssemblyPrimitives | ";
-    if (value & QueryPipelineStatisticFlagBits::eVertexShaderInvocations) result += "VertexShaderInvocations | ";
-    if (value & QueryPipelineStatisticFlagBits::eGeometryShaderInvocations) result += "GeometryShaderInvocations | ";
-    if (value & QueryPipelineStatisticFlagBits::eGeometryShaderPrimitives) result += "GeometryShaderPrimitives | ";
-    if (value & QueryPipelineStatisticFlagBits::eClippingInvocations) result += "ClippingInvocations | ";
-    if (value & QueryPipelineStatisticFlagBits::eClippingPrimitives) result += "ClippingPrimitives | ";
-    if (value & QueryPipelineStatisticFlagBits::eFragmentShaderInvocations) result += "FragmentShaderInvocations | ";
-    if (value & QueryPipelineStatisticFlagBits::eTessellationControlShaderPatches) result += "TessellationControlShaderPatches | ";
-    if (value & QueryPipelineStatisticFlagBits::eTessellationEvaluationShaderInvocations) result += "TessellationEvaluationShaderInvocations | ";
-    if (value & QueryPipelineStatisticFlagBits::eComputeShaderInvocations) result += "ComputeShaderInvocations | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & QueryPipelineStatisticFlagBits::eInputAssemblyVertices ) result += "InputAssemblyVertices | ";
+    if( value & QueryPipelineStatisticFlagBits::eInputAssemblyPrimitives ) result += "InputAssemblyPrimitives | ";
+    if( value & QueryPipelineStatisticFlagBits::eVertexShaderInvocations ) result += "VertexShaderInvocations | ";
+    if( value & QueryPipelineStatisticFlagBits::eGeometryShaderInvocations ) result += "GeometryShaderInvocations | ";
+    if( value & QueryPipelineStatisticFlagBits::eGeometryShaderPrimitives ) result += "GeometryShaderPrimitives | ";
+    if( value & QueryPipelineStatisticFlagBits::eClippingInvocations ) result += "ClippingInvocations | ";
+    if( value & QueryPipelineStatisticFlagBits::eClippingPrimitives ) result += "ClippingPrimitives | ";
+    if( value & QueryPipelineStatisticFlagBits::eFragmentShaderInvocations ) result += "FragmentShaderInvocations | ";
+    if( value & QueryPipelineStatisticFlagBits::eTessellationControlShaderPatches ) result += "TessellationControlShaderPatches | ";
+    if( value & QueryPipelineStatisticFlagBits::eTessellationEvaluationShaderInvocations ) result += "TessellationEvaluationShaderInvocations | ";
+    if( value & QueryPipelineStatisticFlagBits::eComputeShaderInvocations ) result += "ComputeShaderInvocations | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( ImageAspectFlagBits value )
@@ -16615,15 +16615,15 @@ namespace vk
     }
   }
 
-  inline std::string to_string(ImageAspectFlags value)
+  inline std::string to_string( const ImageAspectFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & ImageAspectFlagBits::eColor) result += "Color | ";
-    if (value & ImageAspectFlagBits::eDepth) result += "Depth | ";
-    if (value & ImageAspectFlagBits::eStencil) result += "Stencil | ";
-    if (value & ImageAspectFlagBits::eMetadata) result += "Metadata | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & ImageAspectFlagBits::eColor ) result += "Color | ";
+    if( value & ImageAspectFlagBits::eDepth ) result += "Depth | ";
+    if( value & ImageAspectFlagBits::eStencil ) result += "Stencil | ";
+    if( value & ImageAspectFlagBits::eMetadata ) result += "Metadata | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( SparseImageFormatFlagBits value )
@@ -16637,14 +16637,14 @@ namespace vk
     }
   }
 
-  inline std::string to_string(SparseImageFormatFlags value)
+  inline std::string to_string( const SparseImageFormatFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & SparseImageFormatFlagBits::eSingleMiptail) result += "SingleMiptail | ";
-    if (value & SparseImageFormatFlagBits::eAlignedMipSize) result += "AlignedMipSize | ";
-    if (value & SparseImageFormatFlagBits::eNonstandardBlockSize) result += "NonstandardBlockSize | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & SparseImageFormatFlagBits::eSingleMiptail ) result += "SingleMiptail | ";
+    if( value & SparseImageFormatFlagBits::eAlignedMipSize ) result += "AlignedMipSize | ";
+    if( value & SparseImageFormatFlagBits::eNonstandardBlockSize ) result += "NonstandardBlockSize | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( SparseMemoryBindFlagBits value )
@@ -16656,12 +16656,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(SparseMemoryBindFlags value)
+  inline std::string to_string( const SparseMemoryBindFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & SparseMemoryBindFlagBits::eMetadata) result += "Metadata | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & SparseMemoryBindFlagBits::eMetadata ) result += "Metadata | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( PipelineStageFlagBits value )
@@ -16689,28 +16689,28 @@ namespace vk
     }
   }
 
-  inline std::string to_string(PipelineStageFlags value)
+  inline std::string to_string( const PipelineStageFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & PipelineStageFlagBits::eTopOfPipe) result += "TopOfPipe | ";
-    if (value & PipelineStageFlagBits::eDrawIndirect) result += "DrawIndirect | ";
-    if (value & PipelineStageFlagBits::eVertexInput) result += "VertexInput | ";
-    if (value & PipelineStageFlagBits::eVertexShader) result += "VertexShader | ";
-    if (value & PipelineStageFlagBits::eTessellationControlShader) result += "TessellationControlShader | ";
-    if (value & PipelineStageFlagBits::eTessellationEvaluationShader) result += "TessellationEvaluationShader | ";
-    if (value & PipelineStageFlagBits::eGeometryShader) result += "GeometryShader | ";
-    if (value & PipelineStageFlagBits::eFragmentShader) result += "FragmentShader | ";
-    if (value & PipelineStageFlagBits::eEarlyFragmentTests) result += "EarlyFragmentTests | ";
-    if (value & PipelineStageFlagBits::eLateFragmentTests) result += "LateFragmentTests | ";
-    if (value & PipelineStageFlagBits::eColorAttachmentOutput) result += "ColorAttachmentOutput | ";
-    if (value & PipelineStageFlagBits::eComputeShader) result += "ComputeShader | ";
-    if (value & PipelineStageFlagBits::eTransfer) result += "Transfer | ";
-    if (value & PipelineStageFlagBits::eBottomOfPipe) result += "BottomOfPipe | ";
-    if (value & PipelineStageFlagBits::eHost) result += "Host | ";
-    if (value & PipelineStageFlagBits::eAllGraphics) result += "AllGraphics | ";
-    if (value & PipelineStageFlagBits::eAllCommands) result += "AllCommands | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & PipelineStageFlagBits::eTopOfPipe ) result += "TopOfPipe | ";
+    if( value & PipelineStageFlagBits::eDrawIndirect ) result += "DrawIndirect | ";
+    if( value & PipelineStageFlagBits::eVertexInput ) result += "VertexInput | ";
+    if( value & PipelineStageFlagBits::eVertexShader ) result += "VertexShader | ";
+    if( value & PipelineStageFlagBits::eTessellationControlShader ) result += "TessellationControlShader | ";
+    if( value & PipelineStageFlagBits::eTessellationEvaluationShader ) result += "TessellationEvaluationShader | ";
+    if( value & PipelineStageFlagBits::eGeometryShader ) result += "GeometryShader | ";
+    if( value & PipelineStageFlagBits::eFragmentShader ) result += "FragmentShader | ";
+    if( value & PipelineStageFlagBits::eEarlyFragmentTests ) result += "EarlyFragmentTests | ";
+    if( value & PipelineStageFlagBits::eLateFragmentTests ) result += "LateFragmentTests | ";
+    if( value & PipelineStageFlagBits::eColorAttachmentOutput ) result += "ColorAttachmentOutput | ";
+    if( value & PipelineStageFlagBits::eComputeShader ) result += "ComputeShader | ";
+    if( value & PipelineStageFlagBits::eTransfer ) result += "Transfer | ";
+    if( value & PipelineStageFlagBits::eBottomOfPipe ) result += "BottomOfPipe | ";
+    if( value & PipelineStageFlagBits::eHost ) result += "Host | ";
+    if( value & PipelineStageFlagBits::eAllGraphics ) result += "AllGraphics | ";
+    if( value & PipelineStageFlagBits::eAllCommands ) result += "AllCommands | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( CommandPoolCreateFlagBits value )
@@ -16723,13 +16723,13 @@ namespace vk
     }
   }
 
-  inline std::string to_string(CommandPoolCreateFlags value)
+  inline std::string to_string( const CommandPoolCreateFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & CommandPoolCreateFlagBits::eTransient) result += "Transient | ";
-    if (value & CommandPoolCreateFlagBits::eResetCommandBuffer) result += "ResetCommandBuffer | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & CommandPoolCreateFlagBits::eTransient ) result += "Transient | ";
+    if( value & CommandPoolCreateFlagBits::eResetCommandBuffer ) result += "ResetCommandBuffer | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( CommandPoolResetFlagBits value )
@@ -16741,12 +16741,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(CommandPoolResetFlags value)
+  inline std::string to_string( const CommandPoolResetFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & CommandPoolResetFlagBits::eReleaseResources) result += "ReleaseResources | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & CommandPoolResetFlagBits::eReleaseResources ) result += "ReleaseResources | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( CommandBufferResetFlagBits value )
@@ -16758,12 +16758,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(CommandBufferResetFlags value)
+  inline std::string to_string( const CommandBufferResetFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & CommandBufferResetFlagBits::eReleaseResources) result += "ReleaseResources | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & CommandBufferResetFlagBits::eReleaseResources ) result += "ReleaseResources | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( SampleCountFlagBits value )
@@ -16781,18 +16781,18 @@ namespace vk
     }
   }
 
-  inline std::string to_string(SampleCountFlags value)
+  inline std::string to_string( const SampleCountFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & SampleCountFlagBits::e1) result += "1 | ";
-    if (value & SampleCountFlagBits::e2) result += "2 | ";
-    if (value & SampleCountFlagBits::e4) result += "4 | ";
-    if (value & SampleCountFlagBits::e8) result += "8 | ";
-    if (value & SampleCountFlagBits::e16) result += "16 | ";
-    if (value & SampleCountFlagBits::e32) result += "32 | ";
-    if (value & SampleCountFlagBits::e64) result += "64 | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & SampleCountFlagBits::e1 ) result += "1 | ";
+    if( value & SampleCountFlagBits::e2 ) result += "2 | ";
+    if( value & SampleCountFlagBits::e4 ) result += "4 | ";
+    if( value & SampleCountFlagBits::e8 ) result += "8 | ";
+    if( value & SampleCountFlagBits::e16 ) result += "16 | ";
+    if( value & SampleCountFlagBits::e32 ) result += "32 | ";
+    if( value & SampleCountFlagBits::e64 ) result += "64 | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( AttachmentDescriptionFlagBits value )
@@ -16804,12 +16804,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(AttachmentDescriptionFlags value)
+  inline std::string to_string( const AttachmentDescriptionFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & AttachmentDescriptionFlagBits::eMayAlias) result += "MayAlias | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & AttachmentDescriptionFlagBits::eMayAlias ) result += "MayAlias | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( StencilFaceFlagBits value )
@@ -16823,14 +16823,14 @@ namespace vk
     }
   }
 
-  inline std::string to_string(StencilFaceFlags value)
+  inline std::string to_string( const StencilFaceFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & StencilFaceFlagBits::eFront) result += "Front | ";
-    if (value & StencilFaceFlagBits::eBack) result += "Back | ";
-    if (value & StencilFaceFlagBits::eVkStencilFrontAndBack) result += "VkStencilFrontAndBack | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & StencilFaceFlagBits::eFront ) result += "Front | ";
+    if( value & StencilFaceFlagBits::eBack ) result += "Back | ";
+    if( value & StencilFaceFlagBits::eVkStencilFrontAndBack ) result += "VkStencilFrontAndBack | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( DescriptorPoolCreateFlagBits value )
@@ -16842,12 +16842,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(DescriptorPoolCreateFlags value)
+  inline std::string to_string( const DescriptorPoolCreateFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & DescriptorPoolCreateFlagBits::eFreeDescriptorSet) result += "FreeDescriptorSet | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & DescriptorPoolCreateFlagBits::eFreeDescriptorSet ) result += "FreeDescriptorSet | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( DependencyFlagBits value )
@@ -16859,12 +16859,12 @@ namespace vk
     }
   }
 
-  inline std::string to_string(DependencyFlags value)
+  inline std::string to_string( const DependencyFlags& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & DependencyFlagBits::eByRegion) result += "ByRegion | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & DependencyFlagBits::eByRegion ) result += "ByRegion | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( PresentModeKHR value )
@@ -16900,15 +16900,15 @@ namespace vk
     }
   }
 
-  inline std::string to_string(DisplayPlaneAlphaFlagsKHR value)
+  inline std::string to_string( const DisplayPlaneAlphaFlagsKHR& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & DisplayPlaneAlphaFlagBitsKHR::eOpaque) result += "Opaque | ";
-    if (value & DisplayPlaneAlphaFlagBitsKHR::eGlobal) result += "Global | ";
-    if (value & DisplayPlaneAlphaFlagBitsKHR::ePerPixel) result += "PerPixel | ";
-    if (value & DisplayPlaneAlphaFlagBitsKHR::ePerPixelPremultiplied) result += "PerPixelPremultiplied | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & DisplayPlaneAlphaFlagBitsKHR::eOpaque ) result += "Opaque | ";
+    if( value & DisplayPlaneAlphaFlagBitsKHR::eGlobal ) result += "Global | ";
+    if( value & DisplayPlaneAlphaFlagBitsKHR::ePerPixel ) result += "PerPixel | ";
+    if( value & DisplayPlaneAlphaFlagBitsKHR::ePerPixelPremultiplied ) result += "PerPixelPremultiplied | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( CompositeAlphaFlagBitsKHR value )
@@ -16923,15 +16923,15 @@ namespace vk
     }
   }
 
-  inline std::string to_string(CompositeAlphaFlagsKHR value)
+  inline std::string to_string( const CompositeAlphaFlagsKHR& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & CompositeAlphaFlagBitsKHR::eOpaque) result += "Opaque | ";
-    if (value & CompositeAlphaFlagBitsKHR::ePreMultiplied) result += "PreMultiplied | ";
-    if (value & CompositeAlphaFlagBitsKHR::ePostMultiplied) result += "PostMultiplied | ";
-    if (value & CompositeAlphaFlagBitsKHR::eInherit) result += "Inherit | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & CompositeAlphaFlagBitsKHR::eOpaque ) result += "Opaque | ";
+    if( value & CompositeAlphaFlagBitsKHR::ePreMultiplied ) result += "PreMultiplied | ";
+    if( value & CompositeAlphaFlagBitsKHR::ePostMultiplied ) result += "PostMultiplied | ";
+    if( value & CompositeAlphaFlagBitsKHR::eInherit ) result += "Inherit | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( SurfaceTransformFlagBitsKHR value )
@@ -16951,20 +16951,20 @@ namespace vk
     }
   }
 
-  inline std::string to_string(SurfaceTransformFlagsKHR value)
+  inline std::string to_string( const SurfaceTransformFlagsKHR& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & SurfaceTransformFlagBitsKHR::eIdentity) result += "Identity | ";
-    if (value & SurfaceTransformFlagBitsKHR::eRotate90) result += "Rotate90 | ";
-    if (value & SurfaceTransformFlagBitsKHR::eRotate180) result += "Rotate180 | ";
-    if (value & SurfaceTransformFlagBitsKHR::eRotate270) result += "Rotate270 | ";
-    if (value & SurfaceTransformFlagBitsKHR::eHorizontalMirror) result += "HorizontalMirror | ";
-    if (value & SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate90) result += "HorizontalMirrorRotate90 | ";
-    if (value & SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate180) result += "HorizontalMirrorRotate180 | ";
-    if (value & SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate270) result += "HorizontalMirrorRotate270 | ";
-    if (value & SurfaceTransformFlagBitsKHR::eInherit) result += "Inherit | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & SurfaceTransformFlagBitsKHR::eIdentity ) result += "Identity | ";
+    if( value & SurfaceTransformFlagBitsKHR::eRotate90 ) result += "Rotate90 | ";
+    if( value & SurfaceTransformFlagBitsKHR::eRotate180 ) result += "Rotate180 | ";
+    if( value & SurfaceTransformFlagBitsKHR::eRotate270 ) result += "Rotate270 | ";
+    if( value & SurfaceTransformFlagBitsKHR::eHorizontalMirror ) result += "HorizontalMirror | ";
+    if( value & SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate90 ) result += "HorizontalMirrorRotate90 | ";
+    if( value & SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate180 ) result += "HorizontalMirrorRotate180 | ";
+    if( value & SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate270 ) result += "HorizontalMirrorRotate270 | ";
+    if( value & SurfaceTransformFlagBitsKHR::eInherit ) result += "Inherit | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( DebugReportFlagBitsEXT value )
@@ -16980,16 +16980,16 @@ namespace vk
     }
   }
 
-  inline std::string to_string(DebugReportFlagsEXT value)
+  inline std::string to_string( const DebugReportFlagsEXT& value )
   {
-    if (!value) return "{}";
+    if( !value ) return "{}";
     std::string result;
-    if (value & DebugReportFlagBitsEXT::eInformation) result += "Information | ";
-    if (value & DebugReportFlagBitsEXT::eWarning) result += "Warning | ";
-    if (value & DebugReportFlagBitsEXT::ePerformanceWarning) result += "PerformanceWarning | ";
-    if (value & DebugReportFlagBitsEXT::eError) result += "Error | ";
-    if (value & DebugReportFlagBitsEXT::eDebug) result += "Debug | ";
-    return "{" + result.substr(0, result.size() - 3) + "}";
+    if( value & DebugReportFlagBitsEXT::eInformation ) result += "Information | ";
+    if( value & DebugReportFlagBitsEXT::eWarning ) result += "Warning | ";
+    if( value & DebugReportFlagBitsEXT::ePerformanceWarning ) result += "PerformanceWarning | ";
+    if( value & DebugReportFlagBitsEXT::eError ) result += "Error | ";
+    if( value & DebugReportFlagBitsEXT::eDebug ) result += "Debug | ";
+    return "{" + result.substr( 0, result.size() - 3 ) + "}";
   }
 
   inline std::string to_string( DebugReportObjectTypeEXT value )
