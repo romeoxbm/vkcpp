@@ -91,7 +91,7 @@ namespace vk
 	);
 
 	const std::string flagsHeader(
-		"  template<typename BitType, typename MaskType = VkFlags>\n"
+		"  template<typename BitType, typename MaskType = uint32_t>\n"
 		"  class Flags\n"
 		"  {\n"
 		"  public:\n"
@@ -301,8 +301,7 @@ namespace vk
 		"#   define VK_CPP_HAS_UNRESTRICTED_UNIONS\n"
 		"#  endif\n"
 		"# endif\n"
-		"#endif\n"
-		"\n"
+		"#endif\n\n"
 	);
 
 	std::string const resultValueHeader = (

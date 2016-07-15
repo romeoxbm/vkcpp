@@ -51,31 +51,44 @@ namespace vk
 		try
 		{
 			DualOFStream ofs( opt );
-			ofs << nvidiaLicenseHeader << std::endl
+			ofs << nvidiaLicenseHeader
 				<< vkData->vulkanLicenseHeader << std::endl
-				<< ( !opt.cmdLine.empty() ? "// Command line options: " + opt.cmdLine : "" )
-				<< "#ifndef " << opt.includeGuard << std::endl
-				<< "#define " << opt.includeGuard << std::endl
-				<< "\n#include <array>\n"
-				<< "#include <cassert>\n"
+				<< ( !opt.cmdLine.empty() ? "// Command line options: " + opt.cmdLine + "\n" : "" );
+
+			if( ofs.usingDualStream() )
+			{
+				if( !opt.pch.empty() )
+					ofs.src() << "#include \"" << opt.pch << "\"\n";
+
+				ofs.src() << "#include \"" << ofs.headerFileName() << "\"\n";
+			}
+
+			ofs.hdr() << "#ifndef " << opt.includeGuard << std::endl
+				<< "#define " << opt.includeGuard << std::endl << std::endl;
+
+			ofs.src() << "#include <cassert>\n"
 				<< "#include <cstdint>\n"
 				<< "#include <cstring>\n"
 				<< "#include <string>\n"
 				<< "#include <system_error>\n"
 				<< "#include <algorithm>\n"
-				<< "#include <vulkan/vulkan.h>\n"
-				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE\n"
-				<< "#	include <vector>\n"
-				<< "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
+				<< "#include <vulkan/vulkan.h>\n";
 
-			_writeVersionCheck( ofs.hdr(), vkData->version );
+			ofs.hdr() << "#include <array>\n"
+					  << "#ifndef VKCPP_DISABLE_ENHANCED_MODE\n"
+					  << "#	include <vector>\n"
+					  << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
+
+			_writeVersionCheck( ofs.src(), vkData->version );
 			_writeTypesafeCheck( ofs.hdr(), vkData->typesafeCheck );
-			ofs << versionCheckHeader
-				<< "namespace vk\n"
-				<< "{\n"
-				<< flagsHeader
-				<< optionalClassHeader
-				<< arrayProxyHeader;
+
+			ofs.hdr() << versionCheckHeader;
+			ofs << "namespace vk\n"
+				<< "{\n";
+
+			ofs.hdr() << flagsHeader
+					  << optionalClassHeader
+					  << arrayProxyHeader;
 
 			// first of all, write out vk::Result and the exception handling stuff
 			auto it = std::find_if(
@@ -87,20 +100,20 @@ namespace vk
 			_writeTypeEnum( ofs.hdr(), *it, vkData->enums.find( it->name )->second );
 			_writeEnumsToString( ofs.hdr(), *it, vkData->enums.find( it->name )->second );
 			vkData->dependencies.erase( it );
-			ofs << exceptionHeader;
 
-			ofs << "} // namespace vk\n\n"
-				<< isErrorCode
-				<< "\nnamespace vk\n"
-				<< "{\n"
-				<< resultValueHeader
-				<< createResultValueHeader;
+			ofs.hdr() << exceptionHeader
+					  << "} // namespace vk\n\n"
+					  << isErrorCode
+					  << "\nnamespace vk\n"
+					  << "{\n"
+					  << resultValueHeader
+					  << createResultValueHeader;
 
 			_writeTypes( ofs.hdr(), vkData, defaultValues );
 			_writeEnumsToString( ofs.hdr(), vkData );
 
-			ofs << "} // namespace vk\n\n"
-				<< "#endif // " << opt.includeGuard << std::endl;
+			ofs << "} // namespace vk\n";
+			ofs.hdr() << "#endif // " << opt.includeGuard << std::endl;
 		}
 		catch( const std::exception& e )
 		{
