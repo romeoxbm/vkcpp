@@ -40,6 +40,11 @@ namespace vk
 		std::ofstream& hdr() { return *_hdr; }
 		std::ofstream& src();
 
+		bool usingDualStream() const { return _src != 0; }
+
+		const std::string& headerFileName() const { return _hdrFileName; }
+		const std::string& sourceFileName() const { return _srcFileName; }
+
 		template<typename T>
 		DualOFStream& operator<<( const T& value )
 		{
@@ -66,6 +71,9 @@ namespace vk
 	private:
 		std::ofstream* _hdr = 0;
 		std::ofstream* _src = 0;
+
+		std::string _hdrFileName;
+		std::string _srcFileName;
 	};
 }
 #endif // VKDUALOFSTREAM_H

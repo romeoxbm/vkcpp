@@ -35,21 +35,23 @@ namespace vk
 		auto sep = !hasDirTrailingSlash ? "/" : "";
 
 		auto he = opt.headerExt[ 0 ] == '.' ? opt.headerExt : "." + opt.headerExt;
-		auto dest = opt.outDirectory + sep + opt.outFileName + he;
+		_hdrFileName = opt.outFileName + he;
+		auto dest = opt.outDirectory + sep + _hdrFileName;
 
-		std::cout << "Writing to \"" << dest << "\"";
+		std::cout << "Writing to \"" << _hdrFileName << "\"";
 		_hdr = new std::ofstream( dest );
 
 		if( !opt.srcExt.empty() )
 		{
 			auto se = opt.srcExt[ 0 ] == '.' ? opt.srcExt : "." + opt.srcExt;
-			dest = opt.outDirectory + sep + opt.outFileName + se;
+			_srcFileName = opt.outFileName + se;
+			dest = opt.outDirectory + sep + _srcFileName;
 
-			std::cout << " and to \"" << dest << "\"";
+			std::cout << " and to \"" << _srcFileName << "\"";
 			_src = new std::ofstream( opt.outDirectory + sep + opt.outFileName + se );
 		}
 
-		std::cout << std::endl;
+		std::cout << " (" << opt.outDirectory << ")\n";
 	}
 	//--------------------------------------------------------------------------
 	DualOFStream::~DualOFStream()
