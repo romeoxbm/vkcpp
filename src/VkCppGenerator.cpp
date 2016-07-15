@@ -23,7 +23,7 @@
 // OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#include "VkCppGenerator.h"
+#include "VkDualOFStream.h"
 #include "Strings.h"
 #include "StringsHelper.h"
 
@@ -32,7 +32,6 @@
 #include <exception>
 #include <algorithm>
 #include <sstream>
-#include <fstream>
 #include <functional>
 
 namespace vk
@@ -44,15 +43,6 @@ namespace vk
 		if( !vkData )
 			return -1;
 
-		auto lastDirChar = opt.outDirectory[ opt.outDirectory.size() - 1 ];
-		auto hasDirTrailingSlash = lastDirChar != '\\' || lastDirChar != '/';
-		auto sep = !hasDirTrailingSlash ? "/" : "";
-
-		auto he = opt.headerExt[ 0 ] == '.' ? opt.headerExt : "." + opt.headerExt;
-
-		auto dest = opt.outDirectory + sep + opt.outFileName + he;
-
-		std::cout << "Writing to \"" << dest << "\"\n";
 		_sortDependencies( vkData->dependencies );
 
 		std::map<std::string, std::string> defaultValues;
@@ -60,7 +50,7 @@ namespace vk
 
 		try
 		{
-			std::ofstream ofs( dest );
+			DualOFStream ofs( opt );
 			ofs << nvidiaLicenseHeader << std::endl
 				<< vkData->vulkanLicenseHeader << std::endl
 				<< ( !opt.cmdLine.empty() ? "// Command line options: " + opt.cmdLine : "" )
@@ -78,8 +68,8 @@ namespace vk
 				<< "#	include <vector>\n"
 				<< "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
 
-			_writeVersionCheck( ofs, vkData->version );
-			_writeTypesafeCheck( ofs, vkData->typesafeCheck );
+			_writeVersionCheck( ofs.hdr(), vkData->version );
+			_writeTypesafeCheck( ofs.hdr(), vkData->typesafeCheck );
 			ofs << versionCheckHeader
 				<< "namespace vk\n"
 				<< "{\n"
@@ -94,8 +84,8 @@ namespace vk
 						[]( DependencyData const& dp ) { return dp.name == "Result"; }
 			);
 			assert( it != vkData->dependencies.end() );
-			_writeTypeEnum( ofs, *it, vkData->enums.find( it->name )->second );
-			_writeEnumsToString( ofs, *it, vkData->enums.find( it->name )->second );
+			_writeTypeEnum( ofs.hdr(), *it, vkData->enums.find( it->name )->second );
+			_writeEnumsToString( ofs.hdr(), *it, vkData->enums.find( it->name )->second );
 			vkData->dependencies.erase( it );
 			ofs << exceptionHeader;
 
@@ -106,8 +96,8 @@ namespace vk
 				<< resultValueHeader
 				<< createResultValueHeader;
 
-			_writeTypes( ofs, vkData, defaultValues );
-			_writeEnumsToString( ofs, vkData );
+			_writeTypes( ofs.hdr(), vkData, defaultValues );
+			_writeEnumsToString( ofs.hdr(), vkData );
 
 			ofs << "} // namespace vk\n\n"
 				<< "#endif // " << opt.includeGuard << std::endl;

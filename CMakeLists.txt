@@ -62,6 +62,7 @@ set( HEADERS
 	src/Strings.h
 	src/StringsHelper.h
 	src/VkCppGenerator.h
+	src/VkDualOFStream.h
 	src/VkSpecParser.h
 	${CMAKE_CURRENT_BINARY_DIR}/VkVersion.h
 )
@@ -70,6 +71,7 @@ set( SOURCES
 	src/main.cpp
 	src/StringsHelper.cpp
 	src/VkCppGenerator.cpp
+	src/VkDualOFStream.cpp
 	src/VkSpecParser.cpp
 )
 
