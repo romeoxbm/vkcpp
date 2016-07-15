@@ -64,7 +64,7 @@ namespace vk
 			ofs << nvidiaLicenseHeader << std::endl
 				<< vkData->vulkanLicenseHeader << std::endl
 				<< ( !opt.cmdLine.empty() ? "// Command line options: " + opt.cmdLine : "" )
-				<< "\n\n#ifndef " << opt.includeGuard << std::endl
+				<< "#ifndef " << opt.includeGuard << std::endl
 				<< "#define " << opt.includeGuard << std::endl
 				<< "\n#include <array>\n"
 				<< "#include <cassert>\n"
@@ -72,6 +72,7 @@ namespace vk
 				<< "#include <cstring>\n"
 				<< "#include <string>\n"
 				<< "#include <system_error>\n"
+				<< "#include <algorithm>\n"
 				<< "#include <vulkan/vulkan.h>\n"
 				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE\n"
 				<< "#	include <vector>\n"
@@ -1160,7 +1161,7 @@ namespace vk
 						{
 							ofs << commandData.arguments[ i ].type << " " << _reduceName( commandData.arguments[ i ].name );
 							if( !commandData.arguments[ i ].arraySize.empty() )
-								ofs << "[" << commandData.arguments[ i ].arraySize << "]";
+								ofs << "[ " << commandData.arguments[ i ].arraySize << " ]";
 
 							if( lastArgument == i )
 							{
@@ -1170,7 +1171,7 @@ namespace vk
 									auto depIt = std::find_if( vkData->dependencies.begin(), vkData->dependencies.end(), [ &flagIt ]( DependencyData const& dd ) { return( dd.name == flagIt->first ); } );
 									assert( depIt != vkData->dependencies.end() );
 									assert( depIt->dependencies.size() == 1 );
-									std::map<std::string, EnumData>::const_iterator enumIt = vkData->enums.find( *depIt->dependencies.begin() );
+									auto enumIt = vkData->enums.find( *depIt->dependencies.begin() );
 									assert( enumIt != vkData->enums.end() );
 									if( enumIt->second.members.empty() )
 										ofs << " = " << commandData.arguments[ i ].pureType << "()";
