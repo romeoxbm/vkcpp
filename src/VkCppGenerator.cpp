@@ -1480,13 +1480,13 @@ namespace vk
 				if( it != vectorParameters.end() )
 				{
 					assert( commandData.arguments[ it->first ].type.back() == '*' );
-					if( ( returnIndex == it->first ) && commandData.twoStep && firstCall )
+					if( returnIndex == it->first && commandData.twoStep && firstCall )
 						ofs << "nullptr";
 
 					else
 					{
 						auto vkit = vkTypes.find( commandData.arguments[ it->first ].pureType );
-						if( ( vkit != vkTypes.end() ) || ( it->first == templateIndex ) )
+						if( vkit != vkTypes.end() || it->first == templateIndex )
 						{
 							ofs << "reinterpret_cast<";
 							if( commandData.arguments[ it->first ].type.find( "const" ) != std::string::npos )
@@ -1523,7 +1523,7 @@ namespace vk
 							else
 								ofs << "&";
 
-							ofs << _reduceName( commandData.arguments[ i ].name ) << ( commandData.arguments[ i ].optional ? "))" : " )" );
+							ofs << _reduceName( commandData.arguments[ i ].name ) << ( commandData.arguments[ i ].optional ? ") )" : " )" );
 						}
 						else
 						{
