@@ -33,14 +33,17 @@ int main( int argc, char** argv )
 {
 	cmdline::parser cmd;
 	cmd.set_program_name( "VkCppGenerator" );
-	cmd.footer( "<spec file> ..." );
+	cmd.footer( "<spec file>" );
 
 	//Define command line options
 	cmd.add( "cmdline", 'c', "Add a comment in the generated files containing the command line options used" );
-	cmd.add<std::string>( "directory", 'd', "Change the default output directory. Default is", false, "./" );
-	cmd.add<std::string>( "headerext", 'e', "Change the default header extension. Default is", false, ".hpp" );
-	cmd.add<std::string>( "filename", 'f', "Change the default file name (DO NOT specify file extension). Default is", false, "vk_cpp" );
-	cmd.add<std::string>( "guard", 'g', "Change the include guard. Default is", false, "VK_CPP_H_" );
+	cmd.add<std::string>( "directory", 'd', "Change the default output directory. Default value is", false, "./" );
+	cmd.add<std::string>( "headerext", 'e', "Change the default header extension. Default value is", false, ".hpp" );
+	cmd.add<std::string>( "filename", 'f', "Change the default file name (DO NOT specify file extension). Default value is", false, "vk_cpp" );
+	cmd.add<std::string>( "guard", 'g', "Change the include guard. Default value is", false, "VK_CPP_H_" );
+	cmd.add<std::string>( "pch", 'p', "Specify a precompiled header to include in source file (Used if generating separate files). Default value is", false );
+	cmd.add( "separate", 'r', "Generate separate header and source files." );
+	cmd.add<std::string>( "srcext", 's', "Change the default source extension (Used if generating separate files). Default value is", false, ".cc" );
 	cmd.add( "version", 'v', "Print version and exit" );
 	cmd.add( "help", 'h', "Print this message and exit" );
 	cmd.parse_check( argc, argv );
@@ -65,6 +68,12 @@ int main( int argc, char** argv )
 	opt.outDirectory = cmd.get<std::string>( "directory" );
 	opt.headerExt = cmd.get<std::string>( "headerext" );
 	opt.includeGuard = cmd.get<std::string>( "guard" );
+
+	if( cmd.exist( "separate" ) )
+	{
+		opt.srcExt = cmd.get<std::string>( "srcext" );
+		opt.pch = cmd.get<std::string>( "pch" );
+	}
 
 	if( cmd.exist( "cmdline" ) )
 	{

@@ -39,6 +39,8 @@ namespace vk
 			std::string outFileName;
 			std::string outDirectory;
 			std::string headerExt;
+			std::string srcExt;
+			std::string pch;
 			std::string includeGuard;
 			std::string cmdLine;
 		};
