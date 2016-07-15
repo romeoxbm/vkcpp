@@ -64,12 +64,9 @@ namespace vk
 			ofs << nvidiaLicenseHeader << std::endl
 				<< vkData->vulkanLicenseHeader << std::endl
 				<< ( !opt.cmdLine.empty() ? "// Command line options: " + opt.cmdLine : "" )
-				<< std::endl
-				<< std::endl
-				<< "#ifndef " << opt.includeGuard << std::endl
+				<< "\n\n#ifndef " << opt.includeGuard << std::endl
 				<< "#define " << opt.includeGuard << std::endl
-				<< std::endl
-				<< "#include <array>\n"
+				<< "\n#include <array>\n"
 				<< "#include <cassert>\n"
 				<< "#include <cstdint>\n"
 				<< "#include <cstring>\n"
@@ -104,15 +101,14 @@ namespace vk
 			ofs << "} // namespace vk\n\n"
 				<< isErrorCode
 				<< "\nnamespace vk\n"
-				<< "{" << std::endl
+				<< "{\n"
 				<< resultValueHeader
 				<< createResultValueHeader;
 
 			_writeTypes( ofs, vkData, defaultValues );
 			_writeEnumsToString( ofs, vkData );
 
-			ofs << "} // namespace vk" << std::endl
-				<< std::endl
+			ofs << "} // namespace vk\n\n"
 				<< "#endif // " << opt.includeGuard << std::endl;
 		}
 		catch( const std::exception& e )
@@ -160,7 +156,8 @@ namespace vk
 			if( pos != std::string::npos )
 				strippedName.erase( pos, commandData.arguments[ 0 ].pureType.length() );
 
-			else if( commandData.arguments[ 0 ].pureType == "CommandBuffer" && name.find( "cmd" ) == 0 )
+			else if( commandData.arguments[ 0 ].pureType == "CommandBuffer"
+					 && name.find( "cmd" ) == 0 )
 			{
 				strippedName.erase( 0, 3 );
 				pos = 0;
@@ -1202,7 +1199,7 @@ namespace vk
 					}
 					else
 					{
-						bool optional = commandData.arguments[ i ].optional && ( ( it == vectorParameters.end() ) || ( it->second == ~0 ) );
+						bool optional = commandData.arguments[ i ].optional && ( it == vectorParameters.end() || it->second == ~0 );
 						assert( pos != std::string::npos );
 						assert( commandData.arguments[ i ].type[ pos ] == '*' );
 						auto n = _reduceName( commandData.arguments[ i ].name );
@@ -1217,7 +1214,7 @@ namespace vk
 						{
 							assert( !optional );
 							bool isConst = ( commandData.arguments[ i ].type.find( "const" ) != std::string::npos );
-							ofs << "ArrayProxy<" << ( ( templateIndex == i ) ? ( isConst ? "const T" : "T" ) : StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) ) << "> " << n;
+							ofs << "ArrayProxy<" << ( templateIndex == i ? ( isConst ? "const T" : "T" ) : StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) ) << "> " << n;
 						}
 					}
 					argEncountered = true;
