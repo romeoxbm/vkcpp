@@ -28,15 +28,21 @@
 #include <cassert>
 #include <iostream>
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
+
+#define EXT_BASE 1000000000
+#define EXT_BLOCK_SIZE 1000
 
 namespace vk
 {
-	void EnumData::addEnum( std::string const & name, std::string const& tag, bool appendTag )
+	void EnumData::addEnum( std::string const& name, std::string const& value,
+							std::string const& tag, bool appendTag )
 	{
-		assert( tag.empty() || ( name.find( tag ) != std::string::npos ) );
+		assert( value.empty() || tag.empty() || name.find( tag ) != std::string::npos );
 		members.push_back( NameValue() );
 		members.back().name = "e" + StringsHelper::toCamelCase( StringsHelper::strip( name, prefix, tag ) );
-		members.back().value = name;
+		members.back().value = value + ", //" + name;
 		if( !postfix.empty() )
 		{
 			size_t pos = members.back().name.find( postfix );
@@ -46,7 +52,8 @@ namespace vk
 		if( appendTag && !tag.empty() )
 			members.back().name += tag;
 	}
-
+	//--------------------------------------------------------------------------
+	//--------------------------------------------------------------------------
 	SpecParser::SpecParser()
 	{}
 	//--------------------------------------------------------------------------
@@ -115,6 +122,40 @@ namespace vk
 	std::string SpecParser::_getEnumName( std::string const& name ) const
 	{
 		return StringsHelper::strip( name, "Vk" );
+	}
+	//--------------------------------------------------------------------------
+	std::string SpecParser::_getEnumValue( tinyxml2::XMLElement* element ) const
+	{
+		assert( !!element->Attribute( "bitpos" )
+				|| !!element->Attribute( "offset" )
+				|| !!element->Attribute( "value" )
+		);
+
+		std::stringstream ss;
+
+		if( !!element->Attribute( "value" ) )
+			ss << element->Attribute( "value" );
+
+		else if( !!element->Attribute( "bitpos" ) )
+		{
+			auto bitpos = element->IntAttribute( "bitpos" );
+			bitpos = 1 << bitpos;
+			ss << "0x" << std::hex << std::setfill( '0' )
+			   << std::setw( 8 ) << bitpos;
+		}
+		else if( !!element->Attribute( "offset" ) )
+		{
+			auto offset = element->IntAttribute( "offset" );
+			auto dir = element->Attribute( "dir" );
+			auto extnumber = element->Parent()->Parent()->ToElement()->IntAttribute( "number" );
+			auto numVal = EXT_BASE + ( extnumber - 1 ) * EXT_BLOCK_SIZE + offset;
+			if( dir )
+				numVal *= -1;
+
+			ss << std::dec << numVal;
+		}
+
+		return ss.str();
 	}
 	//--------------------------------------------------------------------------
 	std::string SpecParser::_stripCommand( std::string const& value ) const
@@ -403,20 +444,22 @@ namespace vk
 		vkData->vkTypes.insert( name );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::_readEnumsEnum( tinyxml2::XMLElement* element, EnumData& enumData,
-									std::string const& tag ) const
+	void SpecParser::_readEnumsEnum( tinyxml2::XMLElement* element,
+									 EnumData& enumData,
+									 std::string const& tag ) const
 	{
 		auto child = element->FirstChildElement();
 		do
 		{
 			auto nameAttr = child->Attribute( "name" );
 			if( nameAttr )
-				enumData.addEnum( nameAttr, tag, false );
+				enumData.addEnum( nameAttr, _getEnumValue( child ), tag, false );
 
 		} while( child = child->NextSiblingElement() );
 	}
 	//--------------------------------------------------------------------------
-	void SpecParser::_readExtensions( tinyxml2::XMLElement* element, SpecData* vkData ) const
+	void SpecParser::_readExtensions( tinyxml2::XMLElement* element,
+									  SpecData* vkData ) const
 	{
 		auto child = element->FirstChildElement();
 		assert( child );
@@ -483,20 +526,20 @@ namespace vk
 
 						// if the enum of this flags is auto-generated, protect it as well
 						std::string enumName = _generateEnumNameForFlags( name );
-						std::map<std::string, EnumData>::iterator eit = vkData->enums.find( enumName );
+						auto eit = vkData->enums.find( enumName );
 						assert( eit != vkData->enums.end() );
 						if( eit->second.members.empty() )
 							eit->second.protect = protect;
 					}
 					else
 					{
-						std::map<std::string, ScalarData>::iterator scit = vkData->scalars.find( name );
+						auto scit = vkData->scalars.find( name );
 						if( scit != vkData->scalars.end() )
 							scit->second.protect = protect;
 
 						else
 						{
-							std::map<std::string, StructData>::iterator stit = vkData->structs.find( name );
+							auto stit = vkData->structs.find( name );
 							assert( stit != vkData->structs.end() && stit->second.protect.empty() );
 							stit->second.protect = protect;
 						}
@@ -508,10 +551,15 @@ namespace vk
 				// TODO process enums which don't extend existing enums
 				if( child->Attribute( "extends" ) )
 				{
-					assert( child->Attribute( "name" ) );
-					assert( vkData->enums.find( _getEnumName( child->Attribute( "extends" ) ) ) != vkData->enums.end() );
-					assert( !!child->Attribute( "bitpos" ) + !!child->Attribute( "offset" ) + !!child->Attribute( "value" ) == 1 );
-					vkData->enums[ _getEnumName( child->Attribute( "extends" ) ) ].addEnum( child->Attribute( "name" ), child->Attribute( "value" ) ? "" : tag, true );
+					auto enumName = _getEnumName( child->Attribute( "extends" ) );
+					assert( vkData->enums.find( enumName ) != vkData->enums.end() );
+
+					vkData->enums[ enumName ].addEnum(
+								child->Attribute( "name" ),
+								_getEnumValue( child ),
+								child->Attribute( "value" ) ? "" : tag,
+								true
+					);
 				}
 			}
 			else
@@ -761,29 +809,27 @@ namespace vk
 		}
 
 		child = child->NextSibling();
-		if( !child )
+		if( !child || !child->ToText() )
 			return;
 
 		assert( member.arraySize.empty() );
-		if( child->ToText() )
+
+		std::string value = child->Value();
+		if( value == "[" )
 		{
-			std::string value = child->Value();
-			if( value == "[" )
-			{
-				child = child->NextSibling();
-				assert( child && child->ToElement() && strcmp( child->Value(), "enum" ) == 0 );
-				member.arraySize = child->ToElement()->GetText();
-				child = child->NextSibling();
-				assert( child && child->ToText() );
-				assert( strcmp( child->Value(), "]" ) == 0 );
-				assert( !child->NextSibling() );
-			}
-			else
-			{
-				assert( value.front() == '[' && value.back() == ']' );
-				member.arraySize = value.substr( 1, value.length() - 2 );
-				assert( !child->NextSibling() );
-			}
+			child = child->NextSibling();
+			assert( child && child->ToElement() && strcmp( child->Value(), "enum" ) == 0 );
+			member.arraySize = child->ToElement()->GetText();
+			child = child->NextSibling();
+			assert( child && child->ToText() );
+			assert( strcmp( child->Value(), "]" ) == 0 );
+			assert( !child->NextSibling() );
+		}
+		else
+		{
+			assert( value.front() == '[' && value.back() == ']' );
+			member.arraySize = value.substr( 1, value.length() - 2 );
+			assert( !child->NextSibling() );
 		}
 	}
 	//--------------------------------------------------------------------------
@@ -855,28 +901,25 @@ namespace vk
 		}
 
 		child = child->NextSibling();
-		if( !child )
+		if( !child || !child->ToText() )
 			return;
 
-		if( child->ToText() )
+		std::string value = child->Value();
+		if( value == "[" )
 		{
-			std::string value = child->Value();
-			if( value == "[" )
-			{
-				child = child->NextSibling();
-				assert( child && child->ToElement() && strcmp( child->Value(), "enum" ) == 0 );
-				member.arraySize = child->ToElement()->GetText();
-				child = child->NextSibling();
-				assert( child && child->ToText() );
-				assert( strcmp( child->Value(), "]" ) == 0 );
-				assert( !child->NextSibling() );
-			}
-			else
-			{
-				assert( value.front() == '[' && value.back() == ']' );
-				member.arraySize = value.substr( 1, value.length() - 2 );
-				assert( !child->NextSibling() );
-			}
+			child = child->NextSibling();
+			assert( child && child->ToElement() && strcmp( child->Value(), "enum" ) == 0 );
+			member.arraySize = child->ToElement()->GetText();
+			child = child->NextSibling();
+			assert( child && child->ToText() );
+			assert( strcmp( child->Value(), "]" ) == 0 );
+			assert( !child->NextSibling() );
+		}
+		else
+		{
+			assert( value.front() == '[' && value.back() == ']' );
+			member.arraySize = value.substr( 1, value.length() - 2 );
+			assert( !child->NextSibling() );
 		}
 	}
 }

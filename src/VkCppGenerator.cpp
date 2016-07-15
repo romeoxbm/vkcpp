@@ -661,11 +661,8 @@ namespace vk
 		ofs << "  enum class " << dependencyData.name << "\n  {\n";
 		for( size_t i = 0; i < enumData.members.size(); i++ )
 		{
-			ofs << "    " << enumData.members[ i ].name << " = " << enumData.members[ i ].value;
-			if( i < enumData.members.size() - 1 )
-				ofs << ",";
-
-			ofs << std::endl;
+			ofs << "    " << enumData.members[ i ].name << " = "
+				<< enumData.members[ i ].value << std::endl;
 		}
 		ofs << "  };\n";
 		_leaveProtect( ofs, enumData.protect );

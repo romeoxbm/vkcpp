@@ -99,8 +99,9 @@ namespace vk
 		std::vector<NameValue>	members;
 		std::string				protect;
 
-		void addEnum( std::string const& name, std::string const& tag,
-			bool appendTag );
+		void addEnum( std::string const& name, std::string const& value,
+					  std::string const& tag,
+					  bool appendTag );
 	};
 
 	struct FlagData
@@ -157,6 +158,8 @@ namespace vk
 		 * @brief get vkcpp enum name from vk enum name.
 		 */
 		std::string _getEnumName( std::string const& name ) const;
+
+		std::string _getEnumValue( tinyxml2::XMLElement* element ) const;
 
 		std::string _stripCommand( std::string const& value ) const;
 
