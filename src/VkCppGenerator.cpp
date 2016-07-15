@@ -37,29 +37,29 @@
 
 namespace vk
 {
-	int CppGenerator::generate( const Options& opt )
+	int CppGenerator::generate( const Options& opt ) const
 	{
 		SpecParser parser;
 		auto vkData = parser.parse( opt.inputFile );
 		if( !vkData )
 			return -1;
 
+		auto lastDirChar = opt.outDirectory[ opt.outDirectory.size() - 1 ];
+		auto hasDirTrailingSlash = lastDirChar != '\\' || lastDirChar != '/';
+		auto sep = !hasDirTrailingSlash ? "/" : "";
+
+		auto he = opt.headerExt[ 0 ] == '.' ? opt.headerExt : "." + opt.headerExt;
+
+		auto dest = opt.outDirectory + sep + opt.outFileName + he;
+
+		std::cout << "Writing to \"" << dest << "\"\n";
+		_sortDependencies( vkData->dependencies );
+
+		std::map<std::string, std::string> defaultValues;
+		_createDefaults( vkData, defaultValues );
+
 		try
 		{
-			auto lastDirChar = opt.outDirectory[ opt.outDirectory.size() - 1 ];
-			auto hasDirTrailingSlash = lastDirChar != '\\' || lastDirChar != '/';
-			auto sep = !hasDirTrailingSlash ? "/" : "";
-
-			auto he = opt.headerExt[ 0 ] == '.' ? opt.headerExt : "." + opt.headerExt;
-
-			auto dest = opt.outDirectory + sep + opt.outFileName + he;
-
-			std::cout << "Writing to \"" << dest << "\"\n";
-			_sortDependencies( vkData->dependencies );
-
-			std::map<std::string, std::string> defaultValues;
-			_createDefaults( vkData, defaultValues );
-
 			std::ofstream ofs( dest );
 			ofs << nvidiaLicenseHeader << std::endl
 				<< vkData->vulkanLicenseHeader << std::endl
@@ -68,23 +68,22 @@ namespace vk
 				<< "#ifndef " << opt.includeGuard << std::endl
 				<< "#define " << opt.includeGuard << std::endl
 				<< std::endl
-				<< "#include <array>" << std::endl
-				<< "#include <cassert>" << std::endl
-				<< "#include <cstdint>" << std::endl
-				<< "#include <cstring>" << std::endl
-				<< "#include <string>" << std::endl
-				<< "#include <system_error>" << std::endl
-				<< "#include <vulkan/vulkan.h>" << std::endl
-				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE" << std::endl
-				<< "# include <vector>" << std::endl
-				<< "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl
-				<< std::endl;
+				<< "#include <array>\n"
+				<< "#include <cassert>\n"
+				<< "#include <cstdint>\n"
+				<< "#include <cstring>\n"
+				<< "#include <string>\n"
+				<< "#include <system_error>\n"
+				<< "#include <vulkan/vulkan.h>\n"
+				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE\n"
+				<< "#	include <vector>\n"
+				<< "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
 
 			_writeVersionCheck( ofs, vkData->version );
 			_writeTypesafeCheck( ofs, vkData->typesafeCheck );
 			ofs << versionCheckHeader
-				<< "namespace vk" << std::endl
-				<< "{" << std::endl
+				<< "namespace vk\n"
+				<< "{\n"
 				<< flagsHeader
 				<< optionalClassHeader
 				<< arrayProxyHeader;
@@ -101,11 +100,9 @@ namespace vk
 			vkData->dependencies.erase( it );
 			ofs << exceptionHeader;
 
-			ofs << "} // namespace vk" << std::endl
-				<< std::endl
+			ofs << "} // namespace vk\n\n"
 				<< isErrorCode
-				<< std::endl
-				<< "namespace vk" << std::endl
+				<< "\nnamespace vk\n"
 				<< "{" << std::endl
 				<< resultValueHeader
 				<< createResultValueHeader;
@@ -130,9 +127,64 @@ namespace vk
 
 		return 0;
 	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_enterProtect( std::ofstream& ofs,
+									  std::string const& protect ) const
+	{
+		if( !protect.empty() )
+			ofs << "#ifdef " << protect << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_leaveProtect( std::ofstream& ofs,
+									  std::string const& protect ) const
+	{
+		if( !protect.empty() )
+			ofs << "#endif /*" << protect << "*/" << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_sortDependencies( std::list<DependencyData>& dependencies ) const
+	{
+		std::set<std::string> listedTypes = { "VkFlags" };
+		std::list<DependencyData> sortedDependencies;
 
+		while( !dependencies.empty() )
+		{
+	#if !defined(NDEBUG)
+			bool ok = false;
+	#endif
+			for( auto it = dependencies.begin(); it != dependencies.end(); ++it )
+			{
+				if( _noDependencies( it->dependencies, listedTypes ) )
+				{
+					sortedDependencies.push_back( *it );
+					listedTypes.insert( it->name );
+					dependencies.erase( it );
+	#if !defined(NDEBUG)
+					ok = true;
+	#endif
+					break;
+				}
+			}
+			assert( ok );
+		}
+
+		dependencies.swap( sortedDependencies );
+	}
+	//--------------------------------------------------------------------------
+	bool CppGenerator::_noDependencies( std::set<std::string> const& dependencies,
+										std::set<std::string>& listedTypes ) const
+	{
+		for( auto& it : dependencies )
+		{
+			if( listedTypes.find( it ) == listedTypes.end() )
+				return false;
+		}
+
+		return true;
+	}
+	//--------------------------------------------------------------------------
 	void CppGenerator::_createDefaults( SpecData* vkData,
-									   std::map<std::string, std::string>& defaultValues )
+										std::map<std::string, std::string>& defaultValues ) const
 	{
 		for( auto& it : vkData->dependencies )
 		{
@@ -145,7 +197,7 @@ namespace vk
 				case DependencyData::Category::ENUM:
 				{
 					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
-					EnumData const & enumData = vkData->enums.find( it.name )->second;
+					auto& enumData = vkData->enums.find( it.name )->second;
 					auto value = it.name;
 
 					if( !enumData.members.empty() )
@@ -179,8 +231,142 @@ namespace vk
 			}
 		}
 	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeVersionCheck( std::ofstream& ofs,
+										  std::string const& version ) const
+	{
+		ofs << "static_assert( VK_HEADER_VERSION == " << version
+			<< " , \"Wrong VK_HEADER_VERSION!\" );\n\n";
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypesafeCheck( std::ofstream& ofs,
+											std::string const& typesafeCheck ) const
+	{
+		ofs << "// 32-bit vulkan is not typesafe for handles, so don't allow copy constructors on this platform by default.\n"
+			<< "// To enable this feature on 32-bit platforms please define VK_CPP_TYPESAFE_CONVERSION\n"
+			<< typesafeCheck << std::endl
+			<< "#define VK_CPP_TYPESAFE_CONVERSION 1\n"
+			<< "#endif\n\n";
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeEnum( std::ofstream& ofs,
+									   DependencyData const& dependencyData,
+									   EnumData const& enumData ) const
+	{
+		_enterProtect( ofs, enumData.protect );
+		ofs << "  enum class " << dependencyData.name << std::endl
+			<< "  {" << std::endl;
+		for( size_t i = 0; i < enumData.members.size(); i++ )
+		{
+			ofs << "    " << enumData.members[ i ].name << " = " << enumData.members[ i ].value;
+			if( i < enumData.members.size() - 1 )
+				ofs << ",";
 
-	std::string CppGenerator::_determineFunctionName( std::string const& name, CommandData const& commandData )
+			ofs << std::endl;
+		}
+		ofs << "  };" << std::endl;
+		_leaveProtect( ofs, enumData.protect );
+		ofs << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeEnumsToString( std::ofstream& ofs,
+											DependencyData const& dependencyData,
+											EnumData const& enumData ) const
+	{
+		_enterProtect( ofs, enumData.protect );
+		ofs << "  inline std::string to_string( " << dependencyData.name << ( enumData.members.empty() ? " )" : " value )" ) << std::endl
+			<< "  {" << std::endl;
+		if( enumData.members.empty() )
+			ofs << "    return \"(void)\";" << std::endl;
+		else
+		{
+			ofs << "    switch( value )" << std::endl
+				<< "    {" << std::endl;
+			for( auto& itMember : enumData.members )
+			{
+				ofs << "    case " << dependencyData.name << "::"
+					<< itMember.name << ": return \""
+					<< itMember.name.substr( 1 ) << "\";\n";
+			}
+			ofs << "    default: return \"invalid\";" << std::endl
+				<< "    }" << std::endl;
+		}
+		ofs << "  }" << std::endl;
+		_leaveProtect( ofs, enumData.protect );
+		ofs << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypes( std::ofstream& ofs, SpecData* vkData,
+									std::map<std::string, std::string> const& defaultValues ) const
+	{
+		for( auto& it : vkData->dependencies )
+		{
+			switch( it.category )
+			{
+				case DependencyData::Category::COMMAND:
+					_writeTypeCommand( ofs, vkData, it );
+					break;
+
+				case DependencyData::Category::ENUM:
+					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
+					_writeTypeEnum( ofs, it, vkData->enums.find( it.name )->second );
+					break;
+
+				case DependencyData::Category::FLAGS:
+					assert( vkData->flags.find( it.name ) != vkData->flags.end() );
+					_writeTypeFlags( ofs, it, vkData->flags.find( it.name )->second );
+					break;
+
+				case DependencyData::Category::FUNC_POINTER:
+				case DependencyData::Category::REQUIRED:
+					// skip FUNC_POINTER and REQUIRED, they just needed to be in the dependencies list to resolve dependencies
+					break;
+
+				case DependencyData::Category::HANDLE:
+					assert( vkData->handles.find( it.name ) != vkData->handles.end() );
+					_writeTypeHandle( ofs, vkData, it, vkData->handles.find( it.name )->second, vkData->dependencies );
+					break;
+
+				case DependencyData::Category::SCALAR:
+					_writeTypeScalar( ofs, it );
+					break;
+
+				case DependencyData::Category::STRUCT:
+					_writeTypeStruct( ofs, vkData, it, defaultValues );
+					break;
+
+				case DependencyData::Category::UNION:
+					assert( vkData->structs.find( it.name ) != vkData->structs.end() );
+					_writeTypeUnion( ofs, vkData, it, vkData->structs.find( it.name )->second, defaultValues );
+					break;
+
+				default:
+					assert( false );
+					break;
+			}
+		}
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeCommand( std::ofstream& ofs, SpecData* vkData,
+										  DependencyData const& dependencyData ) const
+	{
+		auto it = vkData->commands.find( dependencyData.name );
+		assert( it != vkData->commands.end() );
+		auto& commandData = it->second;
+		if( !commandData.handleCommand )
+		{
+			_writeTypeCommandStandard( ofs, "  ", dependencyData.name, dependencyData, commandData, vkData->vkTypes );
+
+			ofs << std::endl
+				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
+			_writeTypeCommandEnhanced( ofs, vkData, "  ", "", dependencyData.name, dependencyData, commandData );
+			ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl
+				<< std::endl;
+		}
+	}
+
+	std::string CppGenerator::_determineFunctionName( std::string const& name,
+													  CommandData const& commandData ) const
 	{
 		if( commandData.handleCommand )
 		{
@@ -211,7 +397,9 @@ namespace vk
 		return name;
 	}
 
-	std::string CppGenerator::_determineReturnType( CommandData const& commandData, size_t returnIndex, bool isVector )
+	std::string CppGenerator::_determineReturnType( CommandData const& commandData,
+													size_t returnIndex,
+													bool isVector ) const
 	{
 		std::string returnType;
 		if( ( returnIndex != ~0 )
@@ -251,18 +439,6 @@ namespace vk
 		return returnType;
 	}
 
-	void CppGenerator::_enterProtect( std::ofstream& ofs, std::string const& protect ) const
-	{
-		if( !protect.empty() )
-			ofs << "#ifdef " << protect << std::endl;
-	}
-
-	void CppGenerator::_leaveProtect( std::ofstream& ofs, std::string const& protect ) const
-	{
-		if( !protect.empty() )
-			ofs << "#endif /*" << protect << "*/" << std::endl;
-	}
-
 	std::string CppGenerator::_reduceName( std::string const& name ) const
 	{
 		std::string reducedName;
@@ -277,7 +453,7 @@ namespace vk
 		return reducedName;
 	}
 
-	size_t CppGenerator::_findReturnIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters )
+	size_t CppGenerator::_findReturnIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters ) const
 	{
 		if( ( commandData.returnType == "Result" ) || ( commandData.returnType == "void" ) )
 		{
@@ -299,7 +475,7 @@ namespace vk
 		return ~0;
 	}
 
-	size_t CppGenerator::_findTemplateIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters )
+	size_t CppGenerator::_findTemplateIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters ) const
 	{
 		for( size_t i = 0; i < commandData.arguments.size(); i++ )
 		{
@@ -312,7 +488,7 @@ namespace vk
 		return ~0;
 	}
 
-	std::map<size_t, size_t> CppGenerator::_getVectorParameters( CommandData const& commandData )
+	std::map<size_t, size_t> CppGenerator::_getVectorParameters( CommandData const& commandData ) const
 	{
 		std::map<size_t, size_t> lenParameters;
 		for( size_t i = 0; i < commandData.arguments.size(); i++ )
@@ -337,7 +513,7 @@ namespace vk
 		return lenParameters;
 	}
 
-	bool CppGenerator::_hasPointerArguments( CommandData const& commandData )
+	bool CppGenerator::_hasPointerArguments( CommandData const& commandData ) const
 	{
 		for( size_t i = 0; i < commandData.arguments.size(); i++ )
 		{
@@ -349,7 +525,7 @@ namespace vk
 		return false;
 	}
 
-	bool CppGenerator::_isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters, size_t idx )
+	bool CppGenerator::_isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters, size_t idx ) const
 	{
 		for( auto& it : vectorParameters )
 		{
@@ -359,53 +535,12 @@ namespace vk
 		return false;
 	}
 
-	bool CppGenerator::_noDependencies( std::set<std::string> const& dependencies,
-										std::set<std::string>& listedTypes ) const
-	{
-		for( auto& it : dependencies )
-		{
-			if( listedTypes.find( it ) == listedTypes.end() )
-				return false;
-		}
-
-		return true;
-	}
-
-	void CppGenerator::_sortDependencies( std::list<DependencyData>& dependencies ) const
-	{
-		std::set<std::string> listedTypes = { "VkFlags" };
-		std::list<DependencyData> sortedDependencies;
-
-		while( !dependencies.empty() )
-		{
-	#if !defined(NDEBUG)
-			bool ok = false;
-	#endif
-			for( auto it = dependencies.begin(); it != dependencies.end(); ++it )
-			{
-				if( _noDependencies( it->dependencies, listedTypes ) )
-				{
-					sortedDependencies.push_back( *it );
-					listedTypes.insert( it->name );
-					dependencies.erase( it );
-	#if !defined(NDEBUG)
-					ok = true;
-	#endif
-					break;
-				}
-			}
-			assert( ok );
-		}
-
-		dependencies.swap( sortedDependencies );
-	}
-
 	void CppGenerator::_writeCall( std::ofstream& ofs, std::string const& name,
 								   size_t templateIndex,
 								   CommandData const& commandData,
 								   std::set<std::string> const& vkTypes,
 								   std::map<size_t, size_t> const& vectorParameters,
-								   size_t returnIndex, bool firstCall )
+								   size_t returnIndex, bool firstCall ) const
 	{
 		std::map<size_t, size_t> countIndices;
 		for( auto& it : vectorParameters )
@@ -566,7 +701,7 @@ namespace vk
 										   CommandData const& commandData,
 										   std::set<std::string> const& vkTypes,
 										   size_t returnIndex,
-										   std::map<size_t, size_t> const& vectorParameters )
+										   std::map<size_t, size_t> const& vectorParameters ) const
 	{
 		ofs << indentation << "{" << std::endl;
 
@@ -757,7 +892,7 @@ namespace vk
 											CommandData const& commandData,
 											size_t returnIndex,
 											size_t templateIndex,
-											std::map<size_t, size_t> const& vectorParameters )
+											std::map<size_t, size_t> const& vectorParameters ) const
 	{
 		std::set<size_t> skippedArguments;
 		for( auto& it : vectorParameters )
@@ -908,7 +1043,7 @@ namespace vk
 
 	void CppGenerator::_writeMemberData( std::ofstream& ofs,
 										 MemberData const& memberData,
-										 std::set<std::string> const& vkTypes )
+										 std::set<std::string> const& vkTypes ) const
 	{
 		if( vkTypes.find( memberData.pureType ) != vkTypes.end() )
 		{
@@ -934,7 +1069,7 @@ namespace vk
 												StructData const& structData,
 												std::set<std::string> const& /*vkTypes*/, //Unused variable
 												std::map<std::string,
-												std::string> const& defaultValues )
+												std::string> const& defaultValues ) const
 	{
 		// the constructor with all the elements as arguments, with defaults
 		ofs << "    " << name << "( ";
@@ -1020,7 +1155,7 @@ namespace vk
 	void CppGenerator::_writeStructSetter( std::ofstream& ofs,
 										   std::string const& name,
 										   MemberData const& memberData,
-										   std::set<std::string> const& /*vkTypes*/ ) //Unused variable
+										   std::set<std::string> const& /*vkTypes*/ ) const //Unused variable
 	{
 		ofs << "    " << name << "& set" << static_cast<char>( toupper( memberData.name[ 0 ] ) ) << memberData.name.substr( 1 ) << "( ";
 		if( memberData.arraySize.empty() )
@@ -1045,29 +1180,12 @@ namespace vk
 			<< std::endl;
 	}
 
-	void CppGenerator::_writeTypeCommand( std::ofstream& ofs, SpecData* vkData,
-										  DependencyData const& dependencyData )
-	{
-		assert( vkData->commands.find( dependencyData.name ) != vkData->commands.end() );
-		CommandData const& commandData = vkData->commands.find( dependencyData.name )->second;
-		if( !commandData.handleCommand )
-		{
-			_writeTypeCommandStandard( ofs, "  ", dependencyData.name, dependencyData, commandData, vkData->vkTypes );
-
-			ofs << std::endl
-				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
-			_writeTypeCommandEnhanced( ofs, vkData, "  ", "", dependencyData.name, dependencyData, commandData );
-			ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl
-				<< std::endl;
-		}
-	}
-
 	void CppGenerator::_writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
 												 std::string const& indentation,
 												 std::string const& className,
 												 std::string const& functionName,
 												 DependencyData const& dependencyData,
-												 CommandData const& commandData )
+												 CommandData const& commandData ) const
 	{
 		_enterProtect( ofs, commandData.protect );
 		std::map<size_t, size_t> vectorParameters = _getVectorParameters( commandData );
@@ -1086,7 +1204,7 @@ namespace vk
 												  std::string const& functionName,
 												  DependencyData const& dependencyData,
 												  CommandData const& commandData,
-												  std::set<std::string> const& vkTypes )
+												  std::set<std::string> const& vkTypes ) const
 	{
 		_enterProtect( ofs, commandData.protect );
 		ofs << indentation;
@@ -1147,57 +1265,9 @@ namespace vk
 		_leaveProtect( ofs, commandData.protect );
 	}
 
-	void CppGenerator::_writeTypeEnum( std::ofstream& ofs,
-									   DependencyData const& dependencyData,
-									   EnumData const& enumData )
-	{
-		_enterProtect( ofs, enumData.protect );
-		ofs << "  enum class " << dependencyData.name << std::endl
-			<< "  {" << std::endl;
-		for( size_t i = 0; i < enumData.members.size(); i++ )
-		{
-			ofs << "    " << enumData.members[ i ].name << " = " << enumData.members[ i ].value;
-			if( i < enumData.members.size() - 1 )
-				ofs << ",";
-
-			ofs << std::endl;
-		}
-		ofs << "  };" << std::endl;
-		_leaveProtect( ofs, enumData.protect );
-		ofs << std::endl;
-	}
-
-	void CppGenerator::_writeEnumsToString( std::ofstream& ofs,
-											DependencyData const& dependencyData,
-											EnumData const& enumData )
-	{
-		_enterProtect( ofs, enumData.protect );
-		ofs << "  inline std::string to_string(" << dependencyData.name << ( enumData.members.empty() ? ")" : " value)" ) << std::endl
-			<< "  {" << std::endl;
-		if( enumData.members.empty() )
-			ofs << "    return \"(void)\";" << std::endl;
-
-		else
-		{
-			ofs << "    switch (value)" << std::endl
-				<< "    {" << std::endl;
-			for( auto itMember = enumData.members.begin(); itMember != enumData.members.end(); ++itMember )
-			{
-				ofs << "    case " << dependencyData.name << "::"
-					<< itMember->name << ": return \""
-					<< itMember->name.substr( 1 ) << "\";\n";
-			}
-			ofs << "    default: return \"invalid\";" << std::endl
-				<< "    }" << std::endl;
-		}
-		ofs << "  }" << std::endl;
-		_leaveProtect( ofs, enumData.protect );
-		ofs << std::endl;
-	}
-
 	void CppGenerator::_writeFlagsToString( std::ofstream& ofs,
 											DependencyData const& dependencyData,
-											EnumData const &enumData )
+											EnumData const &enumData ) const
 	{
 		_enterProtect( ofs, enumData.protect );
 		std::string enumPrefix = *dependencyData.dependencies.begin() + "::";
@@ -1221,7 +1291,7 @@ namespace vk
 		ofs << std::endl;
 	}
 
-	void CppGenerator::_writeEnumsToString( std::ofstream& ofs, SpecData* vkData )
+	void CppGenerator::_writeEnumsToString( std::ofstream& ofs, SpecData* vkData ) const
 	{
 		for( auto& it : vkData->dependencies )
 		{
@@ -1241,7 +1311,7 @@ namespace vk
 
 	void CppGenerator::_writeTypeFlags( std::ofstream& ofs,
 										DependencyData const& dependencyData,
-										FlagData const& flagData )
+										FlagData const& flagData ) const
 	{
 		assert( dependencyData.dependencies.size() == 1 );
 		_enterProtect( ofs, flagData.protect );
@@ -1258,7 +1328,7 @@ namespace vk
 	void CppGenerator::_writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
 										DependencyData const& dependencyData,
 										HandleData const& handle,
-										std::list<DependencyData> const& dependencies )
+										std::list<DependencyData> const& dependencies ) const
 	{
 		std::string memberName = dependencyData.name;
 		assert( isupper( memberName[ 0 ] ) );
@@ -1344,7 +1414,7 @@ namespace vk
 	}
 
 	void CppGenerator::_writeTypeScalar( std::ofstream& ofs,
-										 DependencyData const& dependencyData )
+										 DependencyData const& dependencyData ) const
 	{
 		assert( dependencyData.dependencies.size() == 1 );
 		ofs << "  using " << dependencyData.name << " = " << *dependencyData.dependencies.begin() << ";" << std::endl
@@ -1353,7 +1423,7 @@ namespace vk
 
 	void CppGenerator::_writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
 										DependencyData const& dependencyData,
-										std::map<std::string, std::string> const& defaultValues )
+										std::map<std::string, std::string> const& defaultValues ) const
 	{
 		auto it = vkData->structs.find( dependencyData.name );
 		assert( it != vkData->structs.end() );
@@ -1410,7 +1480,7 @@ namespace vk
 	void CppGenerator::_writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
 									   DependencyData const& dependencyData,
 									   StructData const& unionData,
-									   std::map<std::string, std::string> const& defaultValues )
+									   std::map<std::string, std::string> const& defaultValues ) const
 	{
 		//Unused variable
 		//std::ostringstream oss;
@@ -1502,75 +1572,6 @@ namespace vk
 			ofs << "#endif  // VK_CPP_HAS_UNRESTRICTED_UNIONS" << std::endl;
 
 		ofs << "  };" << std::endl
-			<< std::endl;
-	}
-
-	void CppGenerator::_writeTypes( std::ofstream& ofs, SpecData* vkData,
-								   std::map<std::string, std::string> const& defaultValues )
-	{
-		for( auto& it : vkData->dependencies )
-		{
-			switch( it.category )
-			{
-				case DependencyData::Category::COMMAND:
-					_writeTypeCommand( ofs, vkData, it );
-					break;
-
-				case DependencyData::Category::ENUM:
-					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
-					_writeTypeEnum( ofs, it, vkData->enums.find( it.name )->second );
-					break;
-
-				case DependencyData::Category::FLAGS:
-					assert( vkData->flags.find( it.name ) != vkData->flags.end() );
-					_writeTypeFlags( ofs, it, vkData->flags.find( it.name )->second );
-					break;
-
-				case DependencyData::Category::FUNC_POINTER:
-				case DependencyData::Category::REQUIRED:
-					// skip FUNC_POINTER and REQUIRED, they just needed to be in the dependencies list to resolve dependencies
-					break;
-
-				case DependencyData::Category::HANDLE:
-					assert( vkData->handles.find( it.name ) != vkData->handles.end() );
-					_writeTypeHandle( ofs, vkData, it, vkData->handles.find( it.name )->second, vkData->dependencies );
-					break;
-
-				case DependencyData::Category::SCALAR:
-					_writeTypeScalar( ofs, it );
-					break;
-
-				case DependencyData::Category::STRUCT:
-					_writeTypeStruct( ofs, vkData, it, defaultValues );
-					break;
-
-				case DependencyData::Category::UNION:
-					assert( vkData->structs.find( it.name ) != vkData->structs.end() );
-					_writeTypeUnion( ofs, vkData, it, vkData->structs.find( it.name )->second, defaultValues );
-					break;
-
-				default:
-					assert( false );
-					break;
-			}
-		}
-	}
-
-	void CppGenerator::_writeVersionCheck( std::ofstream& ofs,
-										  std::string const& version )
-	{
-		ofs << "static_assert( VK_HEADER_VERSION == " << version << " , \"Wrong VK_HEADER_VERSION!\" );" << std::endl
-			<< std::endl;
-	}
-
-	void CppGenerator::_writeTypesafeCheck( std::ofstream& ofs,
-											std::string const& typesafeCheck )
-	{
-		ofs << "// 32-bit vulkan is not typesafe for handles, so don't allow copy constructors on this platform by default." << std::endl
-			<< "// To enable this feature on 32-bit platforms please define VK_CPP_TYPESAFE_CONVERSION" << std::endl
-			<< typesafeCheck << std::endl
-			<< "#define VK_CPP_TYPESAFE_CONVERSION 1" << std::endl
-			<< "#endif" << std::endl
 			<< std::endl;
 	}
 } // end of vk namespace
