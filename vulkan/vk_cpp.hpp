@@ -24,7 +24,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 // Copyright (c) 2015-2016 The Khronos Group Inc.
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -50,7 +49,6 @@
 #ifndef VK_CPP_H_
 #define VK_CPP_H_
 
-#include <array>
 #include <cassert>
 #include <cstdint>
 #include <cstring>
@@ -58,6 +56,7 @@
 #include <system_error>
 #include <algorithm>
 #include <vulkan/vulkan.h>
+#include <array>
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
 #	include <vector>
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -89,7 +88,7 @@ static_assert( VK_HEADER_VERSION ==  13 , "Wrong VK_HEADER_VERSION!" );
 
 namespace vk
 {
-  template<typename BitType, typename MaskType = VkFlags>
+  template<typename BitType, typename MaskType = uint32_t>
   class Flags
   {
   public:
@@ -17049,5 +17048,4 @@ namespace vk
   }
 
 } // namespace vk
-
 #endif // VK_CPP_H_
