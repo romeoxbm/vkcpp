@@ -49,7 +49,10 @@ namespace vk
 			auto lastDirChar = opt.outDirectory[ opt.outDirectory.size() - 1 ];
 			auto hasDirTrailingSlash = lastDirChar != '\\' || lastDirChar != '/';
 			auto sep = !hasDirTrailingSlash ? "/" : "";
-			auto dest = opt.outDirectory + sep + opt.outFileName + ".h";
+
+			auto he = opt.headerExt[ 0 ] == '.' ? opt.headerExt : "." + opt.headerExt;
+
+			auto dest = opt.outDirectory + sep + opt.outFileName + he;
 
 			std::cout << "Writing to \"" << dest << "\"\n";
 			_sortDependencies( vkData->dependencies );

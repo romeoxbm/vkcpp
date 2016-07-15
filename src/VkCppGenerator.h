@@ -38,6 +38,7 @@ namespace vk
 			std::string inputFile;
 			std::string outFileName;
 			std::string outDirectory;
+			std::string headerExt;
 			std::string includeGuard;
 		};
 

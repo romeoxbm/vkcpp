@@ -14,6 +14,7 @@ int main( int argc, char** argv )
 	cmd.add<std::string>( "guard", 'g', "Change the include guard. Default is", false, "VK_CPP_H_" );
 	cmd.add<std::string>( "fileName", 'f', "Change the default file name (DO NOT specify file extension). Default is", false, "vk_cpp" );
 	cmd.add<std::string>( "directory", 'd', "Change the default output directory. Default is", false, "./" );
+	cmd.add<std::string>( "headerExtension", 'e', "Change the default header extension. Default is", false, ".hpp" );
 	cmd.add( "version", 'v', "Print version and exit" );
 	cmd.add( "help", 'h', "Print this message and exit" );
 	cmd.parse_check( argc, argv );
@@ -36,6 +37,7 @@ int main( int argc, char** argv )
 	opt.inputFile = cmd.rest()[ 0 ];
 	opt.outFileName = cmd.get<std::string>( "fileName" );
 	opt.outDirectory = cmd.get<std::string>( "directory" );
+	opt.headerExt = cmd.get<std::string>( "headerExtension" );
 	opt.includeGuard = cmd.get<std::string>( "guard" );
 
 	return vGen.generate( opt );
