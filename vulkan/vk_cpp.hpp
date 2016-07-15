@@ -46,7 +46,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 
-// This header is generated from the Khronos Vulkan XML API Registry.
+// This header has been auto-generated from the Khronos Vulkan XML API Registry.
 
 
 #ifndef VK_CPP_H_

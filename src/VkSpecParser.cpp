@@ -344,7 +344,7 @@ namespace vk
 		for( size_t pos = header.find( '\n' ); pos != std::string::npos; pos = header.find( '\n', pos + 1 ) )
 			header.replace( pos, 1, "\n// " );
 
-		header += "\n\n// This header is generated from the Khronos Vulkan XML API Registry.";
+		header += "\n\n// This header has been auto-generated from the Khronos Vulkan XML API Registry.";
 	}
 	//--------------------------------------------------------------------------
 	void SpecParser::_readEnums( tinyxml2::XMLElement* element, SpecData* vkData ) const

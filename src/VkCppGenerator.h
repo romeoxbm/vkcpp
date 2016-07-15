@@ -40,6 +40,7 @@ namespace vk
 			std::string outDirectory;
 			std::string headerExt;
 			std::string includeGuard;
+			std::string cmdLine;
 		};
 
 		int generate( const Options& opt ) const;

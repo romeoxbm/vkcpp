@@ -63,6 +63,7 @@ namespace vk
 			std::ofstream ofs( dest );
 			ofs << nvidiaLicenseHeader << std::endl
 				<< vkData->vulkanLicenseHeader << std::endl
+				<< ( !opt.cmdLine.empty() ? "// Command line options: " + opt.cmdLine : "" )
 				<< std::endl
 				<< std::endl
 				<< "#ifndef " << opt.includeGuard << std::endl
