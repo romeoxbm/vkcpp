@@ -45,7 +45,7 @@ namespace vk
 			auto se = opt.srcExt[ 0 ] == '.' ? opt.srcExt : "." + opt.srcExt;
 			dest = opt.outDirectory + sep + opt.outFileName + se;
 
-			std::cout << " and in \"" << dest << "\"";
+			std::cout << " and to \"" << dest << "\"";
 			_src = new std::ofstream( opt.outDirectory + sep + opt.outFileName + se );
 		}
 
