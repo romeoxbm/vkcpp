@@ -61,10 +61,6 @@ namespace vk
 
 		void _writeTypesafeCheck( std::ofstream& ofs, std::string const& typesafeCheck ) const;
 
-		void _writeTypeEnum( std::ofstream& ofs,
-							 DependencyData const& dependencyData,
-							 EnumData const& enumData ) const;
-
 		void _writeEnumsToString( std::ofstream& ofs,
 								  DependencyData const& dependencyData,
 								  EnumData const& enumData ) const;
@@ -77,6 +73,45 @@ namespace vk
 
 		void _writeTypeCommand( std::ofstream& ofs, SpecData* vkData,
 								DependencyData const& dependencyData ) const;
+
+		void _writeTypeCommandStandard( std::ofstream& ofs,
+										std::string const& indentation,
+										std::string const& functionName,
+										DependencyData const& dependencyData,
+										CommandData const& commandData,
+										std::set<std::string> const& vkTypes ) const;
+
+		void _writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
+										std::string const& indentation,
+										std::string const& className,
+										std::string const& functionName,
+										DependencyData const& dependencyData,
+										CommandData const& commandData ) const;
+
+		void _writeTypeEnum( std::ofstream& ofs,
+							 DependencyData const& dependencyData,
+							 EnumData const& enumData ) const;
+
+		void _writeTypeFlags( std::ofstream& ofs,
+							  DependencyData const& dependencyData,
+							  FlagData const& flagData ) const;
+
+		void _writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
+							   DependencyData const& dependencyData,
+							   HandleData const& handle,
+							   std::list<DependencyData> const& dependencies ) const;
+
+		void _writeTypeScalar( std::ofstream& ofs,
+							   DependencyData const& dependencyData ) const;
+
+		void _writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
+							   DependencyData const& dependencyData,
+							   std::map<std::string, std::string> const& defaultValues ) const;
+
+		void _writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
+							  DependencyData const& dependencyData,
+							  StructData const& unionData,
+							  std::map<std::string, std::string> const& defaultValues ) const;
 
 
 
@@ -155,40 +190,9 @@ namespace vk
 								 std::set<std::string> const& vkTypes//,
 								 /*std::map<std::string,StructData> const& structs*/ ) const;
 
-		void _writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
-										std::string const& indentation,
-										std::string const& className,
-										std::string const& functionName,
-										DependencyData const& dependencyData,
-										CommandData const& commandData ) const;
 
-		void _writeTypeCommandStandard( std::ofstream& ofs,
-										std::string const& indentation,
-										std::string const& functionName,
-										DependencyData const& dependencyData,
-										CommandData const& commandData,
-										std::set<std::string> const& vkTypes ) const;
 
-		void _writeTypeFlags( std::ofstream& ofs,
-							  DependencyData const& dependencyData,
-							  FlagData const& flagData ) const;
 
-		void _writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
-							   DependencyData const& dependencyData,
-							   HandleData const& handle,
-							   std::list<DependencyData> const& dependencies ) const;
-
-		void _writeTypeScalar( std::ofstream& ofs,
-							   DependencyData const& dependencyData ) const;
-
-		void _writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
-							   DependencyData const& dependencyData,
-							   std::map<std::string, std::string> const& defaultValues ) const;
-
-		void _writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
-							  DependencyData const& dependencyData,
-							  StructData const& unionData,
-							  std::map<std::string, std::string> const& defaultValues ) const;
 	};
 } // end of vk namespace
 #endif // VKCPPGENERATOR_H

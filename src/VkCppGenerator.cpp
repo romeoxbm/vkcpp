@@ -249,26 +249,6 @@ namespace vk
 			<< "#endif\n\n";
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeTypeEnum( std::ofstream& ofs,
-									   DependencyData const& dependencyData,
-									   EnumData const& enumData ) const
-	{
-		_enterProtect( ofs, enumData.protect );
-		ofs << "  enum class " << dependencyData.name << std::endl
-			<< "  {" << std::endl;
-		for( size_t i = 0; i < enumData.members.size(); i++ )
-		{
-			ofs << "    " << enumData.members[ i ].name << " = " << enumData.members[ i ].value;
-			if( i < enumData.members.size() - 1 )
-				ofs << ",";
-
-			ofs << std::endl;
-		}
-		ofs << "  };" << std::endl;
-		_leaveProtect( ofs, enumData.protect );
-		ofs << std::endl;
-	}
-	//--------------------------------------------------------------------------
 	void CppGenerator::_writeEnumsToString( std::ofstream& ofs,
 											DependencyData const& dependencyData,
 											EnumData const& enumData ) const
@@ -357,12 +337,373 @@ namespace vk
 		{
 			_writeTypeCommandStandard( ofs, "  ", dependencyData.name, dependencyData, commandData, vkData->vkTypes );
 
-			ofs << std::endl
-				<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
+			ofs << "\n#ifndef VKCPP_DISABLE_ENHANCED_MODE\n";
 			_writeTypeCommandEnhanced( ofs, vkData, "  ", "", dependencyData.name, dependencyData, commandData );
-			ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl
-				<< std::endl;
+			ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
 		}
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeCommandStandard( std::ofstream& ofs,
+												  std::string const& indentation,
+												  std::string const& functionName,
+												  DependencyData const& dependencyData,
+												  CommandData const& commandData,
+												  std::set<std::string> const& vkTypes ) const
+	{
+		_enterProtect( ofs, commandData.protect );
+		ofs << indentation;
+		if( !commandData.handleCommand )
+			ofs << "inline ";
+
+		ofs << commandData.returnType << " " << functionName << "( ";
+		bool argEncountered = false;
+		for( size_t i = commandData.handleCommand ? 1 : 0; i < commandData.arguments.size(); i++ )
+		{
+			if( argEncountered )
+				ofs << ", ";
+
+			ofs << commandData.arguments[ i ].type << " " << commandData.arguments[ i ].name;
+			if( !commandData.arguments[ i ].arraySize.empty() )
+				ofs << "[ " << commandData.arguments[ i ].arraySize << " ]";
+
+			argEncountered = true;
+		}
+		ofs << " )";
+		if( commandData.handleCommand )
+			ofs << " const";
+
+		ofs << std::endl << indentation << "{\n" << indentation << "  ";
+
+		bool castReturn = false;
+		if( commandData.returnType != "void" )
+		{
+			ofs << "return ";
+			castReturn = ( vkTypes.find( commandData.returnType ) != vkTypes.end() );
+			if( castReturn )
+				ofs << "static_cast<" << commandData.returnType << ">( ";
+		}
+
+		std::string callName( dependencyData.name );
+		assert( islower( callName[ 0 ] ) );
+		callName[ 0 ] = toupper( callName[ 0 ] );
+
+		ofs << "vk" << callName << "( ";
+		if( commandData.handleCommand )
+			ofs << "m_" << commandData.arguments[ 0 ].name;
+
+		argEncountered = false;
+		for( size_t i = commandData.handleCommand ? 1 : 0; i < commandData.arguments.size(); i++ )
+		{
+			if( 0 < i )
+				ofs << ", ";
+
+			_writeMemberData( ofs, commandData.arguments[ i ], vkTypes );
+		}
+		ofs << " )";
+		if( castReturn )
+			ofs << " )";
+
+		ofs << ";\n" << indentation << "}\n";
+		_leaveProtect( ofs, commandData.protect );
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
+												 std::string const& indentation,
+												 std::string const& className,
+												 std::string const& functionName,
+												 DependencyData const& dependencyData,
+												 CommandData const& commandData ) const
+	{
+		_enterProtect( ofs, commandData.protect );
+		std::map<size_t, size_t> vectorParameters = _getVectorParameters( commandData );
+		size_t returnIndex = _findReturnIndex( commandData, vectorParameters );
+		size_t templateIndex = _findTemplateIndex( commandData, vectorParameters );
+		auto returnVector = vectorParameters.find( returnIndex );
+		std::string returnType = _determineReturnType( commandData, returnIndex, returnVector != vectorParameters.end() );
+
+		_writeFunctionHeader( ofs, vkData, indentation, returnType, functionName, commandData, returnIndex, templateIndex, vectorParameters );
+		_writeFunctionBody( ofs, indentation, className, functionName, returnType, templateIndex, dependencyData, commandData, vkData->vkTypes, returnIndex, vectorParameters );
+		_leaveProtect( ofs, commandData.protect );
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeEnum( std::ofstream& ofs,
+									   DependencyData const& dependencyData,
+									   EnumData const& enumData ) const
+	{
+		_enterProtect( ofs, enumData.protect );
+		ofs << "  enum class " << dependencyData.name << "\n  {\n";
+		for( size_t i = 0; i < enumData.members.size(); i++ )
+		{
+			ofs << "    " << enumData.members[ i ].name << " = " << enumData.members[ i ].value;
+			if( i < enumData.members.size() - 1 )
+				ofs << ",";
+
+			ofs << std::endl;
+		}
+		ofs << "  };\n";
+		_leaveProtect( ofs, enumData.protect );
+		ofs << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeFlags( std::ofstream& ofs,
+										DependencyData const& dependencyData,
+										FlagData const& flagData ) const
+	{
+		assert( dependencyData.dependencies.size() == 1 );
+		_enterProtect( ofs, flagData.protect );
+		auto& firstDep = *dependencyData.dependencies.begin();
+		auto& depName = dependencyData.name;
+
+		ofs << "  using " << depName << " = Flags<" << firstDep << ", Vk" << depName << ">;\n\n"
+			<< "  inline " << depName << " operator|( " << firstDep << " bit0, " << firstDep << " bit1 )\n"
+			<< "  {\n"
+			<< "    return " << depName << "( bit0 ) | bit1;\n"
+			<< "  }\n";
+		_leaveProtect( ofs, flagData.protect );
+		ofs << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
+										DependencyData const& dependencyData,
+										HandleData const& handle,
+										std::list<DependencyData> const& dependencies ) const
+	{
+		std::string memberName = dependencyData.name;
+		assert( isupper( memberName[ 0 ] ) );
+		memberName[ 0 ] = tolower( memberName[ 0 ] );
+
+		ofs << "  class " << dependencyData.name << std::endl
+			<< "  {\n"
+			<< "  public:\n"
+			<< "    " << dependencyData.name << "()\n"
+			<< "      : m_" << memberName << "( VK_NULL_HANDLE )\n"
+			<< "    {}\n\n"
+			<< "#if defined(VK_CPP_TYPESAFE_CONVERSION)\n"
+			// construct from native handle
+			<< "    " << dependencyData.name << "( Vk" << dependencyData.name << " " << memberName << " )\n"
+			<< "       : m_" << memberName << "( " << memberName << " )\n"
+			<< "    {}\n\n"
+			// assignment from native handle
+			<< "    " << dependencyData.name << "& operator=( Vk" << dependencyData.name << " " << memberName << " )\n"
+			<< "    {\n"
+			<< "      m_" << memberName << " = " << memberName << ";\n"
+			<< "      return *this;\n"
+			<< "    }\n"
+			<< "#endif\n\n";
+
+		if( !handle.commands.empty() )
+		{
+			for( size_t i = 0; i < handle.commands.size(); i++ )
+			{
+				std::string commandName = handle.commands[ i ];
+				std::map<std::string, CommandData>::const_iterator cit = vkData->commands.find( commandName );
+				assert( ( cit != vkData->commands.end() ) && cit->second.handleCommand );
+				auto dep = std::find_if(
+							dependencies.begin(),
+							dependencies.end(),
+							[ commandName ]( DependencyData const& dd ) { return dd.name == commandName; }
+				);
+				assert( dep != dependencies.end() );
+				std::string className = dependencyData.name;
+				std::string functionName = _determineFunctionName( dep->name, cit->second );
+
+				bool hasPointers = _hasPointerArguments( cit->second );
+				if( !hasPointers )
+					ofs << "#ifdef VKCPP_DISABLE_ENHANCED_MODE\n";
+
+				_writeTypeCommandStandard( ofs, "    ", functionName, *dep, cit->second, vkData->vkTypes );
+				if( !hasPointers )
+					ofs << "#endif /*!VKCPP_DISABLE_ENHANCED_MODE*/\n";
+
+				ofs << "\n#ifndef VKCPP_DISABLE_ENHANCED_MODE\n";
+				_writeTypeCommandEnhanced( ofs, vkData, "    ", className, functionName, *dep, cit->second );
+				ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n";
+
+				if( i < handle.commands.size() - 1 )
+					ofs << std::endl;
+			}
+			ofs << std::endl;
+		}
+		ofs << "#if !defined(VK_CPP_TYPESAFE_CONVERSION)\n"
+			<< "    explicit\n"
+			<< "#endif\n"
+			<< "    operator Vk" << dependencyData.name << "() const\n"
+			<< "    {\n"
+			<< "      return m_" << memberName << ";\n"
+			<< "    }\n\n"
+			<< "    explicit operator bool() const\n"
+			<< "    {\n"
+			<< "      return m_" << memberName << " != VK_NULL_HANDLE;\n"
+			<< "    }\n\n"
+			<< "    bool operator!() const\n"
+			<< "    {\n"
+			<< "      return m_" << memberName << " == VK_NULL_HANDLE;\n"
+			<< "    }\n\n"
+			<< "  private:\n"
+			<< "    Vk" << dependencyData.name << " m_" << memberName << ";\n"
+			<< "  };\n"
+	#if 1
+			<< "  static_assert( sizeof( " << dependencyData.name << " ) == sizeof( Vk" << dependencyData.name << " ), \"handle and wrapper have different size!\" );" << std::endl
+	#endif
+			<< std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeScalar( std::ofstream& ofs,
+										 DependencyData const& dependencyData ) const
+	{
+		assert( dependencyData.dependencies.size() == 1 );
+		ofs << "  using " << dependencyData.name << " = "
+			<< *dependencyData.dependencies.begin() << ";\n\n";
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
+										DependencyData const& dependencyData,
+										std::map<std::string, std::string> const& defaultValues ) const
+	{
+		auto it = vkData->structs.find( dependencyData.name );
+		assert( it != vkData->structs.end() );
+
+		_enterProtect( ofs, it->second.protect );
+		ofs << "  struct " << dependencyData.name << std::endl
+			<< "  {\n";
+
+		// only structs that are not returnedOnly get a constructor!
+		if( !it->second.returnedOnly )
+			_writeStructConstructor( ofs, dependencyData.name, it->second, vkData->vkTypes, defaultValues );
+
+		// create the setters
+		if( !it->second.returnedOnly )
+		{
+			for( size_t i = 0; i < it->second.members.size(); i++ )
+				_writeStructSetter( ofs, dependencyData.name, it->second.members[ i ], vkData->vkTypes );
+		}
+
+		// the cast-operator to the wrapped struct
+		ofs << "    operator const Vk" << dependencyData.name << "&() const\n"
+			<< "    {\n"
+			<< "      return *reinterpret_cast<const Vk" << dependencyData.name << "*>( this );\n"
+			<< "    }\n\n";
+
+		// the member variables
+		for( size_t i = 0; i < it->second.members.size(); i++ )
+		{
+			if( it->second.members[ i ].type == "StructureType" )
+			{
+				assert( i == 0 && it->second.members[ i ].name == "sType" );
+				ofs << "  private:\n"
+					<< "    StructureType sType;\n\n"
+					<< "  public:\n";
+			}
+			else
+			{
+				ofs << "    " << it->second.members[ i ].type << " " << it->second.members[ i ].name;
+				if( !it->second.members[ i ].arraySize.empty() )
+					ofs << "[ " << it->second.members[ i ].arraySize << " ]";
+				ofs << ";\n";
+			}
+		}
+		ofs << "  };\n";
+	#if 1
+		ofs << "  static_assert( sizeof( " << dependencyData.name << " ) == sizeof( Vk" << dependencyData.name << " ), \"struct and wrapper have different size!\" );" << std::endl;
+	#endif
+		_leaveProtect( ofs, it->second.protect );
+		ofs << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
+									   DependencyData const& dependencyData,
+									   StructData const& unionData,
+									   std::map<std::string, std::string> const& defaultValues ) const
+	{
+		//Unused variable
+		//std::ostringstream oss;
+		ofs << "  union " << dependencyData.name << std::endl
+			<< "  {\n";
+
+		for( size_t i = 0; i < unionData.members.size(); i++ )
+		{
+			// one constructor per union element
+			ofs << "    " << dependencyData.name << "( ";
+			if( unionData.members[ i ].arraySize.empty() )
+				ofs << unionData.members[ i ].type << " ";
+
+			else
+				ofs << "const std::array<" << unionData.members[ i ].type << ", " << unionData.members[ i ].arraySize << ">& ";
+
+			ofs << unionData.members[ i ].name << "_";
+
+			// just the very first constructor gets default arguments
+			if( i == 0 )
+			{
+				auto it = defaultValues.find( unionData.members[ i ].pureType );
+				assert( it != defaultValues.end() );
+				if( unionData.members[ i ].arraySize.empty() )
+					ofs << " = " << it->second;
+				else
+					ofs << " = { " << it->second << " }";
+			}
+			ofs << " )\n    {\n      ";
+
+			if( unionData.members[ i ].arraySize.empty() )
+				ofs << unionData.members[ i ].name << " = " << unionData.members[ i ].name << "_";
+			else
+			{
+				ofs << "memcpy( &" << unionData.members[ i ].name << ", "
+					<< unionData.members[ i ].name << "_.data(), "
+					<< unionData.members[ i ].arraySize
+					<< " * sizeof( " << unionData.members[ i ].type << " ) )";
+			}
+			ofs << ";\n    }\n\n";
+		}
+
+		for( size_t i = 0; i < unionData.members.size(); i++ )
+		{
+			// one setter per union element
+			assert( !unionData.returnedOnly );
+			_writeStructSetter( ofs, dependencyData.name, unionData.members[ i ], vkData->vkTypes );
+		}
+
+		// the implicit cast operator to the native type
+		ofs << "    operator Vk" << dependencyData.name << " const& () const\n"
+			<< "    {\n"
+			<< "      return *reinterpret_cast<const Vk" << dependencyData.name << "*>( this );\n"
+			<< "    }\n\n";
+
+		// the union member variables
+		// if there's at least one Vk... type in this union, check for unrestricted unions support
+		bool needsUnrestrictedUnions = false;
+		for( size_t i = 0; i < unionData.members.size() && !needsUnrestrictedUnions; i++ )
+			needsUnrestrictedUnions = vkData->vkTypes.find( unionData.members[ i ].type ) != vkData->vkTypes.end();
+
+		if( needsUnrestrictedUnions )
+		{
+			ofs << "#ifdef VK_CPP_HAS_UNRESTRICTED_UNIONS\n";
+			for( size_t i = 0; i < unionData.members.size(); i++ )
+			{
+				ofs << "    " << unionData.members[ i ].type << " " << unionData.members[ i ].name;
+				if( !unionData.members[ i ].arraySize.empty() )
+					ofs << "[ " << unionData.members[ i ].arraySize << " ]";
+
+				ofs << ";\n";
+			}
+			ofs << "#else\n";
+		}
+		for( size_t i = 0; i < unionData.members.size(); i++ )
+		{
+			ofs << "    ";
+			if( vkData->vkTypes.find( unionData.members[ i ].type ) != vkData->vkTypes.end() )
+				ofs << "Vk";
+
+			ofs << unionData.members[ i ].type << " " << unionData.members[ i ].name;
+			if( !unionData.members[ i ].arraySize.empty() )
+				ofs << "[ " << unionData.members[ i ].arraySize << " ]";
+
+			ofs << ";\n";
+		}
+		if( needsUnrestrictedUnions )
+			ofs << "#endif  // VK_CPP_HAS_UNRESTRICTED_UNIONS\n";
+
+		ofs << "  };\n\n";
 	}
 
 	std::string CppGenerator::_determineFunctionName( std::string const& name,
@@ -382,7 +723,7 @@ namespace vk
 			if( pos != std::string::npos )
 				strippedName.erase( pos, commandData.arguments[ 0 ].pureType.length() );
 
-			else if( ( commandData.arguments[ 0 ].pureType == "CommandBuffer" ) && ( name.find( "cmd" ) == 0 ) )
+			else if( commandData.arguments[ 0 ].pureType == "CommandBuffer" && name.find( "cmd" ) == 0 )
 			{
 				strippedName.erase( 0, 3 );
 				pos = 0;
@@ -416,7 +757,7 @@ namespace vk
 					returnType = "std::vector<uint8_t,Allocator>";
 
 				else
-					returnType = "std::vector<" + commandData.arguments[ returnIndex ].pureType + ",Allocator>";
+					returnType = "std::vector<" + commandData.arguments[ returnIndex ].pureType + ", Allocator>";
 			}
 			else
 			{
@@ -1180,91 +1521,6 @@ namespace vk
 			<< std::endl;
 	}
 
-	void CppGenerator::_writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
-												 std::string const& indentation,
-												 std::string const& className,
-												 std::string const& functionName,
-												 DependencyData const& dependencyData,
-												 CommandData const& commandData ) const
-	{
-		_enterProtect( ofs, commandData.protect );
-		std::map<size_t, size_t> vectorParameters = _getVectorParameters( commandData );
-		size_t returnIndex = _findReturnIndex( commandData, vectorParameters );
-		size_t templateIndex = _findTemplateIndex( commandData, vectorParameters );
-		std::map<size_t, size_t>::const_iterator returnVector = vectorParameters.find( returnIndex );
-		std::string returnType = _determineReturnType( commandData, returnIndex, returnVector != vectorParameters.end() );
-
-		_writeFunctionHeader( ofs, vkData, indentation, returnType, functionName, commandData, returnIndex, templateIndex, vectorParameters );
-		_writeFunctionBody( ofs, indentation, className, functionName, returnType, templateIndex, dependencyData, commandData, vkData->vkTypes, returnIndex, vectorParameters );
-		_leaveProtect( ofs, commandData.protect );
-	}
-
-	void CppGenerator::_writeTypeCommandStandard( std::ofstream& ofs,
-												  std::string const& indentation,
-												  std::string const& functionName,
-												  DependencyData const& dependencyData,
-												  CommandData const& commandData,
-												  std::set<std::string> const& vkTypes ) const
-	{
-		_enterProtect( ofs, commandData.protect );
-		ofs << indentation;
-		if( !commandData.handleCommand )
-			ofs << "inline ";
-
-		ofs << commandData.returnType << " " << functionName << "( ";
-		bool argEncountered = false;
-		for( size_t i = commandData.handleCommand ? 1 : 0; i < commandData.arguments.size(); i++ )
-		{
-			if( argEncountered )
-				ofs << ", ";
-
-			ofs << commandData.arguments[ i ].type << " " << commandData.arguments[ i ].name;
-			if( !commandData.arguments[ i ].arraySize.empty() )
-				ofs << "[" << commandData.arguments[ i ].arraySize << "]";
-
-			argEncountered = true;
-		}
-		ofs << " )";
-		if( commandData.handleCommand )
-			ofs << " const";
-
-		ofs << std::endl
-			<< indentation << "{" << std::endl
-			<< indentation << "  ";
-		bool castReturn = false;
-		if( commandData.returnType != "void" )
-		{
-			ofs << "return ";
-			castReturn = ( vkTypes.find( commandData.returnType ) != vkTypes.end() );
-			if( castReturn )
-				ofs << "static_cast<" << commandData.returnType << ">( ";
-		}
-
-		std::string callName( dependencyData.name );
-		assert( islower( callName[ 0 ] ) );
-		callName[ 0 ] = toupper( callName[ 0 ] );
-
-		ofs << "vk" << callName << "( ";
-		if( commandData.handleCommand )
-			ofs << "m_" << commandData.arguments[ 0 ].name;
-
-		argEncountered = false;
-		for( size_t i = commandData.handleCommand ? 1 : 0; i < commandData.arguments.size(); i++ )
-		{
-			if( 0 < i )
-				ofs << ", ";
-
-			_writeMemberData( ofs, commandData.arguments[ i ], vkTypes );
-		}
-		ofs << " )";
-		if( castReturn )
-			ofs << " )";
-
-		ofs << ";" << std::endl
-			<< indentation << "}" << std::endl;
-		_leaveProtect( ofs, commandData.protect );
-	}
-
 	void CppGenerator::_writeFlagsToString( std::ofstream& ofs,
 											DependencyData const& dependencyData,
 											EnumData const &enumData ) const
@@ -1309,269 +1565,7 @@ namespace vk
 		}
 	}
 
-	void CppGenerator::_writeTypeFlags( std::ofstream& ofs,
-										DependencyData const& dependencyData,
-										FlagData const& flagData ) const
-	{
-		assert( dependencyData.dependencies.size() == 1 );
-		_enterProtect( ofs, flagData.protect );
-		ofs << "  using " << dependencyData.name << " = Flags<" << *dependencyData.dependencies.begin() << ", Vk" << dependencyData.name << ">;" << std::endl
-			<< std::endl
-			<< "  inline " << dependencyData.name << " operator|( " << *dependencyData.dependencies.begin() << " bit0, " << *dependencyData.dependencies.begin() << " bit1 )" << std::endl
-			<< "  {" << std::endl
-			<< "    return " << dependencyData.name << "( bit0 ) | bit1;" << std::endl
-			<< "  }" << std::endl;
-		_leaveProtect( ofs, flagData.protect );
-		ofs << std::endl;
-	}
 
-	void CppGenerator::_writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
-										DependencyData const& dependencyData,
-										HandleData const& handle,
-										std::list<DependencyData> const& dependencies ) const
-	{
-		std::string memberName = dependencyData.name;
-		assert( isupper( memberName[ 0 ] ) );
-		memberName[ 0 ] = tolower( memberName[ 0 ] );
 
-		ofs << "  class " << dependencyData.name << std::endl
-			<< "  {" << std::endl
-			<< "  public:" << std::endl
-			<< "    " << dependencyData.name << "()" << std::endl
-			<< "      : m_" << memberName << "(VK_NULL_HANDLE)" << std::endl
-			<< "    {}" << std::endl
-			<< std::endl
-			<< "#if defined(VK_CPP_TYPESAFE_CONVERSION)" << std::endl
-			// construct from native handle
-			<< "    " << dependencyData.name << "(Vk" << dependencyData.name << " " << memberName << ")" << std::endl
-			<< "       : m_" << memberName << "(" << memberName << ")" << std::endl
-			<< "    {}" << std::endl
-			<< std::endl
-			// assignment from native handle
-			<< "    " << dependencyData.name << "& operator=(Vk" << dependencyData.name << " " << memberName << ")" << std::endl
-			<< "    {" << std::endl
-			<< "      m_" << memberName << " = " << memberName << ";" << std::endl
-			<< "      return *this;" << std::endl
-			<< "    }" << std::endl
-			<< "#endif\n"
-			<< std::endl;
 
-		if( !handle.commands.empty() )
-		{
-			for( size_t i = 0; i < handle.commands.size(); i++ )
-			{
-				std::string commandName = handle.commands[ i ];
-				std::map<std::string, CommandData>::const_iterator cit = vkData->commands.find( commandName );
-				assert( ( cit != vkData->commands.end() ) && cit->second.handleCommand );
-				std::list<DependencyData>::const_iterator dep = std::find_if( dependencies.begin(), dependencies.end(), [ commandName ]( DependencyData const& dd ) { return dd.name == commandName; } );
-				assert( dep != dependencies.end() );
-				std::string className = dependencyData.name;
-				std::string functionName = _determineFunctionName( dep->name, cit->second );
-
-				bool hasPointers = _hasPointerArguments( cit->second );
-				if( !hasPointers )
-					ofs << "#ifdef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
-
-				_writeTypeCommandStandard( ofs, "    ", functionName, *dep, cit->second, vkData->vkTypes );
-				if( !hasPointers )
-					ofs << "#endif /*!VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl;
-
-				ofs << std::endl
-					<< "#ifndef VKCPP_DISABLE_ENHANCED_MODE" << std::endl;
-				_writeTypeCommandEnhanced( ofs, vkData, "    ", className, functionName, *dep, cit->second );
-				ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/" << std::endl;
-
-				if( i < handle.commands.size() - 1 )
-					ofs << std::endl;
-			}
-			ofs << std::endl;
-		}
-		ofs << "#if !defined(VK_CPP_TYPESAFE_CONVERSION)" << std::endl
-			<< "    explicit" << std::endl
-			<< "#endif" << std::endl
-			<< "    operator Vk" << dependencyData.name << "() const" << std::endl
-			<< "    {" << std::endl
-			<< "      return m_" << memberName << ";" << std::endl
-			<< "    }" << std::endl
-			<< std::endl
-			<< "    explicit operator bool() const" << std::endl
-			<< "    {" << std::endl
-			<< "      return m_" << memberName << " != VK_NULL_HANDLE;" << std::endl
-			<< "    }" << std::endl
-			<< std::endl
-			<< "    bool operator!() const" << std::endl
-			<< "    {" << std::endl
-			<< "      return m_" << memberName << " == VK_NULL_HANDLE;" << std::endl
-			<< "    }" << std::endl
-			<< std::endl
-			<< "  private:" << std::endl
-			<< "    Vk" << dependencyData.name << " m_" << memberName << ";" << std::endl
-			<< "  };" << std::endl
-	#if 1
-			<< "  static_assert( sizeof( " << dependencyData.name << " ) == sizeof( Vk" << dependencyData.name << " ), \"handle and wrapper have different size!\" );" << std::endl
-	#endif
-			<< std::endl;
-	}
-
-	void CppGenerator::_writeTypeScalar( std::ofstream& ofs,
-										 DependencyData const& dependencyData ) const
-	{
-		assert( dependencyData.dependencies.size() == 1 );
-		ofs << "  using " << dependencyData.name << " = " << *dependencyData.dependencies.begin() << ";" << std::endl
-			<< std::endl;
-	}
-
-	void CppGenerator::_writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
-										DependencyData const& dependencyData,
-										std::map<std::string, std::string> const& defaultValues ) const
-	{
-		auto it = vkData->structs.find( dependencyData.name );
-		assert( it != vkData->structs.end() );
-
-		_enterProtect( ofs, it->second.protect );
-		ofs << "  struct " << dependencyData.name << std::endl
-			<< "  {" << std::endl;
-
-		// only structs that are not returnedOnly get a constructor!
-		if( !it->second.returnedOnly )
-			_writeStructConstructor( ofs, dependencyData.name, it->second, vkData->vkTypes, defaultValues );
-
-		// create the setters
-		if( !it->second.returnedOnly )
-		{
-			for( size_t i = 0; i < it->second.members.size(); i++ )
-				_writeStructSetter( ofs, dependencyData.name, it->second.members[ i ], vkData->vkTypes );
-		}
-
-		// the cast-operator to the wrapped struct
-		ofs << "    operator const Vk" << dependencyData.name << "&() const" << std::endl
-			<< "    {" << std::endl
-			<< "      return *reinterpret_cast<const Vk" << dependencyData.name << "*>(this);" << std::endl
-			<< "    }" << std::endl
-			<< std::endl;
-
-		// the member variables
-		for( size_t i = 0; i < it->second.members.size(); i++ )
-		{
-			if( it->second.members[ i ].type == "StructureType" )
-			{
-				assert( ( i == 0 ) && ( it->second.members[ i ].name == "sType" ) );
-				ofs << "  private:" << std::endl
-					<< "    StructureType sType;" << std::endl
-					<< std::endl
-					<< "  public:" << std::endl;
-			}
-			else
-			{
-				ofs << "    " << it->second.members[ i ].type << " " << it->second.members[ i ].name;
-				if( !it->second.members[ i ].arraySize.empty() )
-					ofs << "[" << it->second.members[ i ].arraySize << "]";
-				ofs << ";" << std::endl;
-			}
-		}
-		ofs << "  };" << std::endl;
-	#if 1
-		ofs << "  static_assert( sizeof( " << dependencyData.name << " ) == sizeof( Vk" << dependencyData.name << " ), \"struct and wrapper have different size!\" );" << std::endl;
-	#endif
-		_leaveProtect( ofs, it->second.protect );
-		ofs << std::endl;
-	}
-
-	void CppGenerator::_writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
-									   DependencyData const& dependencyData,
-									   StructData const& unionData,
-									   std::map<std::string, std::string> const& defaultValues ) const
-	{
-		//Unused variable
-		//std::ostringstream oss;
-		ofs << "  union " << dependencyData.name << std::endl
-			<< "  {" << std::endl;
-
-		for( size_t i = 0; i < unionData.members.size(); i++ )
-		{
-			// one constructor per union element
-			ofs << "    " << dependencyData.name << "( ";
-			if( unionData.members[ i ].arraySize.empty() )
-				ofs << unionData.members[ i ].type << " ";
-
-			else
-				ofs << "const std::array<" << unionData.members[ i ].type << "," << unionData.members[ i ].arraySize << ">& ";
-
-			ofs << unionData.members[ i ].name << "_";
-
-			// just the very first constructor gets default arguments
-			if( i == 0 )
-			{
-				std::map<std::string, std::string>::const_iterator it = defaultValues.find( unionData.members[ i ].pureType );
-				assert( it != defaultValues.end() );
-				if( unionData.members[ i ].arraySize.empty() )
-					ofs << " = " << it->second;
-				else
-					ofs << " = { " << it->second << " }";
-			}
-			ofs << " )" << std::endl
-				<< "    {" << std::endl
-				<< "      ";
-			if( unionData.members[ i ].arraySize.empty() )
-				ofs << unionData.members[ i ].name << " = " << unionData.members[ i ].name << "_";
-			else
-			{
-				ofs << "memcpy( &" << unionData.members[ i ].name << ", " << unionData.members[ i ].name << "_.data(), " << unionData.members[ i ].arraySize << " * sizeof( " << unionData.members[ i ].type << " ) )";
-			}
-			ofs << ";" << std::endl
-				<< "    }" << std::endl
-				<< std::endl;
-		}
-
-		for( size_t i = 0; i < unionData.members.size(); i++ )
-		{
-			// one setter per union element
-			assert( !unionData.returnedOnly );
-			_writeStructSetter( ofs, dependencyData.name, unionData.members[ i ], vkData->vkTypes );
-		}
-
-		// the implicit cast operator to the native type
-		ofs << "    operator Vk" << dependencyData.name << " const& () const" << std::endl
-			<< "    {" << std::endl
-			<< "      return *reinterpret_cast<const Vk" << dependencyData.name << "*>(this);" << std::endl
-			<< "    }" << std::endl
-			<< std::endl;
-
-		// the union member variables
-		// if there's at least one Vk... type in this union, check for unrestricted unions support
-		bool needsUnrestrictedUnions = false;
-		for( size_t i = 0; i < unionData.members.size() && !needsUnrestrictedUnions; i++ )
-			needsUnrestrictedUnions = vkData->vkTypes.find( unionData.members[ i ].type ) != vkData->vkTypes.end();
-
-		if( needsUnrestrictedUnions )
-		{
-			ofs << "#ifdef VK_CPP_HAS_UNRESTRICTED_UNIONS" << std::endl;
-			for( size_t i = 0; i < unionData.members.size(); i++ )
-			{
-				ofs << "    " << unionData.members[ i ].type << " " << unionData.members[ i ].name;
-				if( !unionData.members[ i ].arraySize.empty() )
-					ofs << "[" << unionData.members[ i ].arraySize << "]";
-
-				ofs << ";" << std::endl;
-			}
-			ofs << "#else" << std::endl;
-		}
-		for( size_t i = 0; i < unionData.members.size(); i++ )
-		{
-			ofs << "    ";
-			if( vkData->vkTypes.find( unionData.members[ i ].type ) != vkData->vkTypes.end() )
-				ofs << "Vk";
-
-			ofs << unionData.members[ i ].type << " " << unionData.members[ i ].name;
-			if( !unionData.members[ i ].arraySize.empty() )
-				ofs << "[" << unionData.members[ i ].arraySize << "]";
-
-			ofs << ";" << std::endl;
-		}
-		if( needsUnrestrictedUnions )
-			ofs << "#endif  // VK_CPP_HAS_UNRESTRICTED_UNIONS" << std::endl;
-
-		ofs << "  };" << std::endl
-			<< std::endl;
-	}
 } // end of vk namespace
