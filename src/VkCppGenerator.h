@@ -49,6 +49,27 @@ namespace vk
 
 		void _leaveProtect( std::ofstream& ofs, std::string const& protect ) const;
 
+		std::string _determineFunctionName( std::string const& name,
+											CommandData const& commandData ) const;
+
+		std::string _determineReturnType( CommandData const& commandData,
+										  size_t returnIndex, bool isVector = false ) const;
+
+		std::string _reduceName( std::string const& name ) const;
+
+		size_t _findReturnIndex( CommandData const& commandData,
+								 std::map<size_t, size_t> const& vectorParameters ) const;
+
+		size_t _findTemplateIndex( CommandData const& commandData,
+								   std::map<size_t, size_t> const& vectorParameters ) const;
+
+		std::map<size_t, size_t> _getVectorParameters( CommandData const& commandData ) const;
+
+		bool _hasPointerArguments( CommandData const& commandData ) const;
+
+		bool _isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters,
+									 size_t idx ) const;
+
 		void _sortDependencies( std::list<DependencyData>& dependencies ) const;
 
 		bool _noDependencies( std::set<std::string> const& dependencies,
@@ -57,11 +78,20 @@ namespace vk
 		void _createDefaults( SpecData* vkData,
 							  std::map<std::string, std::string>& defaultValues ) const;
 
+		//Write methods
+		//----------------------------------------------------------------------
+
 		void _writeVersionCheck( std::ofstream& ofs, std::string const& version ) const;
 
 		void _writeTypesafeCheck( std::ofstream& ofs, std::string const& typesafeCheck ) const;
 
+		void _writeEnumsToString( std::ofstream& ofs, SpecData* vkData ) const;
+
 		void _writeEnumsToString( std::ofstream& ofs,
+								  DependencyData const& dependencyData,
+								  EnumData const& enumData ) const;
+
+		void _writeFlagsToString( std::ofstream& ofs,
 								  DependencyData const& dependencyData,
 								  EnumData const& enumData ) const;
 
@@ -113,47 +143,34 @@ namespace vk
 							  StructData const& unionData,
 							  std::map<std::string, std::string> const& defaultValues ) const;
 
+		//Structs
+		//----------------------------------------------------------------------
+		void _writeStructConstructor( std::ofstream& ofs,
+									  std::string const& name,
+									  StructData const& structData,
+									  std::set<std::string> const& vkTypes,
+									  std::map<std::string, std::string> const& defaultValues ) const;
 
+		void _writeStructSetter( std::ofstream& ofs, std::string const& name,
+								 MemberData const& memberData,
+								 std::set<std::string> const& vkTypes//,
+								 /*std::map<std::string,StructData> const& structs*/ ) const;
 
-		std::string _determineFunctionName( std::string const& name,
-											CommandData const& commandData ) const;
+		//TypeCommandStandard
+		//----------------------------------------------------------------------
+		void _writeMemberData( std::ofstream& ofs, MemberData const& memberData,
+							   std::set<std::string> const& vkTypes ) const;
 
-		std::string _determineReturnType( CommandData const& commandData,
-										  size_t returnIndex, bool isVector = false ) const;
-
-		std::string _reduceName( std::string const& name ) const;
-
-		size_t _findReturnIndex( CommandData const& commandData,
-								 std::map<size_t, size_t> const& vectorParameters ) const;
-
-		size_t _findTemplateIndex( CommandData const& commandData,
-								   std::map<size_t, size_t> const& vectorParameters ) const;
-
-		std::map<size_t, size_t> _getVectorParameters( CommandData const& commandData ) const;
-
-		bool _hasPointerArguments( CommandData const& commandData ) const;
-
-		bool _isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters,
-									 size_t idx ) const;
-
-		void _writeCall( std::ofstream& ofs, std::string const& name,
-						 size_t templateIndex,
-						 CommandData const& commandData,
-						 std::set<std::string> const& vkTypes,
-						 std::map<size_t, size_t> const& vectorParameters,
-						 size_t returnIndex, bool firstCall ) const;
-
-		void _writeEnumsToString( std::ofstream& ofs, SpecData* vkData ) const;
-
-		void _writeFlagsToString( std::ofstream& ofs,
-								  DependencyData const& dependencyData,
-								  EnumData const& enumData ) const;
-
-		void _writeExceptionCheck( std::ofstream& ofs,
+		//TypeCommandEnhanced
+		//----------------------------------------------------------------------
+		void _writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
 								   std::string const& indentation,
-								   std::string const& className,
-								   std::string const& functionName,
-								   std::vector<std::string> const& successCodes );
+								   std::string const& returnType,
+								   std::string const& name,
+								   CommandData const& commandData,
+								   size_t returnIndex,
+								   size_t templateIndex,
+								   std::map<size_t, size_t> const& vectorParameters ) const;
 
 		void _writeFunctionBody( std::ofstream& ofs,
 								 std::string const& indentation,
@@ -167,32 +184,19 @@ namespace vk
 								 size_t returnIndex,
 								 std::map<size_t, size_t> const& vectorParameters ) const;
 
-		void _writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
+		void _writeCall( std::ofstream& ofs, std::string const& name,
+						 size_t templateIndex,
+						 CommandData const& commandData,
+						 std::set<std::string> const& vkTypes,
+						 std::map<size_t, size_t> const& vectorParameters,
+						 size_t returnIndex, bool firstCall ) const;
+
+		//Unreferenced method
+		/*void _writeExceptionCheck( std::ofstream& ofs,
 								   std::string const& indentation,
-								   std::string const& returnType,
-								   std::string const& name,
-								   CommandData const& commandData,
-								   size_t returnIndex,
-								   size_t templateIndex,
-								   std::map<size_t, size_t> const& vectorParameters ) const;
-
-		void _writeMemberData( std::ofstream& ofs, MemberData const& memberData,
-							   std::set<std::string> const& vkTypes ) const;
-
-		void _writeStructConstructor( std::ofstream& ofs,
-									  std::string const& name,
-									  StructData const& structData,
-									  std::set<std::string> const& vkTypes,
-									  std::map<std::string, std::string> const& defaultValues ) const;
-
-		void _writeStructSetter( std::ofstream& ofs, std::string const& name,
-								 MemberData const& memberData,
-								 std::set<std::string> const& vkTypes//,
-								 /*std::map<std::string,StructData> const& structs*/ ) const;
-
-
-
-
+								   std::string const& className,
+								   std::string const& functionName,
+								   std::vector<std::string> const& successCodes );*/
 	};
 } // end of vk namespace
 #endif // VKCPPGENERATOR_H

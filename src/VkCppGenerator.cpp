@@ -142,6 +142,185 @@ namespace vk
 			ofs << "#endif /*" << protect << "*/" << std::endl;
 	}
 	//--------------------------------------------------------------------------
+	std::string CppGenerator::_determineFunctionName( std::string const& name,
+													  CommandData const& commandData ) const
+	{
+		if( commandData.handleCommand )
+		{
+			std::string strippedName = name;
+			std::string searchName = commandData.arguments[ 0 ].pureType;
+			size_t pos = name.find( searchName );
+			if( pos == std::string::npos )
+			{
+				assert( isupper( searchName[ 0 ] ) );
+				searchName[ 0 ] = tolower( searchName[ 0 ] );
+				pos = name.find( searchName );
+			}
+			if( pos != std::string::npos )
+				strippedName.erase( pos, commandData.arguments[ 0 ].pureType.length() );
+
+			else if( commandData.arguments[ 0 ].pureType == "CommandBuffer" && name.find( "cmd" ) == 0 )
+			{
+				strippedName.erase( 0, 3 );
+				pos = 0;
+			}
+			if( pos == 0 )
+			{
+				assert( isupper( strippedName[ 0 ] ) );
+				strippedName[ 0 ] = tolower( strippedName[ 0 ] );
+			}
+			return strippedName;
+		}
+		return name;
+	}
+	//--------------------------------------------------------------------------
+	std::string CppGenerator::_determineReturnType( CommandData const& commandData,
+													size_t returnIndex,
+													bool isVector ) const
+	{
+		std::string returnType;
+		if( returnIndex != ~0
+			&& ( commandData.returnType == "void"
+				 || ( commandData.returnType == "Result"
+					  && ( commandData.successCodes.size() == 1
+						   || ( commandData.successCodes.size() == 2
+								&& commandData.successCodes[ 1 ] == "eIncomplete"
+								&& commandData.twoStep ) ) ) ) )
+		{
+			if( isVector )
+			{
+				if( commandData.arguments[ returnIndex ].pureType == "void" )
+					returnType = "std::vector<uint8_t, Allocator>";
+
+				else
+					returnType = "std::vector<" + commandData.arguments[ returnIndex ].pureType + ", Allocator>";
+			}
+			else
+			{
+				assert( commandData.arguments[ returnIndex ].type.back() == '*' );
+				assert( commandData.arguments[ returnIndex ].type.find( "const" ) == std::string::npos );
+				returnType = commandData.arguments[ returnIndex ].type;
+				returnType.pop_back();
+			}
+		}
+		else if( commandData.returnType == "Result" && commandData.successCodes.size() == 1 )
+		{
+			// an original return of type "Result" with less just one successCode is changed to void, errors throw an exception
+			returnType = "void";
+		}
+		else
+		{
+			// the return type just stays the original return type
+			returnType = commandData.returnType;
+		}
+		return returnType;
+	}
+	//--------------------------------------------------------------------------
+	std::string CppGenerator::_reduceName( std::string const& name ) const
+	{
+		std::string reducedName;
+		if( name[ 0 ] == 'p' && 1 < name.length() && ( isupper( name[ 1 ] ) || name[ 1 ] == 'p' ) )
+		{
+			reducedName = StringsHelper::strip( name, "p" );
+			reducedName[ 0 ] = tolower( reducedName[ 0 ] );
+		}
+		else
+			reducedName = name;
+
+		return reducedName;
+	}
+	//--------------------------------------------------------------------------
+	size_t CppGenerator::_findReturnIndex( CommandData const& commandData,
+										   std::map<size_t, size_t> const& vectorParameters ) const
+	{
+		if( commandData.returnType == "Result" || commandData.returnType == "void" )
+		{
+			for( size_t i = 0; i < commandData.arguments.size(); i++ )
+			{
+				if( commandData.arguments[ i ].type.find( '*' ) != std::string::npos
+					&& commandData.arguments[ i ].type.find( "const" ) == std::string::npos
+					&& !_isVectorSizeParameter( vectorParameters, i )
+					&& ( vectorParameters.find( i ) == vectorParameters.end()
+						 || commandData.twoStep
+						 || commandData.successCodes.size() == 1 ) )
+				{
+	#if !defined(NDEBUG)
+					for( size_t j = i + 1; j < commandData.arguments.size(); j++ )
+					{
+						assert( commandData.arguments[ j ].type.find( '*' ) == std::string::npos
+								|| commandData.arguments[ j ].type.find( "const" ) != std::string::npos );
+					}
+	#endif
+					return i;
+				}
+			}
+		}
+		return ~0;
+	}
+	//--------------------------------------------------------------------------
+	size_t CppGenerator::_findTemplateIndex( CommandData const& commandData,
+											 std::map<size_t, size_t> const& vectorParameters ) const
+	{
+		for( size_t i = 0; i < commandData.arguments.size(); i++ )
+		{
+			if( commandData.arguments[ i ].name == "pData"
+				|| commandData.arguments[ i ].name == "pValues" )
+			{
+				assert( vectorParameters.find( i ) != vectorParameters.end() );
+				return i;
+			}
+		}
+		return ~0;
+	}
+	//--------------------------------------------------------------------------
+	std::map<size_t, size_t> CppGenerator::_getVectorParameters( CommandData const& commandData ) const
+	{
+		std::map<size_t, size_t> lenParameters;
+		for( size_t i = 0; i < commandData.arguments.size(); i++ )
+		{
+			if( !commandData.arguments[ i ].len.empty() )
+			{
+				lenParameters.insert( std::make_pair( i, ~0 ) );
+				for( size_t j = 0; j < commandData.arguments.size(); j++ )
+				{
+					if( commandData.arguments[ i ].len == commandData.arguments[ j ].name )
+						lenParameters[ i ] = j;
+				}
+				assert( lenParameters[ i ] != ~0
+					|| commandData.arguments[ i ].len == "dataSize/4"
+					|| commandData.arguments[ i ].len == "latexmath:[$dataSize \\over 4$]"
+					|| commandData.arguments[ i ].len == "null-terminated"
+					|| commandData.arguments[ i ].len == "pAllocateInfo->descriptorSetCount"
+					|| commandData.arguments[ i ].len == "pAllocateInfo->commandBufferCount" );
+				assert( lenParameters[ i ] == ~0 || lenParameters[ i ] < i );
+			}
+		}
+		return lenParameters;
+	}
+	//--------------------------------------------------------------------------
+	bool CppGenerator::_hasPointerArguments( CommandData const& commandData ) const
+	{
+		for( size_t i = 0; i < commandData.arguments.size(); i++ )
+		{
+			size_t pos = commandData.arguments[ i ].type.find( '*' );
+			if( pos != std::string::npos &&
+				commandData.arguments[ i ].type.find( '*', pos + 1 ) == std::string::npos )
+				return true;
+		}
+		return false;
+	}
+	//--------------------------------------------------------------------------
+	bool CppGenerator::_isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters,
+											   size_t idx ) const
+	{
+		for( auto& it : vectorParameters )
+		{
+			if( it.second == idx )
+				return true;
+		}
+		return false;
+	}
+	//--------------------------------------------------------------------------
 	void CppGenerator::_sortDependencies( std::list<DependencyData>& dependencies ) const
 	{
 		std::set<std::string> listedTypes = { "VkFlags" };
@@ -249,29 +428,78 @@ namespace vk
 			<< "#endif\n\n";
 	}
 	//--------------------------------------------------------------------------
+	void CppGenerator::_writeEnumsToString( std::ofstream& ofs, SpecData* vkData ) const
+	{
+		for( auto& it : vkData->dependencies )
+		{
+			switch( it.category )
+			{
+				case DependencyData::Category::ENUM:
+					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
+					_writeEnumsToString( ofs, it, vkData->enums.find( it.name )->second );
+					break;
+
+				case DependencyData::Category::FLAGS:
+					_writeFlagsToString( ofs, it, vkData->enums.find( *it.dependencies.begin() )->second );
+					break;
+			}
+		}
+	}
+	//--------------------------------------------------------------------------
 	void CppGenerator::_writeEnumsToString( std::ofstream& ofs,
 											DependencyData const& dependencyData,
 											EnumData const& enumData ) const
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << "  inline std::string to_string( " << dependencyData.name << ( enumData.members.empty() ? " )" : " value )" ) << std::endl
-			<< "  {" << std::endl;
+		ofs << "  inline std::string to_string( " << dependencyData.name
+			<< ( enumData.members.empty() ? " )" : " value )" ) << "\n  {\n";
+
 		if( enumData.members.empty() )
-			ofs << "    return \"(void)\";" << std::endl;
+			ofs << "    return \"(void)\";\n";
 		else
 		{
-			ofs << "    switch( value )" << std::endl
-				<< "    {" << std::endl;
+			ofs << "    switch( value )\n"
+				<< "    {\n";
 			for( auto& itMember : enumData.members )
 			{
 				ofs << "    case " << dependencyData.name << "::"
 					<< itMember.name << ": return \""
 					<< itMember.name.substr( 1 ) << "\";\n";
 			}
-			ofs << "    default: return \"invalid\";" << std::endl
-				<< "    }" << std::endl;
+			ofs << "    default: return \"invalid\";\n"
+				<< "    }\n";
 		}
-		ofs << "  }" << std::endl;
+		ofs << "  }\n";
+		_leaveProtect( ofs, enumData.protect );
+		ofs << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeFlagsToString( std::ofstream& ofs,
+											DependencyData const& dependencyData,
+											EnumData const &enumData ) const
+	{
+		_enterProtect( ofs, enumData.protect );
+		std::string enumPrefix = *dependencyData.dependencies.begin() + "::";
+		ofs << "  inline std::string to_string( const " << dependencyData.name
+			<< ( enumData.members.empty() ? "& )" : "& value )" ) << "\n  {\n";
+
+		if( enumData.members.empty() )
+			ofs << "    return \"{}\";\n";
+		else
+		{
+			ofs << "    if( !value ) return \"{}\";\n"
+				<< "    std::string result;\n";
+
+			for( auto& itMember : enumData.members )
+			{
+				ofs << "    if( value & " << enumPrefix + itMember.name
+					<< " ) result += \"" << itMember.name.substr( 1 )
+					<< " | \";\n";
+			}
+
+			ofs << "    return \"{\" + result.substr( 0, result.size() - 3 ) + \"}\";\n";
+		}
+		ofs << "  }\n";
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}
@@ -705,177 +933,502 @@ namespace vk
 
 		ofs << "  };\n\n";
 	}
-
-	std::string CppGenerator::_determineFunctionName( std::string const& name,
-													  CommandData const& commandData ) const
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeStructConstructor( std::ofstream& ofs,
+												std::string const& name,
+												StructData const& structData,
+												std::set<std::string> const& /*vkTypes*/, //Unused variable
+												std::map<std::string,
+												std::string> const& defaultValues ) const
 	{
-		if( commandData.handleCommand )
+		// the constructor with all the elements as arguments, with defaults
+		ofs << "    " << name << "( ";
+		bool listedArgument = false;
+		for( size_t i = 0; i < structData.members.size(); i++ )
 		{
-			std::string strippedName = name;
-			std::string searchName = commandData.arguments[ 0 ].pureType;
-			size_t pos = name.find( searchName );
-			if( pos == std::string::npos )
-			{
-				assert( isupper( searchName[ 0 ] ) );
-				searchName[ 0 ] = tolower( searchName[ 0 ] );
-				pos = name.find( searchName );
-			}
-			if( pos != std::string::npos )
-				strippedName.erase( pos, commandData.arguments[ 0 ].pureType.length() );
+			if( listedArgument )
+				ofs << ", ";
 
-			else if( commandData.arguments[ 0 ].pureType == "CommandBuffer" && name.find( "cmd" ) == 0 )
+			if( structData.members[ i ].name != "pNext" && structData.members[ i ].name != "sType" )
 			{
-				strippedName.erase( 0, 3 );
-				pos = 0;
+				auto defaultIt = defaultValues.find( structData.members[ i ].pureType );
+				assert( defaultIt != defaultValues.end() );
+				if( structData.members[ i ].arraySize.empty() )
+				{
+					ofs << structData.members[ i ].type << " "
+						<< structData.members[ i ].name
+						<< "_ = " << ( structData.members[ i ].type.back() == '*' ? "nullptr" : defaultIt->second );
+				}
+				else
+				{
+					ofs << "std::array<" << structData.members[ i ].type << ", "
+						<< structData.members[ i ].arraySize << "> const& "
+						<< structData.members[ i ].name << "_ = { "
+						<< defaultIt->second;
+
+					size_t n = atoi( structData.members[ i ].arraySize.c_str() );
+					assert( 0 < n );
+					for( size_t j = 1; j < n; j++ )
+						ofs << ", " << defaultIt->second;
+
+					ofs << " }";
+				}
+				listedArgument = true;
 			}
-			if( pos == 0 )
-			{
-				assert( isupper( strippedName[ 0 ] ) );
-				strippedName[ 0 ] = tolower( strippedName[ 0 ] );
-			}
-			return strippedName;
 		}
-		return name;
-	}
+		ofs << " )\n";
 
-	std::string CppGenerator::_determineReturnType( CommandData const& commandData,
-													size_t returnIndex,
-													bool isVector ) const
-	{
-		std::string returnType;
-		if( ( returnIndex != ~0 )
-			&& ( ( commandData.returnType == "void" )
-				|| ( ( commandData.returnType == "Result" )
-					&& ( ( commandData.successCodes.size() == 1 )
-						|| ( ( commandData.successCodes.size() == 2 )
-							&& ( commandData.successCodes[ 1 ] == "eIncomplete" )
-							&& commandData.twoStep ) ) ) ) )
+		// copy over the simple arguments
+		bool firstArgument = true;
+		for( size_t i = 0; i < structData.members.size(); i++ )
 		{
-			if( isVector )
+			if( structData.members[ i ].arraySize.empty() )
 			{
-				if( commandData.arguments[ returnIndex ].pureType == "void" )
-					returnType = "std::vector<uint8_t,Allocator>";
+				ofs << "      " << ( firstArgument ? ":" : "," ) << " " << structData.members[ i ].name << "( ";
+				if( structData.members[ i ].name == "pNext" )
+					ofs << "nullptr";
+
+				else if( structData.members[ i ].name == "sType" )
+					ofs << "StructureType::e" << name;
 
 				else
-					returnType = "std::vector<" + commandData.arguments[ returnIndex ].pureType + ", Allocator>";
+					ofs << structData.members[ i ].name << "_";
+
+				ofs << " )\n";
+				firstArgument = false;
+			}
+		}
+
+		// the body of the constructor, copying over data from argument list into wrapped struct
+		ofs << "    {\n";
+		for( size_t i = 0; i < structData.members.size(); i++ )
+		{
+			if( !structData.members[ i ].arraySize.empty() )
+			{
+				ofs << "      memcpy( &" << structData.members[ i ].name
+					<< ", " << structData.members[ i ].name << "_.data(), "
+					<< structData.members[ i ].arraySize
+					<< " * sizeof( " << structData.members[ i ].type << " ) );\n";
+			}
+		}
+		ofs << "    }\n\n";
+
+		// the copy constructor from a native struct (Vk...)
+		ofs << "    " << name << "( Vk" << name << " const & rhs )\n"
+			<< "    {\n"
+			<< "      memcpy( this, &rhs, sizeof( " << name << " ) );\n"
+			<< "    }\n\n";
+
+		// the assignment operator from a native sturct (Vk...)
+		ofs << "    " << name << "& operator=( Vk" << name << " const & rhs )\n"
+			<< "    {\n"
+			<< "      memcpy( this, &rhs, sizeof( " << name << " ) );\n"
+			<< "      return *this;\n"
+			<< "    }\n\n";
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeStructSetter( std::ofstream& ofs,
+										   std::string const& name,
+										   MemberData const& memberData,
+										   std::set<std::string> const& /*vkTypes*/ ) const //Unused variable
+	{
+		ofs << "    " << name << "& set" << static_cast<char>( toupper( memberData.name[ 0 ] ) ) << memberData.name.substr( 1 ) << "( ";
+		if( memberData.arraySize.empty() )
+			ofs << memberData.type << " ";
+
+		else
+			ofs << "std::array<" << memberData.type << ", " << memberData.arraySize << "> ";
+
+		ofs << memberData.name << "_ )\n    {\n";
+
+		if( !memberData.arraySize.empty() )
+		{
+			ofs << "      memcpy( &" << memberData.name << ", " << memberData.name
+				<< "_.data(), " << memberData.arraySize << " * sizeof( " << memberData.type << " ) )";
+		}
+		else
+			ofs << "      " << memberData.name << " = " << memberData.name << "_";
+
+		ofs << ";\n      return *this;\n" << "    }\n\n";
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeMemberData( std::ofstream& ofs,
+										 MemberData const& memberData,
+										 std::set<std::string> const& vkTypes ) const
+	{
+		if( vkTypes.find( memberData.pureType ) != vkTypes.end() )
+		{
+			if( memberData.type.back() == '*' )
+			{
+				ofs << "reinterpret_cast<";
+				if( memberData.type.find( "const" ) == 0 )
+					ofs << "const ";
+
+				ofs << "Vk" << memberData.pureType << '*';
 			}
 			else
-			{
-				assert( commandData.arguments[ returnIndex ].type.back() == '*' );
-				assert( commandData.arguments[ returnIndex ].type.find( "const" ) == std::string::npos );
-				returnType = commandData.arguments[ returnIndex ].type;
-				returnType.pop_back();
-			}
-		}
-		else if( ( commandData.returnType == "Result" ) && ( commandData.successCodes.size() == 1 ) )
-		{
-			// an original return of type "Result" with less just one successCode is changed to void, errors throw an exception
-			returnType = "void";
+				ofs << "static_cast<Vk" << memberData.pureType;
+
+			ofs << ">( " << memberData.name << " )";
 		}
 		else
-		{
-			// the return type just stays the original return type
-			returnType = commandData.returnType;
-		}
-		return returnType;
+			ofs << memberData.name;
 	}
-
-	std::string CppGenerator::_reduceName( std::string const& name ) const
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
+											std::string const& indentation,
+											std::string const& returnType,
+											std::string const& name,
+											CommandData const& commandData,
+											size_t returnIndex,
+											size_t templateIndex,
+											std::map<size_t, size_t> const& vectorParameters ) const
 	{
-		std::string reducedName;
-		if( name[ 0 ] == 'p' && 1 < name.length() && ( isupper( name[ 1 ] ) || name[ 1 ] == 'p' ) )
-		{
-			reducedName = StringsHelper::strip( name, "p" );
-			reducedName[ 0 ] = tolower( reducedName[ 0 ] );
-		}
-		else
-			reducedName = name;
-
-		return reducedName;
-	}
-
-	size_t CppGenerator::_findReturnIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters ) const
-	{
-		if( ( commandData.returnType == "Result" ) || ( commandData.returnType == "void" ) )
-		{
-			for( size_t i = 0; i < commandData.arguments.size(); i++ )
-			{
-				if( commandData.arguments[ i ].type.find( '*' ) != std::string::npos && commandData.arguments[ i ].type.find( "const" ) == std::string::npos && !_isVectorSizeParameter( vectorParameters, i )
-					&& ( vectorParameters.find( i ) == vectorParameters.end() || commandData.twoStep || commandData.successCodes.size() == 1 ) )
-				{
-	#if !defined(NDEBUG)
-					for( size_t j = i + 1; j < commandData.arguments.size(); j++ )
-					{
-						assert( commandData.arguments[ j ].type.find( '*' ) == std::string::npos || commandData.arguments[ j ].type.find( "const" ) != std::string::npos );
-					}
-	#endif
-					return i;
-				}
-			}
-		}
-		return ~0;
-	}
-
-	size_t CppGenerator::_findTemplateIndex( CommandData const& commandData, std::map<size_t, size_t> const& vectorParameters ) const
-	{
-		for( size_t i = 0; i < commandData.arguments.size(); i++ )
-		{
-			if( commandData.arguments[ i ].name == "pData" || commandData.arguments[ i ].name == "pValues" )
-			{
-				assert( vectorParameters.find( i ) != vectorParameters.end() );
-				return i;
-			}
-		}
-		return ~0;
-	}
-
-	std::map<size_t, size_t> CppGenerator::_getVectorParameters( CommandData const& commandData ) const
-	{
-		std::map<size_t, size_t> lenParameters;
-		for( size_t i = 0; i < commandData.arguments.size(); i++ )
-		{
-			if( !commandData.arguments[ i ].len.empty() )
-			{
-				lenParameters.insert( std::make_pair( i, ~0 ) );
-				for( size_t j = 0; j < commandData.arguments.size(); j++ )
-				{
-					if( commandData.arguments[ i ].len == commandData.arguments[ j ].name )
-						lenParameters[ i ] = j;
-				}
-				assert( lenParameters[ i ] != ~0
-					|| commandData.arguments[ i ].len == "dataSize/4"
-					|| commandData.arguments[ i ].len == "latexmath:[$dataSize \\over 4$]"
-					|| commandData.arguments[ i ].len == "null-terminated"
-					|| commandData.arguments[ i ].len == "pAllocateInfo->descriptorSetCount"
-					|| commandData.arguments[ i ].len == "pAllocateInfo->commandBufferCount" );
-				assert( lenParameters[ i ] == ~0 || lenParameters[ i ] < i );
-			}
-		}
-		return lenParameters;
-	}
-
-	bool CppGenerator::_hasPointerArguments( CommandData const& commandData ) const
-	{
-		for( size_t i = 0; i < commandData.arguments.size(); i++ )
-		{
-			size_t pos = commandData.arguments[ i ].type.find( '*' );
-			if( pos != std::string::npos &&
-				commandData.arguments[ i ].type.find( '*', pos + 1 ) == std::string::npos )
-				return true;
-		}
-		return false;
-	}
-
-	bool CppGenerator::_isVectorSizeParameter( std::map<size_t, size_t> const& vectorParameters, size_t idx ) const
-	{
+		std::set<size_t> skippedArguments;
 		for( auto& it : vectorParameters )
 		{
-			if( it.second == idx )
-				return true;
+			if( it.second != ~0 )
+				skippedArguments.insert( it.second );
 		}
-		return false;
-	}
+		if( vectorParameters.size() == 1
+			&& ( commandData.arguments[ vectorParameters.begin()->first ].len == "dataSize/4"
+				 || commandData.arguments[ vectorParameters.begin()->first ].len == "latexmath:[$dataSize \\over 4$]" ) )
+		{
+			assert( commandData.arguments[ 3 ].name == "dataSize" );
+			skippedArguments.insert( 3 );
+		}
+		if( returnIndex != ~0 )
+			skippedArguments.insert( returnIndex );
 
+		ofs << indentation;
+		if( templateIndex != ~0 && ( templateIndex != returnIndex || returnType == "Result" ) )
+		{
+			assert( returnType.find( "Allocator" ) == std::string::npos );
+			ofs << "template <typename T>\n" << indentation;
+		}
+		else if( returnType.find( "Allocator" ) != std::string::npos )
+		{
+			assert( returnType.substr( 0, 12 ) == "std::vector<" && returnType.find( ',' ) != std::string::npos && 12 < returnType.find( ',' ) );
+			ofs << "template <typename Allocator = std::allocator<"
+				<< returnType.substr( 12, returnType.find( ',' ) - 12 ) << ">>\n"
+				<< indentation;
+
+			if( returnType != commandData.returnType && commandData.returnType != "void" )
+				ofs << "typename ";
+		}
+		else if( !commandData.handleCommand )
+			ofs << "inline ";
+
+		if( returnType != commandData.returnType && commandData.returnType != "void" )
+		{
+			assert( commandData.returnType == "Result" );
+			ofs << "ResultValueType<" << returnType << ">::type ";
+		}
+		else if( returnIndex != ~0 && 1 < commandData.successCodes.size() )
+		{
+			assert( commandData.returnType == "Result" );
+			ofs << "ResultValue<" << commandData.arguments[ returnIndex ].pureType << "> ";
+		}
+		else
+			ofs << returnType << " ";
+
+		ofs << _reduceName( name ) << "(";
+		if( skippedArguments.size() + ( commandData.handleCommand ? 1 : 0 ) < commandData.arguments.size() )
+		{
+			size_t lastArgument = ~0;
+			for( size_t i = commandData.arguments.size() - 1; i < commandData.arguments.size(); i-- )
+			{
+				if( skippedArguments.find( i ) == skippedArguments.end() )
+				{
+					lastArgument = i;
+					break;
+				}
+			}
+
+			ofs << " ";
+			bool argEncountered = false;
+			for( size_t i = commandData.handleCommand ? 1 : 0; i < commandData.arguments.size(); i++ )
+			{
+				if( skippedArguments.find( i ) == skippedArguments.end() )
+				{
+					if( argEncountered )
+						ofs << ", ";
+
+					auto it = vectorParameters.find( i );
+					size_t pos = commandData.arguments[ i ].type.find( '*' );
+					if( it == vectorParameters.end() )
+					{
+						if( pos == std::string::npos )
+						{
+							ofs << commandData.arguments[ i ].type << " " << _reduceName( commandData.arguments[ i ].name );
+							if( !commandData.arguments[ i ].arraySize.empty() )
+								ofs << "[" << commandData.arguments[ i ].arraySize << "]";
+
+							if( lastArgument == i )
+							{
+								auto flagIt = vkData->flags.find( commandData.arguments[ i ].pureType );
+								if( flagIt != vkData->flags.end() )
+								{
+									auto depIt = std::find_if( vkData->dependencies.begin(), vkData->dependencies.end(), [ &flagIt ]( DependencyData const& dd ) { return( dd.name == flagIt->first ); } );
+									assert( depIt != vkData->dependencies.end() );
+									assert( depIt->dependencies.size() == 1 );
+									std::map<std::string, EnumData>::const_iterator enumIt = vkData->enums.find( *depIt->dependencies.begin() );
+									assert( enumIt != vkData->enums.end() );
+									if( enumIt->second.members.empty() )
+										ofs << " = " << commandData.arguments[ i ].pureType << "()";
+								}
+							}
+						}
+						else
+						{
+							assert( commandData.arguments[ i ].type[ pos ] == '*' );
+							auto n = _reduceName( commandData.arguments[ i ].name );
+
+							if( commandData.arguments[ i ].optional )
+							{
+								ofs << "Optional<"
+									<< StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) )
+									<< "> " << n << " = nullptr";
+							}
+							else if( commandData.arguments[ i ].type.find( "char" ) == std::string::npos )
+							{
+								ofs << StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) )
+									<< "& " << n;
+							}
+							else
+								ofs << "const std::string& " << n;
+						}
+					}
+					else
+					{
+						bool optional = commandData.arguments[ i ].optional && ( ( it == vectorParameters.end() ) || ( it->second == ~0 ) );
+						assert( pos != std::string::npos );
+						assert( commandData.arguments[ i ].type[ pos ] == '*' );
+						auto n = _reduceName( commandData.arguments[ i ].name );
+						if( commandData.arguments[ i ].type.find( "char" ) != std::string::npos )
+						{
+							if( optional )
+								ofs << "Optional<const std::string> " << n << " = nullptr";
+							else
+								ofs << "const std::string& " << n;
+						}
+						else
+						{
+							assert( !optional );
+							bool isConst = ( commandData.arguments[ i ].type.find( "const" ) != std::string::npos );
+							ofs << "ArrayProxy<" << ( ( templateIndex == i ) ? ( isConst ? "const T" : "T" ) : StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) ) << "> " << n;
+						}
+					}
+					argEncountered = true;
+				}
+			}
+			ofs << " ";
+		}
+		ofs << ")";
+		if( commandData.handleCommand )
+			ofs << " const";
+
+		ofs << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeFunctionBody( std::ofstream& ofs,
+										   std::string const& indentation,
+										   std::string const& className,
+										   std::string const& functionName,
+										   std::string const& returnType,
+										   size_t templateIndex,
+										   DependencyData const& dependencyData,
+										   CommandData const& commandData,
+										   std::set<std::string> const& vkTypes,
+										   size_t returnIndex,
+										   std::map<size_t, size_t> const& vectorParameters ) const
+	{
+		ofs << indentation << "{\n";
+
+		// add a static_assert if a type is templated and its size needs to be some multiple of the original size
+		if( templateIndex != ~0 && commandData.arguments[ templateIndex ].pureType != "void" )
+		{
+			ofs << indentation << "  static_assert( sizeof( T ) % sizeof( "
+				<< commandData.arguments[ templateIndex ].pureType
+				<< " ) == 0, \"wrong size of template type T\" );\n";
+		}
+
+		// add some error checks if multiple vectors need to have the same size
+		if( 1 < vectorParameters.size() )
+		{
+			for( auto it0 = vectorParameters.begin(); it0 != vectorParameters.end(); ++it0 )
+			{
+				if( it0->first == returnIndex )
+					continue;
+
+				for( auto it1 = std::next( it0 ); it1 != vectorParameters.end(); ++it1 )
+				{
+					if( it1->first == returnIndex || it0->second != it1->second )
+						continue;
+
+					auto n0 = _reduceName( commandData.arguments[ it0->first ].name );
+					auto n1 = _reduceName( commandData.arguments[ it1->first ].name );
+
+					ofs << "#ifdef VK_CPP_NO_EXCEPTIONS\n"
+						<< indentation << "  assert( " << n0 << ".size() == " << n1 << ".size() );\n"
+						<< "#else\n"
+						<< indentation << "  if ( " << n0 << ".size() != " << n1 << ".size() )\n"
+						<< indentation << "  {\n"
+						<< indentation << "    throw std::logic_error( \"vk::"
+						<< className << "::" << functionName << ": " << n0 << ".size() != " << n1 << ".size()\" );\n"
+						<< indentation << "  }\n"
+						<< "#endif  // VK_CPP_NO_EXCEPTIONS\n";
+				}
+			}
+		}
+
+		// write the local variable to hold a returned value
+		if( returnIndex != ~0 )
+		{
+			if( commandData.returnType != returnType )
+			{
+				ofs << indentation << "  " << returnType << " "
+					<< _reduceName( commandData.arguments[ returnIndex ].name );
+
+				auto it = vectorParameters.find( returnIndex );
+				if( it != vectorParameters.end() && !commandData.twoStep )
+				{
+					std::string size;
+					if( it->second == ~0 && !commandData.arguments[ returnIndex ].len.empty() )
+					{
+						size = _reduceName( commandData.arguments[ returnIndex ].len );
+						size_t pos = size.find( "->" );
+						assert( pos != std::string::npos );
+						size.replace( pos, 2, "." );
+					}
+					else
+					{
+						for( auto& sit : vectorParameters )
+						{
+							if( sit.first != returnIndex && sit.second == it->second )
+							{
+								size = _reduceName( commandData.arguments[ sit.first ].name ) + ".size()";
+								break;
+							}
+						}
+					}
+					assert( !size.empty() );
+					ofs << "( " << size << " )";
+				}
+				ofs << ";\n";
+			}
+			else if( 1 < commandData.successCodes.size() )
+			{
+				ofs << indentation << "  "
+					<< commandData.arguments[ returnIndex ].pureType
+					<< " " << _reduceName( commandData.arguments[ returnIndex ].name )
+					<< ";\n";
+			}
+		}
+
+		// local count variable to hold the size of the vector to fill
+		if( commandData.twoStep )
+		{
+			assert( returnIndex != ~0 );
+
+			auto returnit = vectorParameters.find( returnIndex );
+			assert( returnit != vectorParameters.end() && returnit->second != ~0 );
+			assert( commandData.returnType == "Result" || commandData.returnType == "void" );
+
+			ofs << indentation << "  "
+				<< commandData.arguments[ returnit->second ].pureType << " "
+				<< _reduceName( commandData.arguments[ returnit->second ].name )
+					<< ";\n";
+		}
+
+		// write the function call
+		ofs << indentation << "  ";
+		std::string localIndentation = "  ";
+		if( commandData.returnType == "Result" )
+		{
+			ofs << "Result result";
+			if( commandData.twoStep && ( 1 < commandData.successCodes.size() ) )
+			{
+				ofs << ";\n"
+					<< indentation << "  do\n"
+					<< indentation << "  {\n"
+					<< indentation << "    result";
+				localIndentation += "  ";
+			}
+			ofs << " = static_cast<Result>( ";
+		}
+		else if( commandData.returnType != "void" )
+		{
+			assert( !commandData.twoStep );
+			ofs << "return ";
+		}
+		_writeCall( ofs, dependencyData.name, templateIndex, commandData, vkTypes, vectorParameters, returnIndex, true );
+		if( commandData.returnType == "Result" )
+			ofs << " )";
+
+		ofs << ";\n";
+
+		if( commandData.twoStep )
+		{
+			auto returnit = vectorParameters.find( returnIndex );
+
+			if( commandData.returnType == "Result" )
+			{
+				ofs << indentation << localIndentation << "if( result == Result::eSuccess && "
+					<< _reduceName( commandData.arguments[ returnit->second ].name ) << " )\n"
+					<< indentation << localIndentation << "{\n"
+					<< indentation << localIndentation << "  ";
+			}
+			else
+				ofs << indentation << "  ";
+
+			// resize the vector to hold the data according to the result from the first call
+			ofs << _reduceName( commandData.arguments[ returnit->first ].name )
+					<< ".resize( " << _reduceName( commandData.arguments[ returnit->second ].name ) << " );\n";
+
+			// write the function call a second time
+			if( commandData.returnType == "Result" )
+				ofs << indentation << localIndentation << "  result = static_cast<Result>( ";
+
+			else
+				ofs << indentation << "  ";
+
+			_writeCall( ofs, dependencyData.name, templateIndex, commandData, vkTypes, vectorParameters, returnIndex, false );
+			if( commandData.returnType == "Result" )
+				ofs << " )";
+
+			ofs << ";\n";
+			if( commandData.returnType == "Result" )
+			{
+				ofs << indentation << localIndentation << "}\n";
+				if( 1 < commandData.successCodes.size() )
+					ofs << indentation << "  } while( result == Result::eIncomplete );\n";
+			}
+		}
+
+		if( commandData.returnType == "Result" || !commandData.successCodes.empty() )
+		{
+			ofs << indentation << "  return createResultValue( result, ";
+			if( returnIndex != ~0 )
+				ofs << _reduceName( commandData.arguments[ returnIndex ].name ) << ", ";
+
+			ofs << "\"vk::" << ( className.empty() ? "" : className + "::" ) << functionName << "\"";
+			if( 1 < commandData.successCodes.size() && !commandData.twoStep )
+			{
+				ofs << ", { Result::" << commandData.successCodes[ 0 ];
+				for( size_t i = 1; i < commandData.successCodes.size(); i++ )
+					ofs << ", Result::" << commandData.successCodes[ i ];
+
+				ofs << " }";
+			}
+			ofs << " );\n";
+		}
+		else if( returnIndex != ~0 && commandData.returnType != returnType )
+			ofs << indentation << "  return " << _reduceName( commandData.arguments[ returnIndex ].name ) << ";\n";
+
+		ofs << indentation << "}\n";
+	}
+	//--------------------------------------------------------------------------
 	void CppGenerator::_writeCall( std::ofstream& ofs, std::string const& name,
 								   size_t templateIndex,
 								   CommandData const& commandData,
@@ -888,7 +1441,8 @@ namespace vk
 			countIndices.insert( std::make_pair( it.second, it.first ) );
 
 		if( vectorParameters.size() == 1
-			&& ( ( commandData.arguments[ vectorParameters.begin()->first ].len == "dataSize/4" ) || ( commandData.arguments[ vectorParameters.begin()->first ].len == "latexmath:[$dataSize \\over 4$]" ) ) )
+			&& ( commandData.arguments[ vectorParameters.begin()->first ].len == "dataSize/4"
+				 || commandData.arguments[ vectorParameters.begin()->first ].len == "latexmath:[$dataSize \\over 4$]" ) )
 		{
 			assert( commandData.arguments[ 3 ].name == "dataSize" );
 			countIndices.insert( std::make_pair( 3, vectorParameters.begin()->first ) );
@@ -931,7 +1485,7 @@ namespace vk
 
 					else
 					{
-						std::set<std::string>::const_iterator vkit = vkTypes.find( commandData.arguments[ it->first ].pureType );
+						auto vkit = vkTypes.find( commandData.arguments[ it->first ].pureType );
 						if( ( vkit != vkTypes.end() ) || ( it->first == templateIndex ) )
 						{
 							ofs << "reinterpret_cast<";
@@ -941,7 +1495,8 @@ namespace vk
 							if( vkit != vkTypes.end() )
 								ofs << "Vk";
 
-							ofs << commandData.arguments[ it->first ].pureType << "*>( " << _reduceName( commandData.arguments[ it->first ].name ) << ".data() )";
+							ofs << commandData.arguments[ it->first ].pureType
+								<< "*>( " << _reduceName( commandData.arguments[ it->first ].name ) << ".data() )";
 						}
 						else if( commandData.arguments[ it->first ].pureType == "char" )
 						{
@@ -1005,8 +1560,12 @@ namespace vk
 		}
 		ofs << " )";
 	}
-
-	void CppGenerator::_writeExceptionCheck( std::ofstream & ofs, std::string const& indentation, std::string const& className, std::string const& functionName, std::vector<std::string> const& successCodes )
+	//Unreferenced method
+	/*void CppGenerator::_writeExceptionCheck( std::ofstream& ofs,
+											 std::string const& indentation,
+											 std::string const& className,
+											 std::string const& functionName,
+											 std::vector<std::string> const& successCodes )
 	{
 		assert( !successCodes.empty() );
 		ofs << indentation << "  if (";
@@ -1030,542 +1589,5 @@ namespace vk
 
 		ofs << functionName << "\" );" << std::endl
 			<< indentation << "  }" << std::endl;
-	}
-
-	void CppGenerator::_writeFunctionBody( std::ofstream& ofs,
-										   std::string const& indentation,
-										   std::string const& className,
-										   std::string const& functionName,
-										   std::string const& returnType,
-										   size_t templateIndex,
-										   DependencyData const& dependencyData,
-										   CommandData const& commandData,
-										   std::set<std::string> const& vkTypes,
-										   size_t returnIndex,
-										   std::map<size_t, size_t> const& vectorParameters ) const
-	{
-		ofs << indentation << "{" << std::endl;
-
-		// add a static_assert if a type is templated and its size needs to be some multiple of the original size
-		if( templateIndex != ~0 && commandData.arguments[ templateIndex ].pureType != "void" )
-		{
-			ofs << indentation << "  static_assert( sizeof( T ) % sizeof( "
-				<< commandData.arguments[ templateIndex ].pureType
-				<< " ) == 0, \"wrong size of template type T\" );" << std::endl;
-		}
-
-		// add some error checks if multiple vectors need to have the same size
-		if( 1 < vectorParameters.size() )
-		{
-			for( auto it0 = vectorParameters.begin(); it0 != vectorParameters.end(); ++it0 )
-			{
-				if( it0->first == returnIndex )
-					continue;
-
-				for( auto it1 = std::next( it0 ); it1 != vectorParameters.end(); ++it1 )
-				{
-					if( it1->first == returnIndex || it0->second != it1->second )
-						continue;
-
-					auto n0 = _reduceName( commandData.arguments[ it0->first ].name );
-					auto n1 = _reduceName( commandData.arguments[ it1->first ].name );
-
-					ofs << "#ifdef VK_CPP_NO_EXCEPTIONS\n"
-						<< indentation << "  assert( " << n0 << ".size() == " << n1 << ".size() );\n"
-						<< "#else" << std::endl
-						<< indentation << "  if ( " << n0 << ".size() != " << n1 << ".size() )\n"
-						<< indentation << "  {\n"
-						<< indentation << "    throw std::logic_error( \"vk::" << className << "::" << functionName << ": " << n0 << ".size() != " << n1 << ".size()\" );\n"
-						<< indentation << "  }\n"
-						<< "#endif  // VK_CPP_NO_EXCEPTIONS\n";
-				}
-			}
-		}
-
-		// write the local variable to hold a returned value
-		if( returnIndex != ~0 )
-		{
-			if( commandData.returnType != returnType )
-			{
-				ofs << indentation << "  " << returnType << " " << _reduceName( commandData.arguments[ returnIndex ].name );
-
-				std::map<size_t, size_t>::const_iterator it = vectorParameters.find( returnIndex );
-				if( it != vectorParameters.end() && !commandData.twoStep )
-				{
-					std::string size;
-					if( it->second == ~0 && !commandData.arguments[ returnIndex ].len.empty() )
-					{
-						size = _reduceName( commandData.arguments[ returnIndex ].len );
-						size_t pos = size.find( "->" );
-						assert( pos != std::string::npos );
-						size.replace( pos, 2, "." );
-					}
-					else
-					{
-						for( auto& sit : vectorParameters )
-						{
-							if( sit.first != returnIndex && sit.second == it->second )
-							{
-								size = _reduceName( commandData.arguments[ sit.first ].name ) + ".size()";
-								break;
-							}
-						}
-					}
-					assert( !size.empty() );
-					ofs << "( " << size << " )";
-				}
-				ofs << ";" << std::endl;
-			}
-			else if( 1 < commandData.successCodes.size() )
-			{
-				ofs << indentation << "  "
-					<< commandData.arguments[ returnIndex ].pureType
-					<< " " << _reduceName( commandData.arguments[ returnIndex ].name )
-					<< ";" << std::endl;
-			}
-		}
-
-		// local count variable to hold the size of the vector to fill
-		if( commandData.twoStep )
-		{
-			assert( returnIndex != ~0 );
-
-			std::map<size_t, size_t>::const_iterator returnit = vectorParameters.find( returnIndex );
-			assert( returnit != vectorParameters.end() && returnit->second != ~0 );
-			assert( commandData.returnType == "Result" || commandData.returnType == "void" );
-
-			ofs << indentation << "  "
-				<< commandData.arguments[ returnit->second ].pureType << " "
-				<< _reduceName( commandData.arguments[ returnit->second ].name )
-					<< ";\n";
-		}
-
-		// write the function call
-		ofs << indentation << "  ";
-		std::string localIndentation = "  ";
-		if( commandData.returnType == "Result" )
-		{
-			ofs << "Result result";
-			if( commandData.twoStep && ( 1 < commandData.successCodes.size() ) )
-			{
-				ofs << ";" << std::endl
-					<< indentation << "  do" << std::endl
-					<< indentation << "  {" << std::endl
-					<< indentation << "    result";
-				localIndentation += "  ";
-			}
-			ofs << " = static_cast<Result>( ";
-		}
-		else if( commandData.returnType != "void" )
-		{
-			assert( !commandData.twoStep );
-			ofs << "return ";
-		}
-		_writeCall( ofs, dependencyData.name, templateIndex, commandData, vkTypes, vectorParameters, returnIndex, true );
-		if( commandData.returnType == "Result" )
-			ofs << " )";
-
-		ofs << ";" << std::endl;
-
-		if( commandData.twoStep )
-		{
-			auto returnit = vectorParameters.find( returnIndex );
-
-			if( commandData.returnType == "Result" )
-			{
-				ofs << indentation << localIndentation << "if ( ( result == Result::eSuccess ) && " << _reduceName( commandData.arguments[ returnit->second ].name ) << " )" << std::endl
-					<< indentation << localIndentation << "{" << std::endl
-					<< indentation << localIndentation << "  ";
-			}
-			else
-				ofs << indentation << "  ";
-
-			// resize the vector to hold the data according to the result from the first call
-			ofs << _reduceName( commandData.arguments[ returnit->first ].name ) << ".resize( " << _reduceName( commandData.arguments[ returnit->second ].name ) << " );" << std::endl;
-
-			// write the function call a second time
-			if( commandData.returnType == "Result" )
-				ofs << indentation << localIndentation << "  result = static_cast<Result>( ";
-
-			else
-				ofs << indentation << "  ";
-
-			_writeCall( ofs, dependencyData.name, templateIndex, commandData, vkTypes, vectorParameters, returnIndex, false );
-			if( commandData.returnType == "Result" )
-				ofs << " )";
-
-			ofs << ";" << std::endl;
-			if( commandData.returnType == "Result" )
-			{
-				ofs << indentation << localIndentation << "}" << std::endl;
-				if( 1 < commandData.successCodes.size() )
-					ofs << indentation << "  } while ( result == Result::eIncomplete );\n";
-			}
-		}
-
-		if( commandData.returnType == "Result" || !commandData.successCodes.empty() )
-		{
-			ofs << indentation << "  return createResultValue( result, ";
-			if( returnIndex != ~0 )
-				ofs << _reduceName( commandData.arguments[ returnIndex ].name ) << ", ";
-
-			ofs << "\"vk::" << ( className.empty() ? "" : className + "::" ) << functionName << "\"";
-			if( 1 < commandData.successCodes.size() && !commandData.twoStep )
-			{
-				ofs << ", { Result::" << commandData.successCodes[ 0 ];
-				for( size_t i = 1; i < commandData.successCodes.size(); i++ )
-					ofs << ", Result::" << commandData.successCodes[ i ];
-
-				ofs << " }";
-			}
-			ofs << " );" << std::endl;
-		}
-		else if( returnIndex != ~0 && commandData.returnType != returnType )
-			ofs << indentation << "  return " << _reduceName( commandData.arguments[ returnIndex ].name ) << ";\n";
-
-		ofs << indentation << "}" << std::endl;
-	}
-
-	void CppGenerator::_writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
-											std::string const& indentation,
-											std::string const& returnType,
-											std::string const& name,
-											CommandData const& commandData,
-											size_t returnIndex,
-											size_t templateIndex,
-											std::map<size_t, size_t> const& vectorParameters ) const
-	{
-		std::set<size_t> skippedArguments;
-		for( auto& it : vectorParameters )
-		{
-			if( it.second != ~0 )
-				skippedArguments.insert( it.second );
-		}
-		if( vectorParameters.size() == 1
-			&& ( commandData.arguments[ vectorParameters.begin()->first ].len == "dataSize/4" || commandData.arguments[ vectorParameters.begin()->first ].len == "latexmath:[$dataSize \\over 4$]" ) )
-		{
-			assert( commandData.arguments[ 3 ].name == "dataSize" );
-			skippedArguments.insert( 3 );
-		}
-		if( returnIndex != ~0 )
-			skippedArguments.insert( returnIndex );
-
-		ofs << indentation;
-		if( templateIndex != ~0 && ( templateIndex != returnIndex || returnType == "Result" ) )
-		{
-			assert( returnType.find( "Allocator" ) == std::string::npos );
-			ofs << "template <typename T>" << std::endl
-				<< indentation;
-		}
-		else if( returnType.find( "Allocator" ) != std::string::npos )
-		{
-			assert( returnType.substr( 0, 12 ) == "std::vector<" && returnType.find( ',' ) != std::string::npos && 12 < returnType.find( ',' ) );
-			ofs << "template <typename Allocator = std::allocator<"
-				<< returnType.substr( 12, returnType.find( ',' ) - 12 ) << ">>\n"
-				<< indentation;
-
-			if( returnType != commandData.returnType && commandData.returnType != "void" )
-				ofs << "typename ";
-		}
-		else if( !commandData.handleCommand )
-			ofs << "inline ";
-
-		if( returnType != commandData.returnType && commandData.returnType != "void" )
-		{
-			assert( commandData.returnType == "Result" );
-			ofs << "ResultValueType<" << returnType << ">::type ";
-		}
-		else if( ( returnIndex != ~0 ) && ( 1 < commandData.successCodes.size() ) )
-		{
-			assert( commandData.returnType == "Result" );
-			ofs << "ResultValue<" << commandData.arguments[ returnIndex ].pureType << "> ";
-		}
-		else
-			ofs << returnType << " ";
-
-		ofs << _reduceName( name ) << "(";
-		if( skippedArguments.size() + ( commandData.handleCommand ? 1 : 0 ) < commandData.arguments.size() )
-		{
-			size_t lastArgument = ~0;
-			for( size_t i = commandData.arguments.size() - 1; i < commandData.arguments.size(); i-- )
-			{
-				if( skippedArguments.find( i ) == skippedArguments.end() )
-				{
-					lastArgument = i;
-					break;
-				}
-			}
-
-			ofs << " ";
-			bool argEncountered = false;
-			for( size_t i = commandData.handleCommand ? 1 : 0; i < commandData.arguments.size(); i++ )
-			{
-				if( skippedArguments.find( i ) == skippedArguments.end() )
-				{
-					if( argEncountered )
-						ofs << ", ";
-
-					std::map<size_t, size_t>::const_iterator it = vectorParameters.find( i );
-					size_t pos = commandData.arguments[ i ].type.find( '*' );
-					if( it == vectorParameters.end() )
-					{
-						if( pos == std::string::npos )
-						{
-							ofs << commandData.arguments[ i ].type << " " << _reduceName( commandData.arguments[ i ].name );
-							if( !commandData.arguments[ i ].arraySize.empty() )
-								ofs << "[" << commandData.arguments[ i ].arraySize << "]";
-
-							if( lastArgument == i )
-							{
-								std::map<std::string, FlagData>::const_iterator flagIt = vkData->flags.find( commandData.arguments[ i ].pureType );
-								if( flagIt != vkData->flags.end() )
-								{
-									std::list<DependencyData>::const_iterator depIt = std::find_if( vkData->dependencies.begin(), vkData->dependencies.end(), [ &flagIt ]( DependencyData const& dd ) { return( dd.name == flagIt->first ); } );
-									assert( depIt != vkData->dependencies.end() );
-									assert( depIt->dependencies.size() == 1 );
-									std::map<std::string, EnumData>::const_iterator enumIt = vkData->enums.find( *depIt->dependencies.begin() );
-									assert( enumIt != vkData->enums.end() );
-									if( enumIt->second.members.empty() )
-										ofs << " = " << commandData.arguments[ i ].pureType << "()";
-								}
-							}
-						}
-						else
-						{
-							assert( commandData.arguments[ i ].type[ pos ] == '*' );
-							auto n = _reduceName( commandData.arguments[ i ].name );
-
-							if( commandData.arguments[ i ].optional )
-							{
-								ofs << "Optional<"
-									<< StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) )
-									<< "> " << n << " = nullptr";
-							}
-							else if( commandData.arguments[ i ].type.find( "char" ) == std::string::npos )
-							{
-								ofs << StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) )
-									<< "& " << n;
-							}
-							else
-								ofs << "const std::string& " << n;
-						}
-					}
-					else
-					{
-						bool optional = commandData.arguments[ i ].optional && ( ( it == vectorParameters.end() ) || ( it->second == ~0 ) );
-						assert( pos != std::string::npos );
-						assert( commandData.arguments[ i ].type[ pos ] == '*' );
-						if( commandData.arguments[ i ].type.find( "char" ) != std::string::npos )
-						{
-							auto n = _reduceName( commandData.arguments[ i ].name );
-							if( optional )
-								ofs << "Optional<const std::string> " << n << " = nullptr";
-							else
-								ofs << "const std::string& " << n;
-						}
-						else
-						{
-							assert( !optional );
-							bool isConst = ( commandData.arguments[ i ].type.find( "const" ) != std::string::npos );
-							ofs << "ArrayProxy<" << ( ( templateIndex == i ) ? ( isConst ? "const T" : "T" ) : StringsHelper::trimEnd( commandData.arguments[ i ].type.substr( 0, pos ) ) ) << "> " << _reduceName( commandData.arguments[ i ].name );
-						}
-					}
-					argEncountered = true;
-				}
-			}
-			ofs << " ";
-		}
-		ofs << ")";
-		if( commandData.handleCommand )
-			ofs << " const";
-
-		ofs << std::endl;
-	}
-
-	void CppGenerator::_writeMemberData( std::ofstream& ofs,
-										 MemberData const& memberData,
-										 std::set<std::string> const& vkTypes ) const
-	{
-		if( vkTypes.find( memberData.pureType ) != vkTypes.end() )
-		{
-			if( memberData.type.back() == '*' )
-			{
-				ofs << "reinterpret_cast<";
-				if( memberData.type.find( "const" ) == 0 )
-					ofs << "const ";
-
-				ofs << "Vk" << memberData.pureType << '*';
-			}
-			else
-				ofs << "static_cast<Vk" << memberData.pureType;
-
-			ofs << ">( " << memberData.name << " )";
-		}
-		else
-			ofs << memberData.name;
-	}
-
-	void CppGenerator::_writeStructConstructor( std::ofstream& ofs,
-												std::string const& name,
-												StructData const& structData,
-												std::set<std::string> const& /*vkTypes*/, //Unused variable
-												std::map<std::string,
-												std::string> const& defaultValues ) const
-	{
-		// the constructor with all the elements as arguments, with defaults
-		ofs << "    " << name << "( ";
-		bool listedArgument = false;
-		for( size_t i = 0; i < structData.members.size(); i++ )
-		{
-			if( listedArgument )
-				ofs << ", ";
-
-			if( structData.members[ i ].name != "pNext" && structData.members[ i ].name != "sType" )
-			{
-				std::map<std::string, std::string>::const_iterator defaultIt = defaultValues.find( structData.members[ i ].pureType );
-				assert( defaultIt != defaultValues.end() );
-				if( structData.members[ i ].arraySize.empty() )
-				{
-					ofs << structData.members[ i ].type + " " + structData.members[ i ].name
-						<< "_ = " << ( structData.members[ i ].type.back() == '*' ? "nullptr" : defaultIt->second );
-				}
-				else
-				{
-					ofs << "std::array<" + structData.members[ i ].type + "," + structData.members[ i ].arraySize + "> const& " + structData.members[ i ].name << "_ = { " << defaultIt->second;
-					size_t n = atoi( structData.members[ i ].arraySize.c_str() );
-					assert( 0 < n );
-					for( size_t j = 1; j < n; j++ )
-						ofs << ", " << defaultIt->second;
-
-					ofs << " }";
-				}
-				listedArgument = true;
-			}
-		}
-		ofs << " )" << std::endl;
-
-		// copy over the simple arguments
-		bool firstArgument = true;
-		for( size_t i = 0; i < structData.members.size(); i++ )
-		{
-			if( structData.members[ i ].arraySize.empty() )
-			{
-				ofs << "      " << ( firstArgument ? ":" : "," ) << " " << structData.members[ i ].name << "( ";
-				if( structData.members[ i ].name == "pNext" )
-					ofs << "nullptr";
-
-				else if( structData.members[ i ].name == "sType" )
-					ofs << "StructureType::e" << name;
-
-				else
-					ofs << structData.members[ i ].name << "_";
-
-				ofs << " )" << std::endl;
-				firstArgument = false;
-			}
-		}
-
-		// the body of the constructor, copying over data from argument list into wrapped struct
-		ofs << "    {" << std::endl;
-		for( size_t i = 0; i < structData.members.size(); i++ )
-		{
-			if( !structData.members[ i ].arraySize.empty() )
-			{
-				ofs << "      memcpy( &" << structData.members[ i ].name << ", " << structData.members[ i ].name << "_.data(), " << structData.members[ i ].arraySize << " * sizeof( " << structData.members[ i ].type << " ) );" << std::endl;
-			}
-		}
-		ofs << "    }" << std::endl
-			<< std::endl;
-
-		// the copy constructor from a native struct (Vk...)
-		ofs << "    " << name << "( Vk" << name << " const & rhs )" << std::endl
-			<< "    {" << std::endl
-			<< "      memcpy( this, &rhs, sizeof(" << name << ") );" << std::endl
-			<< "    }" << std::endl
-			<< std::endl;
-
-		// the assignment operator from a native sturct (Vk...)
-		ofs << "    " << name << "& operator=( Vk" << name << " const & rhs )" << std::endl
-			<< "    {" << std::endl
-			<< "      memcpy( this, &rhs, sizeof(" << name << ") );" << std::endl
-			<< "      return *this;" << std::endl
-			<< "    }" << std::endl
-			<< std::endl;
-	}
-
-	void CppGenerator::_writeStructSetter( std::ofstream& ofs,
-										   std::string const& name,
-										   MemberData const& memberData,
-										   std::set<std::string> const& /*vkTypes*/ ) const //Unused variable
-	{
-		ofs << "    " << name << "& set" << static_cast<char>( toupper( memberData.name[ 0 ] ) ) << memberData.name.substr( 1 ) << "( ";
-		if( memberData.arraySize.empty() )
-			ofs << memberData.type << " ";
-
-		else
-			ofs << "std::array<" << memberData.type << "," << memberData.arraySize << "> ";
-
-		ofs << memberData.name << "_ )\n    {\n";
-
-		if( !memberData.arraySize.empty() )
-		{
-			ofs << "      memcpy( &" << memberData.name << ", " << memberData.name
-				<< "_.data(), " << memberData.arraySize << " * sizeof( " << memberData.type << " ) )";
-		}
-		else
-			ofs << "      " << memberData.name << " = " << memberData.name << "_";
-
-		ofs << ";" << std::endl
-			<< "      return *this;" << std::endl
-			<< "    }" << std::endl
-			<< std::endl;
-	}
-
-	void CppGenerator::_writeFlagsToString( std::ofstream& ofs,
-											DependencyData const& dependencyData,
-											EnumData const &enumData ) const
-	{
-		_enterProtect( ofs, enumData.protect );
-		std::string enumPrefix = *dependencyData.dependencies.begin() + "::";
-		ofs << "  inline std::string to_string(" << dependencyData.name << ( enumData.members.empty() ? ")" : " value)" ) << std::endl
-			<< "  {" << std::endl;
-		if( enumData.members.empty() )
-			ofs << "    return \"{}\";" << std::endl;
-
-		else
-		{
-			ofs << "    if (!value) return \"{}\";" << std::endl
-				<< "    std::string result;" << std::endl;
-
-			for( auto itMember = enumData.members.begin(); itMember != enumData.members.end(); ++itMember )
-				ofs << "    if (value & " << enumPrefix + itMember->name << ") result += \"" << itMember->name.substr( 1 ) << " | \";" << std::endl;
-
-			ofs << "    return \"{\" + result.substr(0, result.size() - 3) + \"}\";" << std::endl;
-		}
-		ofs << "  }" << std::endl;
-		_leaveProtect( ofs, enumData.protect );
-		ofs << std::endl;
-	}
-
-	void CppGenerator::_writeEnumsToString( std::ofstream& ofs, SpecData* vkData ) const
-	{
-		for( auto& it : vkData->dependencies )
-		{
-			switch( it.category )
-			{
-				case DependencyData::Category::ENUM:
-					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
-					_writeEnumsToString( ofs, it, vkData->enums.find( it.name )->second );
-					break;
-
-				case DependencyData::Category::FLAGS:
-					_writeFlagsToString( ofs, it, vkData->enums.find( *it.dependencies.begin() )->second );
-					break;
-			}
-		}
-	}
-
-
-
-
+	}*/
 } // end of vk namespace
