@@ -54,9 +54,9 @@
 #include <cstring>
 #include <string>
 #include <system_error>
+#include <array>
 #include <algorithm>
 #include <vulkan/vulkan.h>
-#include <array>
 #ifndef VKCPP_DISABLE_ENHANCED_MODE
 #	include <vector>
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
@@ -907,7 +907,7 @@ namespace vk
       : m_deviceMemory( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     DeviceMemory( VkDeviceMemory deviceMemory )
        : m_deviceMemory( deviceMemory )
     {}
@@ -919,7 +919,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDeviceMemory() const
@@ -949,7 +949,7 @@ namespace vk
       : m_commandPool( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     CommandPool( VkCommandPool commandPool )
        : m_commandPool( commandPool )
     {}
@@ -961,7 +961,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkCommandPool() const
@@ -991,7 +991,7 @@ namespace vk
       : m_buffer( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Buffer( VkBuffer buffer )
        : m_buffer( buffer )
     {}
@@ -1003,7 +1003,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkBuffer() const
@@ -1033,7 +1033,7 @@ namespace vk
       : m_bufferView( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     BufferView( VkBufferView bufferView )
        : m_bufferView( bufferView )
     {}
@@ -1045,7 +1045,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkBufferView() const
@@ -1075,7 +1075,7 @@ namespace vk
       : m_image( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Image( VkImage image )
        : m_image( image )
     {}
@@ -1087,7 +1087,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkImage() const
@@ -1117,7 +1117,7 @@ namespace vk
       : m_imageView( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     ImageView( VkImageView imageView )
        : m_imageView( imageView )
     {}
@@ -1129,7 +1129,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkImageView() const
@@ -1159,7 +1159,7 @@ namespace vk
       : m_shaderModule( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     ShaderModule( VkShaderModule shaderModule )
        : m_shaderModule( shaderModule )
     {}
@@ -1171,7 +1171,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkShaderModule() const
@@ -1201,7 +1201,7 @@ namespace vk
       : m_pipeline( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Pipeline( VkPipeline pipeline )
        : m_pipeline( pipeline )
     {}
@@ -1213,7 +1213,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkPipeline() const
@@ -1243,7 +1243,7 @@ namespace vk
       : m_pipelineLayout( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     PipelineLayout( VkPipelineLayout pipelineLayout )
        : m_pipelineLayout( pipelineLayout )
     {}
@@ -1255,7 +1255,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkPipelineLayout() const
@@ -1285,7 +1285,7 @@ namespace vk
       : m_sampler( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Sampler( VkSampler sampler )
        : m_sampler( sampler )
     {}
@@ -1297,7 +1297,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkSampler() const
@@ -1327,7 +1327,7 @@ namespace vk
       : m_descriptorSet( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     DescriptorSet( VkDescriptorSet descriptorSet )
        : m_descriptorSet( descriptorSet )
     {}
@@ -1339,7 +1339,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDescriptorSet() const
@@ -1369,7 +1369,7 @@ namespace vk
       : m_descriptorSetLayout( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     DescriptorSetLayout( VkDescriptorSetLayout descriptorSetLayout )
        : m_descriptorSetLayout( descriptorSetLayout )
     {}
@@ -1381,7 +1381,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDescriptorSetLayout() const
@@ -1411,7 +1411,7 @@ namespace vk
       : m_descriptorPool( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     DescriptorPool( VkDescriptorPool descriptorPool )
        : m_descriptorPool( descriptorPool )
     {}
@@ -1423,7 +1423,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDescriptorPool() const
@@ -1453,7 +1453,7 @@ namespace vk
       : m_fence( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Fence( VkFence fence )
        : m_fence( fence )
     {}
@@ -1465,7 +1465,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkFence() const
@@ -1495,7 +1495,7 @@ namespace vk
       : m_semaphore( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Semaphore( VkSemaphore semaphore )
        : m_semaphore( semaphore )
     {}
@@ -1507,7 +1507,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkSemaphore() const
@@ -1537,7 +1537,7 @@ namespace vk
       : m_event( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Event( VkEvent event )
        : m_event( event )
     {}
@@ -1549,7 +1549,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkEvent() const
@@ -1579,7 +1579,7 @@ namespace vk
       : m_queryPool( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     QueryPool( VkQueryPool queryPool )
        : m_queryPool( queryPool )
     {}
@@ -1591,7 +1591,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkQueryPool() const
@@ -1621,7 +1621,7 @@ namespace vk
       : m_framebuffer( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Framebuffer( VkFramebuffer framebuffer )
        : m_framebuffer( framebuffer )
     {}
@@ -1633,7 +1633,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkFramebuffer() const
@@ -1663,7 +1663,7 @@ namespace vk
       : m_renderPass( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     RenderPass( VkRenderPass renderPass )
        : m_renderPass( renderPass )
     {}
@@ -1675,7 +1675,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkRenderPass() const
@@ -1705,7 +1705,7 @@ namespace vk
       : m_pipelineCache( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     PipelineCache( VkPipelineCache pipelineCache )
        : m_pipelineCache( pipelineCache )
     {}
@@ -1717,7 +1717,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkPipelineCache() const
@@ -1747,7 +1747,7 @@ namespace vk
       : m_displayKHR( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     DisplayKHR( VkDisplayKHR displayKHR )
        : m_displayKHR( displayKHR )
     {}
@@ -1759,7 +1759,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDisplayKHR() const
@@ -1789,7 +1789,7 @@ namespace vk
       : m_displayModeKHR( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     DisplayModeKHR( VkDisplayModeKHR displayModeKHR )
        : m_displayModeKHR( displayModeKHR )
     {}
@@ -1801,7 +1801,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDisplayModeKHR() const
@@ -1831,7 +1831,7 @@ namespace vk
       : m_surfaceKHR( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     SurfaceKHR( VkSurfaceKHR surfaceKHR )
        : m_surfaceKHR( surfaceKHR )
     {}
@@ -1843,7 +1843,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkSurfaceKHR() const
@@ -1873,7 +1873,7 @@ namespace vk
       : m_swapchainKHR( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     SwapchainKHR( VkSwapchainKHR swapchainKHR )
        : m_swapchainKHR( swapchainKHR )
     {}
@@ -1885,7 +1885,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkSwapchainKHR() const
@@ -1915,7 +1915,7 @@ namespace vk
       : m_debugReportCallbackEXT( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     DebugReportCallbackEXT( VkDebugReportCallbackEXT debugReportCallbackEXT )
        : m_debugReportCallbackEXT( debugReportCallbackEXT )
     {}
@@ -1927,7 +1927,7 @@ namespace vk
     }
 #endif
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDebugReportCallbackEXT() const
@@ -11005,7 +11005,7 @@ namespace vk
       : m_commandBuffer( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     CommandBuffer( VkCommandBuffer commandBuffer )
        : m_commandBuffer( commandBuffer )
     {}
@@ -11691,7 +11691,7 @@ namespace vk
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkCommandBuffer() const
@@ -12002,7 +12002,7 @@ namespace vk
       : m_queue( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Queue( VkQueue queue )
        : m_queue( queue )
     {}
@@ -12068,7 +12068,7 @@ namespace vk
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkQueue() const
@@ -13034,7 +13034,7 @@ namespace vk
       : m_device( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Device( VkDevice device )
        : m_device( device )
     {}
@@ -14122,7 +14122,7 @@ namespace vk
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkDevice() const
@@ -14152,7 +14152,7 @@ namespace vk
       : m_physicalDevice( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     PhysicalDevice( VkPhysicalDevice physicalDevice )
        : m_physicalDevice( physicalDevice )
     {}
@@ -14622,7 +14622,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_XCB_KHR*/
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkPhysicalDevice() const
@@ -14652,7 +14652,7 @@ namespace vk
       : m_instance( VK_NULL_HANDLE )
     {}
 
-#if defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifdef VK_CPP_TYPESAFE_CONVERSION
     Instance( VkInstance instance )
        : m_instance( instance )
     {}
@@ -14885,7 +14885,7 @@ namespace vk
     }
 #endif /*VKCPP_DISABLE_ENHANCED_MODE*/
 
-#if !defined(VK_CPP_TYPESAFE_CONVERSION)
+#ifndef VK_CPP_TYPESAFE_CONVERSION
     explicit
 #endif
     operator VkInstance() const
