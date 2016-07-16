@@ -30,6 +30,9 @@
 
 namespace vk
 {
+	//Forward declaration
+	class DualOFStream;
+
 	class CppGenerator
 	{
 	public:
@@ -83,7 +86,6 @@ namespace vk
 
 		//Write methods
 		//----------------------------------------------------------------------
-
 		void _writeVersionCheck( std::ofstream& ofs, std::string const& version ) const;
 
 		void _writeTypesafeCheck( std::ofstream& ofs, std::string const& typesafeCheck ) const;
@@ -100,8 +102,7 @@ namespace vk
 
 		//Write types
 		//----------------------------------------------------------------------
-
-		void _writeTypes( std::ofstream& ofs, SpecData* vkData,
+		void _writeTypes( DualOFStream& ofs, SpecData* vkData,
 						  std::map<std::string, std::string> const& defaultValues ) const;
 
 		void _writeTypeCommand( std::ofstream& ofs, SpecData* vkData,
@@ -129,7 +130,7 @@ namespace vk
 							  DependencyData const& dependencyData,
 							  FlagData const& flagData ) const;
 
-		void _writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
+		void _writeTypeHandle( DualOFStream& ofs, SpecData* vkData,
 							   DependencyData const& dependencyData,
 							   HandleData const& handle,
 							   std::list<DependencyData> const& dependencies ) const;

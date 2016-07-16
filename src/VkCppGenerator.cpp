@@ -67,14 +67,14 @@ namespace vk
 				<< "#define " << opt.includeGuard << std::endl << std::endl;
 
 			ofs.src() << "#include <cassert>\n"
-				<< "#include <cstdint>\n"
-				<< "#include <cstring>\n"
-				<< "#include <string>\n"
-				<< "#include <system_error>\n"
-				<< "#include <algorithm>\n"
-				<< "#include <vulkan/vulkan.h>\n";
+					  << "#include <cstdint>\n"
+					  << "#include <cstring>\n"
+					  << "#include <string>\n"
+					  << "#include <system_error>\n";
 
 			ofs.hdr() << "#include <array>\n"
+					  << "#include <algorithm>\n"
+					  << "#include <vulkan/vulkan.h>\n"
 					  << "#ifndef VKCPP_DISABLE_ENHANCED_MODE\n"
 					  << "#	include <vector>\n"
 					  << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
@@ -109,7 +109,7 @@ namespace vk
 					  << resultValueHeader
 					  << createResultValueHeader;
 
-			_writeTypes( ofs.hdr(), vkData, defaultValues );
+			_writeTypes( ofs, vkData, defaultValues );
 			_writeEnumsToString( ofs.hdr(), vkData );
 
 			ofs << "} // namespace vk\n";
@@ -506,7 +506,7 @@ namespace vk
 		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeTypes( std::ofstream& ofs, SpecData* vkData,
+	void CppGenerator::_writeTypes( DualOFStream& ofs, SpecData* vkData,
 									std::map<std::string, std::string> const& defaultValues ) const
 	{
 		for( auto& it : vkData->dependencies )
@@ -514,17 +514,17 @@ namespace vk
 			switch( it.category )
 			{
 				case DependencyData::Category::COMMAND:
-					_writeTypeCommand( ofs, vkData, it );
+					_writeTypeCommand( ofs.hdr(), vkData, it );
 					break;
 
 				case DependencyData::Category::ENUM:
 					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
-					_writeTypeEnum( ofs, it, vkData->enums.find( it.name )->second );
+					_writeTypeEnum( ofs.hdr(), it, vkData->enums.find( it.name )->second );
 					break;
 
 				case DependencyData::Category::FLAGS:
 					assert( vkData->flags.find( it.name ) != vkData->flags.end() );
-					_writeTypeFlags( ofs, it, vkData->flags.find( it.name )->second );
+					_writeTypeFlags( ofs.hdr(), it, vkData->flags.find( it.name )->second );
 					break;
 
 				case DependencyData::Category::FUNC_POINTER:
@@ -538,16 +538,16 @@ namespace vk
 					break;
 
 				case DependencyData::Category::SCALAR:
-					_writeTypeScalar( ofs, it );
+					_writeTypeScalar( ofs.hdr(), it );
 					break;
 
 				case DependencyData::Category::STRUCT:
-					_writeTypeStruct( ofs, vkData, it, defaultValues );
+					_writeTypeStruct( ofs.hdr(), vkData, it, defaultValues );
 					break;
 
 				case DependencyData::Category::UNION:
 					assert( vkData->structs.find( it.name ) != vkData->structs.end() );
-					_writeTypeUnion( ofs, vkData, it, vkData->structs.find( it.name )->second, defaultValues );
+					_writeTypeUnion( ofs.hdr(), vkData, it, vkData->structs.find( it.name )->second, defaultValues );
 					break;
 
 				default:
@@ -690,41 +690,71 @@ namespace vk
 		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeTypeHandle( std::ofstream& ofs, SpecData* vkData,
-										DependencyData const& dependencyData,
-										HandleData const& handle,
-										std::list<DependencyData> const& dependencies ) const
+	void CppGenerator::_writeTypeHandle( DualOFStream& ofs, SpecData* vkData,
+										 DependencyData const& dependencyData,
+										 HandleData const& handle,
+										 std::list<DependencyData> const& dependencies ) const
 	{
 		std::string memberName = dependencyData.name;
 		assert( isupper( memberName[ 0 ] ) );
 		memberName[ 0 ] = tolower( memberName[ 0 ] );
 
-		ofs << "  class " << dependencyData.name << std::endl
-			<< "  {\n"
-			<< "  public:\n"
-			<< "    " << dependencyData.name << "()\n"
-			<< "      : m_" << memberName << "( VK_NULL_HANDLE )\n"
-			<< "    {}\n\n"
-			<< "#if defined(VK_CPP_TYPESAFE_CONVERSION)\n"
-			// construct from native handle
-			<< "    " << dependencyData.name << "( Vk" << dependencyData.name << " " << memberName << " )\n"
-			<< "       : m_" << memberName << "( " << memberName << " )\n"
-			<< "    {}\n\n"
-			// assignment from native handle
-			<< "    " << dependencyData.name << "& operator=( Vk" << dependencyData.name << " " << memberName << " )\n"
-			<< "    {\n"
-			<< "      m_" << memberName << " = " << memberName << ";\n"
-			<< "      return *this;\n"
-			<< "    }\n"
-			<< "#endif\n\n";
+		ofs.hdr() << "  class " << dependencyData.name
+				  << "\n  {\n"
+				  << "  public:\n";
+
+		ofs << "    " << dependencyData.name;
+
+		if( ofs.usingDualStream() )
+		{
+			ofs.hdr() << "();";
+			ofs.src() << "::" << dependencyData.name << "()";
+		}
+		else
+			ofs.hdr() << "()";
+
+		ofs << std::endl;
+		ofs.src() << "      : m_" << memberName << "( VK_NULL_HANDLE )\n"
+				  << "    {}\n\n";
+
+		ofs << "#ifdef VK_CPP_TYPESAFE_CONVERSION\n    ";
+		// construct from native handle
+		if( ofs.usingDualStream() )
+			ofs.src() << dependencyData.name << "::";
+
+		ofs << dependencyData.name << "( Vk" << dependencyData.name << " " << memberName << " )";
+
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "       : m_" << memberName << "( " << memberName << " )\n"
+				  << "    {}\n\n";
+
+		// assignment from native handle
+		ofs << "    " << dependencyData.name << "& ";
+		if( ofs.usingDualStream() )
+			ofs.src() << dependencyData.name << "::";
+
+		ofs << "operator=( Vk" << dependencyData.name << " " << memberName << " )";
+
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "    {\n"
+				  << "      m_" << memberName << " = " << memberName << ";\n"
+				  << "      return *this;\n"
+				  << "    }\n";
+		ofs << "#endif\n\n";
 
 		if( !handle.commands.empty() )
 		{
 			for( size_t i = 0; i < handle.commands.size(); i++ )
 			{
 				std::string commandName = handle.commands[ i ];
-				std::map<std::string, CommandData>::const_iterator cit = vkData->commands.find( commandName );
-				assert( ( cit != vkData->commands.end() ) && cit->second.handleCommand );
+				auto cit = vkData->commands.find( commandName );
+				assert( cit != vkData->commands.end() && cit->second.handleCommand );
 				auto dep = std::find_if(
 							dependencies.begin(),
 							dependencies.end(),
@@ -738,12 +768,12 @@ namespace vk
 				if( !hasPointers )
 					ofs << "#ifdef VKCPP_DISABLE_ENHANCED_MODE\n";
 
-				_writeTypeCommandStandard( ofs, "    ", functionName, *dep, cit->second, vkData->vkTypes );
+				_writeTypeCommandStandard( ofs.hdr(), "    ", functionName, *dep, cit->second, vkData->vkTypes );
 				if( !hasPointers )
 					ofs << "#endif /*!VKCPP_DISABLE_ENHANCED_MODE*/\n";
 
 				ofs << "\n#ifndef VKCPP_DISABLE_ENHANCED_MODE\n";
-				_writeTypeCommandEnhanced( ofs, vkData, "    ", className, functionName, *dep, cit->second );
+				_writeTypeCommandEnhanced( ofs.hdr(), vkData, "    ", className, functionName, *dep, cit->second );
 				ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n";
 
 				if( i < handle.commands.size() - 1 )
@@ -751,28 +781,58 @@ namespace vk
 			}
 			ofs << std::endl;
 		}
-		ofs << "#if !defined(VK_CPP_TYPESAFE_CONVERSION)\n"
+		ofs.hdr() << "#ifndef VK_CPP_TYPESAFE_CONVERSION\n"
 			<< "    explicit\n"
-			<< "#endif\n"
-			<< "    operator Vk" << dependencyData.name << "() const\n"
-			<< "    {\n"
-			<< "      return m_" << memberName << ";\n"
-			<< "    }\n\n"
-			<< "    explicit operator bool() const\n"
-			<< "    {\n"
-			<< "      return m_" << memberName << " != VK_NULL_HANDLE;\n"
-			<< "    }\n\n"
-			<< "    bool operator!() const\n"
-			<< "    {\n"
-			<< "      return m_" << memberName << " == VK_NULL_HANDLE;\n"
-			<< "    }\n\n"
-			<< "  private:\n"
-			<< "    Vk" << dependencyData.name << " m_" << memberName << ";\n"
-			<< "  };\n"
+			<< "#endif\n";
+
+		ofs << "    ";
+		if( ofs.usingDualStream() )
+			ofs.src() << dependencyData.name << "::";
+
+		ofs << "operator Vk" << dependencyData.name << "() const";
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "    {\n"
+				  << "      return m_" << memberName << ";\n"
+				  << "    }\n\n";
+
+		ofs.hdr() << "    explicit ";
+		if( ofs.usingDualStream() )
+			ofs.src() << "    " << dependencyData.name << "::";
+
+		ofs << "operator bool() const";
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "    {\n"
+				  << "      return m_" << memberName << " != VK_NULL_HANDLE;\n"
+				  << "    }\n\n";
+
+		ofs << "    bool ";
+		if( ofs.usingDualStream() )
+			ofs.src() << dependencyData.name << "::";
+
+		ofs << "operator!() const";
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "    {\n"
+				  << "      return m_" << memberName << " == VK_NULL_HANDLE;\n"
+				  << "    }\n\n";
+
+		ofs.hdr() << "  private:\n"
+				  << "    Vk" << dependencyData.name << " m_" << memberName << ";\n"
+				  << "  };\n";
 	#if 1
-			<< "  static_assert( sizeof( " << dependencyData.name << " ) == sizeof( Vk" << dependencyData.name << " ), \"handle and wrapper have different size!\" );" << std::endl
+		ofs.src() << "  static_assert( sizeof( " << dependencyData.name
+				  << " ) == sizeof( Vk" << dependencyData.name
+				  << " ), \"handle and wrapper have different size!\" );\n";
 	#endif
-			<< std::endl;
+		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeScalar( std::ofstream& ofs,
