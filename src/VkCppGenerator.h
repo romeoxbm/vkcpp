@@ -51,6 +51,10 @@ namespace vk
 		int generate( const Options& opt ) const;
 
 	private:
+		void _enterProtect( DualOFStream& ofs, std::string const& protect ) const;
+
+		void _leaveProtect( DualOFStream& ofs, std::string const& protect ) const;
+
 		void _enterProtect( std::ofstream& ofs, std::string const& protect ) const;
 
 		void _leaveProtect( std::ofstream& ofs, std::string const& protect ) const;
@@ -90,13 +94,13 @@ namespace vk
 
 		void _writeTypesafeCheck( std::ofstream& ofs, std::string const& typesafeCheck ) const;
 
-		void _writeEnumsToString( std::ofstream& ofs, SpecData* vkData ) const;
+		void _writeEnumsToString( DualOFStream& ofs, SpecData* vkData ) const;
 
-		void _writeEnumsToString( std::ofstream& ofs,
+		void _writeEnumsToString( DualOFStream& ofs,
 								  DependencyData const& dependencyData,
 								  EnumData const& enumData ) const;
 
-		void _writeFlagsToString( std::ofstream& ofs,
+		void _writeFlagsToString( DualOFStream& ofs,
 								  DependencyData const& dependencyData,
 								  EnumData const& enumData ) const;
 
@@ -126,7 +130,7 @@ namespace vk
 							 DependencyData const& dependencyData,
 							 EnumData const& enumData ) const;
 
-		void _writeTypeFlags( std::ofstream& ofs,
+		void _writeTypeFlags( DualOFStream& ofs,
 							  DependencyData const& dependencyData,
 							  FlagData const& flagData ) const;
 

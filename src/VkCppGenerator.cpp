@@ -98,7 +98,7 @@ namespace vk
 			);
 			assert( it != vkData->dependencies.end() );
 			_writeTypeEnum( ofs.hdr(), *it, vkData->enums.find( it->name )->second );
-			_writeEnumsToString( ofs.hdr(), *it, vkData->enums.find( it->name )->second );
+			_writeEnumsToString( ofs, *it, vkData->enums.find( it->name )->second );
 			vkData->dependencies.erase( it );
 
 			ofs.hdr() << exceptionHeader
@@ -110,7 +110,7 @@ namespace vk
 					  << createResultValueHeader;
 
 			_writeTypes( ofs, vkData, defaultValues );
-			_writeEnumsToString( ofs.hdr(), vkData );
+			_writeEnumsToString( ofs, vkData );
 
 			ofs << "} // namespace vk\n";
 			ofs.hdr() << "#endif // " << opt.includeGuard << std::endl;
@@ -127,6 +127,20 @@ namespace vk
 		}
 
 		return 0;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_enterProtect( DualOFStream& ofs,
+									  std::string const& protect ) const
+	{
+		if( !protect.empty() )
+			ofs << "#ifdef " << protect << std::endl;
+	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_leaveProtect( DualOFStream& ofs,
+									  std::string const& protect ) const
+	{
+		if( !protect.empty() )
+			ofs << "#endif /*" << protect << "*/" << std::endl;
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_enterProtect( std::ofstream& ofs,
@@ -430,78 +444,107 @@ namespace vk
 			<< "#endif\n\n";
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeEnumsToString( std::ofstream& ofs, SpecData* vkData ) const
+	void CppGenerator::_writeEnumsToString( DualOFStream& ofs, SpecData* vkData ) const
 	{
 		for( auto& it : vkData->dependencies )
 		{
 			switch( it.category )
 			{
 				case DependencyData::Category::ENUM:
+				{
 					assert( vkData->enums.find( it.name ) != vkData->enums.end() );
-					_writeEnumsToString( ofs, it, vkData->enums.find( it.name )->second );
-					break;
+					_writeEnumsToString(
+								ofs,
+								it,
+								vkData->enums.find( it.name )->second
+					);
+				}
+				break;
 
 				case DependencyData::Category::FLAGS:
-					_writeFlagsToString( ofs, it, vkData->enums.find( *it.dependencies.begin() )->second );
-					break;
+					_writeFlagsToString(
+								ofs,
+								it,
+								vkData->enums.find( *it.dependencies.begin() )->second
+					);
+				break;
 			}
 		}
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeEnumsToString( std::ofstream& ofs,
+	void CppGenerator::_writeEnumsToString( DualOFStream& ofs,
 											DependencyData const& dependencyData,
 											EnumData const& enumData ) const
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << "  inline std::string to_string( " << dependencyData.name
-			<< ( enumData.members.empty() ? " )" : " value )" ) << "\n  {\n";
+		ofs << "  ";
+		if( !ofs.usingDualStream() )
+			ofs << "inline ";
+
+		ofs << "std::string to_string( " << dependencyData.name
+			<< ( enumData.members.empty() ? " )" : " value )" );
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "  {\n";
 
 		if( enumData.members.empty() )
-			ofs << "    return \"(void)\";\n";
+			ofs.src() << "    return \"(void)\";\n";
 		else
 		{
-			ofs << "    switch( value )\n"
-				<< "    {\n";
+			ofs.src() << "    switch( value )\n    {\n";
 			for( auto& itMember : enumData.members )
 			{
-				ofs << "    case " << dependencyData.name << "::"
+				ofs.src() << "    case " << dependencyData.name << "::"
 					<< itMember.name << ": return \""
 					<< itMember.name.substr( 1 ) << "\";\n";
 			}
-			ofs << "    default: return \"invalid\";\n"
+			ofs.src() << "    default: return \"invalid\";\n"
 				<< "    }\n";
 		}
-		ofs << "  }\n";
+		ofs.src() << "  }\n";
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeFlagsToString( std::ofstream& ofs,
+	void CppGenerator::_writeFlagsToString( DualOFStream& ofs,
 											DependencyData const& dependencyData,
 											EnumData const &enumData ) const
 	{
 		_enterProtect( ofs, enumData.protect );
-		std::string enumPrefix = *dependencyData.dependencies.begin() + "::";
-		ofs << "  inline std::string to_string( const " << dependencyData.name
-			<< ( enumData.members.empty() ? "& )" : "& value )" ) << "\n  {\n";
+		ofs << "  ";
+		if( !ofs.usingDualStream() )
+			ofs << "inline ";
+
+		ofs << "std::string to_string( const " << dependencyData.name
+			<< ( enumData.members.empty() ? "& )" : "& value )" );
+
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "  {\n";
 
 		if( enumData.members.empty() )
-			ofs << "    return \"{}\";\n";
+			ofs.src() << "    return \"{}\";\n";
 		else
 		{
-			ofs << "    if( !value ) return \"{}\";\n"
-				<< "    std::string result;\n";
+			std::string enumPrefix = *dependencyData.dependencies.begin() + "::";
+
+			ofs.src() << "    if( !value ) return \"{}\";\n"
+					  << "    std::string result;\n";
 
 			for( auto& itMember : enumData.members )
 			{
-				ofs << "    if( value & " << enumPrefix + itMember.name
-					<< " ) result += \"" << itMember.name.substr( 1 )
-					<< " | \";\n";
+				ofs.src() << "    if( value & " << enumPrefix + itMember.name
+						  << " ) result += \"" << itMember.name.substr( 1 )
+						  << " | \";\n";
 			}
 
-			ofs << "    return \"{\" + result.substr( 0, result.size() - 3 ) + \"}\";\n";
+			ofs.src() << "    return \"{\" + result.substr( 0, result.size() - 3 ) + \"}\";\n";
 		}
-		ofs << "  }\n";
+		ofs.src() << "  }\n";
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}
@@ -524,7 +567,7 @@ namespace vk
 
 				case DependencyData::Category::FLAGS:
 					assert( vkData->flags.find( it.name ) != vkData->flags.end() );
-					_writeTypeFlags( ofs.hdr(), it, vkData->flags.find( it.name )->second );
+					_writeTypeFlags( ofs, it, vkData->flags.find( it.name )->second );
 					break;
 
 				case DependencyData::Category::FUNC_POINTER:
@@ -638,11 +681,11 @@ namespace vk
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
-												 std::string const& indentation,
-												 std::string const& className,
-												 std::string const& functionName,
-												 DependencyData const& dependencyData,
-												 CommandData const& commandData ) const
+												  std::string const& indentation,
+												  std::string const& className,
+												  std::string const& functionName,
+												  DependencyData const& dependencyData,
+												  CommandData const& commandData ) const
 	{
 		_enterProtect( ofs, commandData.protect );
 		std::map<size_t, size_t> vectorParameters = _getVectorParameters( commandData );
@@ -678,7 +721,7 @@ namespace vk
 		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeTypeFlags( std::ofstream& ofs,
+	void CppGenerator::_writeTypeFlags( DualOFStream& ofs,
 										DependencyData const& dependencyData,
 										FlagData const& flagData ) const
 	{
@@ -687,11 +730,21 @@ namespace vk
 		auto& firstDep = *dependencyData.dependencies.begin();
 		auto& depName = dependencyData.name;
 
-		ofs << "  using " << depName << " = Flags<" << firstDep << ", Vk" << depName << ">;\n\n"
-			<< "  inline " << depName << " operator|( " << firstDep << " bit0, " << firstDep << " bit1 )\n"
-			<< "  {\n"
-			<< "    return " << depName << "( bit0 ) | bit1;\n"
-			<< "  }\n";
+		ofs.hdr() << "  using " << depName << " = Flags<" << firstDep << ", Vk" << depName << ">;\n\n";
+
+		ofs << "  ";
+		if( !ofs.usingDualStream() )
+			ofs << "inline ";
+
+		ofs << depName << " operator|( " << firstDep << " bit0, " << firstDep << " bit1 )";
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << "  {\n"
+				  << "    return " << depName << "( bit0 ) | bit1;\n"
+				  << "  }\n";
+
 		_leaveProtect( ofs, flagData.protect );
 		ofs << std::endl;
 	}
@@ -850,8 +903,8 @@ namespace vk
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
-										DependencyData const& dependencyData,
-										std::map<std::string, std::string> const& defaultValues ) const
+										 DependencyData const& dependencyData,
+										 std::map<std::string, std::string> const& defaultValues ) const
 	{
 		auto it = vkData->structs.find( dependencyData.name );
 		assert( it != vkData->structs.end() );
@@ -904,9 +957,9 @@ namespace vk
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
-									   DependencyData const& dependencyData,
-									   StructData const& unionData,
-									   std::map<std::string, std::string> const& defaultValues ) const
+										DependencyData const& dependencyData,
+										StructData const& unionData,
+										std::map<std::string, std::string> const& defaultValues ) const
 	{
 		//Unused variable
 		//std::ostringstream oss;
@@ -1141,13 +1194,13 @@ namespace vk
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
-											std::string const& indentation,
-											std::string const& returnType,
-											std::string const& name,
-											CommandData const& commandData,
-											size_t returnIndex,
-											size_t templateIndex,
-											std::map<size_t, size_t> const& vectorParameters ) const
+											 std::string const& indentation,
+											 std::string const& returnType,
+											 std::string const& name,
+											 CommandData const& commandData,
+											 size_t returnIndex,
+											 size_t templateIndex,
+											 std::map<size_t, size_t> const& vectorParameters ) const
 	{
 		std::set<size_t> skippedArguments;
 		for( auto& it : vectorParameters )
