@@ -33,7 +33,10 @@ namespace vk
 	class TextIndent
 	{
 	public:
-		TextIndent( char indent, unsigned short size = 1 );
+		TextIndent();
+
+		void setIndentChar( char value );
+		void setSize( unsigned short value );
 
 		TextIndent& operator=( unsigned short value );
 

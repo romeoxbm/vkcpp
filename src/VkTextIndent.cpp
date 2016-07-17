@@ -30,11 +30,18 @@
 
 namespace vk
 {
-	TextIndent::TextIndent( char indent, unsigned short size )
-		: _indentChar( indent ),
-		  _size( size )
+	TextIndent::TextIndent()
+	{}
+	//--------------------------------------------------------------------------
+	void TextIndent::setIndentChar( char value )
 	{
-		assert( size );
+		_indentChar = value;
+	}
+	//--------------------------------------------------------------------------
+	void TextIndent::setSize( unsigned short value )
+	{
+		assert( value );
+		_size = value;
 	}
 	//--------------------------------------------------------------------------
 	TextIndent& TextIndent::operator=( unsigned short value )
