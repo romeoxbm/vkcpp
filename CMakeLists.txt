@@ -64,6 +64,7 @@ set( HEADERS
 	src/VkCppGenerator.h
 	src/VkDualOFStream.h
 	src/VkSpecParser.h
+	src/VkTextIndent.h
 	${CMAKE_CURRENT_BINARY_DIR}/VkVersion.h
 )
 
@@ -73,6 +74,7 @@ set( SOURCES
 	src/VkCppGenerator.cpp
 	src/VkDualOFStream.cpp
 	src/VkSpecParser.cpp
+	src/VkTextIndent.cpp
 )
 
 source_group( headers FILES ${HEADERS} )
