@@ -206,7 +206,7 @@ To build the header for a given vk.xml specification continue with the following
 
 # Build instructions for VkCppGenerator
 
-* Clone the repository: ```git clone --recursive https://github.com/romeoxbm/vkcpp.git```
+* Clone the repository: ```git clone https://github.com/romeoxbm/vkcpp.git```
 * Use CMake to generate a solution or makefile for your favourite build environment
 * Launch the build
 
