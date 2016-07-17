@@ -469,9 +469,7 @@ namespace vk
 
   using DeviceSize = uint64_t;
 
-  enum class FramebufferCreateFlagBits
-  {
-  };
+  enum class FramebufferCreateFlagBits {};
 
   using FramebufferCreateFlags = Flags<FramebufferCreateFlagBits, VkFramebufferCreateFlags>;
 
@@ -480,9 +478,7 @@ namespace vk
     return FramebufferCreateFlags( bit0 ) | bit1;
   }
 
-  enum class QueryPoolCreateFlagBits
-  {
-  };
+  enum class QueryPoolCreateFlagBits {};
 
   using QueryPoolCreateFlags = Flags<QueryPoolCreateFlagBits, VkQueryPoolCreateFlags>;
 
@@ -491,9 +487,7 @@ namespace vk
     return QueryPoolCreateFlags( bit0 ) | bit1;
   }
 
-  enum class RenderPassCreateFlagBits
-  {
-  };
+  enum class RenderPassCreateFlagBits {};
 
   using RenderPassCreateFlags = Flags<RenderPassCreateFlagBits, VkRenderPassCreateFlags>;
 
@@ -502,9 +496,7 @@ namespace vk
     return RenderPassCreateFlags( bit0 ) | bit1;
   }
 
-  enum class SamplerCreateFlagBits
-  {
-  };
+  enum class SamplerCreateFlagBits {};
 
   using SamplerCreateFlags = Flags<SamplerCreateFlagBits, VkSamplerCreateFlags>;
 
@@ -513,9 +505,7 @@ namespace vk
     return SamplerCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineLayoutCreateFlagBits
-  {
-  };
+  enum class PipelineLayoutCreateFlagBits {};
 
   using PipelineLayoutCreateFlags = Flags<PipelineLayoutCreateFlagBits, VkPipelineLayoutCreateFlags>;
 
@@ -524,9 +514,7 @@ namespace vk
     return PipelineLayoutCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineCacheCreateFlagBits
-  {
-  };
+  enum class PipelineCacheCreateFlagBits {};
 
   using PipelineCacheCreateFlags = Flags<PipelineCacheCreateFlagBits, VkPipelineCacheCreateFlags>;
 
@@ -535,9 +523,7 @@ namespace vk
     return PipelineCacheCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineDepthStencilStateCreateFlagBits
-  {
-  };
+  enum class PipelineDepthStencilStateCreateFlagBits {};
 
   using PipelineDepthStencilStateCreateFlags = Flags<PipelineDepthStencilStateCreateFlagBits, VkPipelineDepthStencilStateCreateFlags>;
 
@@ -546,9 +532,7 @@ namespace vk
     return PipelineDepthStencilStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineDynamicStateCreateFlagBits
-  {
-  };
+  enum class PipelineDynamicStateCreateFlagBits {};
 
   using PipelineDynamicStateCreateFlags = Flags<PipelineDynamicStateCreateFlagBits, VkPipelineDynamicStateCreateFlags>;
 
@@ -557,9 +541,7 @@ namespace vk
     return PipelineDynamicStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineColorBlendStateCreateFlagBits
-  {
-  };
+  enum class PipelineColorBlendStateCreateFlagBits {};
 
   using PipelineColorBlendStateCreateFlags = Flags<PipelineColorBlendStateCreateFlagBits, VkPipelineColorBlendStateCreateFlags>;
 
@@ -568,9 +550,7 @@ namespace vk
     return PipelineColorBlendStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineMultisampleStateCreateFlagBits
-  {
-  };
+  enum class PipelineMultisampleStateCreateFlagBits {};
 
   using PipelineMultisampleStateCreateFlags = Flags<PipelineMultisampleStateCreateFlagBits, VkPipelineMultisampleStateCreateFlags>;
 
@@ -579,9 +559,7 @@ namespace vk
     return PipelineMultisampleStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineRasterizationStateCreateFlagBits
-  {
-  };
+  enum class PipelineRasterizationStateCreateFlagBits {};
 
   using PipelineRasterizationStateCreateFlags = Flags<PipelineRasterizationStateCreateFlagBits, VkPipelineRasterizationStateCreateFlags>;
 
@@ -590,9 +568,7 @@ namespace vk
     return PipelineRasterizationStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineViewportStateCreateFlagBits
-  {
-  };
+  enum class PipelineViewportStateCreateFlagBits {};
 
   using PipelineViewportStateCreateFlags = Flags<PipelineViewportStateCreateFlagBits, VkPipelineViewportStateCreateFlags>;
 
@@ -601,9 +577,7 @@ namespace vk
     return PipelineViewportStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineTessellationStateCreateFlagBits
-  {
-  };
+  enum class PipelineTessellationStateCreateFlagBits {};
 
   using PipelineTessellationStateCreateFlags = Flags<PipelineTessellationStateCreateFlagBits, VkPipelineTessellationStateCreateFlags>;
 
@@ -612,9 +586,7 @@ namespace vk
     return PipelineTessellationStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineInputAssemblyStateCreateFlagBits
-  {
-  };
+  enum class PipelineInputAssemblyStateCreateFlagBits {};
 
   using PipelineInputAssemblyStateCreateFlags = Flags<PipelineInputAssemblyStateCreateFlagBits, VkPipelineInputAssemblyStateCreateFlags>;
 
@@ -623,9 +595,7 @@ namespace vk
     return PipelineInputAssemblyStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineVertexInputStateCreateFlagBits
-  {
-  };
+  enum class PipelineVertexInputStateCreateFlagBits {};
 
   using PipelineVertexInputStateCreateFlags = Flags<PipelineVertexInputStateCreateFlagBits, VkPipelineVertexInputStateCreateFlags>;
 
@@ -634,9 +604,7 @@ namespace vk
     return PipelineVertexInputStateCreateFlags( bit0 ) | bit1;
   }
 
-  enum class PipelineShaderStageCreateFlagBits
-  {
-  };
+  enum class PipelineShaderStageCreateFlagBits {};
 
   using PipelineShaderStageCreateFlags = Flags<PipelineShaderStageCreateFlagBits, VkPipelineShaderStageCreateFlags>;
 
@@ -645,9 +613,7 @@ namespace vk
     return PipelineShaderStageCreateFlags( bit0 ) | bit1;
   }
 
-  enum class DescriptorSetLayoutCreateFlagBits
-  {
-  };
+  enum class DescriptorSetLayoutCreateFlagBits {};
 
   using DescriptorSetLayoutCreateFlags = Flags<DescriptorSetLayoutCreateFlagBits, VkDescriptorSetLayoutCreateFlags>;
 
@@ -656,9 +622,7 @@ namespace vk
     return DescriptorSetLayoutCreateFlags( bit0 ) | bit1;
   }
 
-  enum class BufferViewCreateFlagBits
-  {
-  };
+  enum class BufferViewCreateFlagBits {};
 
   using BufferViewCreateFlags = Flags<BufferViewCreateFlagBits, VkBufferViewCreateFlags>;
 
@@ -667,9 +631,7 @@ namespace vk
     return BufferViewCreateFlags( bit0 ) | bit1;
   }
 
-  enum class InstanceCreateFlagBits
-  {
-  };
+  enum class InstanceCreateFlagBits {};
 
   using InstanceCreateFlags = Flags<InstanceCreateFlagBits, VkInstanceCreateFlags>;
 
@@ -678,9 +640,7 @@ namespace vk
     return InstanceCreateFlags( bit0 ) | bit1;
   }
 
-  enum class DeviceCreateFlagBits
-  {
-  };
+  enum class DeviceCreateFlagBits {};
 
   using DeviceCreateFlags = Flags<DeviceCreateFlagBits, VkDeviceCreateFlags>;
 
@@ -689,9 +649,7 @@ namespace vk
     return DeviceCreateFlags( bit0 ) | bit1;
   }
 
-  enum class DeviceQueueCreateFlagBits
-  {
-  };
+  enum class DeviceQueueCreateFlagBits {};
 
   using DeviceQueueCreateFlags = Flags<DeviceQueueCreateFlagBits, VkDeviceQueueCreateFlags>;
 
@@ -700,9 +658,7 @@ namespace vk
     return DeviceQueueCreateFlags( bit0 ) | bit1;
   }
 
-  enum class ImageViewCreateFlagBits
-  {
-  };
+  enum class ImageViewCreateFlagBits {};
 
   using ImageViewCreateFlags = Flags<ImageViewCreateFlagBits, VkImageViewCreateFlags>;
 
@@ -711,9 +667,7 @@ namespace vk
     return ImageViewCreateFlags( bit0 ) | bit1;
   }
 
-  enum class SemaphoreCreateFlagBits
-  {
-  };
+  enum class SemaphoreCreateFlagBits {};
 
   using SemaphoreCreateFlags = Flags<SemaphoreCreateFlagBits, VkSemaphoreCreateFlags>;
 
@@ -722,9 +676,7 @@ namespace vk
     return SemaphoreCreateFlags( bit0 ) | bit1;
   }
 
-  enum class ShaderModuleCreateFlagBits
-  {
-  };
+  enum class ShaderModuleCreateFlagBits {};
 
   using ShaderModuleCreateFlags = Flags<ShaderModuleCreateFlagBits, VkShaderModuleCreateFlags>;
 
@@ -733,9 +685,7 @@ namespace vk
     return ShaderModuleCreateFlags( bit0 ) | bit1;
   }
 
-  enum class EventCreateFlagBits
-  {
-  };
+  enum class EventCreateFlagBits {};
 
   using EventCreateFlags = Flags<EventCreateFlagBits, VkEventCreateFlags>;
 
@@ -744,9 +694,7 @@ namespace vk
     return EventCreateFlags( bit0 ) | bit1;
   }
 
-  enum class MemoryMapFlagBits
-  {
-  };
+  enum class MemoryMapFlagBits {};
 
   using MemoryMapFlags = Flags<MemoryMapFlagBits, VkMemoryMapFlags>;
 
@@ -755,9 +703,7 @@ namespace vk
     return MemoryMapFlags( bit0 ) | bit1;
   }
 
-  enum class SubpassDescriptionFlagBits
-  {
-  };
+  enum class SubpassDescriptionFlagBits {};
 
   using SubpassDescriptionFlags = Flags<SubpassDescriptionFlagBits, VkSubpassDescriptionFlags>;
 
@@ -766,9 +712,7 @@ namespace vk
     return SubpassDescriptionFlags( bit0 ) | bit1;
   }
 
-  enum class DescriptorPoolResetFlagBits
-  {
-  };
+  enum class DescriptorPoolResetFlagBits {};
 
   using DescriptorPoolResetFlags = Flags<DescriptorPoolResetFlagBits, VkDescriptorPoolResetFlags>;
 
@@ -777,9 +721,7 @@ namespace vk
     return DescriptorPoolResetFlags( bit0 ) | bit1;
   }
 
-  enum class SwapchainCreateFlagBitsKHR
-  {
-  };
+  enum class SwapchainCreateFlagBitsKHR {};
 
   using SwapchainCreateFlagsKHR = Flags<SwapchainCreateFlagBitsKHR, VkSwapchainCreateFlagsKHR>;
 
@@ -788,9 +730,7 @@ namespace vk
     return SwapchainCreateFlagsKHR( bit0 ) | bit1;
   }
 
-  enum class DisplayModeCreateFlagBitsKHR
-  {
-  };
+  enum class DisplayModeCreateFlagBitsKHR {};
 
   using DisplayModeCreateFlagsKHR = Flags<DisplayModeCreateFlagBitsKHR, VkDisplayModeCreateFlagsKHR>;
 
@@ -799,9 +739,7 @@ namespace vk
     return DisplayModeCreateFlagsKHR( bit0 ) | bit1;
   }
 
-  enum class DisplaySurfaceCreateFlagBitsKHR
-  {
-  };
+  enum class DisplaySurfaceCreateFlagBitsKHR {};
 
   using DisplaySurfaceCreateFlagsKHR = Flags<DisplaySurfaceCreateFlagBitsKHR, VkDisplaySurfaceCreateFlagsKHR>;
 
@@ -811,9 +749,7 @@ namespace vk
   }
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-  enum class AndroidSurfaceCreateFlagBitsKHR
-  {
-  };
+  enum class AndroidSurfaceCreateFlagBitsKHR {};
 #endif /*VK_USE_PLATFORM_ANDROID_KHR*/
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -826,9 +762,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_ANDROID_KHR*/
 
 #ifdef VK_USE_PLATFORM_MIR_KHR
-  enum class MirSurfaceCreateFlagBitsKHR
-  {
-  };
+  enum class MirSurfaceCreateFlagBitsKHR {};
 #endif /*VK_USE_PLATFORM_MIR_KHR*/
 
 #ifdef VK_USE_PLATFORM_MIR_KHR
@@ -841,9 +775,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_MIR_KHR*/
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-  enum class WaylandSurfaceCreateFlagBitsKHR
-  {
-  };
+  enum class WaylandSurfaceCreateFlagBitsKHR {};
 #endif /*VK_USE_PLATFORM_WAYLAND_KHR*/
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
@@ -856,9 +788,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_WAYLAND_KHR*/
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-  enum class Win32SurfaceCreateFlagBitsKHR
-  {
-  };
+  enum class Win32SurfaceCreateFlagBitsKHR {};
 #endif /*VK_USE_PLATFORM_WIN32_KHR*/
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -871,9 +801,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_WIN32_KHR*/
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-  enum class XlibSurfaceCreateFlagBitsKHR
-  {
-  };
+  enum class XlibSurfaceCreateFlagBitsKHR {};
 #endif /*VK_USE_PLATFORM_XLIB_KHR*/
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
@@ -886,9 +814,7 @@ namespace vk
 #endif /*VK_USE_PLATFORM_XLIB_KHR*/
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
-  enum class XcbSurfaceCreateFlagBitsKHR
-  {
-  };
+  enum class XcbSurfaceCreateFlagBitsKHR {};
 #endif /*VK_USE_PLATFORM_XCB_KHR*/
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
