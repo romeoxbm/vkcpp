@@ -79,7 +79,7 @@ namespace vk
 					  << "#include <algorithm>\n"
 					  << "#include <vulkan/vulkan.h>\n"
 					  << "#ifndef VKCPP_DISABLE_ENHANCED_MODE\n"
-					  << "#	include <vector>\n"
+					  << "#" << _indent + 1 << "include <vector>\n"
 					  << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
 
 			_writeVersionCheck( ofs.src(), vkData->version );
