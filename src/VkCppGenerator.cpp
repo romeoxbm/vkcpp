@@ -661,13 +661,19 @@ namespace vk
 									   EnumData const& enumData ) const
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << "  enum class " << dependencyData.name << "\n  {\n";
-		for( size_t i = 0; i < enumData.members.size(); i++ )
+		ofs << "  enum class " << dependencyData.name;
+		if( enumData.members.empty() )
+			ofs << " {};\n";
+		else
 		{
-			ofs << "    " << enumData.members[ i ].name << " = "
-				<< enumData.members[ i ].value << std::endl;
+			ofs << "\n  {\n";
+			for( size_t i = 0; i < enumData.members.size(); i++ )
+			{
+				ofs << "    " << enumData.members[ i ].name << " = "
+					<< enumData.members[ i ].value << std::endl;
+			}
+			ofs << "  };\n";
 		}
-		ofs << "  };\n";
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}
