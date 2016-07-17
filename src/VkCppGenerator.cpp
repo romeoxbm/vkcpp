@@ -36,7 +36,7 @@
 
 namespace vk
 {
-	int CppGenerator::generate( const Options& opt ) const
+	int CppGenerator::generate( const Options& opt )
 	{
 		SpecParser parser;
 		auto vkData = parser.parse( opt.inputFile );
@@ -51,6 +51,9 @@ namespace vk
 		try
 		{
 			DualOFStream ofs( opt );
+			_indent.setIndentChar( opt.indentChar );
+			_indent.setSize( opt.spaceSize );
+
 			ofs << nvidiaLicenseHeader
 				<< vkData->vulkanLicenseHeader << std::endl
 				<< ( !opt.cmdLine.empty() ? "// Command line options: " + opt.cmdLine + "\n" : "" );
@@ -550,7 +553,7 @@ namespace vk
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypes( DualOFStream& ofs, SpecData* vkData,
-									std::map<std::string, std::string> const& defaultValues ) const
+									std::map<std::string, std::string> const& defaultValues )
 	{
 		for( auto& it : vkData->dependencies )
 		{
@@ -723,16 +726,18 @@ namespace vk
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeFlags( DualOFStream& ofs,
 										DependencyData const& dependencyData,
-										FlagData const& flagData ) const
+										FlagData const& flagData )
 	{
 		assert( dependencyData.dependencies.size() == 1 );
 		_enterProtect( ofs, flagData.protect );
 		auto& firstDep = *dependencyData.dependencies.begin();
 		auto& depName = dependencyData.name;
 
-		ofs.hdr() << "  using " << depName << " = Flags<" << firstDep << ", Vk" << depName << ">;\n\n";
+		ofs.hdr() << ++_indent
+				  << "using " << depName << " = Flags<" << firstDep
+				  << ", Vk" << depName << ">;\n\n";
 
-		ofs << "  ";
+		ofs << _indent;
 		if( !ofs.usingDualStream() )
 			ofs << "inline ";
 
@@ -741,10 +746,11 @@ namespace vk
 			ofs.hdr() << ";";
 
 		ofs << std::endl;
-		ofs.src() << "  {\n"
-				  << "    return " << depName << "( bit0 ) | bit1;\n"
-				  << "  }\n";
+		ofs.src() << _indent << "{\n";
+		ofs.src() << _indent + 1 << "return " << depName << "( bit0 ) | bit1;\n";
+		ofs.src() << _indent << "}\n";
 
+		--_indent;
 		_leaveProtect( ofs, flagData.protect );
 		ofs << std::endl;
 	}

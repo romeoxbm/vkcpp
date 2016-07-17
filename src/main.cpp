@@ -41,6 +41,8 @@ int main( int argc, char** argv )
 	cmd.add<std::string>( "headerext", 'e', "Change the default header extension. Default value is", false, ".hpp" );
 	cmd.add<std::string>( "filename", 'f', "Change the default file name (DO NOT specify file extension). Default value is", false, "vk_cpp" );
 	cmd.add<std::string>( "guard", 'g', "Change the include guard. Default value is", false, "VK_CPP_H_" );
+	cmd.add( "spaceindent", 'i', "Use spaces to indent generated files. By default, it uses tabs." );
+	cmd.add<unsigned short>( "spacesize", 'z', "Specify spaces size. Only used when indenting with spaces", false, 2 );
 	cmd.add<std::string>( "pch", 'p', "Specify a precompiled header to include in source file (Used if generating separate files). Default value is", false );
 	cmd.add( "separate", 'r', "Generate separate header and source files." );
 	cmd.add<std::string>( "srcext", 's', "Change the default source extension (Used if generating separate files). Default value is", false, ".cc" );
@@ -84,6 +86,14 @@ int main( int argc, char** argv )
 		ss << argv[ argc - 1 ];
 		opt.cmdLine = ss.str();
 	}
+
+	if( cmd.exist( "spaceindent" ) )
+	{
+		opt.indentChar = ' ';
+		opt.spaceSize = cmd.get<unsigned short>( "spacesize" );
+	}
+	else
+		opt.indentChar = '\t';
 
 	return vGen.generate( opt );
 }

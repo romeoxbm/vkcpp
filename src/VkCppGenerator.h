@@ -27,6 +27,7 @@
 #define VKCPPGENERATOR_H
 
 #include "VkSpecParser.h"
+#include "VkTextIndent.h"
 
 namespace vk
 {
@@ -46,11 +47,15 @@ namespace vk
 			std::string pch;
 			std::string includeGuard;
 			std::string cmdLine;
+			char indentChar;
+			unsigned short spaceSize = 1;
 		};
 
-		int generate( const Options& opt ) const;
+		int generate( const Options& opt );
 
 	private:
+		TextIndent _indent;
+
 		void _enterProtect( DualOFStream& ofs, std::string const& protect ) const;
 
 		void _leaveProtect( DualOFStream& ofs, std::string const& protect ) const;
@@ -107,7 +112,7 @@ namespace vk
 		//Write types
 		//----------------------------------------------------------------------
 		void _writeTypes( DualOFStream& ofs, SpecData* vkData,
-						  std::map<std::string, std::string> const& defaultValues ) const;
+						  std::map<std::string, std::string> const& defaultValues );
 
 		void _writeTypeCommand( std::ofstream& ofs, SpecData* vkData,
 								DependencyData const& dependencyData ) const;
@@ -132,7 +137,7 @@ namespace vk
 
 		void _writeTypeFlags( DualOFStream& ofs,
 							  DependencyData const& dependencyData,
-							  FlagData const& flagData ) const;
+							  FlagData const& flagData );
 
 		void _writeTypeHandle( DualOFStream& ofs, SpecData* vkData,
 							   DependencyData const& dependencyData,
