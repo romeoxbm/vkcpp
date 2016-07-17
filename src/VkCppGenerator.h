@@ -142,7 +142,7 @@ namespace vk
 		void _writeTypeHandle( DualOFStream& ofs, SpecData* vkData,
 							   DependencyData const& dependencyData,
 							   HandleData const& handle,
-							   std::list<DependencyData> const& dependencies ) const;
+							   std::list<DependencyData> const& dependencies );
 
 		void _writeTypeScalar( std::ofstream& ofs,
 							   DependencyData const& dependencyData ) const;

@@ -758,17 +758,16 @@ namespace vk
 	void CppGenerator::_writeTypeHandle( DualOFStream& ofs, SpecData* vkData,
 										 DependencyData const& dependencyData,
 										 HandleData const& handle,
-										 std::list<DependencyData> const& dependencies ) const
+										 std::list<DependencyData> const& dependencies )
 	{
 		std::string memberName = dependencyData.name;
 		assert( isupper( memberName[ 0 ] ) );
 		memberName[ 0 ] = tolower( memberName[ 0 ] );
 
-		ofs.hdr() << "  class " << dependencyData.name
-				  << "\n  {\n"
-				  << "  public:\n";
+		ofs.hdr() << ++_indent << "class " << dependencyData.name
+				  << "\n" << _indent << "{\n" << _indent << "public:\n";
 
-		ofs << "    " << dependencyData.name;
+		ofs << ++_indent << dependencyData.name;
 
 		if( ofs.usingDualStream() )
 		{
@@ -779,10 +778,10 @@ namespace vk
 			ofs.hdr() << "()";
 
 		ofs << std::endl;
-		ofs.src() << "      : m_" << memberName << "( VK_NULL_HANDLE )\n"
-				  << "    {}\n\n";
+		ofs.src() << ++_indent << ": m_" << memberName << "( VK_NULL_HANDLE )\n";
+		ofs.src() << --_indent << "{}\n\n";
 
-		ofs << "#ifdef VK_CPP_TYPESAFE_CONVERSION\n    ";
+		ofs << "#ifdef VK_CPP_TYPESAFE_CONVERSION\n" << _indent;
 		// construct from native handle
 		if( ofs.usingDualStream() )
 			ofs.src() << dependencyData.name << "::";
@@ -793,25 +792,40 @@ namespace vk
 			ofs.hdr() << ";";
 
 		ofs << std::endl;
-		ofs.src() << "       : m_" << memberName << "( " << memberName << " )\n"
-				  << "    {}\n\n";
+		ofs.src() << ++_indent << ": m_" << memberName << "( " << memberName << " )\n";
+		ofs.src() << --_indent << "{}\n\n";
 
 		// assignment from native handle
-		ofs << "    " << dependencyData.name << "& ";
+		ofs << _indent << dependencyData.name << "& ";
 		if( ofs.usingDualStream() )
 			ofs.src() << dependencyData.name << "::";
 
 		ofs << "operator=( Vk" << dependencyData.name << " " << memberName << " )";
 
 		if( ofs.usingDualStream() )
+			ofs.hdr() << ";\n";
+
+		ofs << std::endl;
+		ofs.src() << _indent << "{\n";
+		ofs.src() << ++_indent << "m_" << memberName << " = " << memberName << ";\n"
+				  << _indent << "return *this;\n";
+		ofs.src() << --_indent << "}\n";
+
+		ofs.hdr() << _indent << "explicit\n";
+		ofs << ( _indent -= 2 ) << "#endif\n";
+
+		ofs << ( _indent += 2 );
+		if( ofs.usingDualStream() )
+			ofs.src() << dependencyData.name << "::";
+
+		ofs << "operator Vk" << dependencyData.name << "() const";
+		if( ofs.usingDualStream() )
 			ofs.hdr() << ";";
 
 		ofs << std::endl;
-		ofs.src() << "    {\n"
-				  << "      m_" << memberName << " = " << memberName << ";\n"
-				  << "      return *this;\n"
-				  << "    }\n";
-		ofs << "#endif\n\n";
+		ofs.src() << _indent << "{\n";
+		ofs.src() << ++_indent << "return m_" << memberName << ";\n";
+		ofs.src() << --_indent << "}\n\n";
 
 		if( !handle.commands.empty() )
 		{
@@ -846,37 +860,21 @@ namespace vk
 			}
 			ofs << std::endl;
 		}
-		ofs.hdr() << "#ifndef VK_CPP_TYPESAFE_CONVERSION\n"
-			<< "    explicit\n"
-			<< "#endif\n";
 
-		ofs << "    ";
+		ofs.hdr() << _indent << "explicit ";
 		if( ofs.usingDualStream() )
-			ofs.src() << dependencyData.name << "::";
-
-		ofs << "operator Vk" << dependencyData.name << "() const";
-		if( ofs.usingDualStream() )
-			ofs.hdr() << ";";
-
-		ofs << std::endl;
-		ofs.src() << "    {\n"
-				  << "      return m_" << memberName << ";\n"
-				  << "    }\n\n";
-
-		ofs.hdr() << "    explicit ";
-		if( ofs.usingDualStream() )
-			ofs.src() << "    " << dependencyData.name << "::";
+			ofs.src() << _indent << dependencyData.name << "::";
 
 		ofs << "operator bool() const";
 		if( ofs.usingDualStream() )
 			ofs.hdr() << ";";
 
 		ofs << std::endl;
-		ofs.src() << "    {\n"
-				  << "      return m_" << memberName << " != VK_NULL_HANDLE;\n"
-				  << "    }\n\n";
+		ofs.src() << _indent << "{\n";
+		ofs.src() << ++_indent << "return m_" << memberName << " != VK_NULL_HANDLE;\n";
+		ofs.src() << --_indent << "}\n\n";
 
-		ofs << "    bool ";
+		ofs << _indent << "bool ";
 		if( ofs.usingDualStream() )
 			ofs.src() << dependencyData.name << "::";
 
@@ -885,18 +883,19 @@ namespace vk
 			ofs.hdr() << ";";
 
 		ofs << std::endl;
-		ofs.src() << "    {\n"
-				  << "      return m_" << memberName << " == VK_NULL_HANDLE;\n"
-				  << "    }\n\n";
+		ofs.src() << _indent  << "{\n";
+		ofs.src() << ++_indent << "return m_" << memberName << " == VK_NULL_HANDLE;\n";
+		ofs.src() << --_indent << "}\n\n";
 
-		ofs.hdr() << "  private:\n"
-				  << "    Vk" << dependencyData.name << " m_" << memberName << ";\n"
-				  << "  };\n";
+		ofs.hdr() << --_indent << "private:\n";
+		ofs.hdr() << _indent + 1 << "Vk" << dependencyData.name << " m_" << memberName << ";\n";
+		ofs.hdr() << _indent << "};\n";
 	#if 1
-		ofs.src() << "  static_assert( sizeof( " << dependencyData.name
+		ofs.src() << _indent << "static_assert( sizeof( " << dependencyData.name
 				  << " ) == sizeof( Vk" << dependencyData.name
 				  << " ), \"handle and wrapper have different size!\" );\n";
 	#endif
+		--_indent;
 		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
