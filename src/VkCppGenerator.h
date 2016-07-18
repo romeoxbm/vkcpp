@@ -148,9 +148,9 @@ namespace vk
 		void _writeTypeScalar( std::ofstream& ofs,
 							   DependencyData const& dependencyData ) const;
 
-		void _writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
+		void _writeTypeStruct( DualOFStream& ofs, SpecData* vkData,
 							   DependencyData const& dependencyData,
-							   std::map<std::string, std::string> const& defaultValues ) const;
+							   std::map<std::string, std::string> const& defaultValues );
 
 		void _writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
 							  DependencyData const& dependencyData,

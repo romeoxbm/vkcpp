@@ -590,7 +590,7 @@ namespace vk
 					break;
 
 				case DependencyData::Category::STRUCT:
-					_writeTypeStruct( ofs.hdr(), vkData, it, defaultValues );
+					_writeTypeStruct( ofs, vkData, it, defaultValues );
 					break;
 
 				case DependencyData::Category::UNION:
@@ -910,33 +910,42 @@ namespace vk
 			<< *dependencyData.dependencies.begin() << ";\n\n";
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeTypeStruct( std::ofstream& ofs, SpecData* vkData,
+	void CppGenerator::_writeTypeStruct( DualOFStream& ofs, SpecData* vkData,
 										 DependencyData const& dependencyData,
-										 std::map<std::string, std::string> const& defaultValues ) const
+										 std::map<std::string, std::string> const& defaultValues )
 	{
 		auto it = vkData->structs.find( dependencyData.name );
 		assert( it != vkData->structs.end() );
 
 		_enterProtect( ofs, it->second.protect );
-		ofs << "  struct " << dependencyData.name << std::endl
-			<< "  {\n";
+		ofs.hdr() << _indent << "struct " << dependencyData.name << std::endl
+			<< _indent << "{\n";
 
 		// only structs that are not returnedOnly get a constructor!
 		if( !it->second.returnedOnly )
-			_writeStructConstructor( ofs, dependencyData.name, it->second, vkData->vkTypes, defaultValues );
+			_writeStructConstructor( ofs.hdr(), dependencyData.name, it->second, vkData->vkTypes, defaultValues );
 
 		// create the setters
 		if( !it->second.returnedOnly )
 		{
 			for( size_t i = 0; i < it->second.members.size(); i++ )
-				_writeStructSetter( ofs, dependencyData.name, it->second.members[ i ], vkData->vkTypes );
+				_writeStructSetter( ofs.hdr(), dependencyData.name, it->second.members[ i ], vkData->vkTypes );
 		}
 
 		// the cast-operator to the wrapped struct
-		ofs << "    operator const Vk" << dependencyData.name << "&() const\n"
-			<< "    {\n"
-			<< "      return *reinterpret_cast<const Vk" << dependencyData.name << "*>( this );\n"
-			<< "    }\n\n";
+		ofs << ++_indent;
+		if( ofs.usingDualStream() )
+			ofs.src() << dependencyData.name << "::";
+
+		ofs << "operator const Vk" << dependencyData.name << "&() const";
+
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << _indent << "{\n"
+				  << _indent + 1 << "return *reinterpret_cast<const Vk"
+				  << dependencyData.name << "*>( this );\n" << _indent << "}\n\n";
 
 		// the member variables
 		for( size_t i = 0; i < it->second.members.size(); i++ )
@@ -944,21 +953,26 @@ namespace vk
 			if( it->second.members[ i ].type == "StructureType" )
 			{
 				assert( i == 0 && it->second.members[ i ].name == "sType" );
-				ofs << "  private:\n"
-					<< "    StructureType sType;\n\n"
-					<< "  public:\n";
+				ofs.hdr() << _indent - 1 << "private:\n"
+					<< _indent << "StructureType sType;\n\n"
+					<< _indent - 1 << "public:\n";
 			}
 			else
 			{
-				ofs << "    " << it->second.members[ i ].type << " " << it->second.members[ i ].name;
+				ofs.hdr() << _indent << it->second.members[ i ].type << " "
+						  << it->second.members[ i ].name;
+
 				if( !it->second.members[ i ].arraySize.empty() )
-					ofs << "[ " << it->second.members[ i ].arraySize << " ]";
-				ofs << ";\n";
+					ofs.hdr() << "[ " << it->second.members[ i ].arraySize << " ]";
+
+				ofs.hdr() << ";\n";
 			}
 		}
-		ofs << "  };\n";
+		ofs.hdr() << --_indent << "};\n";
 	#if 1
-		ofs << "  static_assert( sizeof( " << dependencyData.name << " ) == sizeof( Vk" << dependencyData.name << " ), \"struct and wrapper have different size!\" );" << std::endl;
+		ofs.src() << _indent << "static_assert( sizeof( " << dependencyData.name
+			<< " ) == sizeof( Vk" << dependencyData.name
+			<< " ), \"struct and wrapper have different size!\" );" << std::endl;
 	#endif
 		_leaveProtect( ofs, it->second.protect );
 		ofs << std::endl;
