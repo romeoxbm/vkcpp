@@ -447,7 +447,7 @@ namespace vk
 			<< "#endif\n\n";
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeEnumsToString( DualOFStream& ofs, SpecData* vkData ) const
+	void CppGenerator::_writeEnumsToString( DualOFStream& ofs, SpecData* vkData )
 	{
 		for( auto& it : vkData->dependencies )
 		{
@@ -513,10 +513,10 @@ namespace vk
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeFlagsToString( DualOFStream& ofs,
 											DependencyData const& dependencyData,
-											EnumData const &enumData ) const
+											EnumData const &enumData )
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << "  ";
+		ofs << ++_indent;
 		if( !ofs.usingDualStream() )
 			ofs << "inline ";
 
@@ -527,27 +527,28 @@ namespace vk
 			ofs.hdr() << ";";
 
 		ofs << std::endl;
-		ofs.src() << "  {\n";
+		ofs.src() << _indent << "{\n";
 
 		if( enumData.members.empty() )
-			ofs.src() << "    return \"{}\";\n";
+			ofs.src() << ++_indent << "return \"{}\";\n";
 		else
 		{
 			std::string enumPrefix = *dependencyData.dependencies.begin() + "::";
 
-			ofs.src() << "    if( !value ) return \"{}\";\n"
-					  << "    std::string result;\n";
+			ofs.src() << ++_indent << "if( !value ) return \"{}\";\n"
+					  << _indent << "std::string result;\n";
 
 			for( auto& itMember : enumData.members )
 			{
-				ofs.src() << "    if( value & " << enumPrefix + itMember.name
+				ofs.src() << _indent << "if( value & " << enumPrefix + itMember.name
 						  << " ) result += \"" << itMember.name.substr( 1 )
 						  << " | \";\n";
 			}
 
-			ofs.src() << "    return \"{\" + result.substr( 0, result.size() - 3 ) + \"}\";\n";
+			ofs.src() << _indent << "return \"{\" + result.substr( 0, result.size() - 3 ) + \"}\";\n";
 		}
-		ofs.src() << "  }\n";
+		ofs.src() << --_indent << "}\n";
+		--_indent;
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}

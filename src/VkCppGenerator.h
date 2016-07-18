@@ -100,7 +100,7 @@ namespace vk
 
 		void _writeTypesafeCheck( std::ofstream& ofs, std::string const& typesafeCheck ) const;
 
-		void _writeEnumsToString( DualOFStream& ofs, SpecData* vkData ) const;
+		void _writeEnumsToString( DualOFStream& ofs, SpecData* vkData );
 
 		void _writeEnumsToString( DualOFStream& ofs,
 								  DependencyData const& dependencyData,
@@ -108,7 +108,7 @@ namespace vk
 
 		void _writeFlagsToString( DualOFStream& ofs,
 								  DependencyData const& dependencyData,
-								  EnumData const& enumData ) const;
+								  EnumData const& enumData );
 
 		//Write types
 		//----------------------------------------------------------------------
