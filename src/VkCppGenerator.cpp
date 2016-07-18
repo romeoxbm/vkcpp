@@ -810,7 +810,9 @@ namespace vk
 		ofs.src() << ++_indent << "m_" << memberName << " = " << memberName << ";\n"
 				  << _indent << "return *this;\n";
 		ofs.src() << --_indent << "}\n";
+		ofs << "#endif\n\n";
 
+		ofs << "#ifndef VK_CPP_TYPESAFE_CONVERSION\n";
 		ofs.hdr() << _indent << "explicit\n";
 		ofs << ( _indent -= 2 ) << "#endif\n";
 
