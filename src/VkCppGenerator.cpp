@@ -918,6 +918,12 @@ namespace vk
 		assert( it != vkData->structs.end() );
 
 		_enterProtect( ofs, it->second.protect );
+
+		ofs.hdr() << _indent << "/**\n"
+				  << _indent << " * @brief The " << dependencyData.name
+				  << " struct.\n"
+				  << _indent << " */\n";
+
 		ofs.hdr() << _indent << "struct " << dependencyData.name << std::endl
 			<< _indent << "{\n";
 
@@ -1000,6 +1006,12 @@ namespace vk
 	{
 		//Unused variable
 		//std::ostringstream oss;
+
+		ofs.hdr() << _indent << "/**\n"
+				  << _indent << " * @brief The " << dependencyData.name
+				  << " union.\n"
+				  << _indent << " */\n";
+
 		ofs.hdr() << _indent << "union " << dependencyData.name << std::endl
 			<< _indent << "{\n";
 
