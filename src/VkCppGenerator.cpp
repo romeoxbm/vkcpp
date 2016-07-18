@@ -923,13 +923,28 @@ namespace vk
 
 		// only structs that are not returnedOnly get a constructor!
 		if( !it->second.returnedOnly )
-			_writeStructConstructor( ofs.hdr(), dependencyData.name, it->second, vkData->vkTypes, defaultValues );
+		{
+			_writeStructConstructor(
+						ofs,
+						dependencyData.name,
+						it->second,
+						vkData->vkTypes,
+						defaultValues
+			);
+		}
 
 		// create the setters
 		if( !it->second.returnedOnly )
 		{
 			for( size_t i = 0; i < it->second.members.size(); i++ )
-				_writeStructSetter( ofs.hdr(), dependencyData.name, it->second.members[ i ], vkData->vkTypes );
+			{
+				_writeStructSetter(
+							ofs.hdr(),
+							dependencyData.name,
+							it->second.members[ i ],
+							vkData->vkTypes
+				);
+			}
 		}
 
 		// the cast-operator to the wrapped struct
@@ -1074,97 +1089,134 @@ namespace vk
 		ofs << "  };\n\n";
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeStructConstructor( std::ofstream& ofs,
+	void CppGenerator::_writeStructConstructor( DualOFStream& ofs,
 												std::string const& name,
 												StructData const& structData,
 												std::set<std::string> const& /*vkTypes*/, //Unused variable
 												std::map<std::string,
-												std::string> const& defaultValues ) const
+												std::string> const& defaultValues )
 	{
 		// the constructor with all the elements as arguments, with defaults
-		ofs << "    " << name << "( ";
+		ofs << ++_indent;
+		if( ofs.usingDualStream() )
+			ofs.src() << name << "::";
+
+		ofs << name << "( ";
 		bool listedArgument = false;
 		for( size_t i = 0; i < structData.members.size(); i++ )
 		{
 			if( listedArgument )
 				ofs << ", ";
 
-			if( structData.members[ i ].name != "pNext" && structData.members[ i ].name != "sType" )
+			if( structData.members[ i ].name == "pNext"
+				|| structData.members[ i ].name == "sType" )
+				continue;
+
+			auto defaultIt = defaultValues.find( structData.members[ i ].pureType );
+			assert( defaultIt != defaultValues.end() );
+			if( structData.members[ i ].arraySize.empty() )
 			{
-				auto defaultIt = defaultValues.find( structData.members[ i ].pureType );
-				assert( defaultIt != defaultValues.end() );
-				if( structData.members[ i ].arraySize.empty() )
-				{
-					ofs << structData.members[ i ].type << " "
-						<< structData.members[ i ].name
-						<< "_ = " << ( structData.members[ i ].type.back() == '*' ? "nullptr" : defaultIt->second );
-				}
-				else
-				{
-					ofs << "std::array<" << structData.members[ i ].type << ", "
-						<< structData.members[ i ].arraySize << "> const& "
-						<< structData.members[ i ].name << "_ = { "
-						<< defaultIt->second;
+				ofs << structData.members[ i ].type << " "
+					<< structData.members[ i ].name << "_";
 
-					size_t n = atoi( structData.members[ i ].arraySize.c_str() );
-					assert( 0 < n );
-					for( size_t j = 1; j < n; j++ )
-						ofs << ", " << defaultIt->second;
-
-					ofs << " }";
-				}
-				listedArgument = true;
+				ofs.hdr() << " = " << ( structData.members[ i ].type.back() == '*' ? "nullptr" : defaultIt->second );
 			}
+			else
+			{
+				ofs << "std::array<" << structData.members[ i ].type << ", "
+					<< structData.members[ i ].arraySize << "> const& "
+					<< structData.members[ i ].name << "_";
+
+				ofs.hdr() << " = { " << defaultIt->second;
+
+				size_t n = atoi( structData.members[ i ].arraySize.c_str() );
+				assert( 0 < n );
+				for( size_t j = 1; j < n; j++ )
+					ofs.hdr() << ", " << defaultIt->second;
+
+				ofs.hdr() << " }";
+			}
+			listedArgument = true;
 		}
-		ofs << " )\n";
+		ofs << " )";
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
 
 		// copy over the simple arguments
 		bool firstArgument = true;
-		for( size_t i = 0; i < structData.members.size(); i++ )
-		{
-			if( structData.members[ i ].arraySize.empty() )
-			{
-				ofs << "      " << ( firstArgument ? ":" : "," ) << " " << structData.members[ i ].name << "( ";
-				if( structData.members[ i ].name == "pNext" )
-					ofs << "nullptr";
-
-				else if( structData.members[ i ].name == "sType" )
-					ofs << "StructureType::e" << name;
-
-				else
-					ofs << structData.members[ i ].name << "_";
-
-				ofs << " )\n";
-				firstArgument = false;
-			}
-		}
-
-		// the body of the constructor, copying over data from argument list into wrapped struct
-		ofs << "    {\n";
+		++_indent;
 		for( size_t i = 0; i < structData.members.size(); i++ )
 		{
 			if( !structData.members[ i ].arraySize.empty() )
-			{
-				ofs << "      memcpy( &" << structData.members[ i ].name
-					<< ", " << structData.members[ i ].name << "_.data(), "
-					<< structData.members[ i ].arraySize
-					<< " * sizeof( " << structData.members[ i ].type << " ) );\n";
-			}
+				continue;
+
+			ofs.src() << _indent << ( firstArgument ? ": " : ", " ) << structData.members[ i ].name << "( ";
+			if( structData.members[ i ].name == "pNext" )
+				ofs.src() << "nullptr";
+
+			else if( structData.members[ i ].name == "sType" )
+				ofs.src() << "StructureType::e" << name;
+
+			else
+				ofs.src() << structData.members[ i ].name << "_";
+
+			ofs.src() << " )\n";
+			firstArgument = false;
 		}
-		ofs << "    }\n\n";
+		--_indent;
+
+		// the body of the constructor, copying over data from argument list into wrapped struct
+		if( structData.members.empty() )
+			ofs.src() << _indent << "{}\n\n";
+		else
+		{
+			ofs.src() << _indent << "{\n";
+			++_indent;
+			for( size_t i = 0; i < structData.members.size(); i++ )
+			{
+				if( structData.members[ i ].arraySize.empty() )
+					continue;
+
+				ofs.src() << _indent << "memcpy( &" << structData.members[ i ].name
+						  << ", " << structData.members[ i ].name << "_.data(), "
+						  << structData.members[ i ].arraySize
+						  << " * sizeof( " << structData.members[ i ].type << " ) );\n";
+			}
+			ofs.src() << --_indent << "}\n\n";
+		}
 
 		// the copy constructor from a native struct (Vk...)
-		ofs << "    " << name << "( Vk" << name << " const & rhs )\n"
-			<< "    {\n"
-			<< "      memcpy( this, &rhs, sizeof( " << name << " ) );\n"
-			<< "    }\n\n";
+		ofs << _indent;
+		if( ofs.usingDualStream() )
+			ofs.src() << name << "::";
+
+		ofs << name << "( Vk" << name << " const& rhs )";
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << _indent << "{\n"
+				  << _indent + 1 << "memcpy( this, &rhs, sizeof( " << name << " ) );\n"
+				  << _indent << "}\n\n";
 
 		// the assignment operator from a native sturct (Vk...)
-		ofs << "    " << name << "& operator=( Vk" << name << " const & rhs )\n"
-			<< "    {\n"
-			<< "      memcpy( this, &rhs, sizeof( " << name << " ) );\n"
-			<< "      return *this;\n"
-			<< "    }\n\n";
+		ofs << _indent << name << "& ";
+		if( ofs.usingDualStream() )
+			ofs.src() << name << "::";
+
+		ofs << "operator=( Vk" << name << " const& rhs )";
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << _indent << "{\n"
+				  << _indent + 1 << "memcpy( this, &rhs, sizeof( " << name << " ) );\n"
+				  << _indent + 1 << "return *this;\n"
+				  << _indent << "}\n\n";
+
+		--_indent;
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeStructSetter( std::ofstream& ofs,

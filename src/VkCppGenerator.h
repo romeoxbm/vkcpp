@@ -159,11 +159,11 @@ namespace vk
 
 		//Structs
 		//----------------------------------------------------------------------
-		void _writeStructConstructor( std::ofstream& ofs,
+		void _writeStructConstructor( DualOFStream& ofs,
 									  std::string const& name,
 									  StructData const& structData,
 									  std::set<std::string> const& vkTypes,
-									  std::map<std::string, std::string> const& defaultValues ) const;
+									  std::map<std::string, std::string> const& defaultValues );
 
 		void _writeStructSetter( std::ofstream& ofs, std::string const& name,
 								 MemberData const& memberData,
