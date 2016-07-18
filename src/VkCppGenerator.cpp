@@ -805,18 +805,18 @@ namespace vk
 		ofs << "operator=( Vk" << dependencyData.name << " " << memberName << " )";
 
 		if( ofs.usingDualStream() )
-			ofs.hdr() << ";\n";
+			ofs.hdr() << ";";
 
 		ofs << std::endl;
 		ofs.src() << _indent << "{\n";
 		ofs.src() << ++_indent << "m_" << memberName << " = " << memberName << ";\n"
 				  << _indent << "return *this;\n";
 		ofs.src() << --_indent << "}\n";
-		ofs << "#endif\n\n";
 
-		ofs.hdr() << "#ifndef VK_CPP_TYPESAFE_CONVERSION\n";
+		ofs.hdr() << "#else\n";
+
 		ofs.hdr() << _indent << "explicit\n";
-		ofs.hdr() << ( _indent -= 2 ) << "#endif\n";
+		ofs << ( _indent -= 2 ) << "#endif\n";
 
 		ofs << ( _indent += 2 );
 		if( ofs.usingDualStream() )
