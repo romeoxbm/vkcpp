@@ -1826,6 +1826,9 @@ namespace vk
   };
   static_assert( sizeof( DebugReportCallbackEXT ) == sizeof( VkDebugReportCallbackEXT ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Offset2D struct.
+   */
   struct Offset2D
   {
     Offset2D( int32_t x_ = 0, int32_t y_ = 0 )
@@ -1867,6 +1870,9 @@ namespace vk
   };
   static_assert( sizeof( Offset2D ) == sizeof( VkOffset2D ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The Offset3D struct.
+   */
   struct Offset3D
   {
     Offset3D( int32_t x_ = 0, int32_t y_ = 0, int32_t z_ = 0 )
@@ -1916,6 +1922,9 @@ namespace vk
   };
   static_assert( sizeof( Offset3D ) == sizeof( VkOffset3D ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The Extent2D struct.
+   */
   struct Extent2D
   {
     Extent2D( uint32_t width_ = 0, uint32_t height_ = 0 )
@@ -1957,6 +1966,9 @@ namespace vk
   };
   static_assert( sizeof( Extent2D ) == sizeof( VkExtent2D ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The Extent3D struct.
+   */
   struct Extent3D
   {
     Extent3D( uint32_t width_ = 0, uint32_t height_ = 0, uint32_t depth_ = 0 )
@@ -2006,6 +2018,9 @@ namespace vk
   };
   static_assert( sizeof( Extent3D ) == sizeof( VkExtent3D ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The Viewport struct.
+   */
   struct Viewport
   {
     Viewport( float x_ = 0, float y_ = 0, float width_ = 0, float height_ = 0, float minDepth_ = 0, float maxDepth_ = 0 )
@@ -2079,6 +2094,9 @@ namespace vk
   };
   static_assert( sizeof( Viewport ) == sizeof( VkViewport ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The Rect2D struct.
+   */
   struct Rect2D
   {
     Rect2D( Offset2D offset_ = Offset2D(), Extent2D extent_ = Extent2D() )
@@ -2120,6 +2138,9 @@ namespace vk
   };
   static_assert( sizeof( Rect2D ) == sizeof( VkRect2D ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ClearRect struct.
+   */
   struct ClearRect
   {
     ClearRect( Rect2D rect_ = Rect2D(), uint32_t baseArrayLayer_ = 0, uint32_t layerCount_ = 0 )
@@ -2169,6 +2190,9 @@ namespace vk
   };
   static_assert( sizeof( ClearRect ) == sizeof( VkClearRect ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ExtensionProperties struct.
+   */
   struct ExtensionProperties
   {
     operator const VkExtensionProperties&() const
@@ -2181,6 +2205,9 @@ namespace vk
   };
   static_assert( sizeof( ExtensionProperties ) == sizeof( VkExtensionProperties ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The LayerProperties struct.
+   */
   struct LayerProperties
   {
     operator const VkLayerProperties&() const
@@ -2195,6 +2222,9 @@ namespace vk
   };
   static_assert( sizeof( LayerProperties ) == sizeof( VkLayerProperties ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The AllocationCallbacks struct.
+   */
   struct AllocationCallbacks
   {
     AllocationCallbacks( void* pUserData_ = nullptr, PFN_vkAllocationFunction pfnAllocation_ = nullptr, PFN_vkReallocationFunction pfnReallocation_ = nullptr, PFN_vkFreeFunction pfnFree_ = nullptr, PFN_vkInternalAllocationNotification pfnInternalAllocation_ = nullptr, PFN_vkInternalFreeNotification pfnInternalFree_ = nullptr )
@@ -2268,6 +2298,9 @@ namespace vk
   };
   static_assert( sizeof( AllocationCallbacks ) == sizeof( VkAllocationCallbacks ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The MemoryRequirements struct.
+   */
   struct MemoryRequirements
   {
     operator const VkMemoryRequirements&() const
@@ -2281,6 +2314,9 @@ namespace vk
   };
   static_assert( sizeof( MemoryRequirements ) == sizeof( VkMemoryRequirements ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DescriptorBufferInfo struct.
+   */
   struct DescriptorBufferInfo
   {
     DescriptorBufferInfo( Buffer buffer_ = Buffer(), DeviceSize offset_ = 0, DeviceSize range_ = 0 )
@@ -2330,6 +2366,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorBufferInfo ) == sizeof( VkDescriptorBufferInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SubresourceLayout struct.
+   */
   struct SubresourceLayout
   {
     operator const VkSubresourceLayout&() const
@@ -2345,6 +2384,9 @@ namespace vk
   };
   static_assert( sizeof( SubresourceLayout ) == sizeof( VkSubresourceLayout ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The BufferCopy struct.
+   */
   struct BufferCopy
   {
     BufferCopy( DeviceSize srcOffset_ = 0, DeviceSize dstOffset_ = 0, DeviceSize size_ = 0 )
@@ -2394,6 +2436,9 @@ namespace vk
   };
   static_assert( sizeof( BufferCopy ) == sizeof( VkBufferCopy ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SpecializationMapEntry struct.
+   */
   struct SpecializationMapEntry
   {
     SpecializationMapEntry( uint32_t constantID_ = 0, uint32_t offset_ = 0, size_t size_ = 0 )
@@ -2443,6 +2488,9 @@ namespace vk
   };
   static_assert( sizeof( SpecializationMapEntry ) == sizeof( VkSpecializationMapEntry ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SpecializationInfo struct.
+   */
   struct SpecializationInfo
   {
     SpecializationInfo( uint32_t mapEntryCount_ = 0, const SpecializationMapEntry* pMapEntries_ = nullptr, size_t dataSize_ = 0, const void* pData_ = nullptr )
@@ -2500,6 +2548,9 @@ namespace vk
   };
   static_assert( sizeof( SpecializationInfo ) == sizeof( VkSpecializationInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ClearColorValue union.
+   */
   union ClearColorValue
   {
     ClearColorValue( const std::array<float, 4>& float32_ = { 0 } )
@@ -2545,6 +2596,9 @@ namespace vk
     uint32_t uint32[ 4 ];
   };
 
+  /**
+   * @brief The ClearDepthStencilValue struct.
+   */
   struct ClearDepthStencilValue
   {
     ClearDepthStencilValue( float depth_ = 0, uint32_t stencil_ = 0 )
@@ -2586,6 +2640,9 @@ namespace vk
   };
   static_assert( sizeof( ClearDepthStencilValue ) == sizeof( VkClearDepthStencilValue ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ClearValue union.
+   */
   union ClearValue
   {
     ClearValue( ClearColorValue color_ = ClearColorValue() )
@@ -2624,6 +2681,9 @@ namespace vk
 #endif // VK_CPP_HAS_UNRESTRICTED_UNIONS
   };
 
+  /**
+   * @brief The PhysicalDeviceFeatures struct.
+   */
   struct PhysicalDeviceFeatures
   {
     PhysicalDeviceFeatures( Bool32 robustBufferAccess_ = 0, Bool32 fullDrawIndexUint32_ = 0, Bool32 imageCubeArray_ = 0, Bool32 independentBlend_ = 0, Bool32 geometryShader_ = 0, Bool32 tessellationShader_ = 0, Bool32 sampleRateShading_ = 0, Bool32 dualSrcBlend_ = 0, Bool32 logicOp_ = 0, Bool32 multiDrawIndirect_ = 0, Bool32 drawIndirectFirstInstance_ = 0, Bool32 depthClamp_ = 0, Bool32 depthBiasClamp_ = 0, Bool32 fillModeNonSolid_ = 0, Bool32 depthBounds_ = 0, Bool32 wideLines_ = 0, Bool32 largePoints_ = 0, Bool32 alphaToOne_ = 0, Bool32 multiViewport_ = 0, Bool32 samplerAnisotropy_ = 0, Bool32 textureCompressionETC2_ = 0, Bool32 textureCompressionASTC_LDR_ = 0, Bool32 textureCompressionBC_ = 0, Bool32 occlusionQueryPrecise_ = 0, Bool32 pipelineStatisticsQuery_ = 0, Bool32 vertexPipelineStoresAndAtomics_ = 0, Bool32 fragmentStoresAndAtomics_ = 0, Bool32 shaderTessellationAndGeometryPointSize_ = 0, Bool32 shaderImageGatherExtended_ = 0, Bool32 shaderStorageImageExtendedFormats_ = 0, Bool32 shaderStorageImageMultisample_ = 0, Bool32 shaderStorageImageReadWithoutFormat_ = 0, Bool32 shaderStorageImageWriteWithoutFormat_ = 0, Bool32 shaderUniformBufferArrayDynamicIndexing_ = 0, Bool32 shaderSampledImageArrayDynamicIndexing_ = 0, Bool32 shaderStorageBufferArrayDynamicIndexing_ = 0, Bool32 shaderStorageImageArrayDynamicIndexing_ = 0, Bool32 shaderClipDistance_ = 0, Bool32 shaderCullDistance_ = 0, Bool32 shaderFloat64_ = 0, Bool32 shaderInt64_ = 0, Bool32 shaderInt16_ = 0, Bool32 shaderResourceResidency_ = 0, Bool32 shaderResourceMinLod_ = 0, Bool32 sparseBinding_ = 0, Bool32 sparseResidencyBuffer_ = 0, Bool32 sparseResidencyImage2D_ = 0, Bool32 sparseResidencyImage3D_ = 0, Bool32 sparseResidency2Samples_ = 0, Bool32 sparseResidency4Samples_ = 0, Bool32 sparseResidency8Samples_ = 0, Bool32 sparseResidency16Samples_ = 0, Bool32 sparseResidencyAliased_ = 0, Bool32 variableMultisampleRate_ = 0, Bool32 inheritedQueries_ = 0 )
@@ -3089,6 +3149,9 @@ namespace vk
   };
   static_assert( sizeof( PhysicalDeviceFeatures ) == sizeof( VkPhysicalDeviceFeatures ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PhysicalDeviceSparseProperties struct.
+   */
   struct PhysicalDeviceSparseProperties
   {
     operator const VkPhysicalDeviceSparseProperties&() const
@@ -3104,6 +3167,9 @@ namespace vk
   };
   static_assert( sizeof( PhysicalDeviceSparseProperties ) == sizeof( VkPhysicalDeviceSparseProperties ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DrawIndirectCommand struct.
+   */
   struct DrawIndirectCommand
   {
     DrawIndirectCommand( uint32_t vertexCount_ = 0, uint32_t instanceCount_ = 0, uint32_t firstVertex_ = 0, uint32_t firstInstance_ = 0 )
@@ -3161,6 +3227,9 @@ namespace vk
   };
   static_assert( sizeof( DrawIndirectCommand ) == sizeof( VkDrawIndirectCommand ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DrawIndexedIndirectCommand struct.
+   */
   struct DrawIndexedIndirectCommand
   {
     DrawIndexedIndirectCommand( uint32_t indexCount_ = 0, uint32_t instanceCount_ = 0, uint32_t firstIndex_ = 0, int32_t vertexOffset_ = 0, uint32_t firstInstance_ = 0 )
@@ -3226,6 +3295,9 @@ namespace vk
   };
   static_assert( sizeof( DrawIndexedIndirectCommand ) == sizeof( VkDrawIndexedIndirectCommand ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DispatchIndirectCommand struct.
+   */
   struct DispatchIndirectCommand
   {
     DispatchIndirectCommand( uint32_t x_ = 0, uint32_t y_ = 0, uint32_t z_ = 0 )
@@ -3275,6 +3347,9 @@ namespace vk
   };
   static_assert( sizeof( DispatchIndirectCommand ) == sizeof( VkDispatchIndirectCommand ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DisplayPlanePropertiesKHR struct.
+   */
   struct DisplayPlanePropertiesKHR
   {
     DisplayPlanePropertiesKHR( DisplayKHR currentDisplay_ = DisplayKHR(), uint32_t currentStackIndex_ = 0 )
@@ -3316,6 +3391,9 @@ namespace vk
   };
   static_assert( sizeof( DisplayPlanePropertiesKHR ) == sizeof( VkDisplayPlanePropertiesKHR ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DisplayModeParametersKHR struct.
+   */
   struct DisplayModeParametersKHR
   {
     DisplayModeParametersKHR( Extent2D visibleRegion_ = Extent2D(), uint32_t refreshRate_ = 0 )
@@ -3357,6 +3435,9 @@ namespace vk
   };
   static_assert( sizeof( DisplayModeParametersKHR ) == sizeof( VkDisplayModeParametersKHR ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DisplayModePropertiesKHR struct.
+   */
   struct DisplayModePropertiesKHR
   {
     DisplayModePropertiesKHR( DisplayModeKHR displayMode_ = DisplayModeKHR(), DisplayModeParametersKHR parameters_ = DisplayModeParametersKHR() )
@@ -3412,6 +3493,9 @@ namespace vk
     ePresentSrcKHR = 1000001002, //VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
   };
 
+  /**
+   * @brief The DescriptorImageInfo struct.
+   */
   struct DescriptorImageInfo
   {
     DescriptorImageInfo( Sampler sampler_ = Sampler(), ImageView imageView_ = ImageView(), ImageLayout imageLayout_ = ImageLayout::eUndefined )
@@ -3461,6 +3545,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorImageInfo ) == sizeof( VkDescriptorImageInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The AttachmentReference struct.
+   */
   struct AttachmentReference
   {
     AttachmentReference( uint32_t attachment_ = 0, ImageLayout layout_ = ImageLayout::eUndefined )
@@ -3556,6 +3643,9 @@ namespace vk
     eA = 6, //VK_COMPONENT_SWIZZLE_A
   };
 
+  /**
+   * @brief The ComponentMapping struct.
+   */
   struct ComponentMapping
   {
     ComponentMapping( ComponentSwizzle r_ = ComponentSwizzle::eIdentity, ComponentSwizzle g_ = ComponentSwizzle::eIdentity, ComponentSwizzle b_ = ComponentSwizzle::eIdentity, ComponentSwizzle a_ = ComponentSwizzle::eIdentity )
@@ -3628,6 +3718,9 @@ namespace vk
     eInputAttachment = 10, //VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT
   };
 
+  /**
+   * @brief The DescriptorPoolSize struct.
+   */
   struct DescriptorPoolSize
   {
     DescriptorPoolSize( DescriptorType type_ = DescriptorType::eSampler, uint32_t descriptorCount_ = 0 )
@@ -3692,6 +3785,9 @@ namespace vk
     eCompute = 1, //VK_PIPELINE_BIND_POINT_COMPUTE
   };
 
+  /**
+   * @brief The SubpassDescription struct.
+   */
   struct SubpassDescription
   {
     SubpassDescription( SubpassDescriptionFlags flags_ = SubpassDescriptionFlags(), PipelineBindPoint pipelineBindPoint_ = PipelineBindPoint::eGraphics, uint32_t inputAttachmentCount_ = 0, const AttachmentReference* pInputAttachments_ = nullptr, uint32_t colorAttachmentCount_ = 0, const AttachmentReference* pColorAttachments_ = nullptr, const AttachmentReference* pResolveAttachments_ = nullptr, const AttachmentReference* pDepthStencilAttachment_ = nullptr, uint32_t preserveAttachmentCount_ = 0, const uint32_t* pPreserveAttachments_ = nullptr )
@@ -3935,6 +4031,9 @@ namespace vk
     eDecrementAndWrap = 7, //VK_STENCIL_OP_DECREMENT_AND_WRAP
   };
 
+  /**
+   * @brief The StencilOpState struct.
+   */
   struct StencilOpState
   {
     StencilOpState( StencilOp failOp_ = StencilOp::eKeep, StencilOp passOp_ = StencilOp::eKeep, StencilOp depthFailOp_ = StencilOp::eKeep, CompareOp compareOp_ = CompareOp::eNever, uint32_t compareMask_ = 0, uint32_t writeMask_ = 0, uint32_t reference_ = 0 )
@@ -4065,6 +4164,9 @@ namespace vk
     eInstance = 1, //VK_VERTEX_INPUT_RATE_INSTANCE
   };
 
+  /**
+   * @brief The VertexInputBindingDescription struct.
+   */
   struct VertexInputBindingDescription
   {
     VertexInputBindingDescription( uint32_t binding_ = 0, uint32_t stride_ = 0, VertexInputRate inputRate_ = VertexInputRate::eVertex )
@@ -4303,6 +4405,9 @@ namespace vk
     eAstc12x12SrgbBlock = 184, //VK_FORMAT_ASTC_12x12_SRGB_BLOCK
   };
 
+  /**
+   * @brief The VertexInputAttributeDescription struct.
+   */
   struct VertexInputAttributeDescription
   {
     VertexInputAttributeDescription( uint32_t location_ = 0, uint32_t binding_ = 0, Format format_ = Format::eUndefined, uint32_t offset_ = 0 )
@@ -4429,6 +4534,9 @@ namespace vk
     eDebugMarkerMarkerInfoEXT = 1000022002, //VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT
   };
 
+  /**
+   * @brief The ApplicationInfo struct.
+   */
   struct ApplicationInfo
   {
     ApplicationInfo( const char* pApplicationName_ = nullptr, uint32_t applicationVersion_ = 0, const char* pEngineName_ = nullptr, uint32_t engineVersion_ = 0, uint32_t apiVersion_ = 0 )
@@ -4513,6 +4621,9 @@ namespace vk
   };
   static_assert( sizeof( ApplicationInfo ) == sizeof( VkApplicationInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DeviceQueueCreateInfo struct.
+   */
   struct DeviceQueueCreateInfo
   {
     DeviceQueueCreateInfo( DeviceQueueCreateFlags flags_ = DeviceQueueCreateFlags(), uint32_t queueFamilyIndex_ = 0, uint32_t queueCount_ = 0, const float* pQueuePriorities_ = nullptr )
@@ -4589,6 +4700,9 @@ namespace vk
   };
   static_assert( sizeof( DeviceQueueCreateInfo ) == sizeof( VkDeviceQueueCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DeviceCreateInfo struct.
+   */
   struct DeviceCreateInfo
   {
     DeviceCreateInfo( DeviceCreateFlags flags_ = DeviceCreateFlags(), uint32_t queueCreateInfoCount_ = 0, const DeviceQueueCreateInfo* pQueueCreateInfos_ = nullptr, uint32_t enabledLayerCount_ = 0, const char* const* ppEnabledLayerNames_ = nullptr, uint32_t enabledExtensionCount_ = 0, const char* const* ppEnabledExtensionNames_ = nullptr, const PhysicalDeviceFeatures* pEnabledFeatures_ = nullptr )
@@ -4697,6 +4811,9 @@ namespace vk
   };
   static_assert( sizeof( DeviceCreateInfo ) == sizeof( VkDeviceCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The InstanceCreateInfo struct.
+   */
   struct InstanceCreateInfo
   {
     InstanceCreateInfo( InstanceCreateFlags flags_ = InstanceCreateFlags(), const ApplicationInfo* pApplicationInfo_ = nullptr, uint32_t enabledLayerCount_ = 0, const char* const* ppEnabledLayerNames_ = nullptr, uint32_t enabledExtensionCount_ = 0, const char* const* ppEnabledExtensionNames_ = nullptr )
@@ -4789,6 +4906,9 @@ namespace vk
   };
   static_assert( sizeof( InstanceCreateInfo ) == sizeof( VkInstanceCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The MemoryAllocateInfo struct.
+   */
   struct MemoryAllocateInfo
   {
     MemoryAllocateInfo( DeviceSize allocationSize_ = 0, uint32_t memoryTypeIndex_ = 0 )
@@ -4849,6 +4969,9 @@ namespace vk
   };
   static_assert( sizeof( MemoryAllocateInfo ) == sizeof( VkMemoryAllocateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The MappedMemoryRange struct.
+   */
   struct MappedMemoryRange
   {
     MappedMemoryRange( DeviceMemory memory_ = DeviceMemory(), DeviceSize offset_ = 0, DeviceSize size_ = 0 )
@@ -4917,6 +5040,9 @@ namespace vk
   };
   static_assert( sizeof( MappedMemoryRange ) == sizeof( VkMappedMemoryRange ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The WriteDescriptorSet struct.
+   */
   struct WriteDescriptorSet
   {
     WriteDescriptorSet( DescriptorSet dstSet_ = DescriptorSet(), uint32_t dstBinding_ = 0, uint32_t dstArrayElement_ = 0, uint32_t descriptorCount_ = 0, DescriptorType descriptorType_ = DescriptorType::eSampler, const DescriptorImageInfo* pImageInfo_ = nullptr, const DescriptorBufferInfo* pBufferInfo_ = nullptr, const BufferView* pTexelBufferView_ = nullptr )
@@ -5025,6 +5151,9 @@ namespace vk
   };
   static_assert( sizeof( WriteDescriptorSet ) == sizeof( VkWriteDescriptorSet ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The CopyDescriptorSet struct.
+   */
   struct CopyDescriptorSet
   {
     CopyDescriptorSet( DescriptorSet srcSet_ = DescriptorSet(), uint32_t srcBinding_ = 0, uint32_t srcArrayElement_ = 0, DescriptorSet dstSet_ = DescriptorSet(), uint32_t dstBinding_ = 0, uint32_t dstArrayElement_ = 0, uint32_t descriptorCount_ = 0 )
@@ -5125,6 +5254,9 @@ namespace vk
   };
   static_assert( sizeof( CopyDescriptorSet ) == sizeof( VkCopyDescriptorSet ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The BufferViewCreateInfo struct.
+   */
   struct BufferViewCreateInfo
   {
     BufferViewCreateInfo( BufferViewCreateFlags flags_ = BufferViewCreateFlags(), Buffer buffer_ = Buffer(), Format format_ = Format::eUndefined, DeviceSize offset_ = 0, DeviceSize range_ = 0 )
@@ -5209,6 +5341,9 @@ namespace vk
   };
   static_assert( sizeof( BufferViewCreateInfo ) == sizeof( VkBufferViewCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ShaderModuleCreateInfo struct.
+   */
   struct ShaderModuleCreateInfo
   {
     ShaderModuleCreateInfo( ShaderModuleCreateFlags flags_ = ShaderModuleCreateFlags(), size_t codeSize_ = 0, const uint32_t* pCode_ = nullptr )
@@ -5277,6 +5412,9 @@ namespace vk
   };
   static_assert( sizeof( ShaderModuleCreateInfo ) == sizeof( VkShaderModuleCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DescriptorSetAllocateInfo struct.
+   */
   struct DescriptorSetAllocateInfo
   {
     DescriptorSetAllocateInfo( DescriptorPool descriptorPool_ = DescriptorPool(), uint32_t descriptorSetCount_ = 0, const DescriptorSetLayout* pSetLayouts_ = nullptr )
@@ -5345,6 +5483,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorSetAllocateInfo ) == sizeof( VkDescriptorSetAllocateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineVertexInputStateCreateInfo struct.
+   */
   struct PipelineVertexInputStateCreateInfo
   {
     PipelineVertexInputStateCreateInfo( PipelineVertexInputStateCreateFlags flags_ = PipelineVertexInputStateCreateFlags(), uint32_t vertexBindingDescriptionCount_ = 0, const VertexInputBindingDescription* pVertexBindingDescriptions_ = nullptr, uint32_t vertexAttributeDescriptionCount_ = 0, const VertexInputAttributeDescription* pVertexAttributeDescriptions_ = nullptr )
@@ -5429,6 +5570,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineVertexInputStateCreateInfo ) == sizeof( VkPipelineVertexInputStateCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineInputAssemblyStateCreateInfo struct.
+   */
   struct PipelineInputAssemblyStateCreateInfo
   {
     PipelineInputAssemblyStateCreateInfo( PipelineInputAssemblyStateCreateFlags flags_ = PipelineInputAssemblyStateCreateFlags(), PrimitiveTopology topology_ = PrimitiveTopology::ePointList, Bool32 primitiveRestartEnable_ = 0 )
@@ -5497,6 +5641,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineInputAssemblyStateCreateInfo ) == sizeof( VkPipelineInputAssemblyStateCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineTessellationStateCreateInfo struct.
+   */
   struct PipelineTessellationStateCreateInfo
   {
     PipelineTessellationStateCreateInfo( PipelineTessellationStateCreateFlags flags_ = PipelineTessellationStateCreateFlags(), uint32_t patchControlPoints_ = 0 )
@@ -5557,6 +5704,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineTessellationStateCreateInfo ) == sizeof( VkPipelineTessellationStateCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineViewportStateCreateInfo struct.
+   */
   struct PipelineViewportStateCreateInfo
   {
     PipelineViewportStateCreateInfo( PipelineViewportStateCreateFlags flags_ = PipelineViewportStateCreateFlags(), uint32_t viewportCount_ = 0, const Viewport* pViewports_ = nullptr, uint32_t scissorCount_ = 0, const Rect2D* pScissors_ = nullptr )
@@ -5641,6 +5791,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineViewportStateCreateInfo ) == sizeof( VkPipelineViewportStateCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineRasterizationStateCreateInfo struct.
+   */
   struct PipelineRasterizationStateCreateInfo
   {
     PipelineRasterizationStateCreateInfo( PipelineRasterizationStateCreateFlags flags_ = PipelineRasterizationStateCreateFlags(), Bool32 depthClampEnable_ = 0, Bool32 rasterizerDiscardEnable_ = 0, PolygonMode polygonMode_ = PolygonMode::eFill, CullModeFlags cullMode_ = CullModeFlags(), FrontFace frontFace_ = FrontFace::eCounterClockwise, Bool32 depthBiasEnable_ = 0, float depthBiasConstantFactor_ = 0, float depthBiasClamp_ = 0, float depthBiasSlopeFactor_ = 0, float lineWidth_ = 0 )
@@ -5773,6 +5926,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineRasterizationStateCreateInfo ) == sizeof( VkPipelineRasterizationStateCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineDepthStencilStateCreateInfo struct.
+   */
   struct PipelineDepthStencilStateCreateInfo
   {
     PipelineDepthStencilStateCreateInfo( PipelineDepthStencilStateCreateFlags flags_ = PipelineDepthStencilStateCreateFlags(), Bool32 depthTestEnable_ = 0, Bool32 depthWriteEnable_ = 0, CompareOp depthCompareOp_ = CompareOp::eNever, Bool32 depthBoundsTestEnable_ = 0, Bool32 stencilTestEnable_ = 0, StencilOpState front_ = StencilOpState(), StencilOpState back_ = StencilOpState(), float minDepthBounds_ = 0, float maxDepthBounds_ = 0 )
@@ -5897,6 +6053,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineDepthStencilStateCreateInfo ) == sizeof( VkPipelineDepthStencilStateCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineCacheCreateInfo struct.
+   */
   struct PipelineCacheCreateInfo
   {
     PipelineCacheCreateInfo( PipelineCacheCreateFlags flags_ = PipelineCacheCreateFlags(), size_t initialDataSize_ = 0, const void* pInitialData_ = nullptr )
@@ -5965,6 +6124,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineCacheCreateInfo ) == sizeof( VkPipelineCacheCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SamplerCreateInfo struct.
+   */
   struct SamplerCreateInfo
   {
     SamplerCreateInfo( SamplerCreateFlags flags_ = SamplerCreateFlags(), Filter magFilter_ = Filter::eNearest, Filter minFilter_ = Filter::eNearest, SamplerMipmapMode mipmapMode_ = SamplerMipmapMode::eNearest, SamplerAddressMode addressModeU_ = SamplerAddressMode::eRepeat, SamplerAddressMode addressModeV_ = SamplerAddressMode::eRepeat, SamplerAddressMode addressModeW_ = SamplerAddressMode::eRepeat, float mipLodBias_ = 0, Bool32 anisotropyEnable_ = 0, float maxAnisotropy_ = 0, Bool32 compareEnable_ = 0, CompareOp compareOp_ = CompareOp::eNever, float minLod_ = 0, float maxLod_ = 0, BorderColor borderColor_ = BorderColor::eFloatTransparentBlack, Bool32 unnormalizedCoordinates_ = 0 )
@@ -6137,6 +6299,9 @@ namespace vk
   };
   static_assert( sizeof( SamplerCreateInfo ) == sizeof( VkSamplerCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The CommandBufferAllocateInfo struct.
+   */
   struct CommandBufferAllocateInfo
   {
     CommandBufferAllocateInfo( CommandPool commandPool_ = CommandPool(), CommandBufferLevel level_ = CommandBufferLevel::ePrimary, uint32_t commandBufferCount_ = 0 )
@@ -6205,6 +6370,9 @@ namespace vk
   };
   static_assert( sizeof( CommandBufferAllocateInfo ) == sizeof( VkCommandBufferAllocateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The RenderPassBeginInfo struct.
+   */
   struct RenderPassBeginInfo
   {
     RenderPassBeginInfo( RenderPass renderPass_ = RenderPass(), Framebuffer framebuffer_ = Framebuffer(), Rect2D renderArea_ = Rect2D(), uint32_t clearValueCount_ = 0, const ClearValue* pClearValues_ = nullptr )
@@ -6289,6 +6457,9 @@ namespace vk
   };
   static_assert( sizeof( RenderPassBeginInfo ) == sizeof( VkRenderPassBeginInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The EventCreateInfo struct.
+   */
   struct EventCreateInfo
   {
     EventCreateInfo( EventCreateFlags flags_ = EventCreateFlags() )
@@ -6341,6 +6512,9 @@ namespace vk
   };
   static_assert( sizeof( EventCreateInfo ) == sizeof( VkEventCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SemaphoreCreateInfo struct.
+   */
   struct SemaphoreCreateInfo
   {
     SemaphoreCreateInfo( SemaphoreCreateFlags flags_ = SemaphoreCreateFlags() )
@@ -6393,6 +6567,9 @@ namespace vk
   };
   static_assert( sizeof( SemaphoreCreateInfo ) == sizeof( VkSemaphoreCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The FramebufferCreateInfo struct.
+   */
   struct FramebufferCreateInfo
   {
     FramebufferCreateInfo( FramebufferCreateFlags flags_ = FramebufferCreateFlags(), RenderPass renderPass_ = RenderPass(), uint32_t attachmentCount_ = 0, const ImageView* pAttachments_ = nullptr, uint32_t width_ = 0, uint32_t height_ = 0, uint32_t layers_ = 0 )
@@ -6493,6 +6670,9 @@ namespace vk
   };
   static_assert( sizeof( FramebufferCreateInfo ) == sizeof( VkFramebufferCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DisplayModeCreateInfoKHR struct.
+   */
   struct DisplayModeCreateInfoKHR
   {
     DisplayModeCreateInfoKHR( DisplayModeCreateFlagsKHR flags_ = DisplayModeCreateFlagsKHR(), DisplayModeParametersKHR parameters_ = DisplayModeParametersKHR() )
@@ -6553,6 +6733,9 @@ namespace vk
   };
   static_assert( sizeof( DisplayModeCreateInfoKHR ) == sizeof( VkDisplayModeCreateInfoKHR ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DisplayPresentInfoKHR struct.
+   */
   struct DisplayPresentInfoKHR
   {
     DisplayPresentInfoKHR( Rect2D srcRect_ = Rect2D(), Rect2D dstRect_ = Rect2D(), Bool32 persistent_ = 0 )
@@ -6622,6 +6805,9 @@ namespace vk
   static_assert( sizeof( DisplayPresentInfoKHR ) == sizeof( VkDisplayPresentInfoKHR ), "struct and wrapper have different size!" );
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
+  /**
+   * @brief The AndroidSurfaceCreateInfoKHR struct.
+   */
   struct AndroidSurfaceCreateInfoKHR
   {
     AndroidSurfaceCreateInfoKHR( AndroidSurfaceCreateFlagsKHR flags_ = AndroidSurfaceCreateFlagsKHR(), ANativeWindow* window_ = nullptr )
@@ -6684,6 +6870,9 @@ namespace vk
 #endif /*VK_USE_PLATFORM_ANDROID_KHR*/
 
 #ifdef VK_USE_PLATFORM_MIR_KHR
+  /**
+   * @brief The MirSurfaceCreateInfoKHR struct.
+   */
   struct MirSurfaceCreateInfoKHR
   {
     MirSurfaceCreateInfoKHR( MirSurfaceCreateFlagsKHR flags_ = MirSurfaceCreateFlagsKHR(), MirConnection* connection_ = nullptr, MirSurface* mirSurface_ = nullptr )
@@ -6754,6 +6943,9 @@ namespace vk
 #endif /*VK_USE_PLATFORM_MIR_KHR*/
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
+  /**
+   * @brief The WaylandSurfaceCreateInfoKHR struct.
+   */
   struct WaylandSurfaceCreateInfoKHR
   {
     WaylandSurfaceCreateInfoKHR( WaylandSurfaceCreateFlagsKHR flags_ = WaylandSurfaceCreateFlagsKHR(), struct wl_display* display_ = nullptr, struct wl_surface* surface_ = nullptr )
@@ -6824,6 +7016,9 @@ namespace vk
 #endif /*VK_USE_PLATFORM_WAYLAND_KHR*/
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
+  /**
+   * @brief The Win32SurfaceCreateInfoKHR struct.
+   */
   struct Win32SurfaceCreateInfoKHR
   {
     Win32SurfaceCreateInfoKHR( Win32SurfaceCreateFlagsKHR flags_ = Win32SurfaceCreateFlagsKHR(), HINSTANCE hinstance_ = 0, HWND hwnd_ = 0 )
@@ -6894,6 +7089,9 @@ namespace vk
 #endif /*VK_USE_PLATFORM_WIN32_KHR*/
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
+  /**
+   * @brief The XlibSurfaceCreateInfoKHR struct.
+   */
   struct XlibSurfaceCreateInfoKHR
   {
     XlibSurfaceCreateInfoKHR( XlibSurfaceCreateFlagsKHR flags_ = XlibSurfaceCreateFlagsKHR(), Display* dpy_ = nullptr, Window window_ = 0 )
@@ -6964,6 +7162,9 @@ namespace vk
 #endif /*VK_USE_PLATFORM_XLIB_KHR*/
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
+  /**
+   * @brief The XcbSurfaceCreateInfoKHR struct.
+   */
   struct XcbSurfaceCreateInfoKHR
   {
     XcbSurfaceCreateInfoKHR( XcbSurfaceCreateFlagsKHR flags_ = XcbSurfaceCreateFlagsKHR(), xcb_connection_t* connection_ = nullptr, xcb_window_t window_ = 0 )
@@ -7033,6 +7234,9 @@ namespace vk
   static_assert( sizeof( XcbSurfaceCreateInfoKHR ) == sizeof( VkXcbSurfaceCreateInfoKHR ), "struct and wrapper have different size!" );
 #endif /*VK_USE_PLATFORM_XCB_KHR*/
 
+  /**
+   * @brief The DebugMarkerMarkerInfoEXT struct.
+   */
   struct DebugMarkerMarkerInfoEXT
   {
     DebugMarkerMarkerInfoEXT( const char* pMarkerName_ = nullptr, std::array<float, 4> const& color_ = { 0, 0, 0, 0 } )
@@ -7099,6 +7303,9 @@ namespace vk
     eSecondaryCommandBuffers = 1, //VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS
   };
 
+  /**
+   * @brief The PresentInfoKHR struct.
+   */
   struct PresentInfoKHR
   {
     PresentInfoKHR( uint32_t waitSemaphoreCount_ = 0, const Semaphore* pWaitSemaphores_ = nullptr, uint32_t swapchainCount_ = 0, const SwapchainKHR* pSwapchains_ = nullptr, const uint32_t* pImageIndices_ = nullptr, Result* pResults_ = nullptr )
@@ -7204,6 +7411,9 @@ namespace vk
     eStencilReference = 8, //VK_DYNAMIC_STATE_STENCIL_REFERENCE
   };
 
+  /**
+   * @brief The PipelineDynamicStateCreateInfo struct.
+   */
   struct PipelineDynamicStateCreateInfo
   {
     PipelineDynamicStateCreateInfo( PipelineDynamicStateCreateFlags flags_ = PipelineDynamicStateCreateFlags(), uint32_t dynamicStateCount_ = 0, const DynamicState* pDynamicStates_ = nullptr )
@@ -7287,6 +7497,9 @@ namespace vk
     return QueueFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The QueueFamilyProperties struct.
+   */
   struct QueueFamilyProperties
   {
     operator const VkQueueFamilyProperties&() const
@@ -7317,6 +7530,9 @@ namespace vk
     return MemoryPropertyFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The MemoryType struct.
+   */
   struct MemoryType
   {
     operator const VkMemoryType&() const
@@ -7341,6 +7557,9 @@ namespace vk
     return MemoryHeapFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The MemoryHeap struct.
+   */
   struct MemoryHeap
   {
     operator const VkMemoryHeap&() const
@@ -7353,6 +7572,9 @@ namespace vk
   };
   static_assert( sizeof( MemoryHeap ) == sizeof( VkMemoryHeap ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PhysicalDeviceMemoryProperties struct.
+   */
   struct PhysicalDeviceMemoryProperties
   {
     operator const VkPhysicalDeviceMemoryProperties&() const
@@ -7395,6 +7617,9 @@ namespace vk
     return AccessFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The MemoryBarrier struct.
+   */
   struct MemoryBarrier
   {
     MemoryBarrier( AccessFlags srcAccessMask_ = AccessFlags(), AccessFlags dstAccessMask_ = AccessFlags() )
@@ -7455,6 +7680,9 @@ namespace vk
   };
   static_assert( sizeof( MemoryBarrier ) == sizeof( VkMemoryBarrier ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The BufferMemoryBarrier struct.
+   */
   struct BufferMemoryBarrier
   {
     BufferMemoryBarrier( AccessFlags srcAccessMask_ = AccessFlags(), AccessFlags dstAccessMask_ = AccessFlags(), uint32_t srcQueueFamilyIndex_ = 0, uint32_t dstQueueFamilyIndex_ = 0, Buffer buffer_ = Buffer(), DeviceSize offset_ = 0, DeviceSize size_ = 0 )
@@ -7589,6 +7817,9 @@ namespace vk
     return BufferCreateFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The BufferCreateInfo struct.
+   */
   struct BufferCreateInfo
   {
     BufferCreateInfo( BufferCreateFlags flags_ = BufferCreateFlags(), DeviceSize size_ = 0, BufferUsageFlags usage_ = BufferUsageFlags(), SharingMode sharingMode_ = SharingMode::eExclusive, uint32_t queueFamilyIndexCount_ = 0, const uint32_t* pQueueFamilyIndices_ = nullptr )
@@ -7700,6 +7931,9 @@ namespace vk
     return ShaderStageFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The DescriptorSetLayoutBinding struct.
+   */
   struct DescriptorSetLayoutBinding
   {
     DescriptorSetLayoutBinding( uint32_t binding_ = 0, DescriptorType descriptorType_ = DescriptorType::eSampler, uint32_t descriptorCount_ = 0, ShaderStageFlags stageFlags_ = ShaderStageFlags(), const Sampler* pImmutableSamplers_ = nullptr )
@@ -7765,6 +7999,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorSetLayoutBinding ) == sizeof( VkDescriptorSetLayoutBinding ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DescriptorSetLayoutCreateInfo struct.
+   */
   struct DescriptorSetLayoutCreateInfo
   {
     DescriptorSetLayoutCreateInfo( DescriptorSetLayoutCreateFlags flags_ = DescriptorSetLayoutCreateFlags(), uint32_t bindingCount_ = 0, const DescriptorSetLayoutBinding* pBindings_ = nullptr )
@@ -7833,6 +8070,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorSetLayoutCreateInfo ) == sizeof( VkDescriptorSetLayoutCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineShaderStageCreateInfo struct.
+   */
   struct PipelineShaderStageCreateInfo
   {
     PipelineShaderStageCreateInfo( PipelineShaderStageCreateFlags flags_ = PipelineShaderStageCreateFlags(), ShaderStageFlagBits stage_ = ShaderStageFlagBits::eVertex, ShaderModule module_ = ShaderModule(), const char* pName_ = nullptr, const SpecializationInfo* pSpecializationInfo_ = nullptr )
@@ -7917,6 +8157,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineShaderStageCreateInfo ) == sizeof( VkPipelineShaderStageCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PushConstantRange struct.
+   */
   struct PushConstantRange
   {
     PushConstantRange( ShaderStageFlags stageFlags_ = ShaderStageFlags(), uint32_t offset_ = 0, uint32_t size_ = 0 )
@@ -7966,6 +8209,9 @@ namespace vk
   };
   static_assert( sizeof( PushConstantRange ) == sizeof( VkPushConstantRange ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineLayoutCreateInfo struct.
+   */
   struct PipelineLayoutCreateInfo
   {
     PipelineLayoutCreateInfo( PipelineLayoutCreateFlags flags_ = PipelineLayoutCreateFlags(), uint32_t setLayoutCount_ = 0, const DescriptorSetLayout* pSetLayouts_ = nullptr, uint32_t pushConstantRangeCount_ = 0, const PushConstantRange* pPushConstantRanges_ = nullptr )
@@ -8099,6 +8345,9 @@ namespace vk
     return PipelineCreateFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The ComputePipelineCreateInfo struct.
+   */
   struct ComputePipelineCreateInfo
   {
     ComputePipelineCreateInfo( PipelineCreateFlags flags_ = PipelineCreateFlags(), PipelineShaderStageCreateInfo stage_ = PipelineShaderStageCreateInfo(), PipelineLayout layout_ = PipelineLayout(), Pipeline basePipelineHandle_ = Pipeline(), int32_t basePipelineIndex_ = 0 )
@@ -8198,6 +8447,9 @@ namespace vk
     return ColorComponentFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The PipelineColorBlendAttachmentState struct.
+   */
   struct PipelineColorBlendAttachmentState
   {
     PipelineColorBlendAttachmentState( Bool32 blendEnable_ = 0, BlendFactor srcColorBlendFactor_ = BlendFactor::eZero, BlendFactor dstColorBlendFactor_ = BlendFactor::eZero, BlendOp colorBlendOp_ = BlendOp::eAdd, BlendFactor srcAlphaBlendFactor_ = BlendFactor::eZero, BlendFactor dstAlphaBlendFactor_ = BlendFactor::eZero, BlendOp alphaBlendOp_ = BlendOp::eAdd, ColorComponentFlags colorWriteMask_ = ColorComponentFlags() )
@@ -8287,6 +8539,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineColorBlendAttachmentState ) == sizeof( VkPipelineColorBlendAttachmentState ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineColorBlendStateCreateInfo struct.
+   */
   struct PipelineColorBlendStateCreateInfo
   {
     PipelineColorBlendStateCreateInfo( PipelineColorBlendStateCreateFlags flags_ = PipelineColorBlendStateCreateFlags(), Bool32 logicOpEnable_ = 0, LogicOp logicOp_ = LogicOp::eClear, uint32_t attachmentCount_ = 0, const PipelineColorBlendAttachmentState* pAttachments_ = nullptr, std::array<float, 4> const& blendConstants_ = { 0, 0, 0, 0 } )
@@ -8391,6 +8646,9 @@ namespace vk
     return FenceCreateFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The FenceCreateInfo struct.
+   */
   struct FenceCreateInfo
   {
     FenceCreateInfo( FenceCreateFlags flags_ = FenceCreateFlags() )
@@ -8468,6 +8726,9 @@ namespace vk
     return FormatFeatureFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The FormatProperties struct.
+   */
   struct FormatProperties
   {
     operator const VkFormatProperties&() const
@@ -8544,6 +8805,9 @@ namespace vk
     return QueryPipelineStatisticFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The CommandBufferInheritanceInfo struct.
+   */
   struct CommandBufferInheritanceInfo
   {
     CommandBufferInheritanceInfo( RenderPass renderPass_ = RenderPass(), uint32_t subpass_ = 0, Framebuffer framebuffer_ = Framebuffer(), Bool32 occlusionQueryEnable_ = 0, QueryControlFlags queryFlags_ = QueryControlFlags(), QueryPipelineStatisticFlags pipelineStatistics_ = QueryPipelineStatisticFlags() )
@@ -8636,6 +8900,9 @@ namespace vk
   };
   static_assert( sizeof( CommandBufferInheritanceInfo ) == sizeof( VkCommandBufferInheritanceInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The CommandBufferBeginInfo struct.
+   */
   struct CommandBufferBeginInfo
   {
     CommandBufferBeginInfo( CommandBufferUsageFlags flags_ = CommandBufferUsageFlags(), const CommandBufferInheritanceInfo* pInheritanceInfo_ = nullptr )
@@ -8696,6 +8963,9 @@ namespace vk
   };
   static_assert( sizeof( CommandBufferBeginInfo ) == sizeof( VkCommandBufferBeginInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The QueryPoolCreateInfo struct.
+   */
   struct QueryPoolCreateInfo
   {
     QueryPoolCreateInfo( QueryPoolCreateFlags flags_ = QueryPoolCreateFlags(), QueryType queryType_ = QueryType::eOcclusion, uint32_t queryCount_ = 0, QueryPipelineStatisticFlags pipelineStatistics_ = QueryPipelineStatisticFlags() )
@@ -8787,6 +9057,9 @@ namespace vk
     return ImageAspectFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The ImageSubresource struct.
+   */
   struct ImageSubresource
   {
     ImageSubresource( ImageAspectFlags aspectMask_ = ImageAspectFlags(), uint32_t mipLevel_ = 0, uint32_t arrayLayer_ = 0 )
@@ -8836,6 +9109,9 @@ namespace vk
   };
   static_assert( sizeof( ImageSubresource ) == sizeof( VkImageSubresource ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageSubresourceLayers struct.
+   */
   struct ImageSubresourceLayers
   {
     ImageSubresourceLayers( ImageAspectFlags aspectMask_ = ImageAspectFlags(), uint32_t mipLevel_ = 0, uint32_t baseArrayLayer_ = 0, uint32_t layerCount_ = 0 )
@@ -8893,6 +9169,9 @@ namespace vk
   };
   static_assert( sizeof( ImageSubresourceLayers ) == sizeof( VkImageSubresourceLayers ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageSubresourceRange struct.
+   */
   struct ImageSubresourceRange
   {
     ImageSubresourceRange( ImageAspectFlags aspectMask_ = ImageAspectFlags(), uint32_t baseMipLevel_ = 0, uint32_t levelCount_ = 0, uint32_t baseArrayLayer_ = 0, uint32_t layerCount_ = 0 )
@@ -8958,6 +9237,9 @@ namespace vk
   };
   static_assert( sizeof( ImageSubresourceRange ) == sizeof( VkImageSubresourceRange ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageMemoryBarrier struct.
+   */
   struct ImageMemoryBarrier
   {
     ImageMemoryBarrier( AccessFlags srcAccessMask_ = AccessFlags(), AccessFlags dstAccessMask_ = AccessFlags(), ImageLayout oldLayout_ = ImageLayout::eUndefined, ImageLayout newLayout_ = ImageLayout::eUndefined, uint32_t srcQueueFamilyIndex_ = 0, uint32_t dstQueueFamilyIndex_ = 0, Image image_ = Image(), ImageSubresourceRange subresourceRange_ = ImageSubresourceRange() )
@@ -9066,6 +9348,9 @@ namespace vk
   };
   static_assert( sizeof( ImageMemoryBarrier ) == sizeof( VkImageMemoryBarrier ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageViewCreateInfo struct.
+   */
   struct ImageViewCreateInfo
   {
     ImageViewCreateInfo( ImageViewCreateFlags flags_ = ImageViewCreateFlags(), Image image_ = Image(), ImageViewType viewType_ = ImageViewType::e1D, Format format_ = Format::eUndefined, ComponentMapping components_ = ComponentMapping(), ImageSubresourceRange subresourceRange_ = ImageSubresourceRange() )
@@ -9158,6 +9443,9 @@ namespace vk
   };
   static_assert( sizeof( ImageViewCreateInfo ) == sizeof( VkImageViewCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageCopy struct.
+   */
   struct ImageCopy
   {
     ImageCopy( ImageSubresourceLayers srcSubresource_ = ImageSubresourceLayers(), Offset3D srcOffset_ = Offset3D(), ImageSubresourceLayers dstSubresource_ = ImageSubresourceLayers(), Offset3D dstOffset_ = Offset3D(), Extent3D extent_ = Extent3D() )
@@ -9223,6 +9511,9 @@ namespace vk
   };
   static_assert( sizeof( ImageCopy ) == sizeof( VkImageCopy ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageBlit struct.
+   */
   struct ImageBlit
   {
     ImageBlit( ImageSubresourceLayers srcSubresource_ = ImageSubresourceLayers(), std::array<Offset3D, 2> const& srcOffsets_ = { Offset3D(), Offset3D() }, ImageSubresourceLayers dstSubresource_ = ImageSubresourceLayers(), std::array<Offset3D, 2> const& dstOffsets_ = { Offset3D(), Offset3D() } )
@@ -9280,6 +9571,9 @@ namespace vk
   };
   static_assert( sizeof( ImageBlit ) == sizeof( VkImageBlit ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The BufferImageCopy struct.
+   */
   struct BufferImageCopy
   {
     BufferImageCopy( DeviceSize bufferOffset_ = 0, uint32_t bufferRowLength_ = 0, uint32_t bufferImageHeight_ = 0, ImageSubresourceLayers imageSubresource_ = ImageSubresourceLayers(), Offset3D imageOffset_ = Offset3D(), Extent3D imageExtent_ = Extent3D() )
@@ -9353,6 +9647,9 @@ namespace vk
   };
   static_assert( sizeof( BufferImageCopy ) == sizeof( VkBufferImageCopy ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageResolve struct.
+   */
   struct ImageResolve
   {
     ImageResolve( ImageSubresourceLayers srcSubresource_ = ImageSubresourceLayers(), Offset3D srcOffset_ = Offset3D(), ImageSubresourceLayers dstSubresource_ = ImageSubresourceLayers(), Offset3D dstOffset_ = Offset3D(), Extent3D extent_ = Extent3D() )
@@ -9418,6 +9715,9 @@ namespace vk
   };
   static_assert( sizeof( ImageResolve ) == sizeof( VkImageResolve ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ClearAttachment struct.
+   */
   struct ClearAttachment
   {
     ClearAttachment( ImageAspectFlags aspectMask_ = ImageAspectFlags(), uint32_t colorAttachment_ = 0, ClearValue clearValue_ = ClearValue() )
@@ -9481,6 +9781,9 @@ namespace vk
     return SparseImageFormatFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The SparseImageFormatProperties struct.
+   */
   struct SparseImageFormatProperties
   {
     operator const VkSparseImageFormatProperties&() const
@@ -9494,6 +9797,9 @@ namespace vk
   };
   static_assert( sizeof( SparseImageFormatProperties ) == sizeof( VkSparseImageFormatProperties ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SparseImageMemoryRequirements struct.
+   */
   struct SparseImageMemoryRequirements
   {
     operator const VkSparseImageMemoryRequirements&() const
@@ -9521,6 +9827,9 @@ namespace vk
     return SparseMemoryBindFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The SparseMemoryBind struct.
+   */
   struct SparseMemoryBind
   {
     SparseMemoryBind( DeviceSize resourceOffset_ = 0, DeviceSize size_ = 0, DeviceMemory memory_ = DeviceMemory(), DeviceSize memoryOffset_ = 0, SparseMemoryBindFlags flags_ = SparseMemoryBindFlags() )
@@ -9586,6 +9895,9 @@ namespace vk
   };
   static_assert( sizeof( SparseMemoryBind ) == sizeof( VkSparseMemoryBind ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SparseImageMemoryBind struct.
+   */
   struct SparseImageMemoryBind
   {
     SparseImageMemoryBind( ImageSubresource subresource_ = ImageSubresource(), Offset3D offset_ = Offset3D(), Extent3D extent_ = Extent3D(), DeviceMemory memory_ = DeviceMemory(), DeviceSize memoryOffset_ = 0, SparseMemoryBindFlags flags_ = SparseMemoryBindFlags() )
@@ -9659,6 +9971,9 @@ namespace vk
   };
   static_assert( sizeof( SparseImageMemoryBind ) == sizeof( VkSparseImageMemoryBind ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SparseBufferMemoryBindInfo struct.
+   */
   struct SparseBufferMemoryBindInfo
   {
     SparseBufferMemoryBindInfo( Buffer buffer_ = Buffer(), uint32_t bindCount_ = 0, const SparseMemoryBind* pBinds_ = nullptr )
@@ -9708,6 +10023,9 @@ namespace vk
   };
   static_assert( sizeof( SparseBufferMemoryBindInfo ) == sizeof( VkSparseBufferMemoryBindInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SparseImageOpaqueMemoryBindInfo struct.
+   */
   struct SparseImageOpaqueMemoryBindInfo
   {
     SparseImageOpaqueMemoryBindInfo( Image image_ = Image(), uint32_t bindCount_ = 0, const SparseMemoryBind* pBinds_ = nullptr )
@@ -9757,6 +10075,9 @@ namespace vk
   };
   static_assert( sizeof( SparseImageOpaqueMemoryBindInfo ) == sizeof( VkSparseImageOpaqueMemoryBindInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SparseImageMemoryBindInfo struct.
+   */
   struct SparseImageMemoryBindInfo
   {
     SparseImageMemoryBindInfo( Image image_ = Image(), uint32_t bindCount_ = 0, const SparseImageMemoryBind* pBinds_ = nullptr )
@@ -9806,6 +10127,9 @@ namespace vk
   };
   static_assert( sizeof( SparseImageMemoryBindInfo ) == sizeof( VkSparseImageMemoryBindInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The BindSparseInfo struct.
+   */
   struct BindSparseInfo
   {
     BindSparseInfo( uint32_t waitSemaphoreCount_ = 0, const Semaphore* pWaitSemaphores_ = nullptr, uint32_t bufferBindCount_ = 0, const SparseBufferMemoryBindInfo* pBufferBinds_ = nullptr, uint32_t imageOpaqueBindCount_ = 0, const SparseImageOpaqueMemoryBindInfo* pImageOpaqueBinds_ = nullptr, uint32_t imageBindCount_ = 0, const SparseImageMemoryBindInfo* pImageBinds_ = nullptr, uint32_t signalSemaphoreCount_ = 0, const Semaphore* pSignalSemaphores_ = nullptr )
@@ -9971,6 +10295,9 @@ namespace vk
     return CommandPoolCreateFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The CommandPoolCreateInfo struct.
+   */
   struct CommandPoolCreateInfo
   {
     CommandPoolCreateInfo( CommandPoolCreateFlags flags_ = CommandPoolCreateFlags(), uint32_t queueFamilyIndex_ = 0 )
@@ -10073,6 +10400,9 @@ namespace vk
     return SampleCountFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The ImageFormatProperties struct.
+   */
   struct ImageFormatProperties
   {
     operator const VkImageFormatProperties&() const
@@ -10088,6 +10418,9 @@ namespace vk
   };
   static_assert( sizeof( ImageFormatProperties ) == sizeof( VkImageFormatProperties ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The ImageCreateInfo struct.
+   */
   struct ImageCreateInfo
   {
     ImageCreateInfo( ImageCreateFlags flags_ = ImageCreateFlags(), ImageType imageType_ = ImageType::e1D, Format format_ = Format::eUndefined, Extent3D extent_ = Extent3D(), uint32_t mipLevels_ = 0, uint32_t arrayLayers_ = 0, SampleCountFlagBits samples_ = SampleCountFlagBits::e1, ImageTiling tiling_ = ImageTiling::eOptimal, ImageUsageFlags usage_ = ImageUsageFlags(), SharingMode sharingMode_ = SharingMode::eExclusive, uint32_t queueFamilyIndexCount_ = 0, const uint32_t* pQueueFamilyIndices_ = nullptr, ImageLayout initialLayout_ = ImageLayout::eUndefined )
@@ -10236,6 +10569,9 @@ namespace vk
   };
   static_assert( sizeof( ImageCreateInfo ) == sizeof( VkImageCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineMultisampleStateCreateInfo struct.
+   */
   struct PipelineMultisampleStateCreateInfo
   {
     PipelineMultisampleStateCreateInfo( PipelineMultisampleStateCreateFlags flags_ = PipelineMultisampleStateCreateFlags(), SampleCountFlagBits rasterizationSamples_ = SampleCountFlagBits::e1, Bool32 sampleShadingEnable_ = 0, float minSampleShading_ = 0, const SampleMask* pSampleMask_ = nullptr, Bool32 alphaToCoverageEnable_ = 0, Bool32 alphaToOneEnable_ = 0 )
@@ -10336,6 +10672,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineMultisampleStateCreateInfo ) == sizeof( VkPipelineMultisampleStateCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The GraphicsPipelineCreateInfo struct.
+   */
   struct GraphicsPipelineCreateInfo
   {
     GraphicsPipelineCreateInfo( PipelineCreateFlags flags_ = PipelineCreateFlags(), uint32_t stageCount_ = 0, const PipelineShaderStageCreateInfo* pStages_ = nullptr, const PipelineVertexInputStateCreateInfo* pVertexInputState_ = nullptr, const PipelineInputAssemblyStateCreateInfo* pInputAssemblyState_ = nullptr, const PipelineTessellationStateCreateInfo* pTessellationState_ = nullptr, const PipelineViewportStateCreateInfo* pViewportState_ = nullptr, const PipelineRasterizationStateCreateInfo* pRasterizationState_ = nullptr, const PipelineMultisampleStateCreateInfo* pMultisampleState_ = nullptr, const PipelineDepthStencilStateCreateInfo* pDepthStencilState_ = nullptr, const PipelineColorBlendStateCreateInfo* pColorBlendState_ = nullptr, const PipelineDynamicStateCreateInfo* pDynamicState_ = nullptr, PipelineLayout layout_ = PipelineLayout(), RenderPass renderPass_ = RenderPass(), uint32_t subpass_ = 0, Pipeline basePipelineHandle_ = Pipeline(), int32_t basePipelineIndex_ = 0 )
@@ -10516,6 +10855,9 @@ namespace vk
   };
   static_assert( sizeof( GraphicsPipelineCreateInfo ) == sizeof( VkGraphicsPipelineCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PhysicalDeviceLimits struct.
+   */
   struct PhysicalDeviceLimits
   {
     operator const VkPhysicalDeviceLimits&() const
@@ -10632,6 +10974,9 @@ namespace vk
   };
   static_assert( sizeof( PhysicalDeviceLimits ) == sizeof( VkPhysicalDeviceLimits ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The PhysicalDeviceProperties struct.
+   */
   struct PhysicalDeviceProperties
   {
     operator const VkPhysicalDeviceProperties&() const
@@ -10663,6 +11008,9 @@ namespace vk
     return AttachmentDescriptionFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The AttachmentDescription struct.
+   */
   struct AttachmentDescription
   {
     AttachmentDescription( AttachmentDescriptionFlags flags_ = AttachmentDescriptionFlags(), Format format_ = Format::eUndefined, SampleCountFlagBits samples_ = SampleCountFlagBits::e1, AttachmentLoadOp loadOp_ = AttachmentLoadOp::eLoad, AttachmentStoreOp storeOp_ = AttachmentStoreOp::eStore, AttachmentLoadOp stencilLoadOp_ = AttachmentLoadOp::eLoad, AttachmentStoreOp stencilStoreOp_ = AttachmentStoreOp::eStore, ImageLayout initialLayout_ = ImageLayout::eUndefined, ImageLayout finalLayout_ = ImageLayout::eUndefined )
@@ -10786,6 +11134,9 @@ namespace vk
     return DescriptorPoolCreateFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The DescriptorPoolCreateInfo struct.
+   */
   struct DescriptorPoolCreateInfo
   {
     DescriptorPoolCreateInfo( DescriptorPoolCreateFlags flags_ = DescriptorPoolCreateFlags(), uint32_t maxSets_ = 0, uint32_t poolSizeCount_ = 0, const DescriptorPoolSize* pPoolSizes_ = nullptr )
@@ -11588,6 +11939,9 @@ namespace vk
   };
   static_assert( sizeof( CommandBuffer ) == sizeof( VkCommandBuffer ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The SubpassDependency struct.
+   */
   struct SubpassDependency
   {
     SubpassDependency( uint32_t srcSubpass_ = 0, uint32_t dstSubpass_ = 0, PipelineStageFlags srcStageMask_ = PipelineStageFlags(), PipelineStageFlags dstStageMask_ = PipelineStageFlags(), AccessFlags srcAccessMask_ = AccessFlags(), AccessFlags dstAccessMask_ = AccessFlags(), DependencyFlags dependencyFlags_ = DependencyFlags() )
@@ -11669,6 +12023,9 @@ namespace vk
   };
   static_assert( sizeof( SubpassDependency ) == sizeof( VkSubpassDependency ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The RenderPassCreateInfo struct.
+   */
   struct RenderPassCreateInfo
   {
     RenderPassCreateInfo( RenderPassCreateFlags flags_ = RenderPassCreateFlags(), uint32_t attachmentCount_ = 0, const AttachmentDescription* pAttachments_ = nullptr, uint32_t subpassCount_ = 0, const SubpassDescription* pSubpasses_ = nullptr, uint32_t dependencyCount_ = 0, const SubpassDependency* pDependencies_ = nullptr )
@@ -11769,6 +12126,9 @@ namespace vk
   };
   static_assert( sizeof( RenderPassCreateInfo ) == sizeof( VkRenderPassCreateInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SubmitInfo struct.
+   */
   struct SubmitInfo
   {
     SubmitInfo( uint32_t waitSemaphoreCount_ = 0, const Semaphore* pWaitSemaphores_ = nullptr, const PipelineStageFlags* pWaitDstStageMask_ = nullptr, uint32_t commandBufferCount_ = 0, const CommandBuffer* pCommandBuffers_ = nullptr, uint32_t signalSemaphoreCount_ = 0, const Semaphore* pSignalSemaphores_ = nullptr )
@@ -11976,6 +12336,9 @@ namespace vk
     eSrgbNonlinear = 0, //VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
   };
 
+  /**
+   * @brief The SurfaceFormatKHR struct.
+   */
   struct SurfaceFormatKHR
   {
     SurfaceFormatKHR( Format format_ = Format::eUndefined, ColorSpaceKHR colorSpace_ = ColorSpaceKHR::eSrgbNonlinear )
@@ -12032,6 +12395,9 @@ namespace vk
     return DisplayPlaneAlphaFlagsKHR( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The DisplayPlaneCapabilitiesKHR struct.
+   */
   struct DisplayPlaneCapabilitiesKHR
   {
     DisplayPlaneCapabilitiesKHR( DisplayPlaneAlphaFlagsKHR supportedAlpha_ = DisplayPlaneAlphaFlagsKHR(), Offset2D minSrcPosition_ = Offset2D(), Offset2D maxSrcPosition_ = Offset2D(), Extent2D minSrcExtent_ = Extent2D(), Extent2D maxSrcExtent_ = Extent2D(), Offset2D minDstPosition_ = Offset2D(), Offset2D maxDstPosition_ = Offset2D(), Extent2D minDstExtent_ = Extent2D(), Extent2D maxDstExtent_ = Extent2D() )
@@ -12164,6 +12530,9 @@ namespace vk
     return SurfaceTransformFlagsKHR( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The DisplayPropertiesKHR struct.
+   */
   struct DisplayPropertiesKHR
   {
     DisplayPropertiesKHR( DisplayKHR display_ = DisplayKHR(), const char* displayName_ = nullptr, Extent2D physicalDimensions_ = Extent2D(), Extent2D physicalResolution_ = Extent2D(), SurfaceTransformFlagsKHR supportedTransforms_ = SurfaceTransformFlagsKHR(), Bool32 planeReorderPossible_ = 0, Bool32 persistentContent_ = 0 )
@@ -12245,6 +12614,9 @@ namespace vk
   };
   static_assert( sizeof( DisplayPropertiesKHR ) == sizeof( VkDisplayPropertiesKHR ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DisplaySurfaceCreateInfoKHR struct.
+   */
   struct DisplaySurfaceCreateInfoKHR
   {
     DisplaySurfaceCreateInfoKHR( DisplaySurfaceCreateFlagsKHR flags_ = DisplaySurfaceCreateFlagsKHR(), DisplayModeKHR displayMode_ = DisplayModeKHR(), uint32_t planeIndex_ = 0, uint32_t planeStackIndex_ = 0, SurfaceTransformFlagBitsKHR transform_ = SurfaceTransformFlagBitsKHR::eIdentity, float globalAlpha_ = 0, DisplayPlaneAlphaFlagBitsKHR alphaMode_ = DisplayPlaneAlphaFlagBitsKHR::eOpaque, Extent2D imageExtent_ = Extent2D() )
@@ -12353,6 +12725,9 @@ namespace vk
   };
   static_assert( sizeof( DisplaySurfaceCreateInfoKHR ) == sizeof( VkDisplaySurfaceCreateInfoKHR ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SurfaceCapabilitiesKHR struct.
+   */
   struct SurfaceCapabilitiesKHR
   {
     SurfaceCapabilitiesKHR( uint32_t minImageCount_ = 0, uint32_t maxImageCount_ = 0, Extent2D currentExtent_ = Extent2D(), Extent2D minImageExtent_ = Extent2D(), Extent2D maxImageExtent_ = Extent2D(), uint32_t maxImageArrayLayers_ = 0, SurfaceTransformFlagsKHR supportedTransforms_ = SurfaceTransformFlagsKHR(), SurfaceTransformFlagBitsKHR currentTransform_ = SurfaceTransformFlagBitsKHR::eIdentity, CompositeAlphaFlagsKHR supportedCompositeAlpha_ = CompositeAlphaFlagsKHR(), ImageUsageFlags supportedUsageFlags_ = ImageUsageFlags() )
@@ -12458,6 +12833,9 @@ namespace vk
   };
   static_assert( sizeof( SurfaceCapabilitiesKHR ) == sizeof( VkSurfaceCapabilitiesKHR ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The SwapchainCreateInfoKHR struct.
+   */
   struct SwapchainCreateInfoKHR
   {
     SwapchainCreateInfoKHR( SwapchainCreateFlagsKHR flags_ = SwapchainCreateFlagsKHR(), SurfaceKHR surface_ = SurfaceKHR(), uint32_t minImageCount_ = 0, Format imageFormat_ = Format::eUndefined, ColorSpaceKHR imageColorSpace_ = ColorSpaceKHR::eSrgbNonlinear, Extent2D imageExtent_ = Extent2D(), uint32_t imageArrayLayers_ = 0, ImageUsageFlags imageUsage_ = ImageUsageFlags(), SharingMode imageSharingMode_ = SharingMode::eExclusive, uint32_t queueFamilyIndexCount_ = 0, const uint32_t* pQueueFamilyIndices_ = nullptr, SurfaceTransformFlagBitsKHR preTransform_ = SurfaceTransformFlagBitsKHR::eIdentity, CompositeAlphaFlagBitsKHR compositeAlpha_ = CompositeAlphaFlagBitsKHR::eOpaque, PresentModeKHR presentMode_ = PresentModeKHR::eImmediate, Bool32 clipped_ = 0, SwapchainKHR oldSwapchain_ = SwapchainKHR() )
@@ -12646,6 +13024,9 @@ namespace vk
     return DebugReportFlagsEXT( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The DebugReportCallbackCreateInfoEXT struct.
+   */
   struct DebugReportCallbackCreateInfoEXT
   {
     DebugReportCallbackCreateInfoEXT( DebugReportFlagsEXT flags_ = DebugReportFlagsEXT(), PFN_vkDebugReportCallbackEXT pfnCallback_ = nullptr, void* pUserData_ = nullptr )
@@ -12747,6 +13128,9 @@ namespace vk
     eDebugReport = 28, //VK_DEBUG_REPORT_OBJECT_TYPE_DEBUG_REPORT_EXT
   };
 
+  /**
+   * @brief The DebugMarkerObjectNameInfoEXT struct.
+   */
   struct DebugMarkerObjectNameInfoEXT
   {
     DebugMarkerObjectNameInfoEXT( DebugReportObjectTypeEXT objectType_ = DebugReportObjectTypeEXT::eUnknown, uint64_t object_ = 0, const char* pObjectName_ = nullptr )
@@ -12815,6 +13199,9 @@ namespace vk
   };
   static_assert( sizeof( DebugMarkerObjectNameInfoEXT ) == sizeof( VkDebugMarkerObjectNameInfoEXT ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The DebugMarkerObjectTagInfoEXT struct.
+   */
   struct DebugMarkerObjectTagInfoEXT
   {
     DebugMarkerObjectTagInfoEXT( DebugReportObjectTypeEXT objectType_ = DebugReportObjectTypeEXT::eUnknown, uint64_t object_ = 0, uint64_t tagName_ = 0, size_t tagSize_ = 0, const void* pTag_ = nullptr )
@@ -14786,6 +15173,9 @@ namespace vk
     eRelaxed = 1, //VK_RASTERIZATION_ORDER_RELAXED_AMD
   };
 
+  /**
+   * @brief The PipelineRasterizationStateRasterizationOrderAMD struct.
+   */
   struct PipelineRasterizationStateRasterizationOrderAMD
   {
     PipelineRasterizationStateRasterizationOrderAMD( RasterizationOrderAMD rasterizationOrder_ = RasterizationOrderAMD::eStrict )
