@@ -119,14 +119,12 @@ namespace vk
 								DependencyData const& dependencyData ) const;
 
 		void _writeTypeCommandStandard( std::ofstream& ofs,
-										std::string const& indentation,
 										std::string const& functionName,
 										DependencyData const& dependencyData,
 										CommandData const& commandData,
 										std::set<std::string> const& vkTypes ) const;
 
 		void _writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
-										std::string const& indentation,
 										std::string const& className,
 										std::string const& functionName,
 										DependencyData const& dependencyData,
@@ -178,7 +176,6 @@ namespace vk
 		//TypeCommandEnhanced
 		//----------------------------------------------------------------------
 		void _writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
-								   std::string const& indentation,
 								   std::string const& returnType,
 								   std::string const& name,
 								   CommandData const& commandData,
@@ -187,7 +184,6 @@ namespace vk
 								   std::map<size_t, size_t> const& vectorParameters ) const;
 
 		void _writeFunctionBody( std::ofstream& ofs,
-								 std::string const& indentation,
 								 std::string const& className,
 								 std::string const& functionName,
 								 std::string const& returnType,

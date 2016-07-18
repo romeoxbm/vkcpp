@@ -613,23 +613,22 @@ namespace vk
 		auto& commandData = it->second;
 		if( !commandData.handleCommand )
 		{
-			_writeTypeCommandStandard( ofs, "  ", dependencyData.name, dependencyData, commandData, vkData->vkTypes );
+			_writeTypeCommandStandard( ofs, dependencyData.name, dependencyData, commandData, vkData->vkTypes );
 
 			ofs << "\n#ifndef VKCPP_DISABLE_ENHANCED_MODE\n";
-			_writeTypeCommandEnhanced( ofs, vkData, "  ", "", dependencyData.name, dependencyData, commandData );
+			_writeTypeCommandEnhanced( ofs, vkData, "", dependencyData.name, dependencyData, commandData );
 			ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n\n";
 		}
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeCommandStandard( std::ofstream& ofs,
-												  std::string const& indentation,
 												  std::string const& functionName,
 												  DependencyData const& dependencyData,
 												  CommandData const& commandData,
 												  std::set<std::string> const& vkTypes ) const
 	{
 		_enterProtect( ofs, commandData.protect );
-		ofs << indentation;
+		ofs << _indent;
 		if( !commandData.handleCommand )
 			ofs << "inline ";
 
@@ -650,7 +649,7 @@ namespace vk
 		if( commandData.handleCommand )
 			ofs << " const";
 
-		ofs << std::endl << indentation << "{\n" << indentation << "  ";
+		ofs << std::endl << _indent << "{\n" << _indent << "  ";
 
 		bool castReturn = false;
 		if( commandData.returnType != "void" )
@@ -681,12 +680,11 @@ namespace vk
 		if( castReturn )
 			ofs << " )";
 
-		ofs << ";\n" << indentation << "}\n";
+		ofs << ";\n" << _indent << "}\n";
 		_leaveProtect( ofs, commandData.protect );
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeCommandEnhanced( std::ofstream& ofs, SpecData* vkData,
-												  std::string const& indentation,
 												  std::string const& className,
 												  std::string const& functionName,
 												  DependencyData const& dependencyData,
@@ -699,8 +697,8 @@ namespace vk
 		auto returnVector = vectorParameters.find( returnIndex );
 		std::string returnType = _determineReturnType( commandData, returnIndex, returnVector != vectorParameters.end() );
 
-		_writeFunctionHeader( ofs, vkData, indentation, returnType, functionName, commandData, returnIndex, templateIndex, vectorParameters );
-		_writeFunctionBody( ofs, indentation, className, functionName, returnType, templateIndex, dependencyData, commandData, vkData->vkTypes, returnIndex, vectorParameters );
+		_writeFunctionHeader( ofs, vkData, returnType, functionName, commandData, returnIndex, templateIndex, vectorParameters );
+		_writeFunctionBody( ofs, className, functionName, returnType, templateIndex, dependencyData, commandData, vkData->vkTypes, returnIndex, vectorParameters );
 		_leaveProtect( ofs, commandData.protect );
 	}
 	//--------------------------------------------------------------------------
@@ -852,12 +850,12 @@ namespace vk
 				if( !hasPointers )
 					ofs << "#ifdef VKCPP_DISABLE_ENHANCED_MODE\n";
 
-				_writeTypeCommandStandard( ofs.hdr(), "    ", functionName, *dep, cit->second, vkData->vkTypes );
+				_writeTypeCommandStandard( ofs.hdr(), functionName, *dep, cit->second, vkData->vkTypes );
 				if( !hasPointers )
 					ofs << "#endif /*!VKCPP_DISABLE_ENHANCED_MODE*/\n";
 
 				ofs << "\n#ifndef VKCPP_DISABLE_ENHANCED_MODE\n";
-				_writeTypeCommandEnhanced( ofs.hdr(), vkData, "    ", className, functionName, *dep, cit->second );
+				_writeTypeCommandEnhanced( ofs.hdr(), vkData, className, functionName, *dep, cit->second );
 				ofs << "#endif /*VKCPP_DISABLE_ENHANCED_MODE*/\n";
 
 				if( i < handle.commands.size() - 1 )
@@ -1310,7 +1308,6 @@ namespace vk
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeFunctionHeader( std::ofstream& ofs, SpecData* vkData,
-											 std::string const& indentation,
 											 std::string const& returnType,
 											 std::string const& name,
 											 CommandData const& commandData,
@@ -1334,18 +1331,18 @@ namespace vk
 		if( returnIndex != ~0 )
 			skippedArguments.insert( returnIndex );
 
-		ofs << indentation;
+		ofs << _indent;
 		if( templateIndex != ~0 && ( templateIndex != returnIndex || returnType == "Result" ) )
 		{
 			assert( returnType.find( "Allocator" ) == std::string::npos );
-			ofs << "template <typename T>\n" << indentation;
+			ofs << "template <typename T>\n" << _indent;
 		}
 		else if( returnType.find( "Allocator" ) != std::string::npos )
 		{
 			assert( returnType.substr( 0, 12 ) == "std::vector<" && returnType.find( ',' ) != std::string::npos && 12 < returnType.find( ',' ) );
 			ofs << "template <typename Allocator = std::allocator<"
 				<< returnType.substr( 12, returnType.find( ',' ) - 12 ) << ">>\n"
-				<< indentation;
+				<< _indent;
 
 			if( returnType != commandData.returnType && commandData.returnType != "void" )
 				ofs << "typename ";
@@ -1466,7 +1463,6 @@ namespace vk
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeFunctionBody( std::ofstream& ofs,
-										   std::string const& indentation,
 										   std::string const& className,
 										   std::string const& functionName,
 										   std::string const& returnType,
@@ -1477,12 +1473,12 @@ namespace vk
 										   size_t returnIndex,
 										   std::map<size_t, size_t> const& vectorParameters ) const
 	{
-		ofs << indentation << "{\n";
+		ofs << _indent << "{\n";
 
 		// add a static_assert if a type is templated and its size needs to be some multiple of the original size
 		if( templateIndex != ~0 && commandData.arguments[ templateIndex ].pureType != "void" )
 		{
-			ofs << indentation << "  static_assert( sizeof( T ) % sizeof( "
+			ofs << _indent << "  static_assert( sizeof( T ) % sizeof( "
 				<< commandData.arguments[ templateIndex ].pureType
 				<< " ) == 0, \"wrong size of template type T\" );\n";
 		}
@@ -1504,13 +1500,13 @@ namespace vk
 					auto n1 = _reduceName( commandData.arguments[ it1->first ].name );
 
 					ofs << "#ifdef VK_CPP_NO_EXCEPTIONS\n"
-						<< indentation << "  assert( " << n0 << ".size() == " << n1 << ".size() );\n"
+						<< _indent << "  assert( " << n0 << ".size() == " << n1 << ".size() );\n"
 						<< "#else\n"
-						<< indentation << "  if ( " << n0 << ".size() != " << n1 << ".size() )\n"
-						<< indentation << "  {\n"
-						<< indentation << "    throw std::logic_error( \"vk::"
+						<< _indent << "  if ( " << n0 << ".size() != " << n1 << ".size() )\n"
+						<< _indent << "  {\n"
+						<< _indent << "    throw std::logic_error( \"vk::"
 						<< className << "::" << functionName << ": " << n0 << ".size() != " << n1 << ".size()\" );\n"
-						<< indentation << "  }\n"
+						<< _indent << "  }\n"
 						<< "#endif  // VK_CPP_NO_EXCEPTIONS\n";
 				}
 			}
@@ -1521,7 +1517,7 @@ namespace vk
 		{
 			if( commandData.returnType != returnType )
 			{
-				ofs << indentation << "  " << returnType << " "
+				ofs << _indent << "  " << returnType << " "
 					<< _reduceName( commandData.arguments[ returnIndex ].name );
 
 				auto it = vectorParameters.find( returnIndex );
@@ -1553,7 +1549,7 @@ namespace vk
 			}
 			else if( 1 < commandData.successCodes.size() )
 			{
-				ofs << indentation << "  "
+				ofs << _indent << "  "
 					<< commandData.arguments[ returnIndex ].pureType
 					<< " " << _reduceName( commandData.arguments[ returnIndex ].name )
 					<< ";\n";
@@ -1569,14 +1565,14 @@ namespace vk
 			assert( returnit != vectorParameters.end() && returnit->second != ~0 );
 			assert( commandData.returnType == "Result" || commandData.returnType == "void" );
 
-			ofs << indentation << "  "
+			ofs << _indent << "  "
 				<< commandData.arguments[ returnit->second ].pureType << " "
 				<< _reduceName( commandData.arguments[ returnit->second ].name )
 					<< ";\n";
 		}
 
 		// write the function call
-		ofs << indentation << "  ";
+		ofs << _indent << "  ";
 		std::string localIndentation = "  ";
 		if( commandData.returnType == "Result" )
 		{
@@ -1584,9 +1580,9 @@ namespace vk
 			if( commandData.twoStep && ( 1 < commandData.successCodes.size() ) )
 			{
 				ofs << ";\n"
-					<< indentation << "  do\n"
-					<< indentation << "  {\n"
-					<< indentation << "    result";
+					<< _indent << "  do\n"
+					<< _indent << "  {\n"
+					<< _indent << "    result";
 				localIndentation += "  ";
 			}
 			ofs << " = static_cast<Result>( ";
@@ -1608,13 +1604,13 @@ namespace vk
 
 			if( commandData.returnType == "Result" )
 			{
-				ofs << indentation << localIndentation << "if( result == Result::eSuccess && "
+				ofs << _indent << localIndentation << "if( result == Result::eSuccess && "
 					<< _reduceName( commandData.arguments[ returnit->second ].name ) << " )\n"
-					<< indentation << localIndentation << "{\n"
-					<< indentation << localIndentation << "  ";
+					<< _indent << localIndentation << "{\n"
+					<< _indent << localIndentation << "  ";
 			}
 			else
-				ofs << indentation << "  ";
+				ofs << _indent << "  ";
 
 			// resize the vector to hold the data according to the result from the first call
 			ofs << _reduceName( commandData.arguments[ returnit->first ].name )
@@ -1622,10 +1618,10 @@ namespace vk
 
 			// write the function call a second time
 			if( commandData.returnType == "Result" )
-				ofs << indentation << localIndentation << "  result = static_cast<Result>( ";
+				ofs << _indent << localIndentation << "  result = static_cast<Result>( ";
 
 			else
-				ofs << indentation << "  ";
+				ofs << _indent << "  ";
 
 			_writeCall( ofs, dependencyData.name, templateIndex, commandData, vkTypes, vectorParameters, returnIndex, false );
 			if( commandData.returnType == "Result" )
@@ -1634,15 +1630,15 @@ namespace vk
 			ofs << ";\n";
 			if( commandData.returnType == "Result" )
 			{
-				ofs << indentation << localIndentation << "}\n";
+				ofs << _indent << localIndentation << "}\n";
 				if( 1 < commandData.successCodes.size() )
-					ofs << indentation << "  } while( result == Result::eIncomplete );\n";
+					ofs << _indent << "  } while( result == Result::eIncomplete );\n";
 			}
 		}
 
 		if( commandData.returnType == "Result" || !commandData.successCodes.empty() )
 		{
-			ofs << indentation << "  return createResultValue( result, ";
+			ofs << _indent << "  return createResultValue( result, ";
 			if( returnIndex != ~0 )
 				ofs << _reduceName( commandData.arguments[ returnIndex ].name ) << ", ";
 
@@ -1658,9 +1654,9 @@ namespace vk
 			ofs << " );\n";
 		}
 		else if( returnIndex != ~0 && commandData.returnType != returnType )
-			ofs << indentation << "  return " << _reduceName( commandData.arguments[ returnIndex ].name ) << ";\n";
+			ofs << _indent << "  return " << _reduceName( commandData.arguments[ returnIndex ].name ) << ";\n";
 
-		ofs << indentation << "}\n";
+		ofs << _indent << "}\n";
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeCall( std::ofstream& ofs, std::string const& name,
