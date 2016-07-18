@@ -30,13 +30,13 @@ namespace vk
 {
 	DualOFStream::DualOFStream( const CppGenerator::Options& opt )
 	{
-		auto lastDirChar = opt.outDirectory[ opt.outDirectory.size() - 1 ];
+		auto lastDirChar = opt.outHeaderDirectory[ opt.outHeaderDirectory.size() - 1 ];
 		auto hasDirTrailingSlash = lastDirChar != '\\' || lastDirChar != '/';
 		auto sep = !hasDirTrailingSlash ? "/" : "";
 
 		auto he = opt.headerExt[ 0 ] == '.' ? opt.headerExt : "." + opt.headerExt;
 		_hdrFileName = opt.outFileName + he;
-		auto dest = opt.outDirectory + sep + _hdrFileName;
+		auto dest = opt.outHeaderDirectory + sep + _hdrFileName;
 
 		std::cout << "Writing to \"" << _hdrFileName << "\"";
 		_hdr = new std::ofstream( dest );
@@ -45,13 +45,17 @@ namespace vk
 		{
 			auto se = opt.srcExt[ 0 ] == '.' ? opt.srcExt : "." + opt.srcExt;
 			_srcFileName = opt.outFileName + se;
-			dest = opt.outDirectory + sep + _srcFileName;
+
+			dest = !opt.outSrcDirectory.empty() ? opt.outSrcDirectory : opt.outHeaderDirectory;
+			dest += sep + _srcFileName;
 
 			std::cout << " and to \"" << _srcFileName << "\"";
-			_src = new std::ofstream( opt.outDirectory + sep + opt.outFileName + se );
+			_src = new std::ofstream( dest );
 		}
 
-		std::cout << " (" << opt.outDirectory << ")\n";
+		std::cout << " (" << opt.outHeaderDirectory
+				  << ( !opt.outSrcDirectory.empty() ? " , " + opt.outSrcDirectory : "" )
+				  << ")\n";
 	}
 	//--------------------------------------------------------------------------
 	DualOFStream::~DualOFStream()

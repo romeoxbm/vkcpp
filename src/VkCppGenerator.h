@@ -41,7 +41,8 @@ namespace vk
 		{
 			std::string inputFile;
 			std::string outFileName;
-			std::string outDirectory;
+			std::string outHeaderDirectory;
+			std::string outSrcDirectory;
 			std::string headerExt;
 			std::string srcExt;
 			std::string pch;

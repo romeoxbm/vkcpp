@@ -37,7 +37,10 @@ int main( int argc, char** argv )
 
 	//Define command line options
 	cmd.add( "cmdline", 'c', "Add a comment in the generated files containing the command line options used" );
-	cmd.add<std::string>( "directory", 'd', "Change the default output directory. Default value is", false, "./" );
+	cmd.add<std::string>( "headerdir", 'd', "Change the default output directory for header file. Default value is", false, "./" );
+	cmd.add<std::string>( "srcdir", 'y', "Change the default output directory for source file, only used when generating separate files. "
+										  "If not specified, and if generating separate files, both header and source files will be generated"
+										  " in the output folder specified via -d option. Default value is", false, "./" );
 	cmd.add<std::string>( "headerext", 'e', "Change the default header extension. Default value is", false, ".hpp" );
 	cmd.add<std::string>( "filename", 'f', "Change the default file name (DO NOT specify file extension). Default value is", false, "vk_cpp" );
 	cmd.add<std::string>( "guard", 'g', "Change the include guard. Default value is", false, "VK_CPP_H_" );
@@ -56,6 +59,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
+	//Check for spec file
 	if( cmd.rest().empty() || cmd.rest().size() > 1 )
 	{
 		std::cerr << cmd.usage();
@@ -67,7 +71,7 @@ int main( int argc, char** argv )
 
 	opt.inputFile = cmd.rest()[ 0 ];
 	opt.outFileName = cmd.get<std::string>( "filename" );
-	opt.outDirectory = cmd.get<std::string>( "directory" );
+	opt.outHeaderDirectory = cmd.get<std::string>( "headerdir" );
 	opt.headerExt = cmd.get<std::string>( "headerext" );
 	opt.includeGuard = cmd.get<std::string>( "guard" );
 
@@ -75,6 +79,7 @@ int main( int argc, char** argv )
 	{
 		opt.srcExt = cmd.get<std::string>( "srcext" );
 		opt.pch = cmd.get<std::string>( "pch" );
+		opt.outSrcDirectory = cmd.get<std::string>( "srcdir" );
 	}
 
 	if( cmd.exist( "cmdline" ) )
