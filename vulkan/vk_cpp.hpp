@@ -2517,23 +2517,23 @@ namespace vk
       memcpy( &uint32, uint32_.data(), 4 * sizeof( uint32_t ) );
     }
 
-    ClearColorValue& setFloat32( std::array<float, 4> float32_ )
-    {
-      memcpy( &float32, float32_.data(), 4 * sizeof( float ) );
-      return *this;
-    }
+      ClearColorValue& setFloat32( const std::array<float, 4>& float32_ )
+      {
+        memcpy( &float32, float32_.data(), 4 * sizeof( float ) );
+        return *this;
+      }
 
-    ClearColorValue& setInt32( std::array<int32_t, 4> int32_ )
-    {
-      memcpy( &int32, int32_.data(), 4 * sizeof( int32_t ) );
-      return *this;
-    }
+      ClearColorValue& setInt32( const std::array<int32_t, 4>& int32_ )
+      {
+        memcpy( &int32, int32_.data(), 4 * sizeof( int32_t ) );
+        return *this;
+      }
 
-    ClearColorValue& setUint32( std::array<uint32_t, 4> uint32_ )
-    {
-      memcpy( &uint32, uint32_.data(), 4 * sizeof( uint32_t ) );
-      return *this;
-    }
+      ClearColorValue& setUint32( const std::array<uint32_t, 4>& uint32_ )
+      {
+        memcpy( &uint32, uint32_.data(), 4 * sizeof( uint32_t ) );
+        return *this;
+      }
 
     operator VkClearColorValue const& () const
     {
@@ -2598,17 +2598,17 @@ namespace vk
       depthStencil = depthStencil_;
     }
 
-    ClearValue& setColor( ClearColorValue color_ )
-    {
-      color = color_;
-      return *this;
-    }
+      ClearValue& setColor( ClearColorValue color_ )
+      {
+        color = color_;
+        return *this;
+      }
 
-    ClearValue& setDepthStencil( ClearDepthStencilValue depthStencil_ )
-    {
-      depthStencil = depthStencil_;
-      return *this;
-    }
+      ClearValue& setDepthStencil( ClearDepthStencilValue depthStencil_ )
+      {
+        depthStencil = depthStencil_;
+        return *this;
+      }
 
     operator VkClearValue const& () const
     {
@@ -7072,7 +7072,7 @@ namespace vk
       return *this;
     }
 
-    DebugMarkerMarkerInfoEXT& setColor( std::array<float, 4> color_ )
+    DebugMarkerMarkerInfoEXT& setColor( const std::array<float, 4>& color_ )
     {
       memcpy( &color, color_.data(), 4 * sizeof( float ) );
       return *this;
@@ -8354,7 +8354,7 @@ namespace vk
       return *this;
     }
 
-    PipelineColorBlendStateCreateInfo& setBlendConstants( std::array<float, 4> blendConstants_ )
+    PipelineColorBlendStateCreateInfo& setBlendConstants( const std::array<float, 4>& blendConstants_ )
     {
       memcpy( &blendConstants, blendConstants_.data(), 4 * sizeof( float ) );
       return *this;
@@ -9250,7 +9250,7 @@ namespace vk
       return *this;
     }
 
-    ImageBlit& setSrcOffsets( std::array<Offset3D, 2> srcOffsets_ )
+    ImageBlit& setSrcOffsets( const std::array<Offset3D, 2>& srcOffsets_ )
     {
       memcpy( &srcOffsets, srcOffsets_.data(), 2 * sizeof( Offset3D ) );
       return *this;
@@ -9262,7 +9262,7 @@ namespace vk
       return *this;
     }
 
-    ImageBlit& setDstOffsets( std::array<Offset3D, 2> dstOffsets_ )
+    ImageBlit& setDstOffsets( const std::array<Offset3D, 2>& dstOffsets_ )
     {
       memcpy( &dstOffsets, dstOffsets_.data(), 2 * sizeof( Offset3D ) );
       return *this;
