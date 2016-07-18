@@ -31,7 +31,7 @@ namespace vk
 	DualOFStream::DualOFStream( const CppGenerator::Options& opt )
 	{
 		auto lastDirChar = opt.outHeaderDirectory[ opt.outHeaderDirectory.size() - 1 ];
-		auto hasDirTrailingSlash = lastDirChar != '\\' || lastDirChar != '/';
+		auto hasDirTrailingSlash = lastDirChar == '\\' || lastDirChar == '/';
 		auto sep = !hasDirTrailingSlash ? "/" : "";
 
 		auto he = opt.headerExt[ 0 ] == '.' ? opt.headerExt : "." + opt.headerExt;
@@ -43,6 +43,13 @@ namespace vk
 
 		if( !opt.srcExt.empty() )
 		{
+			if( !opt.outSrcDirectory.empty() )
+			{
+				lastDirChar = opt.outSrcDirectory[ opt.outSrcDirectory.size() - 1 ];
+				hasDirTrailingSlash = lastDirChar == '\\' || lastDirChar == '/';
+				sep = !hasDirTrailingSlash ? "/" : "";
+			}
+
 			auto se = opt.srcExt[ 0 ] == '.' ? opt.srcExt : "." + opt.srcExt;
 			_srcFileName = opt.outFileName + se;
 
