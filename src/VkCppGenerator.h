@@ -104,7 +104,7 @@ namespace vk
 
 		void _writeEnumsToString( DualOFStream& ofs,
 								  DependencyData const& dependencyData,
-								  EnumData const& enumData ) const;
+								  EnumData const& enumData );
 
 		void _writeFlagsToString( DualOFStream& ofs,
 								  DependencyData const& dependencyData,

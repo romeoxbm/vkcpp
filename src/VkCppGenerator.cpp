@@ -477,10 +477,10 @@ namespace vk
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeEnumsToString( DualOFStream& ofs,
 											DependencyData const& dependencyData,
-											EnumData const& enumData ) const
+											EnumData const& enumData )
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << "  ";
+		ofs << ++_indent;
 		if( !ofs.usingDualStream() )
 			ofs << "inline ";
 
@@ -490,23 +490,24 @@ namespace vk
 			ofs.hdr() << ";";
 
 		ofs << std::endl;
-		ofs.src() << "  {\n";
+		ofs.src() << _indent << "{\n";
 
 		if( enumData.members.empty() )
-			ofs.src() << "    return \"(void)\";\n";
+			ofs.src() << ++_indent << "return \"(void)\";\n";
 		else
 		{
-			ofs.src() << "    switch( value )\n    {\n";
+			ofs.src() << ++_indent << "switch( value )\n" << _indent << "{\n";
 			for( auto& itMember : enumData.members )
 			{
-				ofs.src() << "    case " << dependencyData.name << "::"
+				ofs.src() << _indent << "case " << dependencyData.name << "::"
 					<< itMember.name << ": return \""
 					<< itMember.name.substr( 1 ) << "\";\n";
 			}
-			ofs.src() << "    default: return \"invalid\";\n"
-				<< "    }\n";
+			ofs.src() << _indent << "default: return \"invalid\";\n" << _indent
+					  << "}\n";
 		}
-		ofs.src() << "  }\n";
+		ofs.src() << --_indent << "}\n";
+		--_indent;
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}
