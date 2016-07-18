@@ -1884,12 +1884,12 @@ namespace vk
     {
     }
 
-    Offset2D( VkOffset2D const & rhs )
+    Offset2D( VkOffset2D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Offset2D ) );
     }
 
-    Offset2D& operator=( VkOffset2D const & rhs )
+    Offset2D& operator=( VkOffset2D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Offset2D ) );
       return *this;
@@ -1926,12 +1926,12 @@ namespace vk
     {
     }
 
-    Offset3D( VkOffset3D const & rhs )
+    Offset3D( VkOffset3D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Offset3D ) );
     }
 
-    Offset3D& operator=( VkOffset3D const & rhs )
+    Offset3D& operator=( VkOffset3D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Offset3D ) );
       return *this;
@@ -1974,12 +1974,12 @@ namespace vk
     {
     }
 
-    Extent2D( VkExtent2D const & rhs )
+    Extent2D( VkExtent2D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Extent2D ) );
     }
 
-    Extent2D& operator=( VkExtent2D const & rhs )
+    Extent2D& operator=( VkExtent2D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Extent2D ) );
       return *this;
@@ -2016,12 +2016,12 @@ namespace vk
     {
     }
 
-    Extent3D( VkExtent3D const & rhs )
+    Extent3D( VkExtent3D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Extent3D ) );
     }
 
-    Extent3D& operator=( VkExtent3D const & rhs )
+    Extent3D& operator=( VkExtent3D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Extent3D ) );
       return *this;
@@ -2068,12 +2068,12 @@ namespace vk
     {
     }
 
-    Viewport( VkViewport const & rhs )
+    Viewport( VkViewport const& rhs )
     {
       memcpy( this, &rhs, sizeof( Viewport ) );
     }
 
-    Viewport& operator=( VkViewport const & rhs )
+    Viewport& operator=( VkViewport const& rhs )
     {
       memcpy( this, &rhs, sizeof( Viewport ) );
       return *this;
@@ -2137,12 +2137,12 @@ namespace vk
     {
     }
 
-    Rect2D( VkRect2D const & rhs )
+    Rect2D( VkRect2D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Rect2D ) );
     }
 
-    Rect2D& operator=( VkRect2D const & rhs )
+    Rect2D& operator=( VkRect2D const& rhs )
     {
       memcpy( this, &rhs, sizeof( Rect2D ) );
       return *this;
@@ -2179,12 +2179,12 @@ namespace vk
     {
     }
 
-    ClearRect( VkClearRect const & rhs )
+    ClearRect( VkClearRect const& rhs )
     {
       memcpy( this, &rhs, sizeof( ClearRect ) );
     }
 
-    ClearRect& operator=( VkClearRect const & rhs )
+    ClearRect& operator=( VkClearRect const& rhs )
     {
       memcpy( this, &rhs, sizeof( ClearRect ) );
       return *this;
@@ -2257,12 +2257,12 @@ namespace vk
     {
     }
 
-    AllocationCallbacks( VkAllocationCallbacks const & rhs )
+    AllocationCallbacks( VkAllocationCallbacks const& rhs )
     {
       memcpy( this, &rhs, sizeof( AllocationCallbacks ) );
     }
 
-    AllocationCallbacks& operator=( VkAllocationCallbacks const & rhs )
+    AllocationCallbacks& operator=( VkAllocationCallbacks const& rhs )
     {
       memcpy( this, &rhs, sizeof( AllocationCallbacks ) );
       return *this;
@@ -2340,12 +2340,12 @@ namespace vk
     {
     }
 
-    DescriptorBufferInfo( VkDescriptorBufferInfo const & rhs )
+    DescriptorBufferInfo( VkDescriptorBufferInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorBufferInfo ) );
     }
 
-    DescriptorBufferInfo& operator=( VkDescriptorBufferInfo const & rhs )
+    DescriptorBufferInfo& operator=( VkDescriptorBufferInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorBufferInfo ) );
       return *this;
@@ -2404,12 +2404,12 @@ namespace vk
     {
     }
 
-    BufferCopy( VkBufferCopy const & rhs )
+    BufferCopy( VkBufferCopy const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferCopy ) );
     }
 
-    BufferCopy& operator=( VkBufferCopy const & rhs )
+    BufferCopy& operator=( VkBufferCopy const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferCopy ) );
       return *this;
@@ -2453,12 +2453,12 @@ namespace vk
     {
     }
 
-    SpecializationMapEntry( VkSpecializationMapEntry const & rhs )
+    SpecializationMapEntry( VkSpecializationMapEntry const& rhs )
     {
       memcpy( this, &rhs, sizeof( SpecializationMapEntry ) );
     }
 
-    SpecializationMapEntry& operator=( VkSpecializationMapEntry const & rhs )
+    SpecializationMapEntry& operator=( VkSpecializationMapEntry const& rhs )
     {
       memcpy( this, &rhs, sizeof( SpecializationMapEntry ) );
       return *this;
@@ -2503,12 +2503,12 @@ namespace vk
     {
     }
 
-    SpecializationInfo( VkSpecializationInfo const & rhs )
+    SpecializationInfo( VkSpecializationInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SpecializationInfo ) );
     }
 
-    SpecializationInfo& operator=( VkSpecializationInfo const & rhs )
+    SpecializationInfo& operator=( VkSpecializationInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SpecializationInfo ) );
       return *this;
@@ -2603,12 +2603,12 @@ namespace vk
     {
     }
 
-    ClearDepthStencilValue( VkClearDepthStencilValue const & rhs )
+    ClearDepthStencilValue( VkClearDepthStencilValue const& rhs )
     {
       memcpy( this, &rhs, sizeof( ClearDepthStencilValue ) );
     }
 
-    ClearDepthStencilValue& operator=( VkClearDepthStencilValue const & rhs )
+    ClearDepthStencilValue& operator=( VkClearDepthStencilValue const& rhs )
     {
       memcpy( this, &rhs, sizeof( ClearDepthStencilValue ) );
       return *this;
@@ -2735,12 +2735,12 @@ namespace vk
     {
     }
 
-    PhysicalDeviceFeatures( VkPhysicalDeviceFeatures const & rhs )
+    PhysicalDeviceFeatures( VkPhysicalDeviceFeatures const& rhs )
     {
       memcpy( this, &rhs, sizeof( PhysicalDeviceFeatures ) );
     }
 
-    PhysicalDeviceFeatures& operator=( VkPhysicalDeviceFeatures const & rhs )
+    PhysicalDeviceFeatures& operator=( VkPhysicalDeviceFeatures const& rhs )
     {
       memcpy( this, &rhs, sizeof( PhysicalDeviceFeatures ) );
       return *this;
@@ -3164,12 +3164,12 @@ namespace vk
     {
     }
 
-    DrawIndirectCommand( VkDrawIndirectCommand const & rhs )
+    DrawIndirectCommand( VkDrawIndirectCommand const& rhs )
     {
       memcpy( this, &rhs, sizeof( DrawIndirectCommand ) );
     }
 
-    DrawIndirectCommand& operator=( VkDrawIndirectCommand const & rhs )
+    DrawIndirectCommand& operator=( VkDrawIndirectCommand const& rhs )
     {
       memcpy( this, &rhs, sizeof( DrawIndirectCommand ) );
       return *this;
@@ -3222,12 +3222,12 @@ namespace vk
     {
     }
 
-    DrawIndexedIndirectCommand( VkDrawIndexedIndirectCommand const & rhs )
+    DrawIndexedIndirectCommand( VkDrawIndexedIndirectCommand const& rhs )
     {
       memcpy( this, &rhs, sizeof( DrawIndexedIndirectCommand ) );
     }
 
-    DrawIndexedIndirectCommand& operator=( VkDrawIndexedIndirectCommand const & rhs )
+    DrawIndexedIndirectCommand& operator=( VkDrawIndexedIndirectCommand const& rhs )
     {
       memcpy( this, &rhs, sizeof( DrawIndexedIndirectCommand ) );
       return *this;
@@ -3285,12 +3285,12 @@ namespace vk
     {
     }
 
-    DispatchIndirectCommand( VkDispatchIndirectCommand const & rhs )
+    DispatchIndirectCommand( VkDispatchIndirectCommand const& rhs )
     {
       memcpy( this, &rhs, sizeof( DispatchIndirectCommand ) );
     }
 
-    DispatchIndirectCommand& operator=( VkDispatchIndirectCommand const & rhs )
+    DispatchIndirectCommand& operator=( VkDispatchIndirectCommand const& rhs )
     {
       memcpy( this, &rhs, sizeof( DispatchIndirectCommand ) );
       return *this;
@@ -3333,12 +3333,12 @@ namespace vk
     {
     }
 
-    DisplayPlanePropertiesKHR( VkDisplayPlanePropertiesKHR const & rhs )
+    DisplayPlanePropertiesKHR( VkDisplayPlanePropertiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPlanePropertiesKHR ) );
     }
 
-    DisplayPlanePropertiesKHR& operator=( VkDisplayPlanePropertiesKHR const & rhs )
+    DisplayPlanePropertiesKHR& operator=( VkDisplayPlanePropertiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPlanePropertiesKHR ) );
       return *this;
@@ -3374,12 +3374,12 @@ namespace vk
     {
     }
 
-    DisplayModeParametersKHR( VkDisplayModeParametersKHR const & rhs )
+    DisplayModeParametersKHR( VkDisplayModeParametersKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayModeParametersKHR ) );
     }
 
-    DisplayModeParametersKHR& operator=( VkDisplayModeParametersKHR const & rhs )
+    DisplayModeParametersKHR& operator=( VkDisplayModeParametersKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayModeParametersKHR ) );
       return *this;
@@ -3415,12 +3415,12 @@ namespace vk
     {
     }
 
-    DisplayModePropertiesKHR( VkDisplayModePropertiesKHR const & rhs )
+    DisplayModePropertiesKHR( VkDisplayModePropertiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayModePropertiesKHR ) );
     }
 
-    DisplayModePropertiesKHR& operator=( VkDisplayModePropertiesKHR const & rhs )
+    DisplayModePropertiesKHR& operator=( VkDisplayModePropertiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayModePropertiesKHR ) );
       return *this;
@@ -3471,12 +3471,12 @@ namespace vk
     {
     }
 
-    DescriptorImageInfo( VkDescriptorImageInfo const & rhs )
+    DescriptorImageInfo( VkDescriptorImageInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorImageInfo ) );
     }
 
-    DescriptorImageInfo& operator=( VkDescriptorImageInfo const & rhs )
+    DescriptorImageInfo& operator=( VkDescriptorImageInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorImageInfo ) );
       return *this;
@@ -3519,12 +3519,12 @@ namespace vk
     {
     }
 
-    AttachmentReference( VkAttachmentReference const & rhs )
+    AttachmentReference( VkAttachmentReference const& rhs )
     {
       memcpy( this, &rhs, sizeof( AttachmentReference ) );
     }
 
-    AttachmentReference& operator=( VkAttachmentReference const & rhs )
+    AttachmentReference& operator=( VkAttachmentReference const& rhs )
     {
       memcpy( this, &rhs, sizeof( AttachmentReference ) );
       return *this;
@@ -3616,12 +3616,12 @@ namespace vk
     {
     }
 
-    ComponentMapping( VkComponentMapping const & rhs )
+    ComponentMapping( VkComponentMapping const& rhs )
     {
       memcpy( this, &rhs, sizeof( ComponentMapping ) );
     }
 
-    ComponentMapping& operator=( VkComponentMapping const & rhs )
+    ComponentMapping& operator=( VkComponentMapping const& rhs )
     {
       memcpy( this, &rhs, sizeof( ComponentMapping ) );
       return *this;
@@ -3686,12 +3686,12 @@ namespace vk
     {
     }
 
-    DescriptorPoolSize( VkDescriptorPoolSize const & rhs )
+    DescriptorPoolSize( VkDescriptorPoolSize const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorPoolSize ) );
     }
 
-    DescriptorPoolSize& operator=( VkDescriptorPoolSize const & rhs )
+    DescriptorPoolSize& operator=( VkDescriptorPoolSize const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorPoolSize ) );
       return *this;
@@ -3758,12 +3758,12 @@ namespace vk
     {
     }
 
-    SubpassDescription( VkSubpassDescription const & rhs )
+    SubpassDescription( VkSubpassDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( SubpassDescription ) );
     }
 
-    SubpassDescription& operator=( VkSubpassDescription const & rhs )
+    SubpassDescription& operator=( VkSubpassDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( SubpassDescription ) );
       return *this;
@@ -3998,12 +3998,12 @@ namespace vk
     {
     }
 
-    StencilOpState( VkStencilOpState const & rhs )
+    StencilOpState( VkStencilOpState const& rhs )
     {
       memcpy( this, &rhs, sizeof( StencilOpState ) );
     }
 
-    StencilOpState& operator=( VkStencilOpState const & rhs )
+    StencilOpState& operator=( VkStencilOpState const& rhs )
     {
       memcpy( this, &rhs, sizeof( StencilOpState ) );
       return *this;
@@ -4124,12 +4124,12 @@ namespace vk
     {
     }
 
-    VertexInputBindingDescription( VkVertexInputBindingDescription const & rhs )
+    VertexInputBindingDescription( VkVertexInputBindingDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( VertexInputBindingDescription ) );
     }
 
-    VertexInputBindingDescription& operator=( VkVertexInputBindingDescription const & rhs )
+    VertexInputBindingDescription& operator=( VkVertexInputBindingDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( VertexInputBindingDescription ) );
       return *this;
@@ -4363,12 +4363,12 @@ namespace vk
     {
     }
 
-    VertexInputAttributeDescription( VkVertexInputAttributeDescription const & rhs )
+    VertexInputAttributeDescription( VkVertexInputAttributeDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( VertexInputAttributeDescription ) );
     }
 
-    VertexInputAttributeDescription& operator=( VkVertexInputAttributeDescription const & rhs )
+    VertexInputAttributeDescription& operator=( VkVertexInputAttributeDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( VertexInputAttributeDescription ) );
       return *this;
@@ -4492,12 +4492,12 @@ namespace vk
     {
     }
 
-    ApplicationInfo( VkApplicationInfo const & rhs )
+    ApplicationInfo( VkApplicationInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ApplicationInfo ) );
     }
 
-    ApplicationInfo& operator=( VkApplicationInfo const & rhs )
+    ApplicationInfo& operator=( VkApplicationInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ApplicationInfo ) );
       return *this;
@@ -4575,12 +4575,12 @@ namespace vk
     {
     }
 
-    DeviceQueueCreateInfo( VkDeviceQueueCreateInfo const & rhs )
+    DeviceQueueCreateInfo( VkDeviceQueueCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DeviceQueueCreateInfo ) );
     }
 
-    DeviceQueueCreateInfo& operator=( VkDeviceQueueCreateInfo const & rhs )
+    DeviceQueueCreateInfo& operator=( VkDeviceQueueCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DeviceQueueCreateInfo ) );
       return *this;
@@ -4655,12 +4655,12 @@ namespace vk
     {
     }
 
-    DeviceCreateInfo( VkDeviceCreateInfo const & rhs )
+    DeviceCreateInfo( VkDeviceCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DeviceCreateInfo ) );
     }
 
-    DeviceCreateInfo& operator=( VkDeviceCreateInfo const & rhs )
+    DeviceCreateInfo& operator=( VkDeviceCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DeviceCreateInfo ) );
       return *this;
@@ -4761,12 +4761,12 @@ namespace vk
     {
     }
 
-    InstanceCreateInfo( VkInstanceCreateInfo const & rhs )
+    InstanceCreateInfo( VkInstanceCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( InstanceCreateInfo ) );
     }
 
-    InstanceCreateInfo& operator=( VkInstanceCreateInfo const & rhs )
+    InstanceCreateInfo& operator=( VkInstanceCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( InstanceCreateInfo ) );
       return *this;
@@ -4849,12 +4849,12 @@ namespace vk
     {
     }
 
-    MemoryAllocateInfo( VkMemoryAllocateInfo const & rhs )
+    MemoryAllocateInfo( VkMemoryAllocateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( MemoryAllocateInfo ) );
     }
 
-    MemoryAllocateInfo& operator=( VkMemoryAllocateInfo const & rhs )
+    MemoryAllocateInfo& operator=( VkMemoryAllocateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( MemoryAllocateInfo ) );
       return *this;
@@ -4910,12 +4910,12 @@ namespace vk
     {
     }
 
-    MappedMemoryRange( VkMappedMemoryRange const & rhs )
+    MappedMemoryRange( VkMappedMemoryRange const& rhs )
     {
       memcpy( this, &rhs, sizeof( MappedMemoryRange ) );
     }
 
-    MappedMemoryRange& operator=( VkMappedMemoryRange const & rhs )
+    MappedMemoryRange& operator=( VkMappedMemoryRange const& rhs )
     {
       memcpy( this, &rhs, sizeof( MappedMemoryRange ) );
       return *this;
@@ -4983,12 +4983,12 @@ namespace vk
     {
     }
 
-    WriteDescriptorSet( VkWriteDescriptorSet const & rhs )
+    WriteDescriptorSet( VkWriteDescriptorSet const& rhs )
     {
       memcpy( this, &rhs, sizeof( WriteDescriptorSet ) );
     }
 
-    WriteDescriptorSet& operator=( VkWriteDescriptorSet const & rhs )
+    WriteDescriptorSet& operator=( VkWriteDescriptorSet const& rhs )
     {
       memcpy( this, &rhs, sizeof( WriteDescriptorSet ) );
       return *this;
@@ -5090,12 +5090,12 @@ namespace vk
     {
     }
 
-    CopyDescriptorSet( VkCopyDescriptorSet const & rhs )
+    CopyDescriptorSet( VkCopyDescriptorSet const& rhs )
     {
       memcpy( this, &rhs, sizeof( CopyDescriptorSet ) );
     }
 
-    CopyDescriptorSet& operator=( VkCopyDescriptorSet const & rhs )
+    CopyDescriptorSet& operator=( VkCopyDescriptorSet const& rhs )
     {
       memcpy( this, &rhs, sizeof( CopyDescriptorSet ) );
       return *this;
@@ -5188,12 +5188,12 @@ namespace vk
     {
     }
 
-    BufferViewCreateInfo( VkBufferViewCreateInfo const & rhs )
+    BufferViewCreateInfo( VkBufferViewCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferViewCreateInfo ) );
     }
 
-    BufferViewCreateInfo& operator=( VkBufferViewCreateInfo const & rhs )
+    BufferViewCreateInfo& operator=( VkBufferViewCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferViewCreateInfo ) );
       return *this;
@@ -5270,12 +5270,12 @@ namespace vk
     {
     }
 
-    ShaderModuleCreateInfo( VkShaderModuleCreateInfo const & rhs )
+    ShaderModuleCreateInfo( VkShaderModuleCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ShaderModuleCreateInfo ) );
     }
 
-    ShaderModuleCreateInfo& operator=( VkShaderModuleCreateInfo const & rhs )
+    ShaderModuleCreateInfo& operator=( VkShaderModuleCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ShaderModuleCreateInfo ) );
       return *this;
@@ -5338,12 +5338,12 @@ namespace vk
     {
     }
 
-    DescriptorSetAllocateInfo( VkDescriptorSetAllocateInfo const & rhs )
+    DescriptorSetAllocateInfo( VkDescriptorSetAllocateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorSetAllocateInfo ) );
     }
 
-    DescriptorSetAllocateInfo& operator=( VkDescriptorSetAllocateInfo const & rhs )
+    DescriptorSetAllocateInfo& operator=( VkDescriptorSetAllocateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorSetAllocateInfo ) );
       return *this;
@@ -5408,12 +5408,12 @@ namespace vk
     {
     }
 
-    PipelineVertexInputStateCreateInfo( VkPipelineVertexInputStateCreateInfo const & rhs )
+    PipelineVertexInputStateCreateInfo( VkPipelineVertexInputStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineVertexInputStateCreateInfo ) );
     }
 
-    PipelineVertexInputStateCreateInfo& operator=( VkPipelineVertexInputStateCreateInfo const & rhs )
+    PipelineVertexInputStateCreateInfo& operator=( VkPipelineVertexInputStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineVertexInputStateCreateInfo ) );
       return *this;
@@ -5490,12 +5490,12 @@ namespace vk
     {
     }
 
-    PipelineInputAssemblyStateCreateInfo( VkPipelineInputAssemblyStateCreateInfo const & rhs )
+    PipelineInputAssemblyStateCreateInfo( VkPipelineInputAssemblyStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineInputAssemblyStateCreateInfo ) );
     }
 
-    PipelineInputAssemblyStateCreateInfo& operator=( VkPipelineInputAssemblyStateCreateInfo const & rhs )
+    PipelineInputAssemblyStateCreateInfo& operator=( VkPipelineInputAssemblyStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineInputAssemblyStateCreateInfo ) );
       return *this;
@@ -5557,12 +5557,12 @@ namespace vk
     {
     }
 
-    PipelineTessellationStateCreateInfo( VkPipelineTessellationStateCreateInfo const & rhs )
+    PipelineTessellationStateCreateInfo( VkPipelineTessellationStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineTessellationStateCreateInfo ) );
     }
 
-    PipelineTessellationStateCreateInfo& operator=( VkPipelineTessellationStateCreateInfo const & rhs )
+    PipelineTessellationStateCreateInfo& operator=( VkPipelineTessellationStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineTessellationStateCreateInfo ) );
       return *this;
@@ -5620,12 +5620,12 @@ namespace vk
     {
     }
 
-    PipelineViewportStateCreateInfo( VkPipelineViewportStateCreateInfo const & rhs )
+    PipelineViewportStateCreateInfo( VkPipelineViewportStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineViewportStateCreateInfo ) );
     }
 
-    PipelineViewportStateCreateInfo& operator=( VkPipelineViewportStateCreateInfo const & rhs )
+    PipelineViewportStateCreateInfo& operator=( VkPipelineViewportStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineViewportStateCreateInfo ) );
       return *this;
@@ -5710,12 +5710,12 @@ namespace vk
     {
     }
 
-    PipelineRasterizationStateCreateInfo( VkPipelineRasterizationStateCreateInfo const & rhs )
+    PipelineRasterizationStateCreateInfo( VkPipelineRasterizationStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineRasterizationStateCreateInfo ) );
     }
 
-    PipelineRasterizationStateCreateInfo& operator=( VkPipelineRasterizationStateCreateInfo const & rhs )
+    PipelineRasterizationStateCreateInfo& operator=( VkPipelineRasterizationStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineRasterizationStateCreateInfo ) );
       return *this;
@@ -5841,12 +5841,12 @@ namespace vk
     {
     }
 
-    PipelineDepthStencilStateCreateInfo( VkPipelineDepthStencilStateCreateInfo const & rhs )
+    PipelineDepthStencilStateCreateInfo( VkPipelineDepthStencilStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineDepthStencilStateCreateInfo ) );
     }
 
-    PipelineDepthStencilStateCreateInfo& operator=( VkPipelineDepthStencilStateCreateInfo const & rhs )
+    PipelineDepthStencilStateCreateInfo& operator=( VkPipelineDepthStencilStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineDepthStencilStateCreateInfo ) );
       return *this;
@@ -5958,12 +5958,12 @@ namespace vk
     {
     }
 
-    PipelineCacheCreateInfo( VkPipelineCacheCreateInfo const & rhs )
+    PipelineCacheCreateInfo( VkPipelineCacheCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineCacheCreateInfo ) );
     }
 
-    PipelineCacheCreateInfo& operator=( VkPipelineCacheCreateInfo const & rhs )
+    PipelineCacheCreateInfo& operator=( VkPipelineCacheCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineCacheCreateInfo ) );
       return *this;
@@ -6039,12 +6039,12 @@ namespace vk
     {
     }
 
-    SamplerCreateInfo( VkSamplerCreateInfo const & rhs )
+    SamplerCreateInfo( VkSamplerCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SamplerCreateInfo ) );
     }
 
-    SamplerCreateInfo& operator=( VkSamplerCreateInfo const & rhs )
+    SamplerCreateInfo& operator=( VkSamplerCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SamplerCreateInfo ) );
       return *this;
@@ -6198,12 +6198,12 @@ namespace vk
     {
     }
 
-    CommandBufferAllocateInfo( VkCommandBufferAllocateInfo const & rhs )
+    CommandBufferAllocateInfo( VkCommandBufferAllocateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandBufferAllocateInfo ) );
     }
 
-    CommandBufferAllocateInfo& operator=( VkCommandBufferAllocateInfo const & rhs )
+    CommandBufferAllocateInfo& operator=( VkCommandBufferAllocateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandBufferAllocateInfo ) );
       return *this;
@@ -6268,12 +6268,12 @@ namespace vk
     {
     }
 
-    RenderPassBeginInfo( VkRenderPassBeginInfo const & rhs )
+    RenderPassBeginInfo( VkRenderPassBeginInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( RenderPassBeginInfo ) );
     }
 
-    RenderPassBeginInfo& operator=( VkRenderPassBeginInfo const & rhs )
+    RenderPassBeginInfo& operator=( VkRenderPassBeginInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( RenderPassBeginInfo ) );
       return *this;
@@ -6348,12 +6348,12 @@ namespace vk
     {
     }
 
-    EventCreateInfo( VkEventCreateInfo const & rhs )
+    EventCreateInfo( VkEventCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( EventCreateInfo ) );
     }
 
-    EventCreateInfo& operator=( VkEventCreateInfo const & rhs )
+    EventCreateInfo& operator=( VkEventCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( EventCreateInfo ) );
       return *this;
@@ -6400,12 +6400,12 @@ namespace vk
     {
     }
 
-    SemaphoreCreateInfo( VkSemaphoreCreateInfo const & rhs )
+    SemaphoreCreateInfo( VkSemaphoreCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SemaphoreCreateInfo ) );
     }
 
-    SemaphoreCreateInfo& operator=( VkSemaphoreCreateInfo const & rhs )
+    SemaphoreCreateInfo& operator=( VkSemaphoreCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SemaphoreCreateInfo ) );
       return *this;
@@ -6458,12 +6458,12 @@ namespace vk
     {
     }
 
-    FramebufferCreateInfo( VkFramebufferCreateInfo const & rhs )
+    FramebufferCreateInfo( VkFramebufferCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( FramebufferCreateInfo ) );
     }
 
-    FramebufferCreateInfo& operator=( VkFramebufferCreateInfo const & rhs )
+    FramebufferCreateInfo& operator=( VkFramebufferCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( FramebufferCreateInfo ) );
       return *this;
@@ -6553,12 +6553,12 @@ namespace vk
     {
     }
 
-    DisplayModeCreateInfoKHR( VkDisplayModeCreateInfoKHR const & rhs )
+    DisplayModeCreateInfoKHR( VkDisplayModeCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayModeCreateInfoKHR ) );
     }
 
-    DisplayModeCreateInfoKHR& operator=( VkDisplayModeCreateInfoKHR const & rhs )
+    DisplayModeCreateInfoKHR& operator=( VkDisplayModeCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayModeCreateInfoKHR ) );
       return *this;
@@ -6614,12 +6614,12 @@ namespace vk
     {
     }
 
-    DisplayPresentInfoKHR( VkDisplayPresentInfoKHR const & rhs )
+    DisplayPresentInfoKHR( VkDisplayPresentInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPresentInfoKHR ) );
     }
 
-    DisplayPresentInfoKHR& operator=( VkDisplayPresentInfoKHR const & rhs )
+    DisplayPresentInfoKHR& operator=( VkDisplayPresentInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPresentInfoKHR ) );
       return *this;
@@ -6682,12 +6682,12 @@ namespace vk
     {
     }
 
-    AndroidSurfaceCreateInfoKHR( VkAndroidSurfaceCreateInfoKHR const & rhs )
+    AndroidSurfaceCreateInfoKHR( VkAndroidSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( AndroidSurfaceCreateInfoKHR ) );
     }
 
-    AndroidSurfaceCreateInfoKHR& operator=( VkAndroidSurfaceCreateInfoKHR const & rhs )
+    AndroidSurfaceCreateInfoKHR& operator=( VkAndroidSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( AndroidSurfaceCreateInfoKHR ) );
       return *this;
@@ -6745,12 +6745,12 @@ namespace vk
     {
     }
 
-    MirSurfaceCreateInfoKHR( VkMirSurfaceCreateInfoKHR const & rhs )
+    MirSurfaceCreateInfoKHR( VkMirSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( MirSurfaceCreateInfoKHR ) );
     }
 
-    MirSurfaceCreateInfoKHR& operator=( VkMirSurfaceCreateInfoKHR const & rhs )
+    MirSurfaceCreateInfoKHR& operator=( VkMirSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( MirSurfaceCreateInfoKHR ) );
       return *this;
@@ -6815,12 +6815,12 @@ namespace vk
     {
     }
 
-    WaylandSurfaceCreateInfoKHR( VkWaylandSurfaceCreateInfoKHR const & rhs )
+    WaylandSurfaceCreateInfoKHR( VkWaylandSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( WaylandSurfaceCreateInfoKHR ) );
     }
 
-    WaylandSurfaceCreateInfoKHR& operator=( VkWaylandSurfaceCreateInfoKHR const & rhs )
+    WaylandSurfaceCreateInfoKHR& operator=( VkWaylandSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( WaylandSurfaceCreateInfoKHR ) );
       return *this;
@@ -6885,12 +6885,12 @@ namespace vk
     {
     }
 
-    Win32SurfaceCreateInfoKHR( VkWin32SurfaceCreateInfoKHR const & rhs )
+    Win32SurfaceCreateInfoKHR( VkWin32SurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( Win32SurfaceCreateInfoKHR ) );
     }
 
-    Win32SurfaceCreateInfoKHR& operator=( VkWin32SurfaceCreateInfoKHR const & rhs )
+    Win32SurfaceCreateInfoKHR& operator=( VkWin32SurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( Win32SurfaceCreateInfoKHR ) );
       return *this;
@@ -6955,12 +6955,12 @@ namespace vk
     {
     }
 
-    XlibSurfaceCreateInfoKHR( VkXlibSurfaceCreateInfoKHR const & rhs )
+    XlibSurfaceCreateInfoKHR( VkXlibSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( XlibSurfaceCreateInfoKHR ) );
     }
 
-    XlibSurfaceCreateInfoKHR& operator=( VkXlibSurfaceCreateInfoKHR const & rhs )
+    XlibSurfaceCreateInfoKHR& operator=( VkXlibSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( XlibSurfaceCreateInfoKHR ) );
       return *this;
@@ -7025,12 +7025,12 @@ namespace vk
     {
     }
 
-    XcbSurfaceCreateInfoKHR( VkXcbSurfaceCreateInfoKHR const & rhs )
+    XcbSurfaceCreateInfoKHR( VkXcbSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( XcbSurfaceCreateInfoKHR ) );
     }
 
-    XcbSurfaceCreateInfoKHR& operator=( VkXcbSurfaceCreateInfoKHR const & rhs )
+    XcbSurfaceCreateInfoKHR& operator=( VkXcbSurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( XcbSurfaceCreateInfoKHR ) );
       return *this;
@@ -7093,12 +7093,12 @@ namespace vk
       memcpy( &color, color_.data(), 4 * sizeof( float ) );
     }
 
-    DebugMarkerMarkerInfoEXT( VkDebugMarkerMarkerInfoEXT const & rhs )
+    DebugMarkerMarkerInfoEXT( VkDebugMarkerMarkerInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugMarkerMarkerInfoEXT ) );
     }
 
-    DebugMarkerMarkerInfoEXT& operator=( VkDebugMarkerMarkerInfoEXT const & rhs )
+    DebugMarkerMarkerInfoEXT& operator=( VkDebugMarkerMarkerInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugMarkerMarkerInfoEXT ) );
       return *this;
@@ -7163,12 +7163,12 @@ namespace vk
     {
     }
 
-    PresentInfoKHR( VkPresentInfoKHR const & rhs )
+    PresentInfoKHR( VkPresentInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( PresentInfoKHR ) );
     }
 
-    PresentInfoKHR& operator=( VkPresentInfoKHR const & rhs )
+    PresentInfoKHR& operator=( VkPresentInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( PresentInfoKHR ) );
       return *this;
@@ -7265,12 +7265,12 @@ namespace vk
     {
     }
 
-    PipelineDynamicStateCreateInfo( VkPipelineDynamicStateCreateInfo const & rhs )
+    PipelineDynamicStateCreateInfo( VkPipelineDynamicStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineDynamicStateCreateInfo ) );
     }
 
-    PipelineDynamicStateCreateInfo& operator=( VkPipelineDynamicStateCreateInfo const & rhs )
+    PipelineDynamicStateCreateInfo& operator=( VkPipelineDynamicStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineDynamicStateCreateInfo ) );
       return *this;
@@ -7455,12 +7455,12 @@ namespace vk
     {
     }
 
-    MemoryBarrier( VkMemoryBarrier const & rhs )
+    MemoryBarrier( VkMemoryBarrier const& rhs )
     {
       memcpy( this, &rhs, sizeof( MemoryBarrier ) );
     }
 
-    MemoryBarrier& operator=( VkMemoryBarrier const & rhs )
+    MemoryBarrier& operator=( VkMemoryBarrier const& rhs )
     {
       memcpy( this, &rhs, sizeof( MemoryBarrier ) );
       return *this;
@@ -7520,12 +7520,12 @@ namespace vk
     {
     }
 
-    BufferMemoryBarrier( VkBufferMemoryBarrier const & rhs )
+    BufferMemoryBarrier( VkBufferMemoryBarrier const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferMemoryBarrier ) );
     }
 
-    BufferMemoryBarrier& operator=( VkBufferMemoryBarrier const & rhs )
+    BufferMemoryBarrier& operator=( VkBufferMemoryBarrier const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferMemoryBarrier ) );
       return *this;
@@ -7653,12 +7653,12 @@ namespace vk
     {
     }
 
-    BufferCreateInfo( VkBufferCreateInfo const & rhs )
+    BufferCreateInfo( VkBufferCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferCreateInfo ) );
     }
 
-    BufferCreateInfo& operator=( VkBufferCreateInfo const & rhs )
+    BufferCreateInfo& operator=( VkBufferCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferCreateInfo ) );
       return *this;
@@ -7761,12 +7761,12 @@ namespace vk
     {
     }
 
-    DescriptorSetLayoutBinding( VkDescriptorSetLayoutBinding const & rhs )
+    DescriptorSetLayoutBinding( VkDescriptorSetLayoutBinding const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorSetLayoutBinding ) );
     }
 
-    DescriptorSetLayoutBinding& operator=( VkDescriptorSetLayoutBinding const & rhs )
+    DescriptorSetLayoutBinding& operator=( VkDescriptorSetLayoutBinding const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorSetLayoutBinding ) );
       return *this;
@@ -7826,12 +7826,12 @@ namespace vk
     {
     }
 
-    DescriptorSetLayoutCreateInfo( VkDescriptorSetLayoutCreateInfo const & rhs )
+    DescriptorSetLayoutCreateInfo( VkDescriptorSetLayoutCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorSetLayoutCreateInfo ) );
     }
 
-    DescriptorSetLayoutCreateInfo& operator=( VkDescriptorSetLayoutCreateInfo const & rhs )
+    DescriptorSetLayoutCreateInfo& operator=( VkDescriptorSetLayoutCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorSetLayoutCreateInfo ) );
       return *this;
@@ -7896,12 +7896,12 @@ namespace vk
     {
     }
 
-    PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateInfo const & rhs )
+    PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineShaderStageCreateInfo ) );
     }
 
-    PipelineShaderStageCreateInfo& operator=( VkPipelineShaderStageCreateInfo const & rhs )
+    PipelineShaderStageCreateInfo& operator=( VkPipelineShaderStageCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineShaderStageCreateInfo ) );
       return *this;
@@ -7976,12 +7976,12 @@ namespace vk
     {
     }
 
-    PushConstantRange( VkPushConstantRange const & rhs )
+    PushConstantRange( VkPushConstantRange const& rhs )
     {
       memcpy( this, &rhs, sizeof( PushConstantRange ) );
     }
 
-    PushConstantRange& operator=( VkPushConstantRange const & rhs )
+    PushConstantRange& operator=( VkPushConstantRange const& rhs )
     {
       memcpy( this, &rhs, sizeof( PushConstantRange ) );
       return *this;
@@ -8029,12 +8029,12 @@ namespace vk
     {
     }
 
-    PipelineLayoutCreateInfo( VkPipelineLayoutCreateInfo const & rhs )
+    PipelineLayoutCreateInfo( VkPipelineLayoutCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineLayoutCreateInfo ) );
     }
 
-    PipelineLayoutCreateInfo& operator=( VkPipelineLayoutCreateInfo const & rhs )
+    PipelineLayoutCreateInfo& operator=( VkPipelineLayoutCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineLayoutCreateInfo ) );
       return *this;
@@ -8162,12 +8162,12 @@ namespace vk
     {
     }
 
-    ComputePipelineCreateInfo( VkComputePipelineCreateInfo const & rhs )
+    ComputePipelineCreateInfo( VkComputePipelineCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ComputePipelineCreateInfo ) );
     }
 
-    ComputePipelineCreateInfo& operator=( VkComputePipelineCreateInfo const & rhs )
+    ComputePipelineCreateInfo& operator=( VkComputePipelineCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ComputePipelineCreateInfo ) );
       return *this;
@@ -8262,12 +8262,12 @@ namespace vk
     {
     }
 
-    PipelineColorBlendAttachmentState( VkPipelineColorBlendAttachmentState const & rhs )
+    PipelineColorBlendAttachmentState( VkPipelineColorBlendAttachmentState const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineColorBlendAttachmentState ) );
     }
 
-    PipelineColorBlendAttachmentState& operator=( VkPipelineColorBlendAttachmentState const & rhs )
+    PipelineColorBlendAttachmentState& operator=( VkPipelineColorBlendAttachmentState const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineColorBlendAttachmentState ) );
       return *this;
@@ -8351,12 +8351,12 @@ namespace vk
       memcpy( &blendConstants, blendConstants_.data(), 4 * sizeof( float ) );
     }
 
-    PipelineColorBlendStateCreateInfo( VkPipelineColorBlendStateCreateInfo const & rhs )
+    PipelineColorBlendStateCreateInfo( VkPipelineColorBlendStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineColorBlendStateCreateInfo ) );
     }
 
-    PipelineColorBlendStateCreateInfo& operator=( VkPipelineColorBlendStateCreateInfo const & rhs )
+    PipelineColorBlendStateCreateInfo& operator=( VkPipelineColorBlendStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineColorBlendStateCreateInfo ) );
       return *this;
@@ -8450,12 +8450,12 @@ namespace vk
     {
     }
 
-    FenceCreateInfo( VkFenceCreateInfo const & rhs )
+    FenceCreateInfo( VkFenceCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( FenceCreateInfo ) );
     }
 
-    FenceCreateInfo& operator=( VkFenceCreateInfo const & rhs )
+    FenceCreateInfo& operator=( VkFenceCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( FenceCreateInfo ) );
       return *this;
@@ -8608,12 +8608,12 @@ namespace vk
     {
     }
 
-    CommandBufferInheritanceInfo( VkCommandBufferInheritanceInfo const & rhs )
+    CommandBufferInheritanceInfo( VkCommandBufferInheritanceInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandBufferInheritanceInfo ) );
     }
 
-    CommandBufferInheritanceInfo& operator=( VkCommandBufferInheritanceInfo const & rhs )
+    CommandBufferInheritanceInfo& operator=( VkCommandBufferInheritanceInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandBufferInheritanceInfo ) );
       return *this;
@@ -8696,12 +8696,12 @@ namespace vk
     {
     }
 
-    CommandBufferBeginInfo( VkCommandBufferBeginInfo const & rhs )
+    CommandBufferBeginInfo( VkCommandBufferBeginInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandBufferBeginInfo ) );
     }
 
-    CommandBufferBeginInfo& operator=( VkCommandBufferBeginInfo const & rhs )
+    CommandBufferBeginInfo& operator=( VkCommandBufferBeginInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandBufferBeginInfo ) );
       return *this;
@@ -8758,12 +8758,12 @@ namespace vk
     {
     }
 
-    QueryPoolCreateInfo( VkQueryPoolCreateInfo const & rhs )
+    QueryPoolCreateInfo( VkQueryPoolCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( QueryPoolCreateInfo ) );
     }
 
-    QueryPoolCreateInfo& operator=( VkQueryPoolCreateInfo const & rhs )
+    QueryPoolCreateInfo& operator=( VkQueryPoolCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( QueryPoolCreateInfo ) );
       return *this;
@@ -8846,12 +8846,12 @@ namespace vk
     {
     }
 
-    ImageSubresource( VkImageSubresource const & rhs )
+    ImageSubresource( VkImageSubresource const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageSubresource ) );
     }
 
-    ImageSubresource& operator=( VkImageSubresource const & rhs )
+    ImageSubresource& operator=( VkImageSubresource const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageSubresource ) );
       return *this;
@@ -8896,12 +8896,12 @@ namespace vk
     {
     }
 
-    ImageSubresourceLayers( VkImageSubresourceLayers const & rhs )
+    ImageSubresourceLayers( VkImageSubresourceLayers const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageSubresourceLayers ) );
     }
 
-    ImageSubresourceLayers& operator=( VkImageSubresourceLayers const & rhs )
+    ImageSubresourceLayers& operator=( VkImageSubresourceLayers const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageSubresourceLayers ) );
       return *this;
@@ -8954,12 +8954,12 @@ namespace vk
     {
     }
 
-    ImageSubresourceRange( VkImageSubresourceRange const & rhs )
+    ImageSubresourceRange( VkImageSubresourceRange const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageSubresourceRange ) );
     }
 
-    ImageSubresourceRange& operator=( VkImageSubresourceRange const & rhs )
+    ImageSubresourceRange& operator=( VkImageSubresourceRange const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageSubresourceRange ) );
       return *this;
@@ -9024,12 +9024,12 @@ namespace vk
     {
     }
 
-    ImageMemoryBarrier( VkImageMemoryBarrier const & rhs )
+    ImageMemoryBarrier( VkImageMemoryBarrier const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageMemoryBarrier ) );
     }
 
-    ImageMemoryBarrier& operator=( VkImageMemoryBarrier const & rhs )
+    ImageMemoryBarrier& operator=( VkImageMemoryBarrier const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageMemoryBarrier ) );
       return *this;
@@ -9130,12 +9130,12 @@ namespace vk
     {
     }
 
-    ImageViewCreateInfo( VkImageViewCreateInfo const & rhs )
+    ImageViewCreateInfo( VkImageViewCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageViewCreateInfo ) );
     }
 
-    ImageViewCreateInfo& operator=( VkImageViewCreateInfo const & rhs )
+    ImageViewCreateInfo& operator=( VkImageViewCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageViewCreateInfo ) );
       return *this;
@@ -9219,12 +9219,12 @@ namespace vk
     {
     }
 
-    ImageCopy( VkImageCopy const & rhs )
+    ImageCopy( VkImageCopy const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageCopy ) );
     }
 
-    ImageCopy& operator=( VkImageCopy const & rhs )
+    ImageCopy& operator=( VkImageCopy const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageCopy ) );
       return *this;
@@ -9283,12 +9283,12 @@ namespace vk
       memcpy( &dstOffsets, dstOffsets_.data(), 2 * sizeof( Offset3D ) );
     }
 
-    ImageBlit( VkImageBlit const & rhs )
+    ImageBlit( VkImageBlit const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageBlit ) );
     }
 
-    ImageBlit& operator=( VkImageBlit const & rhs )
+    ImageBlit& operator=( VkImageBlit const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageBlit ) );
       return *this;
@@ -9342,12 +9342,12 @@ namespace vk
     {
     }
 
-    BufferImageCopy( VkBufferImageCopy const & rhs )
+    BufferImageCopy( VkBufferImageCopy const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferImageCopy ) );
     }
 
-    BufferImageCopy& operator=( VkBufferImageCopy const & rhs )
+    BufferImageCopy& operator=( VkBufferImageCopy const& rhs )
     {
       memcpy( this, &rhs, sizeof( BufferImageCopy ) );
       return *this;
@@ -9414,12 +9414,12 @@ namespace vk
     {
     }
 
-    ImageResolve( VkImageResolve const & rhs )
+    ImageResolve( VkImageResolve const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageResolve ) );
     }
 
-    ImageResolve& operator=( VkImageResolve const & rhs )
+    ImageResolve& operator=( VkImageResolve const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageResolve ) );
       return *this;
@@ -9477,12 +9477,12 @@ namespace vk
     {
     }
 
-    ClearAttachment( VkClearAttachment const & rhs )
+    ClearAttachment( VkClearAttachment const& rhs )
     {
       memcpy( this, &rhs, sizeof( ClearAttachment ) );
     }
 
-    ClearAttachment& operator=( VkClearAttachment const & rhs )
+    ClearAttachment& operator=( VkClearAttachment const& rhs )
     {
       memcpy( this, &rhs, sizeof( ClearAttachment ) );
       return *this;
@@ -9582,12 +9582,12 @@ namespace vk
     {
     }
 
-    SparseMemoryBind( VkSparseMemoryBind const & rhs )
+    SparseMemoryBind( VkSparseMemoryBind const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseMemoryBind ) );
     }
 
-    SparseMemoryBind& operator=( VkSparseMemoryBind const & rhs )
+    SparseMemoryBind& operator=( VkSparseMemoryBind const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseMemoryBind ) );
       return *this;
@@ -9648,12 +9648,12 @@ namespace vk
     {
     }
 
-    SparseImageMemoryBind( VkSparseImageMemoryBind const & rhs )
+    SparseImageMemoryBind( VkSparseImageMemoryBind const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseImageMemoryBind ) );
     }
 
-    SparseImageMemoryBind& operator=( VkSparseImageMemoryBind const & rhs )
+    SparseImageMemoryBind& operator=( VkSparseImageMemoryBind const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseImageMemoryBind ) );
       return *this;
@@ -9718,12 +9718,12 @@ namespace vk
     {
     }
 
-    SparseBufferMemoryBindInfo( VkSparseBufferMemoryBindInfo const & rhs )
+    SparseBufferMemoryBindInfo( VkSparseBufferMemoryBindInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseBufferMemoryBindInfo ) );
     }
 
-    SparseBufferMemoryBindInfo& operator=( VkSparseBufferMemoryBindInfo const & rhs )
+    SparseBufferMemoryBindInfo& operator=( VkSparseBufferMemoryBindInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseBufferMemoryBindInfo ) );
       return *this;
@@ -9767,12 +9767,12 @@ namespace vk
     {
     }
 
-    SparseImageOpaqueMemoryBindInfo( VkSparseImageOpaqueMemoryBindInfo const & rhs )
+    SparseImageOpaqueMemoryBindInfo( VkSparseImageOpaqueMemoryBindInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseImageOpaqueMemoryBindInfo ) );
     }
 
-    SparseImageOpaqueMemoryBindInfo& operator=( VkSparseImageOpaqueMemoryBindInfo const & rhs )
+    SparseImageOpaqueMemoryBindInfo& operator=( VkSparseImageOpaqueMemoryBindInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseImageOpaqueMemoryBindInfo ) );
       return *this;
@@ -9816,12 +9816,12 @@ namespace vk
     {
     }
 
-    SparseImageMemoryBindInfo( VkSparseImageMemoryBindInfo const & rhs )
+    SparseImageMemoryBindInfo( VkSparseImageMemoryBindInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseImageMemoryBindInfo ) );
     }
 
-    SparseImageMemoryBindInfo& operator=( VkSparseImageMemoryBindInfo const & rhs )
+    SparseImageMemoryBindInfo& operator=( VkSparseImageMemoryBindInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SparseImageMemoryBindInfo ) );
       return *this;
@@ -9874,12 +9874,12 @@ namespace vk
     {
     }
 
-    BindSparseInfo( VkBindSparseInfo const & rhs )
+    BindSparseInfo( VkBindSparseInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( BindSparseInfo ) );
     }
 
-    BindSparseInfo& operator=( VkBindSparseInfo const & rhs )
+    BindSparseInfo& operator=( VkBindSparseInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( BindSparseInfo ) );
       return *this;
@@ -10031,12 +10031,12 @@ namespace vk
     {
     }
 
-    CommandPoolCreateInfo( VkCommandPoolCreateInfo const & rhs )
+    CommandPoolCreateInfo( VkCommandPoolCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandPoolCreateInfo ) );
     }
 
-    CommandPoolCreateInfo& operator=( VkCommandPoolCreateInfo const & rhs )
+    CommandPoolCreateInfo& operator=( VkCommandPoolCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( CommandPoolCreateInfo ) );
       return *this;
@@ -10159,12 +10159,12 @@ namespace vk
     {
     }
 
-    ImageCreateInfo( VkImageCreateInfo const & rhs )
+    ImageCreateInfo( VkImageCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageCreateInfo ) );
     }
 
-    ImageCreateInfo& operator=( VkImageCreateInfo const & rhs )
+    ImageCreateInfo& operator=( VkImageCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( ImageCreateInfo ) );
       return *this;
@@ -10301,12 +10301,12 @@ namespace vk
     {
     }
 
-    PipelineMultisampleStateCreateInfo( VkPipelineMultisampleStateCreateInfo const & rhs )
+    PipelineMultisampleStateCreateInfo( VkPipelineMultisampleStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineMultisampleStateCreateInfo ) );
     }
 
-    PipelineMultisampleStateCreateInfo& operator=( VkPipelineMultisampleStateCreateInfo const & rhs )
+    PipelineMultisampleStateCreateInfo& operator=( VkPipelineMultisampleStateCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineMultisampleStateCreateInfo ) );
       return *this;
@@ -10411,12 +10411,12 @@ namespace vk
     {
     }
 
-    GraphicsPipelineCreateInfo( VkGraphicsPipelineCreateInfo const & rhs )
+    GraphicsPipelineCreateInfo( VkGraphicsPipelineCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( GraphicsPipelineCreateInfo ) );
     }
 
-    GraphicsPipelineCreateInfo& operator=( VkGraphicsPipelineCreateInfo const & rhs )
+    GraphicsPipelineCreateInfo& operator=( VkGraphicsPipelineCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( GraphicsPipelineCreateInfo ) );
       return *this;
@@ -10728,12 +10728,12 @@ namespace vk
     {
     }
 
-    AttachmentDescription( VkAttachmentDescription const & rhs )
+    AttachmentDescription( VkAttachmentDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( AttachmentDescription ) );
     }
 
-    AttachmentDescription& operator=( VkAttachmentDescription const & rhs )
+    AttachmentDescription& operator=( VkAttachmentDescription const& rhs )
     {
       memcpy( this, &rhs, sizeof( AttachmentDescription ) );
       return *this;
@@ -10848,12 +10848,12 @@ namespace vk
     {
     }
 
-    DescriptorPoolCreateInfo( VkDescriptorPoolCreateInfo const & rhs )
+    DescriptorPoolCreateInfo( VkDescriptorPoolCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorPoolCreateInfo ) );
     }
 
-    DescriptorPoolCreateInfo& operator=( VkDescriptorPoolCreateInfo const & rhs )
+    DescriptorPoolCreateInfo& operator=( VkDescriptorPoolCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( DescriptorPoolCreateInfo ) );
       return *this;
@@ -11653,12 +11653,12 @@ namespace vk
     {
     }
 
-    SubpassDependency( VkSubpassDependency const & rhs )
+    SubpassDependency( VkSubpassDependency const& rhs )
     {
       memcpy( this, &rhs, sizeof( SubpassDependency ) );
     }
 
-    SubpassDependency& operator=( VkSubpassDependency const & rhs )
+    SubpassDependency& operator=( VkSubpassDependency const& rhs )
     {
       memcpy( this, &rhs, sizeof( SubpassDependency ) );
       return *this;
@@ -11736,12 +11736,12 @@ namespace vk
     {
     }
 
-    RenderPassCreateInfo( VkRenderPassCreateInfo const & rhs )
+    RenderPassCreateInfo( VkRenderPassCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( RenderPassCreateInfo ) );
     }
 
-    RenderPassCreateInfo& operator=( VkRenderPassCreateInfo const & rhs )
+    RenderPassCreateInfo& operator=( VkRenderPassCreateInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( RenderPassCreateInfo ) );
       return *this;
@@ -11836,12 +11836,12 @@ namespace vk
     {
     }
 
-    SubmitInfo( VkSubmitInfo const & rhs )
+    SubmitInfo( VkSubmitInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SubmitInfo ) );
     }
 
-    SubmitInfo& operator=( VkSubmitInfo const & rhs )
+    SubmitInfo& operator=( VkSubmitInfo const& rhs )
     {
       memcpy( this, &rhs, sizeof( SubmitInfo ) );
       return *this;
@@ -12038,12 +12038,12 @@ namespace vk
     {
     }
 
-    SurfaceFormatKHR( VkSurfaceFormatKHR const & rhs )
+    SurfaceFormatKHR( VkSurfaceFormatKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( SurfaceFormatKHR ) );
     }
 
-    SurfaceFormatKHR& operator=( VkSurfaceFormatKHR const & rhs )
+    SurfaceFormatKHR& operator=( VkSurfaceFormatKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( SurfaceFormatKHR ) );
       return *this;
@@ -12101,12 +12101,12 @@ namespace vk
     {
     }
 
-    DisplayPlaneCapabilitiesKHR( VkDisplayPlaneCapabilitiesKHR const & rhs )
+    DisplayPlaneCapabilitiesKHR( VkDisplayPlaneCapabilitiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPlaneCapabilitiesKHR ) );
     }
 
-    DisplayPlaneCapabilitiesKHR& operator=( VkDisplayPlaneCapabilitiesKHR const & rhs )
+    DisplayPlaneCapabilitiesKHR& operator=( VkDisplayPlaneCapabilitiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPlaneCapabilitiesKHR ) );
       return *this;
@@ -12231,12 +12231,12 @@ namespace vk
     {
     }
 
-    DisplayPropertiesKHR( VkDisplayPropertiesKHR const & rhs )
+    DisplayPropertiesKHR( VkDisplayPropertiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPropertiesKHR ) );
     }
 
-    DisplayPropertiesKHR& operator=( VkDisplayPropertiesKHR const & rhs )
+    DisplayPropertiesKHR& operator=( VkDisplayPropertiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplayPropertiesKHR ) );
       return *this;
@@ -12315,12 +12315,12 @@ namespace vk
     {
     }
 
-    DisplaySurfaceCreateInfoKHR( VkDisplaySurfaceCreateInfoKHR const & rhs )
+    DisplaySurfaceCreateInfoKHR( VkDisplaySurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplaySurfaceCreateInfoKHR ) );
     }
 
-    DisplaySurfaceCreateInfoKHR& operator=( VkDisplaySurfaceCreateInfoKHR const & rhs )
+    DisplaySurfaceCreateInfoKHR& operator=( VkDisplaySurfaceCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( DisplaySurfaceCreateInfoKHR ) );
       return *this;
@@ -12423,12 +12423,12 @@ namespace vk
     {
     }
 
-    SurfaceCapabilitiesKHR( VkSurfaceCapabilitiesKHR const & rhs )
+    SurfaceCapabilitiesKHR( VkSurfaceCapabilitiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( SurfaceCapabilitiesKHR ) );
     }
 
-    SurfaceCapabilitiesKHR& operator=( VkSurfaceCapabilitiesKHR const & rhs )
+    SurfaceCapabilitiesKHR& operator=( VkSurfaceCapabilitiesKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( SurfaceCapabilitiesKHR ) );
       return *this;
@@ -12536,12 +12536,12 @@ namespace vk
     {
     }
 
-    SwapchainCreateInfoKHR( VkSwapchainCreateInfoKHR const & rhs )
+    SwapchainCreateInfoKHR( VkSwapchainCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( SwapchainCreateInfoKHR ) );
     }
 
-    SwapchainCreateInfoKHR& operator=( VkSwapchainCreateInfoKHR const & rhs )
+    SwapchainCreateInfoKHR& operator=( VkSwapchainCreateInfoKHR const& rhs )
     {
       memcpy( this, &rhs, sizeof( SwapchainCreateInfoKHR ) );
       return *this;
@@ -12711,12 +12711,12 @@ namespace vk
     {
     }
 
-    DebugReportCallbackCreateInfoEXT( VkDebugReportCallbackCreateInfoEXT const & rhs )
+    DebugReportCallbackCreateInfoEXT( VkDebugReportCallbackCreateInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugReportCallbackCreateInfoEXT ) );
     }
 
-    DebugReportCallbackCreateInfoEXT& operator=( VkDebugReportCallbackCreateInfoEXT const & rhs )
+    DebugReportCallbackCreateInfoEXT& operator=( VkDebugReportCallbackCreateInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugReportCallbackCreateInfoEXT ) );
       return *this;
@@ -12812,12 +12812,12 @@ namespace vk
     {
     }
 
-    DebugMarkerObjectNameInfoEXT( VkDebugMarkerObjectNameInfoEXT const & rhs )
+    DebugMarkerObjectNameInfoEXT( VkDebugMarkerObjectNameInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugMarkerObjectNameInfoEXT ) );
     }
 
-    DebugMarkerObjectNameInfoEXT& operator=( VkDebugMarkerObjectNameInfoEXT const & rhs )
+    DebugMarkerObjectNameInfoEXT& operator=( VkDebugMarkerObjectNameInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugMarkerObjectNameInfoEXT ) );
       return *this;
@@ -12882,12 +12882,12 @@ namespace vk
     {
     }
 
-    DebugMarkerObjectTagInfoEXT( VkDebugMarkerObjectTagInfoEXT const & rhs )
+    DebugMarkerObjectTagInfoEXT( VkDebugMarkerObjectTagInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugMarkerObjectTagInfoEXT ) );
     }
 
-    DebugMarkerObjectTagInfoEXT& operator=( VkDebugMarkerObjectTagInfoEXT const & rhs )
+    DebugMarkerObjectTagInfoEXT& operator=( VkDebugMarkerObjectTagInfoEXT const& rhs )
     {
       memcpy( this, &rhs, sizeof( DebugMarkerObjectTagInfoEXT ) );
       return *this;
@@ -14855,12 +14855,12 @@ namespace vk
     {
     }
 
-    PipelineRasterizationStateRasterizationOrderAMD( VkPipelineRasterizationStateRasterizationOrderAMD const & rhs )
+    PipelineRasterizationStateRasterizationOrderAMD( VkPipelineRasterizationStateRasterizationOrderAMD const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineRasterizationStateRasterizationOrderAMD ) );
     }
 
-    PipelineRasterizationStateRasterizationOrderAMD& operator=( VkPipelineRasterizationStateRasterizationOrderAMD const & rhs )
+    PipelineRasterizationStateRasterizationOrderAMD& operator=( VkPipelineRasterizationStateRasterizationOrderAMD const& rhs )
     {
       memcpy( this, &rhs, sizeof( PipelineRasterizationStateRasterizationOrderAMD ) );
       return *this;
