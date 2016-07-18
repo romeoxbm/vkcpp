@@ -134,7 +134,7 @@ namespace vk
 
 		void _writeTypeEnum( std::ofstream& ofs,
 							 DependencyData const& dependencyData,
-							 EnumData const& enumData ) const;
+							 EnumData const& enumData );
 
 		void _writeTypeFlags( DualOFStream& ofs,
 							  DependencyData const& dependencyData,

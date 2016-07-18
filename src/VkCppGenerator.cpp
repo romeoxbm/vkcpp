@@ -704,21 +704,22 @@ namespace vk
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypeEnum( std::ofstream& ofs,
 									   DependencyData const& dependencyData,
-									   EnumData const& enumData ) const
+									   EnumData const& enumData )
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << "  enum class " << dependencyData.name;
+		ofs << _indent << "enum class " << dependencyData.name;
 		if( enumData.members.empty() )
 			ofs << " {};\n";
 		else
 		{
-			ofs << "\n  {\n";
+			ofs << "\n" << _indent << "{\n";
+			++_indent;
 			for( size_t i = 0; i < enumData.members.size(); i++ )
 			{
-				ofs << "    " << enumData.members[ i ].name << " = "
+				ofs << _indent << enumData.members[ i ].name << " = "
 					<< enumData.members[ i ].value << std::endl;
 			}
-			ofs << "  };\n";
+			ofs << --_indent << "};\n";
 		}
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
