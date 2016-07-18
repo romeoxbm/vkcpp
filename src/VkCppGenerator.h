@@ -165,10 +165,10 @@ namespace vk
 									  std::set<std::string> const& vkTypes,
 									  std::map<std::string, std::string> const& defaultValues );
 
-		void _writeStructSetter( std::ofstream& ofs, std::string const& name,
+		void _writeStructSetter( DualOFStream& ofs, std::string const& name,
 								 MemberData const& memberData,
 								 std::set<std::string> const& vkTypes//,
-								 /*std::map<std::string,StructData> const& structs*/ ) const;
+								 /*std::map<std::string,StructData> const& structs*/ );
 
 		//TypeCommandStandard
 		//----------------------------------------------------------------------

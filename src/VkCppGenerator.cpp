@@ -939,7 +939,7 @@ namespace vk
 			for( size_t i = 0; i < it->second.members.size(); i++ )
 			{
 				_writeStructSetter(
-							ofs.hdr(),
+							ofs,
 							dependencyData.name,
 							it->second.members[ i ],
 							vkData->vkTypes
@@ -1056,7 +1056,7 @@ namespace vk
 		{
 			// one setter per union element
 			assert( !unionData.returnedOnly );
-			_writeStructSetter( ofs.hdr(), dependencyData.name, unionData.members[ i ], vkData->vkTypes );
+			_writeStructSetter( ofs, dependencyData.name, unionData.members[ i ], vkData->vkTypes );
 		}
 
 		// the implicit cast operator to the native type
@@ -1241,29 +1241,45 @@ namespace vk
 		--_indent;
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeStructSetter( std::ofstream& ofs,
+	void CppGenerator::_writeStructSetter( DualOFStream& ofs,
 										   std::string const& name,
 										   MemberData const& memberData,
-										   std::set<std::string> const& /*vkTypes*/ ) const //Unused variable
+										   std::set<std::string> const& /*vkTypes*/ ) //Unused variable
 	{
-		ofs << "    " << name << "& set" << static_cast<char>( toupper( memberData.name[ 0 ] ) ) << memberData.name.substr( 1 ) << "( ";
+		ofs << ++_indent << name << "& ";
+
+		if( ofs.usingDualStream() )
+			ofs.src() << name << "::";
+
+		ofs << "set" << static_cast<char>( toupper( memberData.name[ 0 ] ) )
+			<< memberData.name.substr( 1 ) << "( ";
+
 		if( memberData.arraySize.empty() )
 			ofs << memberData.type << " ";
 
 		else
-			ofs << "std::array<" << memberData.type << ", " << memberData.arraySize << "> ";
+			ofs << "const std::array<" << memberData.type << ", " << memberData.arraySize << ">& ";
 
-		ofs << memberData.name << "_ )\n    {\n";
+		ofs << memberData.name << "_ )";
+
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << _indent << "{\n";
 
 		if( !memberData.arraySize.empty() )
 		{
-			ofs << "      memcpy( &" << memberData.name << ", " << memberData.name
-				<< "_.data(), " << memberData.arraySize << " * sizeof( " << memberData.type << " ) )";
+			ofs.src() << _indent + 1 << "memcpy( &" << memberData.name << ", "
+					  << memberData.name << "_.data(), " << memberData.arraySize
+					  << " * sizeof( " << memberData.type << " ) )";
 		}
 		else
-			ofs << "      " << memberData.name << " = " << memberData.name << "_";
+			ofs.src() << _indent + 1 << memberData.name << " = " << memberData.name << "_";
 
-		ofs << ";\n      return *this;\n" << "    }\n\n";
+		ofs.src() << ";\n" << _indent + 1 << "return *this;\n";
+		ofs.src() << _indent << "}\n\n";
+		--_indent;
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeMemberData( std::ofstream& ofs,
