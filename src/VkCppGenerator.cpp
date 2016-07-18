@@ -89,6 +89,8 @@ namespace vk
 			ofs << "namespace vk\n"
 				<< "{\n";
 
+			++_indent;
+
 			ofs.hdr() << flagsHeader
 					  << optionalClassHeader
 					  << arrayProxyHeader;
@@ -480,7 +482,7 @@ namespace vk
 											EnumData const& enumData )
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << ++_indent;
+		ofs << _indent;
 		if( !ofs.usingDualStream() )
 			ofs << "inline ";
 
@@ -507,7 +509,6 @@ namespace vk
 					  << "}\n";
 		}
 		ofs.src() << --_indent << "}\n";
-		--_indent;
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}
@@ -517,7 +518,7 @@ namespace vk
 											EnumData const &enumData )
 	{
 		_enterProtect( ofs, enumData.protect );
-		ofs << ++_indent;
+		ofs << _indent;
 		if( !ofs.usingDualStream() )
 			ofs << "inline ";
 
@@ -549,7 +550,6 @@ namespace vk
 			ofs.src() << _indent << "return \"{\" + result.substr( 0, result.size() - 3 ) + \"}\";\n";
 		}
 		ofs.src() << --_indent << "}\n";
-		--_indent;
 		_leaveProtect( ofs, enumData.protect );
 		ofs << std::endl;
 	}
@@ -736,7 +736,7 @@ namespace vk
 		auto& firstDep = *dependencyData.dependencies.begin();
 		auto& depName = dependencyData.name;
 
-		ofs.hdr() << ++_indent
+		ofs.hdr() << _indent
 				  << "using " << depName << " = Flags<" << firstDep
 				  << ", Vk" << depName << ">;\n\n";
 
@@ -753,7 +753,6 @@ namespace vk
 		ofs.src() << _indent + 1 << "return " << depName << "( bit0 ) | bit1;\n";
 		ofs.src() << _indent << "}\n";
 
-		--_indent;
 		_leaveProtect( ofs, flagData.protect );
 		ofs << std::endl;
 	}
@@ -767,7 +766,7 @@ namespace vk
 		assert( isupper( memberName[ 0 ] ) );
 		memberName[ 0 ] = tolower( memberName[ 0 ] );
 
-		ofs.hdr() << ++_indent << "class " << dependencyData.name
+		ofs.hdr() << _indent << "class " << dependencyData.name
 				  << "\n" << _indent << "{\n" << _indent << "public:\n";
 
 		ofs << ++_indent << dependencyData.name;
@@ -815,9 +814,9 @@ namespace vk
 		ofs.src() << --_indent << "}\n";
 		ofs << "#endif\n\n";
 
-		ofs << "#ifndef VK_CPP_TYPESAFE_CONVERSION\n";
+		ofs.hdr() << "#ifndef VK_CPP_TYPESAFE_CONVERSION\n";
 		ofs.hdr() << _indent << "explicit\n";
-		ofs << ( _indent -= 2 ) << "#endif\n";
+		ofs.hdr() << ( _indent -= 2 ) << "#endif\n";
 
 		ofs << ( _indent += 2 );
 		if( ofs.usingDualStream() )
@@ -900,7 +899,6 @@ namespace vk
 				  << " ) == sizeof( Vk" << dependencyData.name
 				  << " ), \"handle and wrapper have different size!\" );\n";
 	#endif
-		--_indent;
 		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
@@ -908,7 +906,7 @@ namespace vk
 										 DependencyData const& dependencyData ) const
 	{
 		assert( dependencyData.dependencies.size() == 1 );
-		ofs << "  using " << dependencyData.name << " = "
+		ofs << _indent << "using " << dependencyData.name << " = "
 			<< *dependencyData.dependencies.begin() << ";\n\n";
 	}
 	//--------------------------------------------------------------------------
