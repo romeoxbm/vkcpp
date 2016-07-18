@@ -205,6 +205,9 @@ namespace vk
 						 std::map<size_t, size_t> const& vectorParameters,
 						 size_t returnIndex, bool firstCall ) const;
 
+		void _writeComment( std::ofstream& ofs, std::string const& name,
+							std::string const& type ) const;
+
 		//Unreferenced method
 		/*void _writeExceptionCheck( std::ofstream& ofs,
 								   std::string const& indentation,

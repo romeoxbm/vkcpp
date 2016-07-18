@@ -766,6 +766,7 @@ namespace vk
 		assert( isupper( memberName[ 0 ] ) );
 		memberName[ 0 ] = tolower( memberName[ 0 ] );
 
+		_writeComment( ofs.hdr(), dependencyData.name, "class" );
 		ofs.hdr() << _indent << "class " << dependencyData.name
 				  << "\n" << _indent << "{\n" << _indent << "public:\n";
 
@@ -919,11 +920,7 @@ namespace vk
 
 		_enterProtect( ofs, it->second.protect );
 
-		ofs.hdr() << _indent << "/**\n"
-				  << _indent << " * @brief The " << dependencyData.name
-				  << " struct.\n"
-				  << _indent << " */\n";
-
+		_writeComment( ofs.hdr(), dependencyData.name, "struct" );
 		ofs.hdr() << _indent << "struct " << dependencyData.name << std::endl
 			<< _indent << "{\n";
 
@@ -1006,12 +1003,7 @@ namespace vk
 	{
 		//Unused variable
 		//std::ostringstream oss;
-
-		ofs.hdr() << _indent << "/**\n"
-				  << _indent << " * @brief The " << dependencyData.name
-				  << " union.\n"
-				  << _indent << " */\n";
-
+		_writeComment( ofs.hdr(), dependencyData.name, "union" );
 		ofs.hdr() << _indent << "union " << dependencyData.name << std::endl
 			<< _indent << "{\n";
 
@@ -1802,6 +1794,17 @@ namespace vk
 		}
 		ofs << " )";
 	}
+	//--------------------------------------------------------------------------
+	void CppGenerator::_writeComment( std::ofstream& ofs, std::string const& name,
+						std::string const& type ) const
+	{
+		ofs << _indent << "/**\n"
+			<< _indent << " * @brief The " << name
+			<< " " << type << ".\n"
+			<< _indent << " */\n";
+	}
+
+
 	//Unreferenced method
 	/*void CppGenerator::_writeExceptionCheck( std::ofstream& ofs,
 											 std::string const& indentation,

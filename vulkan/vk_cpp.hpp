@@ -826,6 +826,9 @@ namespace vk
   }
 #endif /*VK_USE_PLATFORM_XCB_KHR*/
 
+  /**
+   * @brief The DeviceMemory class.
+   */
   class DeviceMemory
   {
   public:
@@ -866,6 +869,9 @@ namespace vk
   };
   static_assert( sizeof( DeviceMemory ) == sizeof( VkDeviceMemory ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The CommandPool class.
+   */
   class CommandPool
   {
   public:
@@ -906,6 +912,9 @@ namespace vk
   };
   static_assert( sizeof( CommandPool ) == sizeof( VkCommandPool ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Buffer class.
+   */
   class Buffer
   {
   public:
@@ -946,6 +955,9 @@ namespace vk
   };
   static_assert( sizeof( Buffer ) == sizeof( VkBuffer ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The BufferView class.
+   */
   class BufferView
   {
   public:
@@ -986,6 +998,9 @@ namespace vk
   };
   static_assert( sizeof( BufferView ) == sizeof( VkBufferView ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Image class.
+   */
   class Image
   {
   public:
@@ -1026,6 +1041,9 @@ namespace vk
   };
   static_assert( sizeof( Image ) == sizeof( VkImage ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The ImageView class.
+   */
   class ImageView
   {
   public:
@@ -1066,6 +1084,9 @@ namespace vk
   };
   static_assert( sizeof( ImageView ) == sizeof( VkImageView ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The ShaderModule class.
+   */
   class ShaderModule
   {
   public:
@@ -1106,6 +1127,9 @@ namespace vk
   };
   static_assert( sizeof( ShaderModule ) == sizeof( VkShaderModule ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Pipeline class.
+   */
   class Pipeline
   {
   public:
@@ -1146,6 +1170,9 @@ namespace vk
   };
   static_assert( sizeof( Pipeline ) == sizeof( VkPipeline ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineLayout class.
+   */
   class PipelineLayout
   {
   public:
@@ -1186,6 +1213,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineLayout ) == sizeof( VkPipelineLayout ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Sampler class.
+   */
   class Sampler
   {
   public:
@@ -1226,6 +1256,9 @@ namespace vk
   };
   static_assert( sizeof( Sampler ) == sizeof( VkSampler ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The DescriptorSet class.
+   */
   class DescriptorSet
   {
   public:
@@ -1266,6 +1299,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorSet ) == sizeof( VkDescriptorSet ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The DescriptorSetLayout class.
+   */
   class DescriptorSetLayout
   {
   public:
@@ -1306,6 +1342,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorSetLayout ) == sizeof( VkDescriptorSetLayout ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The DescriptorPool class.
+   */
   class DescriptorPool
   {
   public:
@@ -1346,6 +1385,9 @@ namespace vk
   };
   static_assert( sizeof( DescriptorPool ) == sizeof( VkDescriptorPool ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Fence class.
+   */
   class Fence
   {
   public:
@@ -1386,6 +1428,9 @@ namespace vk
   };
   static_assert( sizeof( Fence ) == sizeof( VkFence ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Semaphore class.
+   */
   class Semaphore
   {
   public:
@@ -1426,6 +1471,9 @@ namespace vk
   };
   static_assert( sizeof( Semaphore ) == sizeof( VkSemaphore ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Event class.
+   */
   class Event
   {
   public:
@@ -1466,6 +1514,9 @@ namespace vk
   };
   static_assert( sizeof( Event ) == sizeof( VkEvent ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The QueryPool class.
+   */
   class QueryPool
   {
   public:
@@ -1506,6 +1557,9 @@ namespace vk
   };
   static_assert( sizeof( QueryPool ) == sizeof( VkQueryPool ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Framebuffer class.
+   */
   class Framebuffer
   {
   public:
@@ -1546,6 +1600,9 @@ namespace vk
   };
   static_assert( sizeof( Framebuffer ) == sizeof( VkFramebuffer ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The RenderPass class.
+   */
   class RenderPass
   {
   public:
@@ -1586,6 +1643,9 @@ namespace vk
   };
   static_assert( sizeof( RenderPass ) == sizeof( VkRenderPass ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The PipelineCache class.
+   */
   class PipelineCache
   {
   public:
@@ -1626,6 +1686,9 @@ namespace vk
   };
   static_assert( sizeof( PipelineCache ) == sizeof( VkPipelineCache ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The DisplayKHR class.
+   */
   class DisplayKHR
   {
   public:
@@ -1666,6 +1729,9 @@ namespace vk
   };
   static_assert( sizeof( DisplayKHR ) == sizeof( VkDisplayKHR ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The DisplayModeKHR class.
+   */
   class DisplayModeKHR
   {
   public:
@@ -1706,6 +1772,9 @@ namespace vk
   };
   static_assert( sizeof( DisplayModeKHR ) == sizeof( VkDisplayModeKHR ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The SurfaceKHR class.
+   */
   class SurfaceKHR
   {
   public:
@@ -1746,6 +1815,9 @@ namespace vk
   };
   static_assert( sizeof( SurfaceKHR ) == sizeof( VkSurfaceKHR ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The SwapchainKHR class.
+   */
   class SwapchainKHR
   {
   public:
@@ -1786,6 +1858,9 @@ namespace vk
   };
   static_assert( sizeof( SwapchainKHR ) == sizeof( VkSwapchainKHR ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The DebugReportCallbackEXT class.
+   */
   class DebugReportCallbackEXT
   {
   public:
@@ -11225,6 +11300,9 @@ namespace vk
     return DependencyFlags( bit0 ) | bit1;
   }
 
+  /**
+   * @brief The CommandBuffer class.
+   */
   class CommandBuffer
   {
   public:
@@ -12229,6 +12307,9 @@ namespace vk
   };
   static_assert( sizeof( SubmitInfo ) == sizeof( VkSubmitInfo ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The Queue class.
+   */
   class Queue
   {
   public:
@@ -13286,6 +13367,9 @@ namespace vk
   };
   static_assert( sizeof( DebugMarkerObjectTagInfoEXT ) == sizeof( VkDebugMarkerObjectTagInfoEXT ), "struct and wrapper have different size!" );
 
+  /**
+   * @brief The Device class.
+   */
   class Device
   {
   public:
@@ -14402,6 +14486,9 @@ namespace vk
   };
   static_assert( sizeof( Device ) == sizeof( VkDevice ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The PhysicalDevice class.
+   */
   class PhysicalDevice
   {
   public:
@@ -14900,6 +14987,9 @@ namespace vk
   };
   static_assert( sizeof( PhysicalDevice ) == sizeof( VkPhysicalDevice ), "handle and wrapper have different size!" );
 
+  /**
+   * @brief The Instance class.
+   */
   class Instance
   {
   public:
