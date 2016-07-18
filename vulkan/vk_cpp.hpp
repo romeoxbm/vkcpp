@@ -843,9 +843,7 @@ namespace vk
       m_deviceMemory = deviceMemory;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDeviceMemory() const
@@ -885,9 +883,7 @@ namespace vk
       m_commandPool = commandPool;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkCommandPool() const
@@ -927,9 +923,7 @@ namespace vk
       m_buffer = buffer;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkBuffer() const
@@ -969,9 +963,7 @@ namespace vk
       m_bufferView = bufferView;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkBufferView() const
@@ -1011,9 +1003,7 @@ namespace vk
       m_image = image;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkImage() const
@@ -1053,9 +1043,7 @@ namespace vk
       m_imageView = imageView;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkImageView() const
@@ -1095,9 +1083,7 @@ namespace vk
       m_shaderModule = shaderModule;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkShaderModule() const
@@ -1137,9 +1123,7 @@ namespace vk
       m_pipeline = pipeline;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkPipeline() const
@@ -1179,9 +1163,7 @@ namespace vk
       m_pipelineLayout = pipelineLayout;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkPipelineLayout() const
@@ -1221,9 +1203,7 @@ namespace vk
       m_sampler = sampler;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkSampler() const
@@ -1263,9 +1243,7 @@ namespace vk
       m_descriptorSet = descriptorSet;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDescriptorSet() const
@@ -1305,9 +1283,7 @@ namespace vk
       m_descriptorSetLayout = descriptorSetLayout;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDescriptorSetLayout() const
@@ -1347,9 +1323,7 @@ namespace vk
       m_descriptorPool = descriptorPool;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDescriptorPool() const
@@ -1389,9 +1363,7 @@ namespace vk
       m_fence = fence;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkFence() const
@@ -1431,9 +1403,7 @@ namespace vk
       m_semaphore = semaphore;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkSemaphore() const
@@ -1473,9 +1443,7 @@ namespace vk
       m_event = event;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkEvent() const
@@ -1515,9 +1483,7 @@ namespace vk
       m_queryPool = queryPool;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkQueryPool() const
@@ -1557,9 +1523,7 @@ namespace vk
       m_framebuffer = framebuffer;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkFramebuffer() const
@@ -1599,9 +1563,7 @@ namespace vk
       m_renderPass = renderPass;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkRenderPass() const
@@ -1641,9 +1603,7 @@ namespace vk
       m_pipelineCache = pipelineCache;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkPipelineCache() const
@@ -1683,9 +1643,7 @@ namespace vk
       m_displayKHR = displayKHR;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDisplayKHR() const
@@ -1725,9 +1683,7 @@ namespace vk
       m_displayModeKHR = displayModeKHR;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDisplayModeKHR() const
@@ -1767,9 +1723,7 @@ namespace vk
       m_surfaceKHR = surfaceKHR;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkSurfaceKHR() const
@@ -1809,9 +1763,7 @@ namespace vk
       m_swapchainKHR = swapchainKHR;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkSwapchainKHR() const
@@ -1851,9 +1803,7 @@ namespace vk
       m_debugReportCallbackEXT = debugReportCallbackEXT;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDebugReportCallbackEXT() const
@@ -2671,7 +2621,7 @@ namespace vk
 #else
     VkClearColorValue color;
     VkClearDepthStencilValue depthStencil;
-#endif  // VK_CPP_HAS_UNRESTRICTED_UNIONS
+#endif // VK_CPP_HAS_UNRESTRICTED_UNIONS
   };
 
   struct PhysicalDeviceFeatures
@@ -10941,9 +10891,7 @@ namespace vk
       m_commandBuffer = commandBuffer;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkCommandBuffer() const
@@ -11938,9 +11886,7 @@ namespace vk
       m_queue = queue;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkQueue() const
@@ -12970,9 +12916,7 @@ namespace vk
       m_device = device;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkDevice() const
@@ -14088,9 +14032,7 @@ namespace vk
       m_physicalDevice = physicalDevice;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkPhysicalDevice() const
@@ -14588,9 +14530,7 @@ namespace vk
       m_instance = instance;
       return *this;
     }
-#endif
-
-#ifndef VK_CPP_TYPESAFE_CONVERSION
+#else
     explicit
 #endif
     operator VkInstance() const
