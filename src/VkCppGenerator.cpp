@@ -595,7 +595,7 @@ namespace vk
 
 				case DependencyData::Category::UNION:
 					assert( vkData->structs.find( it.name ) != vkData->structs.end() );
-					_writeTypeUnion( ofs.hdr(), vkData, it, vkData->structs.find( it.name )->second, defaultValues );
+					_writeTypeUnion( ofs, vkData, it, vkData->structs.find( it.name )->second, defaultValues );
 					break;
 
 				default:
@@ -993,20 +993,26 @@ namespace vk
 		ofs << std::endl;
 	}
 	//--------------------------------------------------------------------------
-	void CppGenerator::_writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
+	void CppGenerator::_writeTypeUnion( DualOFStream& ofs, SpecData* vkData,
 										DependencyData const& dependencyData,
 										StructData const& unionData,
-										std::map<std::string, std::string> const& defaultValues ) const
+										std::map<std::string, std::string> const& defaultValues )
 	{
 		//Unused variable
 		//std::ostringstream oss;
-		ofs << "  union " << dependencyData.name << std::endl
-			<< "  {\n";
+		ofs.hdr() << _indent << "union " << dependencyData.name << std::endl
+			<< _indent << "{\n";
 
+		++_indent;
 		for( size_t i = 0; i < unionData.members.size(); i++ )
 		{
+			ofs << _indent;
+
 			// one constructor per union element
-			ofs << "    " << dependencyData.name << "( ";
+			if( ofs.usingDualStream() )
+				ofs.src() << dependencyData.name << "::";
+
+			ofs << dependencyData.name << "( ";
 			if( unionData.members[ i ].arraySize.empty() )
 				ofs << unionData.members[ i ].type << " ";
 
@@ -1021,36 +1027,52 @@ namespace vk
 				auto it = defaultValues.find( unionData.members[ i ].pureType );
 				assert( it != defaultValues.end() );
 				if( unionData.members[ i ].arraySize.empty() )
-					ofs << " = " << it->second;
+					ofs.hdr() << " = " << it->second;
 				else
-					ofs << " = { " << it->second << " }";
+					ofs.hdr() << " = { " << it->second << " }";
 			}
-			ofs << " )\n    {\n      ";
+			ofs << " )";
+
+			if( ofs.usingDualStream() )
+				ofs.hdr() << ";";
+
+			ofs << std::endl;
+			ofs.src() << _indent << "{\n";
+			ofs.src() << _indent + 1;
 
 			if( unionData.members[ i ].arraySize.empty() )
-				ofs << unionData.members[ i ].name << " = " << unionData.members[ i ].name << "_";
+				ofs.src() << unionData.members[ i ].name << " = " << unionData.members[ i ].name << "_";
 			else
 			{
-				ofs << "memcpy( &" << unionData.members[ i ].name << ", "
-					<< unionData.members[ i ].name << "_.data(), "
-					<< unionData.members[ i ].arraySize
-					<< " * sizeof( " << unionData.members[ i ].type << " ) )";
+				ofs.src() << "memcpy( &" << unionData.members[ i ].name << ", "
+						  << unionData.members[ i ].name << "_.data(), "
+						  << unionData.members[ i ].arraySize
+						  << " * sizeof( " << unionData.members[ i ].type << " ) )";
 			}
-			ofs << ";\n    }\n\n";
+			ofs.src() << ";\n" <<_indent << "}\n\n";
 		}
 
 		for( size_t i = 0; i < unionData.members.size(); i++ )
 		{
 			// one setter per union element
 			assert( !unionData.returnedOnly );
-			_writeStructSetter( ofs, dependencyData.name, unionData.members[ i ], vkData->vkTypes );
+			_writeStructSetter( ofs.hdr(), dependencyData.name, unionData.members[ i ], vkData->vkTypes );
 		}
 
 		// the implicit cast operator to the native type
-		ofs << "    operator Vk" << dependencyData.name << " const& () const\n"
-			<< "    {\n"
-			<< "      return *reinterpret_cast<const Vk" << dependencyData.name << "*>( this );\n"
-			<< "    }\n\n";
+		ofs << _indent;
+		if( ofs.usingDualStream() )
+			ofs.src() << dependencyData.name << "::";
+
+		ofs << "operator Vk" << dependencyData.name << " const& () const";
+
+		if( ofs.usingDualStream() )
+			ofs.hdr() << ";";
+
+		ofs << std::endl;
+		ofs.src() << _indent << "{\n"
+				  << _indent + 1 << "return *reinterpret_cast<const Vk" << dependencyData.name << "*>( this );\n"
+				  << _indent << "}\n\n";
 
 		// the union member variables
 		// if there's at least one Vk... type in this union, check for unrestricted unions support
@@ -1060,33 +1082,33 @@ namespace vk
 
 		if( needsUnrestrictedUnions )
 		{
-			ofs << "#ifdef VK_CPP_HAS_UNRESTRICTED_UNIONS\n";
+			ofs.hdr() << "#ifdef VK_CPP_HAS_UNRESTRICTED_UNIONS\n";
 			for( size_t i = 0; i < unionData.members.size(); i++ )
 			{
-				ofs << "    " << unionData.members[ i ].type << " " << unionData.members[ i ].name;
+				ofs.hdr() << _indent << unionData.members[ i ].type << " " << unionData.members[ i ].name;
 				if( !unionData.members[ i ].arraySize.empty() )
-					ofs << "[ " << unionData.members[ i ].arraySize << " ]";
+					ofs.hdr() << "[ " << unionData.members[ i ].arraySize << " ]";
 
-				ofs << ";\n";
+				ofs.hdr() << ";\n";
 			}
-			ofs << "#else\n";
+			ofs.hdr() << "#else\n";
 		}
 		for( size_t i = 0; i < unionData.members.size(); i++ )
 		{
-			ofs << "    ";
+			ofs.hdr() << _indent;
 			if( vkData->vkTypes.find( unionData.members[ i ].type ) != vkData->vkTypes.end() )
-				ofs << "Vk";
+				ofs.hdr() << "Vk";
 
-			ofs << unionData.members[ i ].type << " " << unionData.members[ i ].name;
+			ofs.hdr() << unionData.members[ i ].type << " " << unionData.members[ i ].name;
 			if( !unionData.members[ i ].arraySize.empty() )
-				ofs << "[ " << unionData.members[ i ].arraySize << " ]";
+				ofs.hdr() << "[ " << unionData.members[ i ].arraySize << " ]";
 
-			ofs << ";\n";
+			ofs.hdr() << ";\n";
 		}
 		if( needsUnrestrictedUnions )
-			ofs << "#endif  // VK_CPP_HAS_UNRESTRICTED_UNIONS\n";
+			ofs.hdr() << "#endif // VK_CPP_HAS_UNRESTRICTED_UNIONS\n";
 
-		ofs << "  };\n\n";
+		ofs.hdr() << --_indent << "};\n\n";
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeStructConstructor( DualOFStream& ofs,

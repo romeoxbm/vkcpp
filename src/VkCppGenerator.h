@@ -152,10 +152,10 @@ namespace vk
 							   DependencyData const& dependencyData,
 							   std::map<std::string, std::string> const& defaultValues );
 
-		void _writeTypeUnion( std::ofstream& ofs, SpecData* vkData,
+		void _writeTypeUnion( DualOFStream& ofs, SpecData* vkData,
 							  DependencyData const& dependencyData,
 							  StructData const& unionData,
-							  std::map<std::string, std::string> const& defaultValues ) const;
+							  std::map<std::string, std::string> const& defaultValues );
 
 		//Structs
 		//----------------------------------------------------------------------
