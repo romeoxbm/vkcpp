@@ -436,7 +436,7 @@ namespace vk
 										  std::string const& version ) const
 	{
 		ofs << "static_assert( VK_HEADER_VERSION == " << version
-			<< " , \"Wrong VK_HEADER_VERSION!\" );\n\n";
+			<< ", \"Wrong VK_HEADER_VERSION!\" );\n\n";
 	}
 	//--------------------------------------------------------------------------
 	void CppGenerator::_writeTypesafeCheck( std::ofstream& ofs,
