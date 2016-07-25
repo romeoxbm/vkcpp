@@ -1,0 +1,6 @@
+language: cpp
+install:
+    - sudo apt-get update -qq
+    - sudo apt-get install libtinyxml-dev -y
+script:
+    - mkdir build && cd build && cmake .. && cmake --build .
