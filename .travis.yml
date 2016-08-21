@@ -5,7 +5,7 @@ compiler:
 dist: trusty
 install:
     - sudo apt-get update -qq
-    - sudo apt-get upgrade -qq
+    - sudo apt-get -o Dpkg::Options::="--force-confnew" upgrade -qq
     - sudo apt-get install libtinyxml-dev -y
 
 #Build steps
